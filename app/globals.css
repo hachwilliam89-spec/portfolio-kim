@@ -1,6 +1,10 @@
-@import "tailwindcss";
+/* globals.css - Tailwind v4 compatible */
 
-@theme {
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
+/* Variables de thème (remplace @theme) */
+:root {
   /* Couleurs principales */
   --color-ink: #1a1a1a;
   --color-washi: #faf9f6;
@@ -22,18 +26,21 @@
   --color-indigo-light: #7088a8;
   --color-indigo-dark: #4a5f7f;
 
-  /* Fonts */
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-display: 'Playfair Display', serif;
+  /* Fonts (avec fallback générique) */
+  --font-sans: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: 'Playfair Display', Georgia, "Times New Roman", Times, serif;
 }
 
 @layer base {
   html {
-    @apply scroll-smooth;
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-washi text-ink antialiased;
+    background-color: var(--color-washi);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-family: var(--font-sans);
   }
 
@@ -44,14 +51,14 @@
 
 @layer utilities {
   .text-gradient-gold {
-    background: linear-gradient(135deg, #b8956a 0%, #c9a66b 100%);
+    background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .text-gradient-vermillon {
-    background: linear-gradient(135deg, #c73e1d 0%, #d4504c 100%);
+    background: linear-gradient(135deg, var(--color-vermillon) 0%, var(--color-vermillon-light) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
