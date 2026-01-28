@@ -6,15 +6,15 @@ import Image from 'next/image';
 const projects = [
     {
         title: 'Miyazaki-Garden',
-        description: 'Site vitrine pour un cabinet d\'ostéopathie avec système de réservation en ligne, gestion des rendez-vous et interface patient/praticien.',
-        tech: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL'],
+        description: 'Site exposant les oeuvres du réalisateurs avec un design rappelant le studio Ghibli. Animation et ambiance sonore sont présents pour une immersion dans l\'univers onirique de l\'artiste.',
+        tech: ['Javascript', 'PHP', 'HTML', 'CSS'],
         gitlab: 'https://git.uha4point0.fr/UHA40/fil-rouge-2024/4.0.1/fil_rouge_kim',
         demo: '#',
         image: '/images/miyazaki-garden.jpg',
     },
     {
         title: 'COS Strasbourg',
-        description: 'Application RH complète pour la gestion des employés, congés, absences avec dashboard administrateur et système de notifications.',
+        description: 'Application web destiné à faire le lien entre élèves et professeurs, notamment grâce à la fonctionnalité de dépôt de mémoires par les élèves et pouvant ête annotés étape par étap par les encadrants.',
         tech: ['Next.js', 'Prisma', 'Docker', 'Tailwind CSS'],
         gitlab: 'https://git.uha4point0.fr/UHA40/osteopathe',
         demo: '#',
@@ -22,8 +22,8 @@ const projects = [
     },
     {
         title: 'Evaluation RH',
-        description: 'Système d\'évaluation des ressources humaines avec gestion des compétences, entretiens annuels et suivi des performances.',
-        tech: ['React', 'Node.js', 'API REST', 'MySQL'],
+        description: 'Système d\'évaluation des ressources humaines avec création de sondages et récoltes de données via les réponses afin de cibles forces et faiblesses éventuel(le)s d\'un service,',
+        tech: ['React', 'Node.js','NestJS','PostgreSQL', 'Prisma ORM','Docker','API REST', 'MySQL','Swagger','shadcn/ui'],
         gitlab: 'https://git.uha4point0.fr/UHA40/evaluation-rh',
         demo: '#',
         image: '/images/evaluation-rh.jpg',
