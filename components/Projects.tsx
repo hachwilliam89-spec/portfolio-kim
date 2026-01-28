@@ -22,7 +22,7 @@ const projects = [
     },
     {
         title: 'Evaluation RH',
-        description: 'Système d\'évaluation des ressources humaines avec création de sondages et récoltes de données via les réponses afin de cibles forces et faiblesses éventuel(le)s d\'un service,',
+        description: 'Système d\'évaluation des ressources humaines avec création de sondages et récoltes de données via les réponses afin de cibles forces et faiblesses éventuel(le)s d\'un service.',
         tech: ['React', 'Node.js','NestJS','PostgreSQL', 'Prisma ORM','Docker','API REST', 'MySQL','Swagger','shadcn/ui'],
         gitlab: 'https://git.uha4point0.fr/UHA40/evaluation-rh',
         demo: '#',
