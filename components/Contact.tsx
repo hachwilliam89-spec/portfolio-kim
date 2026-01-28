@@ -23,13 +23,13 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="max-w-4xl mx-auto px-4 py-20">
+        <section id="contact" className="max-w-6xl mx-auto px-4 py-20">
             <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="text-3xl md:text-4xl font-bold mb-12 text-center"
+                className="font-display text-4xl md:text-5xl font-bold mb-16 text-center text-ink"
             >
                 Contact
             </motion.h2>
@@ -39,11 +39,11 @@ export default function Contact() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-8"
+                className="bg-white border-2 border-gold/40 rounded-lg p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
             >
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label htmlFor="name" className="block text-sm font-medium mb-2">
+                        <label htmlFor="name" className="block text-sm font-medium mb-2 text-ink">
                             Nom
                         </label>
                         <input
@@ -53,12 +53,12 @@ export default function Contact() {
                             value={formData.name}
                             onChange={handleChange}
                             required
-                            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg focus:outline-none focus:border-sky-400 transition"
+                            className="w-full px-4 py-2 bg-washi border border-gold/30 rounded-lg focus:outline-none focus:border-vermillon transition"
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="email" className="block text-sm font-medium mb-2">
+                        <label htmlFor="email" className="block text-sm font-medium mb-2 text-ink">
                             Email
                         </label>
                         <input
@@ -68,12 +68,12 @@ export default function Contact() {
                             value={formData.email}
                             onChange={handleChange}
                             required
-                            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg focus:outline-none focus:border-sky-400 transition"
+                            className="w-full px-4 py-2 bg-washi border border-gold/30 rounded-lg focus:outline-none focus:border-vermillon transition"
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="message" className="block text-sm font-medium mb-2">
+                        <label htmlFor="message" className="block text-sm font-medium mb-2 text-ink">
                             Message
                         </label>
                         <textarea
@@ -83,24 +83,24 @@ export default function Contact() {
                             onChange={handleChange}
                             required
                             rows={5}
-                            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg focus:outline-none focus:border-sky-400 transition resize-none"
+                            className="w-full px-4 py-2 bg-washi border border-gold/30 rounded-lg focus:outline-none focus:border-vermillon transition resize-none"
                         />
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full bg-sky-500 hover:bg-sky-600 text-white font-medium py-3 rounded-lg transition"
+                        className="w-full bg-vermillon text-white font-semibold py-3 rounded-lg hover:bg-vermillon-dark transition"
                     >
                         Envoyer
                     </button>
                 </form>
 
-                <div className="mt-8 pt-8 border-t border-slate-700 flex justify-center gap-6">
+                <div className="mt-8 pt-8 border-t border-gold/20 flex justify-center gap-6">
                     <a
                         href="https://github.com/hachwilliam89-spec"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-slate-300 hover:text-sky-400 transition"
+                        className="text-ink/70 hover:text-vermillon transition"
                         aria-label="GitHub"
                     >
                         <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -111,7 +111,7 @@ export default function Contact() {
                         href="https://git.uha4point0.fr/william.hach"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-slate-300 hover:text-sky-400 transition"
+                        className="text-ink/70 hover:text-vermillon transition"
                         aria-label="GitLab"
                     >
                         <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -120,7 +120,7 @@ export default function Contact() {
                     </a>
                     <a
                         href="mailto:hach.william89@outlook.fr"
-                        className="text-slate-300 hover:text-sky-400 transition"
+                        className="text-ink/70 hover:text-vermillon transition"
                         aria-label="Email"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
