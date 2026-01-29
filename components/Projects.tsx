@@ -2,6 +2,27 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma, SiDocker, SiTailwindcss, SiReact, SiNodedotjs, SiNestjs, SiPostgresql, SiMysql, SiSwagger } from 'react-icons/si';
+
+const techIcons: { [key: string]: any } = {
+    'Javascript': SiJavascript,
+    'PHP': SiPhp,
+    'HTML': SiHtml5,
+    'CSS': SiCss3,
+    'Next.js': SiNextdotjs,
+    'Prisma': SiPrisma,
+    'Docker': SiDocker,
+    'Tailwind CSS': SiTailwindcss,
+    'React': SiReact,
+    'Node.js': SiNodedotjs,
+    'NestJS': SiNestjs,
+    'PostgreSQL': SiPostgresql,
+    'Prisma ORM': SiPrisma,
+    'MySQL': SiMysql,
+    'Swagger': SiSwagger,
+    'API REST': null,
+    'shadcn/ui': null,
+};
 
 const projects = [
     {
@@ -72,14 +93,18 @@ export default function Projects() {
                             </p>
 
                             <div className="flex flex-wrap gap-2 mb-5">
-                                {project.tech.map((tech) => (
-                                    <span
-                                        key={tech}
-                                        className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold shadow-sm"
-                                    >
-                                        {tech}
-                                    </span>
-                                ))}
+                                {project.tech.map((tech) => {
+                                    const Icon = techIcons[tech];
+                                    return (
+                                        <span
+                                            key={tech}
+                                            className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold shadow-sm flex items-center gap-1.5"
+                                        >
+                                            {Icon && <Icon className="text-sm" />}
+                                            {tech}
+                                        </span>
+                                    );
+                                })}
                             </div>
 
                             <div className="flex gap-4 pt-2 border-t border-gold/20">

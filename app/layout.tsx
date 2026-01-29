@@ -1,5 +1,6 @@
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css';
+import Navbar from '@/components/Navbar';
 
 const inter = Inter({
     subsets: ['latin'],
@@ -21,19 +22,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="fr" className={`scroll-smooth ${inter.variable} ${playfair.variable}`}>
         <body className="bg-washi text-ink antialiased font-sans">
-        {/* Header */}
-        <header className="sticky top-0 z-50 border-b border-gold/20 bg-washi/80 backdrop-blur-md">
-            <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-                <a href="#" className="font-display text-sm font-semibold tracking-[0.2em] uppercase text-vermillon hover:text-vermillon-light transition">
-                    Kim
-                </a>
-                <div className="flex gap-6 text-sm text-ink/70">
-                    <a href="#projects" className="hover:text-vermillon transition">Projets</a>
-                    <a href="#about" className="hover:text-vermillon transition">À propos</a>
-                    <a href="#contact" className="hover:text-vermillon transition">Contact</a>
-                </div>
-            </nav>
-        </header>
+
+        {/* Nouvelle Navbar moderne */}
+        <Navbar />
 
         {/* Main content */}
         {children}
@@ -42,8 +33,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="border-t border-gold/30 bg-ink py-8 text-center text-sm text-washi/70">
             <p className="mb-2">© 2025 Kim — Architecte Logiciel</p>
             <div className="flex justify-center gap-4 text-gold">
-                <a href="#" className="hover:text-gold-light transition">LinkedIn</a>
-                <a href="#" className="hover:text-gold-light transition">GitHub</a>
+                <a href="https://www.linkedin.com/in/kim-hach" target="_blank" rel="noopener noreferrer" className="hover:text-gold-light transition">LinkedIn</a>
+                <a href="https://github.com/hachwilliam89-spec" target="_blank" rel="noopener noreferrer" className="hover:text-gold-light transition">GitHub</a>
             </div>
         </footer>
         </body>

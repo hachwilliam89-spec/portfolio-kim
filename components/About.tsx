@@ -1,6 +1,25 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiPrisma, SiPhp, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab } from 'react-icons/si';
+
+const techIcons: { [key: string]: any } = {
+    'React': SiReact,
+    'Next.js': SiNextdotjs,
+    'TypeScript': SiTypescript,
+    'Tailwind CSS': SiTailwindcss,
+    'Framer Motion': SiFramer,
+    'Node.js': SiNodedotjs,
+    'API REST': null,
+    'Prisma': SiPrisma,
+    'PHP': SiPhp,
+    'PostgreSQL': SiPostgresql,
+    'MySQL': SiMysql,
+    'Docker': SiDocker,
+    'Git': SiGit,
+    'GitLab': SiGitlab,
+    'Scrum': null,
+};
 
 const skills = [
     { category: 'Frontend', items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
@@ -61,14 +80,18 @@ export default function About() {
                                     {skillGroup.category}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
-                                    {skillGroup.items.map((skill) => (
-                                        <span
-                                            key={skill}
-                                            className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold shadow-sm"
-                                        >
-                                            {skill}
-                                        </span>
-                                    ))}
+                                    {skillGroup.items.map((skill) => {
+                                        const Icon = techIcons[skill];
+                                        return (
+                                            <span
+                                                key={skill}
+                                                className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold shadow-sm flex items-center gap-1.5"
+                                            >
+                                                {Icon && <Icon className="text-sm" />}
+                                                {skill}
+                                            </span>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         ))}
