@@ -1,7 +1,9 @@
+// components/Contact.tsx
 'use client';
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { SiReact, SiLinkedin } from 'react-icons/si';
 
 export default function Contact() {
     const [formData, setFormData] = useState({
@@ -129,22 +131,19 @@ export default function Contact() {
                             </svg>
                         </a>
 
+                        {/* Replaced GitLab with LinkedIn + React icon */}
                         <a
-                            href="https://git.uha4point0.fr/william.hach"
+                            href="https://www.linkedin.com/in/your-profile"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-4 p-4 bg-ink/5 hover:bg-cyan-50 border border-ink/10 hover:border-cyan-400 rounded-lg transition-all duration-300 group"
                         >
-                            <svg className="w-8 h-8 text-ink group-hover:text-cyan-600 transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.6-.401-.545-.545-.676-1.342-.396-2.009L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187"/>
-                            </svg>
+                            <SiReact className="w-8 h-8 text-ink group-hover:text-cyan-600 transition-colors" />
                             <div className="flex-1">
-                                <p className="font-semibold text-ink group-hover:text-cyan-600 transition-colors">GitLab UHA</p>
+                                <p className="font-semibold text-ink group-hover:text-cyan-600 transition-colors">LinkedIn</p>
                                 <p className="text-xs text-ink-light">william.hach</p>
                             </div>
-                            <svg className="w-5 h-5 text-ink-light group-hover:text-cyan-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
+                            <SiLinkedin className="w-5 h-5 text-ink-light group-hover:text-cyan-600 transition-all" />
                         </a>
 
                         <a

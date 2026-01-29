@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* Footer */}
         <footer className="border-t border-gold/30 bg-ink py-8 text-center text-sm text-washi/70">
-            <p className="mb-2">© 2025 Kim — Architecte Logiciel</p>
+            <p className="mb-2">© 2025 Kim — Etudiant en License Pro Developpement Full Stack</p>
             <div className="flex justify-center gap-4 text-gold">
                 <a href="https://www.linkedin.com/in/kim-hach" target="_blank" rel="noopener noreferrer" className="hover:text-gold-light transition">LinkedIn</a>
                 <a href="https://github.com/hachwilliam89-spec" target="_blank" rel="noopener noreferrer" className="hover:text-gold-light transition">GitHub</a>

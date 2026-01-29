@@ -1,10 +1,18 @@
+// components/Projects.tsx
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import type { IconType } from 'react-icons';
 import { SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma, SiDocker, SiTailwindcss, SiReact, SiNodedotjs, SiNestjs, SiPostgresql, SiMysql, SiSwagger } from 'react-icons/si';
+import ProjectModal from './ProjectModal';
+import type { Project } from '@/lib/types';
+import { normalizeLinks } from '@/lib/normalize';
 
-const techIcons: { [key: string]: any } = {
+type TechIconMap = Record<string, IconType | null>;
+
+const techIcons: TechIconMap = {
     'Javascript': SiJavascript,
     'PHP': SiPhp,
     'HTML': SiHtml5,
@@ -24,119 +32,146 @@ const techIcons: { [key: string]: any } = {
     'shadcn/ui': null,
 };
 
-const projects = [
+const projects: Project[] = [
     {
+        id: 1,
         title: 'Miyazaki-Garden',
-        description: 'Site exposant les oeuvres du réalisateurs avec un design rappelant le studio Ghibli. Animation et ambiance sonore sont présents pour une immersion dans l\'univers onirique de l\'artiste.',
+        shortDescription: 'Site exposant les oeuvres du réalisateur avec un design rappelant le studio Ghibli.',
+        description: 'Site exposant les oeuvres du réalisateur avec un design rappelant le studio Ghibli. Animation et ambiance sonore sont présents pour une immersion dans l\'univers onirique de l\'artiste.',
         tech: ['Javascript', 'PHP', 'HTML', 'CSS'],
-        gitlab: 'https://git.uha4point0.fr/UHA40/fil-rouge-2024/4.0.1/fil_rouge_kim',
-        demo: '#',
         image: '/images/miyazaki-garden.jpg',
+        screenshots: [
+            { url: '/images/miyazaki-1.jpg', title: 'Page d\'accueil', description: 'Interface immersive...' },
+            { url: '/images/miyazaki-2.jpg', title: 'Page de connexion', description: 'Page de connexion pour accéder à son espace membre' },
+            { url: '/images/miyazaki-3.jpg', title: 'Univers interactif', description: 'Éléments animés...' },
+        ],
+        // links kept out (or can be present but not used)
     },
     {
+        id: 2,
         title: 'COS Strasbourg',
-        description: 'Application web destiné à faire le lien entre élèves et professeurs, notamment grâce à la fonctionnalité de dépôt de mémoires par les élèves et pouvant ête annotés étape par étap par les encadrants.',
+        shortDescription: 'Application web destinée à faire le lien entre élèves et professeurs.',
+        description: 'Application web destinée à faire le lien entre élèves et professeurs...',
         tech: ['Next.js', 'Prisma', 'Docker', 'Tailwind CSS'],
-        gitlab: 'https://git.uha4point0.fr/UHA40/osteopathe',
-        demo: '#',
         image: '/images/cos-strasbourg.jpg',
+        screenshots: [
+            { url: '/images/cos-1.jpg', title: 'Système d\'annotations', description: 'Interface annotations côté Encadrant' },
+            { url: '/images/cos-2.jpg', title: 'Création d\'utilisateur', description: 'Interface de création des utilisateurs' },
+            { url: '/images/cos-3.jpg', title: 'Dépôt des documents', description: 'Interface de dépôt des documents (comme les mémoires à annoter) , côté Etudiant' },
+            { url: '/images/cos-4.jpg', title: 'Profil Etudiant', description: 'Espace des données personnelles des étudiants' },
+        ],
     },
     {
+        id: 3,
         title: 'Evaluation RH',
-        description: 'Système d\'évaluation des ressources humaines avec création de sondages et récoltes de données via les réponses afin de cibles forces et faiblesses éventuel(le)s d\'un service.',
+        shortDescription: 'Système d\'évaluation des ressources humaines avec création de sondages.',
+        description: 'Système d\'évaluation des ressources humaines...',
         tech: ['React', 'Node.js','NestJS','PostgreSQL', 'Prisma ORM','Docker','API REST', 'MySQL','Swagger','shadcn/ui'],
-        gitlab: 'https://git.uha4point0.fr/UHA40/evaluation-rh',
-        demo: '#',
         image: '/images/evaluation-rh.jpg',
+        screenshots: [
+            { url: '/images/rh-1.jpg', title: 'Gestion des sociétés ', description: 'Dashboard de gestion des sociétés par l\'Administrateur Général' },
+            { url: '/images/rh-2.jpg', title: 'Gestion des sondages', description: 'Interface de création et gestion des sondages' },
+            { url: '/images/rh-3.jpg', title: 'Gestion des questions', description: 'Interface de création et gestion des questions' },
+            { url: '/images/rh-4.jpg', title: 'Gestion des répondants', description: 'Interface de création et gestion des répondants' },
+            { url: '/images/rh-5.jpg', title: 'Sondage', description: 'Exemple de Sondage' },
+        ],
     },
 ];
 
 export default function Projects() {
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
     return (
-        <section id="projects" className="max-w-6xl mx-auto px-4 py-20">
-            <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="font-display text-4xl md:text-5xl font-bold mb-16 text-center text-ink"
-            >
-                Projets
-            </motion.h2>
+        <>
+            <section id="projects" className="max-w-6xl mx-auto px-4 py-20">
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="font-display text-4xl md:text-5xl font-bold mb-16 text-center text-ink"
+                >
+                    Projets
+                </motion.h2>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {projects.map((project, index) => (
-                    <motion.div
-                        key={project.title}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="bg-white border-2 border-gold/40 rounded-lg overflow-hidden hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300 group"
-                    >
-                        <div className="relative h-48 w-full overflow-hidden bg-washi-dark">
-                            <Image
-                                src={project.image}
-                                alt={project.title}
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {projects.map((project, index) => (
+                        <motion.article
+                            key={project.id}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            onClick={() => setSelectedProject(project)}
+                            className="bg-white border-2 border-gold/40 rounded-lg overflow-hidden hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300 group cursor-pointer"
+                        >
+                            <div className="relative h-48 w-full overflow-hidden bg-washi-dark">
+                                <Image
+                                    src={project.image}
+                                    alt={project.title}
+                                    fill
+                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                        <div className="p-6">
-                            <h3 className="font-display text-2xl font-bold mb-3 text-ink group-hover:text-vermillon transition-colors duration-300">
-                                {project.title}
-                            </h3>
-                            <p className="text-ink/80 text-sm mb-5 leading-relaxed font-medium">
-                                {project.description}
-                            </p>
-
-                            <div className="flex flex-wrap gap-2 mb-5">
-                                {project.tech.map((tech) => {
-                                    const Icon = techIcons[tech];
-                                    return (
-                                        <span
-                                            key={tech}
-                                            className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold shadow-sm flex items-center gap-1.5"
-                                        >
-                                            {Icon && <Icon className="text-sm" />}
-                                            {tech}
-                                        </span>
-                                    );
-                                })}
-                            </div>
-
-                            <div className="flex gap-4 pt-2 border-t border-gold/20">
-                                <a
-                                    href={project.gitlab}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-2 text-sm text-ink hover:text-vermillon transition-colors duration-200 font-semibold"
-                                >
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.6-.401-.545-.545-.676-1.342-.396-2.009L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187"/>
+                                <div className="absolute top-4 right-4 px-3 py-1 bg-washi/90 backdrop-blur-sm rounded-full text-xs font-semibold text-ink opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1">
+                                    Voir plus
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                     </svg>
-                                    GitLab
-                                </a>
-                                {project.demo !== '#' && (
-                                    <a
-                                        href={project.demo}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center gap-2 text-sm text-ink hover:text-vermillon transition-colors duration-200 font-semibold"
-                                    >
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                        </svg>
-                                        Démo
-                                    </a>
-                                )}
+                                </div>
                             </div>
-                        </div>
-                    </motion.div>
-                ))}
-            </div>
-        </section>
+
+                            <div className="p-6">
+                                <h3 className="font-display text-2xl font-bold mb-3 text-ink group-hover:text-vermillon transition-colors duration-300">
+                                    {project.title}
+                                </h3>
+                                <p className="text-ink/80 text-sm mb-5 leading-relaxed font-medium line-clamp-3">
+                                    {project.shortDescription}
+                                </p>
+
+                                <div className="flex flex-wrap gap-2 mb-5">
+                                    {project.tech.slice(0, 4).map((tech) => {
+                                        const Icon = techIcons[tech];
+                                        return (
+                                            <span
+                                                key={tech}
+                                                className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold shadow-sm flex items-center gap-1.5"
+                                            >
+                        {Icon && <Icon className="text-sm" />}
+                                                {tech}
+                      </span>
+                                        );
+                                    })}
+                                    {project.tech.length > 4 && (
+                                        <span className="text-xs bg-gold/20 text-ink px-3 py-1.5 rounded-full font-semibold">
+                      +{project.tech.length - 4}
+                    </span>
+                                    )}
+                                </div>
+
+                                {/* Removed public GitLab / Demo links for privacy */}
+                            </div>
+
+                            <div className="h-1 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                        </motion.article>
+                    ))}
+                </div>
+            </section>
+
+            {selectedProject && (
+                <ProjectModal
+                    isOpen
+                    onClose={() => setSelectedProject(null)}
+                    project={{
+                        title: selectedProject.title,
+                        description: selectedProject.description,
+                        screenshots: selectedProject.screenshots,
+                        tags: selectedProject.tech,
+                        links: undefined, // no public links passed
+                    }}
+                />
+            )}
+        </>
     );
 }
