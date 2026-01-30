@@ -25,6 +25,7 @@
   /* Fonts */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Playfair Display', serif;
+  --font-chinese: 'Ma Shan Zheng', cursive;
 }
 
 @layer base {
@@ -43,6 +44,11 @@
 }
 
 @layer utilities {
+  /* Font chinoise calligraphique */
+  .font-chinese {
+    font-family: var(--font-chinese);
+  }
+
   .text-gradient-gold {
     background: linear-gradient(135deg, #b8956a 0%, #c9a66b 100%);
     -webkit-background-clip: text;
