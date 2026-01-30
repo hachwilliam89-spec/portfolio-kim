@@ -1,4 +1,5 @@
 // lib/types.ts
+
 export interface Screenshot {
     url: string;
     title: string;
@@ -26,3 +27,8 @@ export interface Project {
     screenshots: Screenshot[];
     links?: RawProjectLinks;
 }
+
+// Type spécifique pour la modale (toutes propriétés optionnelles sauf les essentielles)
+export type ProjectModalData = Pick<Project, 'title' | 'description' | 'screenshots' | 'tech'> & {
+    links?: RawProjectLinks;
+};

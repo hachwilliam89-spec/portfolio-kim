@@ -8,7 +8,6 @@ import type { IconType } from 'react-icons';
 import { SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma, SiDocker, SiTailwindcss, SiReact, SiNodedotjs, SiNestjs, SiPostgresql, SiMysql, SiSwagger } from 'react-icons/si';
 import ProjectModal from './ProjectModal';
 import type { Project } from '@/lib/types';
-import { normalizeLinks } from '@/lib/normalize';
 
 type TechIconMap = Record<string, IconType | null>;
 
@@ -45,7 +44,6 @@ const projects: Project[] = [
             { url: '/images/miyazaki-2.jpg', title: 'Page de connexion', description: 'Page de connexion pour accéder à son espace membre' },
             { url: '/images/miyazaki-3.jpg', title: 'Univers interactif', description: 'Éléments animés...' },
         ],
-        // links kept out (or can be present but not used)
     },
     {
         id: 2,
@@ -138,19 +136,17 @@ export default function Projects() {
                                                 key={tech}
                                                 className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold shadow-sm flex items-center gap-1.5"
                                             >
-                        {Icon && <Icon className="text-sm" />}
+                                                {Icon && <Icon className="text-sm" />}
                                                 {tech}
-                      </span>
+                                            </span>
                                         );
                                     })}
                                     {project.tech.length > 4 && (
                                         <span className="text-xs bg-gold/20 text-ink px-3 py-1.5 rounded-full font-semibold">
-                      +{project.tech.length - 4}
-                    </span>
+                                            +{project.tech.length - 4}
+                                        </span>
                                     )}
                                 </div>
-
-                                {/* Removed public GitLab / Demo links for privacy */}
                             </div>
 
                             <div className="h-1 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
@@ -159,19 +155,11 @@ export default function Projects() {
                 </div>
             </section>
 
-            {selectedProject && (
-                <ProjectModal
-                    isOpen
-                    onClose={() => setSelectedProject(null)}
-                    project={{
-                        title: selectedProject.title,
-                        description: selectedProject.description,
-                        screenshots: selectedProject.screenshots,
-                        tags: selectedProject.tech,
-                        links: undefined, // no public links passed
-                    }}
-                />
-            )}
+            {/* Passer directement selectedProject */}
+            <ProjectModal
+                project={selectedProject}
+                onClose={() => setSelectedProject(null)}
+            />
         </>
     );
 }
