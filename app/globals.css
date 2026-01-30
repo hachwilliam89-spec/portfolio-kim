@@ -56,4 +56,29 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Scrollbar personnalisée pour thumbnails modal */
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(184, 149, 106, 0.3); /* gold/30 */
+    border-radius: 3px;
+    transition: background 0.3s ease;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(184, 149, 106, 0.5); /* gold/50 */
+  }
+
+  /* Firefox */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(184, 149, 106, 0.3) transparent;
+  }
 }
