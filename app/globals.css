@@ -41,6 +41,13 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
   }
+
+  /* Scroll margin pour les sections - espace entre navbar et titre */
+  #projects,
+  #about,
+  #contact {
+    scroll-margin-top: 25px;
+  }
 }
 
 @layer utilities {

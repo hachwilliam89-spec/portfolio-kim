@@ -7,6 +7,7 @@ import Image from 'next/image';
 import type { IconType } from 'react-icons';
 import { SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma, SiDocker, SiTailwindcss, SiReact, SiNodedotjs, SiNestjs, SiPostgresql, SiMysql, SiSwagger } from 'react-icons/si';
 import ProjectModal from './ProjectModal';
+import SectionTitle from './SectionTitle';
 import type { Project } from '@/lib/types';
 
 type TechIconMap = Record<string, IconType | null>;
@@ -82,15 +83,7 @@ export default function Projects() {
     return (
         <>
             <section id="projects" className="max-w-6xl mx-auto px-4 py-20">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="font-display text-4xl md:text-5xl font-bold mb-16 text-center text-ink"
-                >
-                    Projets
-                </motion.h2>
+                <SectionTitle>Projets</SectionTitle>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.map((project, index) => (

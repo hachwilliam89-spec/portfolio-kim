@@ -27,19 +27,17 @@ export const metadata = {
 // Composant Grecque Chinoise (回纹) pour le footer
 function ChineseGreekPattern() {
     return (
-        <div className="absolute top-0 left-0 right-0 h-8 overflow-hidden opacity-20">
+        <div className="absolute top-0 left-0 right-0 h-5 overflow-hidden opacity-20">
             <svg
                 className="w-full h-full"
                 preserveAspectRatio="xMidYMid slice"
-                viewBox="0 0 400 32"
+                viewBox="0 0 400 20"
                 xmlns="http://www.w3.org/2000/svg"
             >
                 <defs>
-                    {/* Motif grecque chinoise unitaire */}
-                    <pattern id="greek-pattern" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
-                        <g fill="none" stroke="#faf9f6" strokeWidth="1.5" strokeLinecap="square">
-                            {/* Spirale carrée - motif 回 */}
-                            <path d="M 4 4 L 28 4 L 28 28 L 8 28 L 8 8 L 24 8 L 24 24 L 12 24 L 12 12 L 20 12 L 20 20 L 16 20 L 16 16" />
+                    <pattern id="greek-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <g fill="none" stroke="#faf9f6" strokeWidth="1.2" strokeLinecap="square">
+                            <path d="M 2 2 L 18 2 L 18 18 L 5 18 L 5 5 L 15 5 L 15 15 L 8 15 L 8 8 L 12 8 L 12 12 L 10 12 L 10 10" />
                         </g>
                     </pattern>
                 </defs>
@@ -61,13 +59,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Main content */}
         {children}
 
-        {/* Footer avec grecque chinoise */}
-        <footer className="relative border-t border-gold/30 bg-ink py-12 text-center text-sm text-washi/70">
+        {/* Footer très compact avec grecque chinoise */}
+        <footer className="relative border-t border-gold/30 bg-ink py-4 text-center text-sm text-washi/70">
             {/* Motif grecque chinoise en bordure haute */}
             <ChineseGreekPattern />
 
-            <div className="relative z-10">
-                <p className="mb-3">© 2025 Kim HACH — Étudiant en Licence Pro Développement Full Stack</p>
+            <div className="relative z-10 pt-1">
+                <p className="mb-1">© 2025 Kim HACH — Étudiant en Licence Pro Développement Full Stack</p>
                 <div className="flex justify-center gap-6 text-gold">
                     <a
                         href="https://www.linkedin.com/in/kim-hach"

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import SectionTitle from './SectionTitle';
 
 export default function Contact() {
     const [formData, setFormData] = useState({
@@ -25,20 +26,7 @@ export default function Contact() {
     return (
         <section id="contact" className="relative max-w-4xl mx-auto px-4 py-16">
 
-            {/* Titre avec trait de pinceau */}
-            <div className="relative inline-block w-full text-center mb-12">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="font-display text-4xl md:text-5xl font-bold text-ink"
-                >
-                    Contact
-                </motion.h2>
-
-
-            </div>
+            <SectionTitle>Contact</SectionTitle>
 
             <div className="grid md:grid-cols-2 gap-8">
                 {/* Formulaire */}

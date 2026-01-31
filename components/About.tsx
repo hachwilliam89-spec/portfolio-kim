@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiPrisma, SiPhp, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab } from 'react-icons/si';
+import SectionTitle from './SectionTitle';
 
 const techIcons: { [key: string]: any } = {
     'React': SiReact,
@@ -111,15 +112,7 @@ function ChineseSeal() {
 export default function About() {
     return (
         <section id="about" className="max-w-6xl mx-auto px-4 py-20">
-            <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="font-display text-4xl md:text-5xl font-bold mb-16 text-center text-ink"
-            >
-                À propos
-            </motion.h2>
+            <SectionTitle>À propos</SectionTitle>
 
             <div className="grid md:grid-cols-2 gap-8 mb-8">
                 {/* Parcours - avec sceau chinois */}

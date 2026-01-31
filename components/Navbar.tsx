@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HiMenu, HiX } from 'react-icons/hi';
+import { HiMenu, HiX, HiDownload } from 'react-icons/hi';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
@@ -86,10 +86,20 @@ export default function Navbar() {
                                 </button>
                             ))}
 
+                            {/* Bouton CV */}
+                            <a
+                                href="/CV_Kim_HACH_Developpeur_Fullstack.pdf"
+                                download
+                                className="ml-2 px-4 py-2.5 text-sm font-medium text-gold border border-gold/40 rounded-lg hover:bg-gold/10 hover:border-gold transition-all duration-200 flex items-center gap-1.5"
+                            >
+                                <HiDownload className="w-4 h-4" />
+                                CV
+                            </a>
+
                             {/* CTA Button */}
                             <a
                                 href="mailto:hach.william89@outlook.fr"
-                                className="ml-4 px-6 py-2.5 bg-gradient-to-r from-vermillon to-gold text-washi text-sm font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
+                                className="ml-2 px-6 py-2.5 bg-gradient-to-r from-vermillon to-gold text-washi text-sm font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
                             >
                                 Me contacter
                             </a>
@@ -164,6 +174,19 @@ export default function Navbar() {
                                             {label}
                                         </motion.button>
                                     ))}
+
+                                    {/* Bouton CV Mobile */}
+                                    <motion.a
+                                        href="/CV_Kim_HACH_Developpeur_Fullstack.pdf"
+                                        download
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: 0.24, duration: 0.3 }}
+                                        className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-lg font-medium text-gold border border-gold/40 hover:bg-gold/10 transition-all duration-200"
+                                    >
+                                        <HiDownload className="w-5 h-5" />
+                                        Télécharger CV
+                                    </motion.a>
                                 </div>
 
                                 {/* Footer CTA */}
@@ -172,7 +195,7 @@ export default function Navbar() {
                                         href="mailto:hach.william89@outlook.fr"
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.25, duration: 0.3 }}
+                                        transition={{ delay: 0.3, duration: 0.3 }}
                                         className="block w-full px-6 py-4 bg-gradient-to-r from-vermillon to-gold text-washi text-center font-semibold rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200"
                                     >
                                         Me contacter
