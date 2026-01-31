@@ -1,27 +1,72 @@
 import { Inter, Playfair_Display, Ma_Shan_Zheng } from 'next/font/google'
+import type { Metadata } from 'next'
 import './globals.css';
 import Navbar from '@/components/Navbar';
 
 const inter = Inter({
     subsets: ['latin'],
     variable: '--font-inter',
+    display: 'swap',
 })
 
 const playfair = Playfair_Display({
     subsets: ['latin'],
     variable: '--font-playfair',
     weight: ['400', '700'],
+    display: 'swap',
 })
 
 const maShanZheng = Ma_Shan_Zheng({
     subsets: ['latin'],
     weight: '400',
     variable: '--font-chinese',
+    display: 'swap',
 })
 
-export const metadata = {
+export const metadata: Metadata = {
     title: 'Kim HACH — Développeur Full Stack',
     description: 'Portfolio de Kim HACH, développeur full-stack en formation. Projets : Miyazaki-Garden, COS Strasbourg, Application RH. React, Next.js, Node.js, TypeScript.',
+    keywords: ['développeur', 'full stack', 'react', 'next.js', 'node.js', 'typescript', 'portfolio', 'kim hach', 'stage', 'alternance'],
+    authors: [{ name: 'Kim HACH' }],
+    creator: 'Kim HACH',
+    metadataBase: new URL('https://portfolio-kim-liart.vercel.app'),
+    openGraph: {
+        type: 'website',
+        locale: 'fr_FR',
+        url: 'https://portfolio-kim-liart.vercel.app',
+        siteName: 'Kim HACH — Portfolio',
+        title: 'Kim HACH — Développeur Full Stack',
+        description: 'Développeur full-stack en reconversion. React, Next.js, Node.js, TypeScript. Découvrez mes projets et contactez-moi.',
+        images: [
+            {
+                url: '/og-image.png',
+                width: 1200,
+                height: 630,
+                alt: 'Kim HACH - Développeur Full Stack',
+            },
+        ],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Kim HACH — Développeur Full Stack',
+        description: 'Développeur full-stack en reconversion. React, Next.js, Node.js, TypeScript.',
+        images: ['/og-image.png'],
+    },
+    icons: {
+        icon: [
+            { url: '/favicon.ico', sizes: 'any' },
+            { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+            { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+        ],
+        apple: [
+            { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+        ],
+    },
+    manifest: '/site.webmanifest',
+    robots: {
+        index: true,
+        follow: true,
+    },
 };
 
 // Composant Grecque Chinoise (回纹) pour le footer

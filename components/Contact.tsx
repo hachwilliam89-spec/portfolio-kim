@@ -1,8 +1,72 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import SectionTitle from './SectionTitle';
+
+// Composant Toast avec style asiatique
+function Toast({ message, onClose }: { message: string; onClose: () => void }) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-washi text-ink px-8 py-5 rounded-lg shadow-2xl border-2 border-gold/40 relative"
+        >
+            {/* Coins chinois */}
+            <svg
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                viewBox="0 0 200 60"
+                preserveAspectRatio="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <g stroke="#c73e1d" strokeWidth="2" fill="none" strokeLinecap="square">
+                    {/* Coin haut gauche */}
+                    <path d="M 2 15 L 2 2 L 15 2" />
+                    <path d="M 6 10 L 6 6 L 10 6" />
+
+                    {/* Coin haut droit */}
+                    <path d="M 185 2 L 198 2 L 198 15" />
+                    <path d="M 190 6 L 194 6 L 194 10" />
+
+                    {/* Coin bas gauche */}
+                    <path d="M 2 45 L 2 58 L 15 58" />
+                    <path d="M 6 50 L 6 54 L 10 54" />
+
+                    {/* Coin bas droit */}
+                    <path d="M 185 58 L 198 58 L 198 45" />
+                    <path d="M 190 54 L 194 54 L 194 50" />
+                </g>
+            </svg>
+
+            <div className="flex items-center gap-3 relative z-10">
+                <svg className="w-5 h-5 text-vermillon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="font-medium">{message}</span>
+                <button
+                    onClick={onClose}
+                    className="ml-2 text-ink/40 hover:text-vermillon transition-colors"
+                >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </motion.div>
+    );
+}
+
+// Composant Spinner
+function Spinner() {
+    return (
+        <svg className="animate-spin h-5 w-5 text-washi" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    );
+}
 
 export default function Contact() {
     const [formData, setFormData] = useState({
@@ -10,10 +74,27 @@ export default function Contact() {
         email: '',
         message: '',
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showToast, setShowToast] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        window.location.href = `mailto:hach.william89@outlook.fr?subject=Contact de ${formData.name}&body=${formData.message}`;
+        setIsSubmitting(true);
+
+        // Simuler un délai pour montrer le loading (le mailto s'ouvre instantanément sinon)
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        // Ouvrir le client mail
+        window.location.href = `mailto:hach.william89@outlook.fr?subject=Contact de ${formData.name}&body=${encodeURIComponent(formData.message)}%0A%0AEmail: ${formData.email}`;
+
+        setIsSubmitting(false);
+        setShowToast(true);
+
+        // Reset form
+        setFormData({ name: '', email: '', message: '' });
+
+        // Auto-hide toast après 4s
+        setTimeout(() => setShowToast(false), 4000);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -47,7 +128,8 @@ export default function Contact() {
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-2.5 bg-washi border border-gold/30 rounded-lg focus:outline-none focus:border-vermillon focus:ring-2 focus:ring-vermillon/20 transition"
+                                disabled={isSubmitting}
+                                className="w-full px-4 py-2.5 bg-washi border border-gold/30 rounded-lg focus:outline-none focus:border-vermillon focus:ring-2 focus:ring-vermillon/20 transition disabled:opacity-50 disabled:cursor-not-allowed"
                             />
                         </div>
 
@@ -60,7 +142,8 @@ export default function Contact() {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-2.5 bg-washi border border-gold/30 rounded-lg focus:outline-none focus:border-vermillon focus:ring-2 focus:ring-vermillon/20 transition"
+                                disabled={isSubmitting}
+                                className="w-full px-4 py-2.5 bg-washi border border-gold/30 rounded-lg focus:outline-none focus:border-vermillon focus:ring-2 focus:ring-vermillon/20 transition disabled:opacity-50 disabled:cursor-not-allowed"
                             />
                         </div>
 
@@ -72,16 +155,25 @@ export default function Contact() {
                                 value={formData.message}
                                 onChange={handleChange}
                                 required
+                                disabled={isSubmitting}
                                 rows={4}
-                                className="w-full px-4 py-2.5 bg-washi border border-gold/30 rounded-lg focus:outline-none focus:border-vermillon focus:ring-2 focus:ring-vermillon/20 transition"
+                                className="w-full px-4 py-2.5 bg-washi border border-gold/30 rounded-lg focus:outline-none focus:border-vermillon focus:ring-2 focus:ring-vermillon/20 transition disabled:opacity-50 disabled:cursor-not-allowed"
                             />
                         </div>
 
                         <button
                             type="submit"
-                            className="w-full bg-vermillon text-white font-semibold py-3 rounded-lg hover:bg-vermillon-dark transition-all duration-300 hover:shadow-lg"
+                            disabled={isSubmitting}
+                            className="w-full bg-vermillon text-white font-semibold py-3 rounded-lg hover:bg-vermillon-dark transition-all duration-300 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:shadow-none flex items-center justify-center gap-2"
                         >
-                            Envoyer
+                            {isSubmitting ? (
+                                <>
+                                    <Spinner />
+                                    Envoi en cours...
+                                </>
+                            ) : (
+                                'Envoyer'
+                            )}
                         </button>
                     </form>
                 </motion.div>
@@ -191,6 +283,16 @@ export default function Contact() {
                     </div>
                 </motion.div>
             </div>
+
+            {/* Toast de confirmation */}
+            <AnimatePresence>
+                {showToast && (
+                    <Toast
+                        message="Votre client mail s'est ouvert !"
+                        onClose={() => setShowToast(false)}
+                    />
+                )}
+            </AnimatePresence>
         </section>
     );
 }

@@ -1,0 +1,21 @@
+{
+  "name": "Kim HACH — Développeur Full Stack",
+  "short_name": "Kim HACH",
+  "description": "Portfolio de Kim HACH, développeur full-stack",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf9f6",
+  "theme_color": "#c73e1d",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
