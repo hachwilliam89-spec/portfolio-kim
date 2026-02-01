@@ -101,12 +101,12 @@ export default function Navbar() {
                             </a>
 
                             {/* CTA Button */}
-                            <a
-                                href="mailto:hach.william89@outlook.fr"
+                            <button
+                                onClick={() => scrollToSection('contact')}
                                 className="ml-2 px-6 py-2.5 bg-gradient-to-r from-vermillon to-gold text-washi text-sm font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
                             >
                                 Me contacter
-                            </a>
+                            </button>
                         </div>
 
                         {/* Burger Menu Mobile */}
@@ -205,15 +205,15 @@ export default function Navbar() {
 
                                 {/* Footer CTA */}
                                 <div className="p-6 border-t border-gold/20">
-                                    <motion.a
-                                        href="mailto:hach.william89@outlook.fr"
+                                    <motion.button
+                                        onClick={() => scrollToSection('contact')}
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.3, duration: 0.3 }}
                                         className="block w-full px-6 py-4 bg-gradient-to-r from-vermillon to-gold text-washi text-center font-semibold rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200"
                                     >
                                         Me contacter
-                                    </motion.a>
+                                    </motion.button>
                                 </div>
                             </div>
                         </motion.div>
