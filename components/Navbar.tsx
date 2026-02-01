@@ -56,6 +56,8 @@ export default function Navbar() {
                         ? 'bg-washi/95 backdrop-blur-md shadow-lg border-b border-gold/20'
                         : 'bg-washi/80 backdrop-blur-sm border-b border-gold/10'
                 }`}
+                role="navigation"
+                aria-label="Navigation principale"
             >
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex justify-between items-center h-20">
@@ -63,11 +65,12 @@ export default function Navbar() {
                         <button
                             onClick={() => scrollToSection('home')}
                             className="relative group"
+                            aria-label="Retour à l'accueil"
                         >
                             <span className="font-serif text-3xl font-bold text-ink transition-colors duration-200 group-hover:text-vermillon">
                                 KH
                             </span>
-                            <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                            <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" aria-hidden="true" />
                         </button>
 
                         {/* Navigation Desktop */}
@@ -86,13 +89,14 @@ export default function Navbar() {
                                 </button>
                             ))}
 
-                            {/* Bouton CV */}
+                            {/* Bouton CV - contraste amélioré */}
                             <a
                                 href="/CV_Kim_HACH_Developpeur_Fullstack.pdf"
                                 download
-                                className="ml-2 px-4 py-2.5 text-sm font-medium text-gold border border-gold/40 rounded-lg hover:bg-gold/10 hover:border-gold transition-all duration-200 flex items-center gap-1.5"
+                                aria-label="Télécharger mon CV en PDF"
+                                className="ml-2 px-4 py-2.5 text-sm font-medium text-ink border border-gold rounded-lg hover:bg-gold/10 hover:border-gold transition-all duration-200 flex items-center gap-1.5"
                             >
-                                <HiDownload className="w-4 h-4" />
+                                <HiDownload className="w-4 h-4" aria-hidden="true" />
                                 CV
                             </a>
 
@@ -109,11 +113,14 @@ export default function Navbar() {
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                             className="md:hidden p-2 rounded-lg hover:bg-gold/10 transition-colors duration-200"
+                            aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+                            aria-expanded={mobileMenuOpen}
+                            aria-controls="mobile-menu"
                         >
                             {mobileMenuOpen ? (
-                                <HiX className="w-7 h-7 text-ink" />
+                                <HiX className="w-7 h-7 text-ink" aria-hidden="true" />
                             ) : (
-                                <HiMenu className="w-7 h-7 text-ink" />
+                                <HiMenu className="w-7 h-7 text-ink" aria-hidden="true" />
                             )}
                         </button>
                     </div>
@@ -132,15 +139,20 @@ export default function Navbar() {
                             transition={{ duration: 0.2 }}
                             onClick={() => setMobileMenuOpen(false)}
                             className="fixed inset-0 bg-ink/60 backdrop-blur-sm z-40 md:hidden"
+                            aria-hidden="true"
                         />
 
                         {/* Menu Panel */}
                         <motion.div
+                            id="mobile-menu"
                             initial={{ x: '100%' }}
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
                             className="fixed top-0 right-0 bottom-0 w-80 bg-washi shadow-2xl z-50 md:hidden border-l border-gold/30"
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label="Menu de navigation"
                         >
                             <div className="flex flex-col h-full">
                                 {/* Header */}
@@ -151,8 +163,9 @@ export default function Navbar() {
                                     <button
                                         onClick={() => setMobileMenuOpen(false)}
                                         className="p-2 rounded-lg hover:bg-gold/10 transition-colors duration-200"
+                                        aria-label="Fermer le menu"
                                     >
-                                        <HiX className="w-6 h-6 text-ink" />
+                                        <HiX className="w-6 h-6 text-ink" aria-hidden="true" />
                                     </button>
                                 </div>
 
@@ -175,16 +188,17 @@ export default function Navbar() {
                                         </motion.button>
                                     ))}
 
-                                    {/* Bouton CV Mobile */}
+                                    {/* Bouton CV Mobile - contraste amélioré */}
                                     <motion.a
                                         href="/CV_Kim_HACH_Developpeur_Fullstack.pdf"
                                         download
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: 0.24, duration: 0.3 }}
-                                        className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-lg font-medium text-gold border border-gold/40 hover:bg-gold/10 transition-all duration-200"
+                                        aria-label="Télécharger mon CV en PDF"
+                                        className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-lg font-medium text-ink border border-gold hover:bg-gold/10 transition-all duration-200"
                                     >
-                                        <HiDownload className="w-5 h-5" />
+                                        <HiDownload className="w-5 h-5" aria-hidden="true" />
                                         Télécharger CV
                                     </motion.a>
                                 </div>

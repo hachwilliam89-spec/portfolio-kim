@@ -72,7 +72,7 @@ export const metadata: Metadata = {
 // Composant Grecque Chinoise (回纹) pour le footer
 function ChineseGreekPattern() {
     return (
-        <div className="absolute top-0 left-0 right-0 h-5 overflow-hidden opacity-20">
+        <div className="absolute top-0 left-0 right-0 h-5 overflow-hidden opacity-20" aria-hidden="true">
             <svg
                 className="w-full h-full"
                 preserveAspectRatio="xMidYMid slice"
@@ -102,10 +102,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
 
         {/* Main content */}
-        {children}
+        <main>
+            {children}
+        </main>
 
         {/* Footer très compact avec grecque chinoise */}
-        <footer className="relative border-t border-gold/30 bg-ink py-4 text-center text-sm text-washi/70">
+        <footer className="relative border-t border-gold/30 bg-ink py-4 text-center text-sm text-washi/90">
             {/* Motif grecque chinoise en bordure haute */}
             <ChineseGreekPattern />
 
@@ -116,15 +118,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         href="https://www.linkedin.com/in/kim-hach"
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label="Voir mon profil LinkedIn"
                         className="hover:text-gold-light transition-colors duration-300"
                     >
                         LinkedIn
                     </a>
-                    <span className="text-washi/30">|</span>
+                    <span className="text-washi/50" aria-hidden="true">|</span>
                     <a
                         href="https://github.com/hachwilliam89-spec"
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label="Voir mon profil GitHub"
                         className="hover:text-gold-light transition-colors duration-300"
                     >
                         GitHub

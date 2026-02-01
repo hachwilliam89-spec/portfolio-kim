@@ -95,17 +95,26 @@ export default function Projects() {
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             onClick={() => setSelectedProject(project)}
                             className="bg-white border-2 border-gold/40 rounded-lg overflow-hidden hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300 group cursor-pointer"
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Voir les détails du projet ${project.title}`}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    setSelectedProject(project);
+                                }
+                            }}
                         >
                             <div className="relative h-48 w-full overflow-hidden bg-washi-dark">
                                 <Image
                                     src={project.image}
-                                    alt={project.title}
+                                    alt={`Aperçu du projet ${project.title}`}
                                     fill
                                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
 
-                                <div className="absolute top-4 right-4 px-3 py-1 bg-washi/90 backdrop-blur-sm rounded-full text-xs font-semibold text-ink opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1">
+                                <div className="absolute top-4 right-4 px-3 py-1 bg-washi/90 backdrop-blur-sm rounded-full text-xs font-semibold text-ink opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1" aria-hidden="true">
                                     Voir plus
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -117,7 +126,7 @@ export default function Projects() {
                                 <h3 className="font-display text-2xl font-bold mb-3 text-ink group-hover:text-vermillon transition-colors duration-300">
                                     {project.title}
                                 </h3>
-                                <p className="text-ink/80 text-sm mb-5 leading-relaxed font-medium line-clamp-3">
+                                <p className="text-ink text-sm mb-5 leading-relaxed font-medium line-clamp-3">
                                     {project.shortDescription}
                                 </p>
 
@@ -129,20 +138,20 @@ export default function Projects() {
                                                 key={tech}
                                                 className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold shadow-sm flex items-center gap-1.5"
                                             >
-                                                {Icon && <Icon className="text-sm" />}
+                                                {Icon && <Icon className="text-sm" aria-hidden="true" />}
                                                 {tech}
                                             </span>
                                         );
                                     })}
                                     {project.tech.length > 4 && (
-                                        <span className="text-xs bg-gold/20 text-ink px-3 py-1.5 rounded-full font-semibold">
+                                        <span className="text-xs bg-gold/30 text-ink px-3 py-1.5 rounded-full font-semibold">
                                             +{project.tech.length - 4}
                                         </span>
                                     )}
                                 </div>
                             </div>
 
-                            <div className="h-1 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                            <div className="h-1 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" aria-hidden="true" />
                         </motion.article>
                     ))}
                 </div>

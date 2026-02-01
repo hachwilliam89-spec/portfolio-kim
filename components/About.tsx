@@ -45,6 +45,7 @@ function ChineseSeal() {
             }}
             className="absolute -bottom-3 -right-3 md:bottom-4 md:right-4"
             title="金 - Kim"
+            aria-hidden="true"
         >
             <svg
                 className="w-14 h-14 md:w-16 md:h-16"
@@ -124,7 +125,7 @@ export default function About() {
                     className="relative bg-white border-2 border-gold/40 rounded-lg p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
                 >
                     <h3 className="font-display text-2xl font-bold text-vermillon mb-5">Parcours</h3>
-                    <div className="space-y-4 text-sm text-ink/80 leading-relaxed font-medium">
+                    <div className="space-y-4 text-sm text-ink leading-relaxed font-medium">
                         <p>
                             <strong className="text-ink font-bold">Développeur full-stack en reconversion</strong>, actuellement en formation intensive sur les technologies web modernes.
                         </p>
@@ -152,7 +153,7 @@ export default function About() {
                     <div className="space-y-5">
                         {skills.map((skillGroup) => (
                             <div key={skillGroup.category}>
-                                <p className="text-xs uppercase tracking-wider text-gold-dark mb-2 font-bold">
+                                <p className="text-xs uppercase tracking-wider text-ink/90 mb-2 font-bold">
                                     {skillGroup.category}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
@@ -163,7 +164,7 @@ export default function About() {
                                                 key={skill}
                                                 className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold shadow-sm flex items-center gap-1.5"
                                             >
-                                                {Icon && <Icon className="text-sm" />}
+                                                {Icon && <Icon className="text-sm" aria-hidden="true" />}
                                                 {skill}
                                             </span>
                                         );
@@ -184,13 +185,13 @@ export default function About() {
                 className="bg-white border-2 border-gold/40 rounded-lg p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
             >
                 <h3 className="font-display text-2xl font-bold text-vermillon mb-5">Objectifs actuels</h3>
-                <div className="space-y-4 text-sm text-ink/80 leading-relaxed font-medium">
+                <div className="space-y-4 text-sm text-ink leading-relaxed font-medium">
                     <p>
                         Approfondir <strong className="text-ink font-bold">Next.js, Prisma, Docker</strong>, l&apos;architecture modulaire, les tests et la gestion d&apos;erreurs.
                         Mon approche : structurer des projets de zéro avec une organisation de code claire, une UX soignée avec feedback visuel, et l&apos;automatisation des tâches (scripts, seeds, CI/CD).
                     </p>
                     <p className="flex items-start gap-3 pt-2 border-t border-gold/20">
-                        <span className="text-2xl"></span>
+                        <span className="text-2xl" aria-hidden="true"></span>
                         <span>
                             <strong className="text-ink font-bold">Recherche actuellement :</strong> Stage ou alternance en développement full-stack pour contribuer à des projets concrets en équipe.
                         </span>
