@@ -14,7 +14,7 @@ export default function Navbar() {
             setScrolled(window.scrollY > 20);
 
             // Détection de la section active
-            const sections = ['projects', 'about', 'contact'];
+            const sections = ['projects', 'about'];
             const current = sections.find(section => {
                 const element = document.getElementById(section);
                 if (element) {
@@ -42,7 +42,6 @@ export default function Navbar() {
     const navItems = [
         { id: 'projects', label: 'Projets' },
         { id: 'about', label: 'À propos' },
-        { id: 'contact', label: 'Contact' }
     ];
 
     return (
