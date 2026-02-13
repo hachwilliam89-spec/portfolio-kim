@@ -117,6 +117,7 @@ export default function About() {
 
             <div className="grid md:grid-cols-2 gap-8 mb-8">
                 {/* Parcours - avec sceau chinois */}
+                {/* Parcours - avec sceau chinois */}
                 <motion.div
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -127,13 +128,13 @@ export default function About() {
                     <h3 className="font-display text-2xl font-bold text-vermillon mb-5">Parcours</h3>
                     <div className="space-y-4 text-sm text-ink leading-relaxed font-medium">
                         <p>
-                            <strong className="text-ink font-bold">Développeur full-stack en reconversion</strong>, actuellement en formation intensive sur les technologies web modernes.
+                            Ancien <strong className="text-ink font-bold">responsable logistique dans une holding de transport</strong>, j&apos;ai acquis une solide expérience en gestion de projet, coordination d&apos;équipes et résolution de problèmes complexes sous pression.
                         </p>
                         <p>
-                            Curieux et à la recherche d&apos;une voie différente j&apos;ai tenté ma chance dans l&apos;univers du développement en commençant par le web.
+                            Curieux et à la recherche d&apos;un nouveau défi, j&apos;ai entamé une reconversion vers le <strong className="text-ink font-bold">développement web</strong> — un domaine qui allie logique, créativité et apprentissage permanent.
                         </p>
                         <p>
-                            Mes projets récents (Miyazaki-Garden, COS Strasbourg, application RH) illustrent ma capacité à concevoir et déployer des solutions complètes, du design à la base de données.
+                            Aujourd&apos;hui en formation intensive, mes projets récents (Miyazaki-Garden, COS Strasbourg, application RH) illustrent ma capacité à concevoir et déployer des solutions complètes. Mon parcours en logistique m&apos;apporte une rigueur et une vision métier que peu de développeurs juniors possèdent.
                         </p>
                     </div>
 
