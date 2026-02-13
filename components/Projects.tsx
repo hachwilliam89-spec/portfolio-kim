@@ -65,7 +65,7 @@ const projects: Project[] = [
         title: 'Evaluation RH',
         shortDescription: 'Système d\'évaluation des ressources humaines avec création de sondages.',
         description: 'Système d\'évaluation des ressources humaines...',
-        tech: ['React', 'Node.js','NestJS','PostgreSQL', 'Prisma ORM','Docker','API REST', 'MySQL','Swagger','shadcn/ui'],
+        tech: ['React', 'Node.js', 'NestJS', 'PostgreSQL', 'Prisma ORM', 'Docker', 'API REST', 'MySQL', 'Swagger', 'shadcn/ui'],
         image: '/images/evaluation-rh.jpg',
         screenshots: [
             { url: '/images/rh-1.jpg', title: 'Gestion des sociétés ', description: 'Dashboard de gestion des sociétés par l\'Administrateur Général' },
@@ -73,6 +73,23 @@ const projects: Project[] = [
             { url: '/images/rh-3.jpg', title: 'Gestion des questions', description: 'Interface de création et gestion des questions' },
             { url: '/images/rh-4.jpg', title: 'Gestion des répondants', description: 'Interface de création et gestion des répondants' },
             { url: '/images/rh-5.jpg', title: 'Sondage', description: 'Exemple de Sondage' },
+        ],
+    },
+    {
+        id: 4,
+        title: 'Miyazaki Garden V2',
+        shortDescription: 'Refonte complète en Next.js — authentification, favoris, avis et design Ghibli immersif.',
+        description: 'Refonte complète du site Miyazaki Garden, passé de PHP/MySQL à Next.js 16 / TypeScript / PostgreSQL. Cette V2 propose une expérience utilisateur riche : authentification sécurisée, système de favoris, avis avec notation sur 10, profil utilisateur avec upload d\'avatar, traduction française automatique, et un design poétique inspiré de l\'univers Ghibli. Sécurité renforcée avec Zod, sanitisation XSS et headers HTTP. Déployé sur Vercel avec Neon PostgreSQL et Vercel Blob.',
+        tech: ['Next.js', 'React', 'Tailwind CSS', 'Prisma', 'PostgreSQL', 'Javascript'],
+        image: '/images/miyazaki-garden-v2.jpg',
+        links: {
+            demo: 'https://miyazaki-garden-nextjs.vercel.app',
+            github: 'https://github.com/hachwilliam89-spec/miyazaki-garden-nextjs',
+        },
+        screenshots: [
+            { url: '/images/miyazaki-v2-1.jpg', title: 'Page d\'accueil', description: 'Carrousel des meilleurs films, bandeau défilant avec reflet et design Ghibli' },
+            { url: '/images/miyazaki-v2-2.jpg', title: 'À propos', description: 'Page sur l\'histoire du studio' },
+            { url: '/images/miyazaki-v2-3.jpg', title: 'Profil membre', description: 'Page de membre avec liste des films favoris' },
         ],
     },
 ];
@@ -149,6 +166,18 @@ export default function Projects() {
                                         </span>
                                     )}
                                 </div>
+
+                                {project.links?.demo && (
+                                    <a
+                                    href={project.links.demo}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark hover:shadow-lg hover:shadow-vermillon/30 hover:-translate-y-0.5 transition-all duration-300"
+                                    onClick={(e) => e.stopPropagation()}
+                                    >
+                                    🌐 Voir le site en ligne ↗
+                                    </a>
+                                    )}
                             </div>
 
                             <div className="h-1 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" aria-hidden="true" />
@@ -157,7 +186,6 @@ export default function Projects() {
                 </div>
             </section>
 
-            {/* Passer directement selectedProject */}
             <ProjectModal
                 project={selectedProject}
                 onClose={() => setSelectedProject(null)}
