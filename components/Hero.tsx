@@ -213,8 +213,7 @@ export default function Hero() {
                     transition={{ duration: 0.8, delay: 3.2 }}
                     className="text-ink/70 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed"
                 >
-                    Étudiant en <span className="text-vermillon font-medium">Licence Pro Développement Full Stack</span> à l&apos;UHA 4.0 Mulhouse.
-                    Je conçois des applications web de A à Z — du backend Java/Spring Boot au frontend Next.js/React.
+                    Étudiant en <span className="text-vermillon font-medium">Licence Pro Développement Full Stack</span> à l&apos;UHA 4.0
                 </motion.p>
 
                 {/* Objectif */}
@@ -224,7 +223,7 @@ export default function Hero() {
                     transition={{ duration: 0.8, delay: 3.4 }}
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-vermillon/10 border border-vermillon/30 rounded-full"
                 >
-                    <span className="text-vermillon text-lg">🎯</span>
+
                     <span className="text-sm font-semibold text-vermillon tracking-wide">
                         Recherche un stage ou une alternance pour 2026
                     </span>
