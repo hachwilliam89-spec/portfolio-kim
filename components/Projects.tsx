@@ -1,11 +1,15 @@
-// components/Projects.tsx
 'use client';
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import type { IconType } from 'react-icons';
-import { SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma, SiDocker, SiTailwindcss, SiReact, SiNodedotjs, SiNestjs, SiPostgresql, SiMysql, SiSwagger } from 'react-icons/si';
+import {
+    SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma,
+    SiDocker, SiTailwindcss, SiReact, SiNodedotjs, SiNestjs,
+    SiPostgresql, SiMysql, SiSwagger, SiSpring, SiMariadb,
+    SiTypescript, SiLeaflet
+} from 'react-icons/si';
 import ProjectModal from './ProjectModal';
 import SectionTitle from './SectionTitle';
 import type { Project } from '@/lib/types';
@@ -30,56 +34,40 @@ const techIcons: TechIconMap = {
     'Swagger': SiSwagger,
     'API REST': null,
     'shadcn/ui': null,
+    'Spring Boot': SiSpring,
+    'Java': null,
+    'WebSocket': null,
+    'MariaDB': SiMariadb,
+    'TypeScript': SiTypescript,
+    'Leaflet': SiLeaflet,
+    'OSRM': null,
+    'VRPTW': null,
 };
 
 const projects: Project[] = [
     {
         id: 1,
-        title: 'Miyazaki-Garden',
-        shortDescription: 'Site exposant les oeuvres du réalisateur avec un design rappelant le studio Ghibli.',
-        description: 'Site exposant les oeuvres du réalisateur avec un design rappelant le studio Ghibli. Animation et ambiance sonore sont présents pour une immersion dans l\'univers onirique de l\'artiste.',
-        tech: ['Javascript', 'PHP', 'HTML', 'CSS'],
-        image: '/images/miyazaki-garden.jpg',
-        screenshots: [
-            { url: '/images/miyazaki-1.jpg', title: 'Page d\'accueil', description: 'Interface immersive...' },
-            { url: '/images/miyazaki-2.jpg', title: 'Page de connexion', description: 'Page de connexion pour accéder à son espace membre' },
-            { url: '/images/miyazaki-3.jpg', title: 'Univers interactif', description: 'Éléments animés...' },
-        ],
+        title: 'KCD Formes',
+        shortDescription: 'Jeu de tower defense médiéval en pixel art avec mode multijoueur asymétrique temps réel.',
+        description: 'Projet fil rouge de Licence Pro conçu et développé en autonomie complète. Les formes géométriques gouvernent toutes les mécaniques : l\'aire détermine les dégâts et les HP, le périmètre la portée et la vitesse. J\'ai architecturé le backend Java/Spring Boot avec le pattern Factory Method pour la création des ennemis et des formes, mis en place la communication temps réel via WebSocket/STOMP pour le mode multijoueur asymétrique (attaquant vs défenseur), et conçu l\'intégralité du frontend Next.js avec sprites pixel art animés, grille interactive et gestion des vagues. Déployé sur serveurs école via un script Docker Compose personnalisé.',
+        tech: ['Next.js', 'Spring Boot', 'Java', 'WebSocket', 'Docker', 'MariaDB'],
+        image: '/images/kcd-formes.jpg',
+        screenshots: [],
     },
     {
         id: 2,
-        title: 'COS Strasbourg',
-        shortDescription: 'Application web destinée à faire le lien entre élèves et professeurs.',
-        description: 'Application web destinée à faire le lien entre élèves et professeurs...',
-        tech: ['Next.js', 'Prisma', 'Docker', 'Tailwind CSS'],
-        image: '/images/cos-strasbourg.jpg',
-        screenshots: [
-            { url: '/images/cos-1.jpg', title: 'Système d\'annotations', description: 'Interface annotations côté Encadrant' },
-            { url: '/images/cos-2.jpg', title: 'Création d\'utilisateur', description: 'Interface de création des utilisateurs' },
-            { url: '/images/cos-3.jpg', title: 'Dépôt des documents', description: 'Interface de dépôt des documents (comme les mémoires à annoter) , côté Etudiant' },
-            { url: '/images/cos-4.jpg', title: 'Profil Etudiant', description: 'Espace des données personnelles des étudiants' },
-        ],
+        title: 'RecycleDashboard',
+        shortDescription: 'Application de gestion de collecte de biodéchets avec optimisation des tournées VRPTW.',
+        description: 'Application de gestion de collecte de biodéchets pour la zone Montbéliard–Sélestat, développée en équipe de 4 avec méthode Scrum. En tant que Scrum Master, j\'ai animé les cérémonies, géré le backlog et coordonné les sprints. Techniquement, j\'ai audité le codebase hérité et identifié 6 vulnérabilités SQL injection que j\'ai corrigées. J\'ai implémenté la Procédure d\'Évaluation (PE) du composant de décision VRPTW en TypeScript, intégré l\'algorithme d\'optimisation des tournées via OR-Tools (Docker) et évalué VROOM comme alternative. Cartographie interactive avec Leaflet et calcul d\'itinéraires via OSRM.',
+        tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Leaflet', 'OSRM'],
+        image: '',
+        screenshots: [],
     },
     {
         id: 3,
-        title: 'Evaluation RH',
-        shortDescription: 'Système d\'évaluation des ressources humaines avec création de sondages.',
-        description: 'Système d\'évaluation des ressources humaines...',
-        tech: ['React', 'Node.js', 'NestJS', 'PostgreSQL', 'Prisma ORM', 'Docker', 'API REST', 'MySQL', 'Swagger', 'shadcn/ui'],
-        image: '/images/evaluation-rh.jpg',
-        screenshots: [
-            { url: '/images/rh-1.jpg', title: 'Gestion des sociétés ', description: 'Dashboard de gestion des sociétés par l\'Administrateur Général' },
-            { url: '/images/rh-2.jpg', title: 'Gestion des sondages', description: 'Interface de création et gestion des sondages' },
-            { url: '/images/rh-3.jpg', title: 'Gestion des questions', description: 'Interface de création et gestion des questions' },
-            { url: '/images/rh-4.jpg', title: 'Gestion des répondants', description: 'Interface de création et gestion des répondants' },
-            { url: '/images/rh-5.jpg', title: 'Sondage', description: 'Exemple de Sondage' },
-        ],
-    },
-    {
-        id: 4,
         title: 'Miyazaki Garden V2',
         shortDescription: 'Refonte complète en Next.js — authentification, favoris, avis et design Ghibli immersif.',
-        description: 'Refonte complète du site Miyazaki Garden, passé de PHP/MySQL à Next.js 16 / TypeScript / PostgreSQL. Cette V2 propose une expérience utilisateur riche : authentification sécurisée, système de favoris, avis avec notation sur 10, profil utilisateur avec upload d\'avatar, traduction française automatique, et un design poétique inspiré de l\'univers Ghibli. Sécurité renforcée avec Zod, sanitisation XSS et headers HTTP. Déployé sur Vercel avec Neon PostgreSQL et Vercel Blob.',
+        description: 'Refonte complète de mon projet fil rouge PHP/MySQL vers une stack moderne Next.js/TypeScript/PostgreSQL. J\'ai conçu et implémenté l\'intégralité de l\'application : système d\'authentification sécurisé avec NextAuth, gestion des favoris et des avis avec notation sur 10, upload d\'avatar via Vercel Blob, traduction automatique des données API Ghibli, et un design poétique immersif. Sécurité renforcée avec validation Zod, sanitisation XSS et headers HTTP stricts. Déployé sur Vercel avec Neon PostgreSQL.',
         tech: ['Next.js', 'React', 'Tailwind CSS', 'Prisma', 'PostgreSQL', 'Javascript'],
         image: '/images/miyazaki-garden-v2.jpg',
         links: {
@@ -90,6 +78,48 @@ const projects: Project[] = [
             { url: '/images/miyazaki-v2-1.jpg', title: 'Page d\'accueil', description: 'Carrousel des meilleurs films, bandeau défilant avec reflet et design Ghibli' },
             { url: '/images/miyazaki-v2-2.jpg', title: 'À propos', description: 'Page sur l\'histoire du studio' },
             { url: '/images/miyazaki-v2-3.jpg', title: 'Profil membre', description: 'Page de membre avec liste des films favoris' },
+        ],
+    },
+    {
+        id: 4,
+        title: 'COS Strasbourg',
+        shortDescription: 'Application web de suivi pédagogique entre élèves et professeurs avec annotations de documents.',
+        description: 'Projet en équipe pour le COS Strasbourg. J\'ai implémenté le système de surlignage et d\'annotation de documents avec la librairie Mammoth pour la conversion DOCX, ainsi qu\'un menu contextuel interactif permettant aux encadrants d\'annoter les mémoires directement dans le navigateur. J\'ai également développé le système de notifications automatiques par email via l\'API Brevo, déclenchant des alertes à chaque étape clé du workflow pédagogique. Enfin, j\'ai pris en charge le design de l\'interface en respectant strictement la charte graphique du client.',
+        tech: ['Next.js', 'Prisma', 'Docker', 'Tailwind CSS'],
+        image: '/images/cos-strasbourg.jpg',
+        screenshots: [
+            { url: '/images/cos-1.jpg', title: 'Système d\'annotations', description: 'Interface annotations côté Encadrant' },
+            { url: '/images/cos-2.jpg', title: 'Création d\'utilisateur', description: 'Interface de création des utilisateurs' },
+            { url: '/images/cos-3.jpg', title: 'Dépôt des documents', description: 'Interface de dépôt des documents côté Etudiant' },
+            { url: '/images/cos-4.jpg', title: 'Profil Etudiant', description: 'Espace des données personnelles des étudiants' },
+        ],
+    },
+    {
+        id: 5,
+        title: 'Evaluation RH',
+        shortDescription: 'Système d\'évaluation RH avec création de sondages — API backend en POO avec NestJS.',
+        description: 'Projet d\'entreprise développé en équipe dans un environnement exigeant avec une rigueur professionnelle stricte sur la qualité du code. J\'ai travaillé sur le backend NestJS en POO : conception et implémentation d\'API REST avec DTOs typés, décorateurs de validation, injection de dépendances et séparation des responsabilités. Ce projet m\'a confronté aux standards de développement en entreprise : revues de code, conventions strictes, documentation Swagger et gestion des erreurs robuste.',
+        tech: ['React', 'Node.js', 'NestJS', 'PostgreSQL', 'Prisma ORM', 'Docker', 'API REST', 'Swagger', 'shadcn/ui'],
+        image: '/images/evaluation-rh.jpg',
+        screenshots: [
+            { url: '/images/rh-1.jpg', title: 'Gestion des sociétés', description: 'Dashboard de gestion des sociétés par l\'Administrateur Général' },
+            { url: '/images/rh-2.jpg', title: 'Gestion des sondages', description: 'Interface de création et gestion des sondages' },
+            { url: '/images/rh-3.jpg', title: 'Gestion des questions', description: 'Interface de création et gestion des questions' },
+            { url: '/images/rh-4.jpg', title: 'Gestion des répondants', description: 'Interface de création et gestion des répondants' },
+            { url: '/images/rh-5.jpg', title: 'Sondage', description: 'Exemple de Sondage' },
+        ],
+    },
+    {
+        id: 6,
+        title: 'Miyazaki-Garden',
+        shortDescription: 'Site exposant les oeuvres du réalisateur avec un design rappelant le studio Ghibli.',
+        description: 'Premier projet fil rouge en PHP/MySQL natif. Conception et développement d\'un site vitrine dédié à l\'univers de Hayao Miyazaki avec animations CSS, ambiance sonore immersive et espace membre. Ce projet m\'a permis de maîtriser les fondamentaux du web : architecture MVC en PHP, requêtes SQL, gestion des sessions et design responsive. Point de départ de ma reconversion, il a posé les bases sur lesquelles j\'ai construit la V2 en Next.js.',
+        tech: ['Javascript', 'PHP', 'HTML', 'CSS'],
+        image: '/images/miyazaki-garden.jpg',
+        screenshots: [
+            { url: '/images/miyazaki-1.jpg', title: 'Page d\'accueil', description: 'Interface immersive' },
+            { url: '/images/miyazaki-2.jpg', title: 'Page de connexion', description: 'Page de connexion pour accéder à son espace membre' },
+            { url: '/images/miyazaki-3.jpg', title: 'Univers interactif', description: 'Éléments animés' },
         ],
     },
 ];
