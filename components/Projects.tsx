@@ -135,7 +135,7 @@ export default function Projects() {
             <section id="projects" className="max-w-6xl mx-auto px-4 py-20">
                 <SectionTitle>Projets</SectionTitle>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
                     {projects.map((project, index) => (
                         <motion.article
                             key={project.id}
@@ -144,7 +144,7 @@ export default function Projects() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             onClick={() => setSelectedProject(project)}
-                            className="bg-white border-2 border-gold/40 rounded-lg overflow-hidden hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300 group cursor-pointer"
+                            className="bg-white border-2 border-gold/40 rounded-lg overflow-hidden hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300 group cursor-pointer flex flex-col"
                             role="button"
                             tabIndex={0}
                             aria-label={`Voir les détails du projet ${project.title}`}
@@ -155,15 +155,20 @@ export default function Projects() {
                                 }
                             }}
                         >
-                            <div className="relative h-48 w-full overflow-hidden bg-washi-dark">
-                                <Image
-                                    src={project.image}
-                                    alt={`Aperçu du projet ${project.title}`}
-                                    fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                                />
+                            <div className="relative h-48 w-full overflow-hidden bg-washi-dark shrink-0">
+                                {project.image ? (
+                                    <Image
+                                        src={project.image}
+                                        alt={`Aperçu du projet ${project.title}`}
+                                        fill
+                                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-ink/10 to-gold/20">
+                                        <span className="font-display text-4xl text-ink/20">{project.title[0]}</span>
+                                    </div>
+                                )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
-
                                 <div className="absolute top-4 right-4 px-3 py-1 bg-washi/90 backdrop-blur-sm rounded-full text-xs font-semibold text-ink opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1" aria-hidden="true">
                                     Voir plus
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,14 +177,13 @@ export default function Projects() {
                                 </div>
                             </div>
 
-                            <div className="p-6">
+                            <div className="p-6 flex flex-col flex-1">
                                 <h3 className="font-display text-2xl font-bold mb-3 text-ink group-hover:text-vermillon transition-colors duration-300">
                                     {project.title}
                                 </h3>
                                 <p className="text-ink text-sm mb-5 leading-relaxed font-medium line-clamp-3">
                                     {project.shortDescription}
                                 </p>
-
                                 <div className="flex flex-wrap gap-2 mb-5">
                                     {project.tech.slice(0, 4).map((tech) => {
                                         const Icon = techIcons[tech];
@@ -199,23 +203,24 @@ export default function Projects() {
                                         </span>
                                     )}
                                 </div>
+                                <div className="mt-auto">
+                                    {project.links?.demo && ( <a
 
-                                {project.links?.demo && (
-                                    <a
-                                    href={project.links.demo}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark hover:shadow-lg hover:shadow-vermillon/30 hover:-translate-y-0.5 transition-all duration-300"
-                                    onClick={(e) => e.stopPropagation()}
-                                    >
-                                    🌐 Voir le site en ligne ↗
-                                    </a>
-                                    )}
+                                        href={project.links.demo}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark hover:shadow-lg hover:shadow-vermillon/30 hover:-translate-y-0.5 transition-all duration-300"
+                                        onClick={(e) => e.stopPropagation()}
+                                        >
+                                        🌐 Voir le site en ligne ↗
+                                        </a>
+                                        )}
+                                </div>
                             </div>
 
-                            <div className="h-1 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" aria-hidden="true" />
+                            <div className="h-1 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left shrink-0" aria-hidden="true" />
                         </motion.article>
-                    ))}
+                        ))}
                 </div>
             </section>
 
