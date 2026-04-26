@@ -52,7 +52,11 @@ const projects: Project[] = [
         description: 'Projet fil rouge de Licence Pro conçu et développé en autonomie complète. Les formes géométriques gouvernent toutes les mécaniques : l\'aire détermine les dégâts et les HP, le périmètre la portée et la vitesse. J\'ai architecturé le backend Java/Spring Boot avec le pattern Factory Method pour la création des ennemis et des formes, mis en place la communication temps réel via WebSocket/STOMP pour le mode multijoueur asymétrique (attaquant vs défenseur), et conçu l\'intégralité du frontend Next.js avec sprites pixel art animés, grille interactive et gestion des vagues. Déployé sur serveurs école via un script Docker Compose personnalisé.',
         tech: ['Next.js', 'Spring Boot', 'Java', 'WebSocket', 'Docker', 'MariaDB'],
         image: '/images/kcd-formes.jpg',
-        screenshots: [],
+        screenshots: [
+            { url: '/images/kcd-formes.jpg', title: 'Page d\'accueil', description: 'Menu principal avec modes Campagne Solo et Multijoueur, présentation des mécaniques de jeu' },
+            { url: '/images/kcd-lobby.jpg', title: 'Lobby multijoueur', description: 'Salle d\'attente avec assignation des rôles Défenseur et Attaquant en temps réel via WebSocket' },
+            { url: '/images/kcd-combat.jpg', title: 'Phase de combat', description: 'Grille de jeu avec ennemis animés, tourelles actives et barres de vie synchronisées en temps réel' },
+        ],
     },
     {
         id: 2,
@@ -84,7 +88,7 @@ const projects: Project[] = [
         id: 4,
         title: 'COS Strasbourg',
         shortDescription: 'Application web de suivi pédagogique entre élèves et professeurs avec annotations de documents.',
-        description: 'Projet en équipe pour le COS Strasbourg. J\'ai implémenté le système de surlignage et d\'annotation de documents avec la librairie Mammoth pour la conversion DOCX, ainsi qu\'un menu contextuel interactif permettant aux encadrants d\'annoter les mémoires directement dans le navigateur. J\'ai également développé le système de notifications automatiques par email via l\'API Brevo, déclenchant des alertes à chaque étape clé du workflow pédagogique. Enfin, j\'ai pris en charge le design de l\'interface en respectant strictement la charte graphique du client.',
+        description: 'Projet réalisé en équipe pour le COS Strasbourg, client réel. J\'ai pris en charge trois axes majeurs. Premièrement, j\'ai implémenté le système de surlignage et d\'annotation de documents en intégrant la librairie Mammoth pour convertir les fichiers DOCX en HTML, puis développé un menu contextuel interactif permettant aux encadrants de sélectionner du texte et d\'annoter les mémoires directement dans le navigateur, sans plugin externe. Deuxièmement, j\'ai développé le système de notifications email automatiques via l\'API Brevo : chaque action clé du workflow pédagogique (dépôt de document, validation, annotation) déclenche un email ciblé au bon destinataire. Troisièmement, j\'ai pris en charge l\'intégralité du design de l\'interface en respectant strictement la charte graphique du client, en assurant cohérence visuelle et responsive design sur toutes les pages dont j\'étais responsable.',
         tech: ['Next.js', 'Prisma', 'Docker', 'Tailwind CSS'],
         image: '/images/cos-strasbourg.jpg',
         screenshots: [
@@ -98,7 +102,7 @@ const projects: Project[] = [
         id: 5,
         title: 'Evaluation RH',
         shortDescription: 'Système d\'évaluation RH avec création de sondages — API backend en POO avec NestJS.',
-        description: 'Projet d\'entreprise développé en équipe dans un environnement exigeant avec une rigueur professionnelle stricte sur la qualité du code. J\'ai travaillé sur le backend NestJS en POO : conception et implémentation d\'API REST avec DTOs typés, décorateurs de validation, injection de dépendances et séparation des responsabilités. Ce projet m\'a confronté aux standards de développement en entreprise : revues de code, conventions strictes, documentation Swagger et gestion des erreurs robuste.',
+        description: 'Projet d\'entreprise développé en équipe dans un environnement professionnel exigeant, avec des standards de qualité stricts et des revues de code régulières. Ma contribution s\'est concentrée sur le backend NestJS : j\'ai conçu et implémenté des endpoints d\'API REST en suivant les principes de la POO — création de DTOs typés avec class-validator pour la validation des entrées, utilisation des décorateurs NestJS (@Controller, @Get, @Post, @Body, @Param), injection de dépendances via les services, et séparation claire des responsabilités entre controllers, services et repositories. J\'ai également contribué à la documentation Swagger des endpoints et à la gestion robuste des erreurs avec des exceptions HTTP appropriées. Ce projet m\'a appris à travailler dans un contexte d\'équipe exigeant avec des conventions de code strictes, des PR reviewées et un vrai niveau d\'architecture backend.',
         tech: ['React', 'Node.js', 'NestJS', 'PostgreSQL', 'Prisma ORM', 'Docker', 'API REST', 'Swagger', 'shadcn/ui'],
         image: '/images/evaluation-rh.jpg',
         screenshots: [
@@ -119,7 +123,6 @@ const projects: Project[] = [
         screenshots: [
             { url: '/images/miyazaki-1.jpg', title: 'Page d\'accueil', description: 'Interface immersive' },
             { url: '/images/miyazaki-2.jpg', title: 'Page de connexion', description: 'Page de connexion pour accéder à son espace membre' },
-            { url: '/images/miyazaki-3.jpg', title: 'Univers interactif', description: 'Éléments animés' },
         ],
     },
 ];
