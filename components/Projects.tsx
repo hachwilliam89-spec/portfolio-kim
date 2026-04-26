@@ -64,7 +64,7 @@ const projects: Project[] = [
         shortDescription: 'Application de gestion de collecte de biodéchets avec optimisation des tournées VRPTW.',
         description: 'Application de gestion de collecte de biodéchets pour la zone Montbéliard–Sélestat, développée en équipe de 4 avec méthode Scrum. En tant que Scrum Master, j\'ai animé les cérémonies, géré le backlog et coordonné les sprints. Techniquement, j\'ai audité le codebase hérité et identifié 6 vulnérabilités SQL injection que j\'ai corrigées. J\'ai implémenté la Procédure d\'Évaluation (PE) du composant de décision VRPTW en TypeScript, intégré l\'algorithme d\'optimisation des tournées via OR-Tools (Docker) et évalué VROOM comme alternative. Cartographie interactive avec Leaflet et calcul d\'itinéraires via OSRM.',
         tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Leaflet', 'OSRM'],
-        image: '',
+        image: '/images/recycle-dashboard.jpg',
         screenshots: [],
     },
     {
