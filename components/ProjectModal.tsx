@@ -5,6 +5,40 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState, useCallback } from "react";
+import type { IconType } from "react-icons";
+import {
+    SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma,
+    SiDocker, SiTailwindcss, SiReact, SiNodedotjs, SiNestjs,
+    SiPostgresql, SiMysql, SiSwagger, SiSpring, SiMariadb,
+    SiTypescript, SiLeaflet
+} from 'react-icons/si';
+
+const techIcons: Record<string, IconType | null> = {
+    'Javascript': SiJavascript,
+    'PHP': SiPhp,
+    'HTML': SiHtml5,
+    'CSS': SiCss3,
+    'Next.js': SiNextdotjs,
+    'Prisma': SiPrisma,
+    'Prisma ORM': SiPrisma,
+    'Docker': SiDocker,
+    'Tailwind CSS': SiTailwindcss,
+    'React': SiReact,
+    'Node.js': SiNodedotjs,
+    'NestJS': SiNestjs,
+    'PostgreSQL': SiPostgresql,
+    'MySQL': SiMysql,
+    'Swagger': SiSwagger,
+    'API REST': null,
+    'shadcn/ui': null,
+    'Spring Boot': SiSpring,
+    'Java': null,
+    'WebSocket': null,
+    'MariaDB': SiMariadb,
+    'TypeScript': SiTypescript,
+    'Leaflet': SiLeaflet,
+    'OSRM': null,
+};
 
 interface ProjectModalProps {
     project: Project | null;
@@ -13,45 +47,36 @@ interface ProjectModalProps {
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [showTooltip, setShowTooltip] = useState(false);
     const [lastProjectId, setLastProjectId] = useState<number | null>(null);
 
     const projectId = project?.id ?? null;
     if (projectId !== lastProjectId) {
         setLastProjectId(projectId);
-        if (currentIndex !== 0) {
-            setCurrentIndex(0);
-        }
+        if (currentIndex !== 0) setCurrentIndex(0);
     }
 
+    const hasScreenshots = project && project.screenshots.length > 0;
+
     const handleNext = useCallback(() => {
-        if (!project) return;
+        if (!project || !hasScreenshots) return;
         setCurrentIndex((prev) =>
             prev === project.screenshots.length - 1 ? 0 : prev + 1
         );
-    }, [project]);
+    }, [project, hasScreenshots]);
 
     const handlePrevious = useCallback(() => {
-        if (!project) return;
+        if (!project || !hasScreenshots) return;
         setCurrentIndex((prev) =>
             prev === 0 ? project.screenshots.length - 1 : prev - 1
         );
-    }, [project]);
+    }, [project, hasScreenshots]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (!project) return;
-            if (e.key === "Escape") {
-                onClose();
-            } else if (e.key === "ArrowLeft") {
-                handlePrevious();
-            } else if (e.key === "ArrowRight") {
-                handleNext();
-            } else if (e.key === "Home") {
-                setCurrentIndex(0);
-            } else if (e.key === "End") {
-                setCurrentIndex(project.screenshots.length - 1);
-            }
+            if (e.key === "Escape") onClose();
+            else if (e.key === "ArrowLeft") handlePrevious();
+            else if (e.key === "ArrowRight") handleNext();
         };
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
@@ -59,73 +84,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
     if (!project) return null;
 
-    const currentScreenshot = project.screenshots[currentIndex];
-    const technologies = project.tech || [];
-
-    const truncateText = (text: string, maxLength: number) => {
-        if (text.length <= maxLength) return text;
-        return text.slice(0, maxLength) + "...";
-    };
-
-    // Pas de screenshots — modal description simple
-    if (!currentScreenshot) {
-        return (
-            <AnimatePresence>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-ink/90 p-4"
-                    onClick={onClose}
-                >
-                    <motion.div
-                        initial={{ scale: 0.95, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.95, opacity: 0 }}
-                        transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="relative w-full max-w-2xl bg-washi rounded-lg shadow-2xl overflow-hidden p-8"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="font-display text-2xl text-ink font-semibold">
-                                {project.title}
-                            </h3>
-                            <button
-                                onClick={onClose}
-                                className="p-2 hover:bg-gold/10 rounded-full transition-all duration-300"
-                                aria-label="Fermer"
-                            >
-                                <X className="w-5 h-5 text-ink" />
-                            </button>
-                        </div>
-                        <p className="text-sm text-ink/70 leading-relaxed mb-6">
-                            {project.description}
-                        </p>
-                        <div className="flex flex-wrap gap-2 mb-6">
-                            {technologies.map((tech) => (
-                                <span
-                                    key={tech}
-                                    className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold"
-                                >
-                                    {tech}
-                                </span>
-                            ))}
-                        </div>
-                        {project.links?.demo && (<a
-
-                            href={project.links.demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark transition-all duration-300"
-                            >
-                            🌐 Voir le site en ligne ↗
-                            </a>
-                            )}
-                    </motion.div>
-                </motion.div>
-            </AnimatePresence>
-        );
-    }
+    const currentScreenshot = hasScreenshots ? project.screenshots[currentIndex] : null;
 
     return (
         <AnimatePresence>
@@ -141,152 +100,168 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.95, opacity: 0 }}
                     transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                    className="relative w-full max-w-7xl h-[95vh] bg-washi rounded-lg shadow-2xl overflow-hidden flex flex-col"
+                    className="relative w-full max-w-6xl max-h-[90vh] bg-washi rounded-xl shadow-2xl overflow-hidden flex flex-col"
                     onClick={(e) => e.stopPropagation()}
                 >
                     {/* HEADER */}
-                    <div className="shrink-0 h-16 flex items-center justify-between gap-4 px-6 border-b border-gold/20">
-                        <div className="flex items-center gap-3 min-w-0 flex-1">
-                            <h3 className="text-lg md:text-xl font-display text-ink font-semibold truncate">
-                                {currentScreenshot.title}
-                            </h3>
-                            <span className="shrink-0 text-sm text-ink/60 font-medium">
-                                {currentIndex + 1}/{project.screenshots.length}
-                            </span>
-                        </div>
-                        {technologies.length > 0 && (
-                            <div className="hidden md:flex items-center gap-2 shrink-0">
-                                {technologies.slice(0, 3).map((tech, idx) => (
-                                    <div
-                                        key={idx}
-                                        className="group relative px-3 py-1.5 bg-gold/10 border border-gold/30 rounded-full text-xs text-ink/80 font-medium hover:bg-gold/20 transition-all duration-300"
-                                        title={tech}
-                                    >
-                                        {tech.slice(0, 2).toUpperCase()}
-                                    </div>
-                                ))}
-                                {technologies.length > 3 && (
-                                    <div className="px-2 py-1.5 bg-gold/10 border border-gold/30 rounded-full text-xs text-ink/60">
-                                        +{technologies.length - 3}
-                                    </div>
-                                )}
-                            </div>
-                        )}
+                    <div className="shrink-0 flex items-center justify-between px-6 py-4 border-b border-gold/20">
+                        <h3 className="font-display text-xl md:text-2xl text-ink font-semibold">
+                            {project.title}
+                        </h3>
                         <button
                             onClick={onClose}
-                            className="shrink-0 p-2 hover:bg-gold/10 rounded-full transition-all duration-300"
+                            className="p-2 hover:bg-gold/10 rounded-full transition-all duration-300"
                             aria-label="Fermer"
                         >
                             <X className="w-5 h-5 text-ink" />
                         </button>
                     </div>
 
-                    {/* IMAGE ZONE */}
-                    <div className="flex-1 min-h-0 relative bg-ink/5 p-4 md:p-6">
-                        <div className="relative w-full h-full rounded-lg overflow-hidden">
-                            <AnimatePresence mode="wait" initial={false}>
-                                <motion.div
-                                    key={currentIndex}
-                                    initial={{ opacity: 0, x: 100 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -100 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                    className="relative w-full h-full"
-                                >
-                                    <Image
-                                        src={currentScreenshot.url}
-                                        alt={currentScreenshot.title}
-                                        fill
-                                        className="object-contain"
-                                        priority
-                                    />
-                                </motion.div>
-                            </AnimatePresence>
+                    {/* BODY - deux colonnes */}
+                    <div className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden">
 
-                            {project.screenshots.length > 1 && (
-                                <>
-                                    <button
-                                        onClick={handlePrevious}
-                                        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-washi/90 hover:bg-washi rounded-full shadow-lg transition-all duration-300 hover:scale-110 focus-visible:ring-2 focus-visible:ring-vermillon"
-                                        aria-label="Image précédente"
-                                    >
-                                        <ChevronLeft className="w-6 h-6 text-ink" />
-                                    </button>
-                                    <button
-                                        onClick={handleNext}
-                                        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-washi/90 hover:bg-washi rounded-full shadow-lg transition-all duration-300 hover:scale-110 focus-visible:ring-2 focus-visible:ring-vermillon"
-                                        aria-label="Image suivante"
-                                    >
-                                        <ChevronRight className="w-6 h-6 text-ink" />
-                                    </button>
-                                </>
-                            )}
-
-                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                                {project.screenshots.map((_, idx) => (
-                                    <motion.div
-                                        key={idx}
-                                        className={`h-1.5 rounded-full transition-all duration-300 ${
-                                            idx === currentIndex
-                                                ? "w-8 bg-vermillon"
-                                                : "w-1.5 bg-washi/50"
-                                        }`}
-                                        layout
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* THUMBNAILS */}
-                    {project.screenshots.length > 1 && (
-                        <div className="shrink-0 h-20 px-6 py-2 border-t border-gold/20 bg-washi">
-                            <div className="flex gap-3 overflow-x-auto scrollbar-thin scrollbar-thumb-gold/30 scrollbar-track-transparent pb-2">
-                                {project.screenshots.map((screenshot, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setCurrentIndex(idx)}
-                                        className={`relative shrink-0 w-20 h-14 rounded-md overflow-hidden transition-all duration-300 ${
-                                            idx === currentIndex
-                                                ? "ring-2 ring-vermillon scale-105"
-                                                : "ring-1 ring-gold/20 hover:ring-gold/50 hover:scale-105"
-                                        }`}
-                                        aria-label={`Voir ${screenshot.title}`}
-                                    >
-                                        <Image
-                                            src={screenshot.url}
-                                            alt={screenshot.title}
-                                            fill
-                                            className="object-cover"
-                                        />
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* FOOTER */}
-                    <div className="shrink-0 h-16 flex items-center justify-between gap-4 px-6 border-t border-gold/20 bg-washi">
-                        <div className="relative flex items-center gap-2 min-w-0 flex-1">
-                            <p className="text-sm text-ink/70 truncate">
-                                {truncateText(currentScreenshot.description, 80)}
+                        {/* COLONNE GAUCHE - Description + Techs */}
+                        <div className="md:w-2/5 shrink-0 flex flex-col overflow-y-auto p-6 border-r border-gold/20">
+                            <p className="text-sm text-ink/80 leading-relaxed mb-6">
+                                {project.description}
                             </p>
+
+                            {/* Techs */}
+                            <div className="mt-auto">
+                                <p className="text-xs uppercase tracking-wider text-ink/50 font-bold mb-3">
+                                    Technologies
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    {project.tech.map((tech) => {
+                                        const Icon = techIcons[tech];
+                                        return (
+                                            <span
+                                                key={tech}
+                                                className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold flex items-center gap-1.5"
+                                            >
+                                                {Icon && <Icon className="text-sm" aria-hidden="true" />}
+                                                {tech}
+                                            </span>
+                                        );
+                                    })}
+                                </div>
+
+                                {/* Lien demo si présent */}
+                                {project.links?.demo && ( <a
+
+                                    href={project.links.demo}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark transition-all duration-300"
+                                    >
+                                    🌐 Voir le site en ligne ↗
+                                    </a>
+                                    )}
+                            </div>
                         </div>
-                        <div className="hidden md:flex items-center gap-2 shrink-0">
-                            {technologies.length > 0 && (
-                                <div
-                                    className="group relative px-3 py-1.5 bg-gold/5 rounded-full hover:bg-gold/10 transition-all duration-300 cursor-help"
-                                    title={`Technologies: ${technologies.join(", ")}`}
-                                >
-                                    <span className="text-xs text-ink/60">💻</span>
+
+                        {/* COLONNE DROITE - Carrousel ou placeholder */}
+                        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+                            {hasScreenshots && currentScreenshot ? (
+                                <>
+                                    {/* Image */}
+                                    <div className="flex-1 min-h-0 relative bg-ink/5 p-4">
+                                        <div className="relative w-full h-full rounded-lg overflow-hidden">
+                                            <AnimatePresence mode="wait" initial={false}>
+                                                <motion.div
+                                                    key={currentIndex}
+                                                    initial={{ opacity: 0, x: 60 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    exit={{ opacity: 0, x: -60 }}
+                                                    transition={{ duration: 0.25, ease: "easeOut" }}
+                                                    className="relative w-full h-full"
+                                                >
+                                                    <Image
+                                                        src={currentScreenshot.url}
+                                                        alt={currentScreenshot.title}
+                                                        fill
+                                                        className="object-contain"
+                                                        priority
+                                                    />
+                                                </motion.div>
+                                            </AnimatePresence>
+
+                                            {/* Boutons navigation */}
+                                            {project.screenshots.length > 1 && (
+                                                <>
+                                                    <button
+                                                        onClick={handlePrevious}
+                                                        className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-washi/90 hover:bg-washi rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                                                        aria-label="Image précédente"
+                                                    >
+                                                        <ChevronLeft className="w-5 h-5 text-ink" />
+                                                    </button>
+                                                    <button
+                                                        onClick={handleNext}
+                                                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-washi/90 hover:bg-washi rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                                                        aria-label="Image suivante"
+                                                    >
+                                                        <ChevronRight className="w-5 h-5 text-ink" />
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Description screenshot + thumbnails */}
+                                    <div className="shrink-0 px-4 py-3 border-t border-gold/20 bg-washi">
+                                        {/* Titre + description du screenshot courant */}
+                                        <div className="mb-2">
+                                            <span className="text-xs font-bold text-ink mr-2">
+                                                {currentScreenshot.title}
+                                            </span>
+                                            <span className="text-xs text-ink/50">
+                                                {currentIndex + 1}/{project.screenshots.length}
+                                            </span>
+                                        </div>
+                                        <p className="text-xs text-ink/60 mb-3 leading-relaxed">
+                                            {currentScreenshot.description}
+                                        </p>
+
+                                        {/* Thumbnails */}
+                                        {project.screenshots.length > 1 && (
+                                            <div className="flex gap-2 overflow-x-auto pb-1">
+                                                {project.screenshots.map((screenshot, idx) => (
+                                                    <button
+                                                        key={idx}
+                                                        onClick={() => setCurrentIndex(idx)}
+                                                        className={`relative shrink-0 w-16 h-11 rounded-md overflow-hidden transition-all duration-300 ${
+                                                            idx === currentIndex
+                                                                ? "ring-2 ring-vermillon scale-105"
+                                                                : "ring-1 ring-gold/20 hover:ring-gold/50 hover:scale-105"
+                                                        }`}
+                                                        aria-label={`Voir ${screenshot.title}`}
+                                                    >
+                                                        <Image
+                                                            src={screenshot.url}
+                                                            alt={screenshot.title}
+                                                            fill
+                                                            className="object-cover"
+                                                        />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                            ) : (
+                                /* Pas de screenshots - placeholder */
+                                <div className="flex-1 flex items-center justify-center bg-ink/5">
+                                    <div className="text-center p-8">
+                                        <p className="font-display text-5xl text-ink/10 mb-4">
+                                            {project.title[0]}
+                                        </p>
+                                        <p className="text-sm text-ink/30">
+                                            Screenshots à venir
+                                        </p>
+                                    </div>
                                 </div>
                             )}
-                            <div
-                                className="group relative px-3 py-1.5 bg-vermillon/5 rounded-full hover:bg-vermillon/10 transition-all duration-300 cursor-help"
-                                title={project.title}
-                            >
-                                <span className="text-xs text-ink/60">🏷️</span>
-                            </div>
                         </div>
                     </div>
                 </motion.div>
