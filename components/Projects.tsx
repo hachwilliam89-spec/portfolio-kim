@@ -61,11 +61,24 @@ const projects: Project[] = [
     {
         id: 2,
         title: 'RecycleDashboard',
-        shortDescription: 'Application de gestion de collecte de biodéchets avec optimisation des tournées VRPTW.',
-        description: 'Application de gestion de collecte de biodéchets pour la zone Montbéliard–Sélestat, développée en équipe de 4 avec méthode Scrum. En tant que Scrum Master, j\'ai animé les cérémonies, géré le backlog et coordonné les sprints. Techniquement, j\'ai audité le codebase hérité et identifié 6 vulnérabilités SQL injection que j\'ai corrigées. J\'ai implémenté la Procédure d\'Évaluation (PE) du composant de décision VRPTW en TypeScript, intégré l\'algorithme d\'optimisation des tournées via OR-Tools (Docker) et évalué VROOM comme alternative. Cartographie interactive avec Leaflet et calcul d\'itinéraires via OSRM.',
+        shortDescription: 'Application de gestion collecte biodéchets pour la zone Montbéliard–Sélestat, développée en équipe , j\'y ai eu le rôle de SCRUM master.',
+        description: 'En tant que Scrum Master, j\'ai animé les cérémonies, géré le backlog Jira et coordonné les sprints. Côté développement de cette application de gestion collecte biodéchets, mes contributions majeures :\n' +
+            '\n' +
+            'Conception et implémentation de la Procédure d\'Évaluation (PE) pour l\'algorithme VRPTW : arbre de décision à 3 cas (à l\'heure / définitivement en retard / incertain)\n' +
+            '\n' +
+            'Proposition et intégration de VROOM comme moteur d\'optimisation des tournées\n' +
+            '\n' +
+            'Développement de l\'interface de redistribution des tournées annulées : Kanban drag-and-drop, 3 modes (client individuel, tournée complète, journée entière)\n' +
+            '\n' +
+            'Migration complète Supabase → PostgreSQL Docker local avec guide de migration pour l\'équipe\n' +
+            '\n' +
+            'Développement et documentation de 15 routes API (Swagger)',
         tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Leaflet', 'OSRM'],
         image: '/images/recycle-dashboard.jpg',
-        screenshots: [],
+        screenshots: [
+            {url: 'planning-redistribution.jpg',title: 'Planning redistribution', description: 'Vue planning hebdomadaire permettant au gestionnaire de superviser l\'ensemble de la semaine en un coup d\'œil. Chaque jour affiche le nombre de tournées actives, annulées et redistribuées. Un panneau latéral signale les clients sans tournée à réassigner par glisser-déposer vers un véhicule disponible (Jumpy 1, Jumpy 2, Petit véhicule). Les jours fériés sont automatiquement détectés et bloqués.'},
+            {url: 'page-redistribution.jpg', title: 'Page de redistribution', description: 'Interface Kanban de redistribution des tournées de collecte. Chaque colonne représente une tournée véhicule avec sa capacité en seaux (ex: 39/90, 90/90), la durée et la distance calculées via OSRM. Les clients redistribués apparaissent en bleu avec le badge "NEW". La Tournée 3 affiche un indicateur PE en rouge signalant un risque de retard détecté par l\'algorithme. Le gestionnaire peut glisser-déposer les clients entre les colonnes pour équilibrer la charge entre les véhicules disponibles.'}
+        ],
     },
     {
         id: 3,
