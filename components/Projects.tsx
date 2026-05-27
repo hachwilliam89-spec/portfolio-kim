@@ -54,14 +54,14 @@ const projects: Project[] = [
         image: '/images/kcd-formes.jpg',
         screenshots: [
             { url: '/images/kcd-formes.jpg', title: 'Page d\'accueil', description: 'Menu principal avec modes Campagne Solo et Multijoueur, présentation des mécaniques de jeu' },
-            { url: '/images/kcd-lobby.jpg', title: 'Lobby multijoueur', description: 'Salle d\'attente avec assignation des rôles Défenseur et Attaquant en temps réel via WebSocket' },
+            { url: '/images/kcd-lobby.jpg', title: 'Lobby multijoueur', description: 'Écran de sélection du mode multijoueur asymétrique. Le joueur choisit son rôle : Défenseur (créer un lobby, protéger sa forteresse) ou Attaquant (rejoindre un lobby, assaillir la forteresse adverse). La communication entre les deux joueurs est gérée en temps réel via WebSocket/STOMP.' },
             { url: '/images/kcd-combat.jpg', title: 'Phase de combat', description: 'Grille de jeu avec ennemis animés, tourelles actives et barres de vie synchronisées en temps réel' },
         ],
     },
     {
         id: 2,
         title: 'RecycleDashboard',
-        shortDescription: 'Application de gestion collecte biodéchets pour la zone Montbéliard–Sélestat, développée en équipe , j\'y ai eu le rôle de SCRUM master.',
+        shortDescription: 'Application de gestion collecte biodéchets, développée en équipe , j\'y ai eu le rôle de SCRUM master.',
         description: 'En tant que Scrum Master, j\'ai animé les cérémonies, géré le backlog Jira et coordonné les sprints. Côté développement de cette application de gestion collecte biodéchets, mes contributions majeures :\n' +
             '\n' +
             'Conception et implémentation de la Procédure d\'Évaluation (PE) pour l\'algorithme VRPTW : arbre de décision à 3 cas (à l\'heure / définitivement en retard / incertain)\n' +
