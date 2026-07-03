@@ -516,7 +516,7 @@ export default function Hero() {
                         </div>
                         <div className="flex items-center justify-center gap-2 md:gap-4">
                             {/* Slot gauche — sleeping panda (nuit), taille fixe pour éviter le layout shift */}
-                            <div className="flex-shrink-0 h-[4.5rem] w-[4.5rem] md:h-32 md:w-32 hidden sm:block">
+                            <div className="flex-shrink-0 h-28 w-28 md:h-44 md:w-44 hidden sm:block">
                                 <AnimatePresence>
                                     {isDark && pandaSleepData && (
                                         <motion.div key="panda-sleep" className="w-full h-full"
