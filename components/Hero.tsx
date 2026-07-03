@@ -137,7 +137,7 @@ export default function Hero() {
                 initial={reduce ? false : { opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-                className="relative z-10 text-center space-y-8 max-w-4xl pb-20"
+                className="relative z-10 text-center space-y-8 max-w-4xl"
             >
                 {/* Badge status */}
                 <motion.div
@@ -255,7 +255,7 @@ export default function Hero() {
                     initial={reduce ? false : { opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 2.3 }}
-                    className="flex flex-wrap gap-3 justify-center pt-6"
+                    className="flex flex-wrap gap-3 justify-center pt-6 pb-16"
                 >
                     {[
                         { name: 'React', icon: SiReact },
