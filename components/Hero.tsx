@@ -371,28 +371,26 @@ export default function Hero() {
                             transition={{ duration: 2, delay: 0.5, ease: 'easeOut' }}
                         >
                             <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-                                {/* Arc main levée — bézier irrégulier comme les montagnes */}
+                                {/* Arc soleil — bézier main levée, ouvert en bas (pas de ligne horizontale) */}
                                 <motion.path
-                                    d="M 146 213 Q 152 190, 165 174 Q 178 158, 196 155 Q 215 153, 228 169 Q 241 185, 245 210"
+                                    d="M 148 212 Q 153 188, 167 172 Q 180 157, 196 155 Q 213 153, 227 169 Q 241 186, 245 212"
                                     strokeWidth="3"
                                     variants={drawMountain} initial="hidden" animate="visible" custom={0.3}
                                 />
-                                {/* Halo intérieur — légèrement décalé pour effet calligraphique */}
-                                <motion.path
-                                    d="M 155 213 Q 160 194, 171 180 Q 183 165, 196 163 Q 210 162, 222 176 Q 234 192, 238 210"
-                                    strokeWidth="1"
-                                    variants={drawMountain} initial="hidden" animate="visible" custom={0.45}
-                                />
-                                {/* Rayon haut — légèrement courbé */}
-                                <motion.path d="M 197 143 Q 196 149, 196 156" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.7} />
-                                {/* Rayon haut-droite */}
-                                <motion.path d="M 228 157 Q 224 162, 221 167" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.75} />
-                                {/* Rayon haut-gauche */}
-                                <motion.path d="M 164 157 Q 168 162, 171 167" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.78} />
-                                {/* Rayon droit */}
-                                <motion.path d="M 251 193 Q 247 193, 243 194" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.82} />
+                                {/* Rayon haut */}
+                                <motion.path d="M 196 142 L 196 151" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.65} />
+                                {/* Rayon haut-gauche 30° */}
+                                <motion.path d="M 171 149 L 175 157" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.68} />
+                                {/* Rayon haut-droite 30° */}
+                                <motion.path d="M 221 149 L 217 157" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.71} />
+                                {/* Rayon haut-gauche 60° */}
+                                <motion.path d="M 152 165 L 158 171" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.74} />
+                                {/* Rayon haut-droite 60° */}
+                                <motion.path d="M 240 165 L 234 171" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.77} />
                                 {/* Rayon gauche */}
-                                <motion.path d="M 141 193 Q 145 193, 149 194" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.85} />
+                                <motion.path d="M 133 200 L 143 200" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.80} />
+                                {/* Rayon droit */}
+                                <motion.path d="M 259 200 L 249 200" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.83} />
                             </svg>
                         </motion.div>
                     )}
