@@ -371,26 +371,26 @@ export default function Hero() {
                             transition={{ duration: 2, delay: 0.5, ease: 'easeOut' }}
                         >
                             <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-                                {/* Arc soleil — bézier main levée, ouvert en bas (pas de ligne horizontale) */}
+                                {/* Arc soleil — plus petit, plus bas, aplati (ellipse), entre les deux sommets */}
                                 <motion.path
-                                    d="M 148 212 Q 153 188, 167 172 Q 180 157, 196 155 Q 213 153, 227 169 Q 241 186, 245 212"
-                                    strokeWidth="3"
+                                    d="M 185 248 Q 189 230, 200 221 Q 210 215, 220 214 Q 231 214, 241 222 Q 251 231, 255 248"
+                                    strokeWidth="2.5"
                                     variants={drawMountain} initial="hidden" animate="visible" custom={0.3}
                                 />
                                 {/* Rayon haut */}
-                                <motion.path d="M 196 142 L 196 151" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.65} />
+                                <motion.path d="M 220 206 L 220 213" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.62} />
                                 {/* Rayon haut-gauche 30° */}
-                                <motion.path d="M 171 149 L 175 157" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.68} />
+                                <motion.path d="M 200 209 L 203 215" strokeWidth="1.8" variants={drawLine} initial="hidden" animate="visible" custom={0.65} />
                                 {/* Rayon haut-droite 30° */}
-                                <motion.path d="M 221 149 L 217 157" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.71} />
+                                <motion.path d="M 240 209 L 237 215" strokeWidth="1.8" variants={drawLine} initial="hidden" animate="visible" custom={0.68} />
                                 {/* Rayon haut-gauche 60° */}
-                                <motion.path d="M 152 165 L 158 171" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.74} />
+                                <motion.path d="M 186 220 L 190 225" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.71} />
                                 {/* Rayon haut-droite 60° */}
-                                <motion.path d="M 240 165 L 234 171" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.77} />
+                                <motion.path d="M 254 220 L 250 225" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.74} />
                                 {/* Rayon gauche */}
-                                <motion.path d="M 133 200 L 143 200" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.80} />
+                                <motion.path d="M 175 238 L 182 238" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.77} />
                                 {/* Rayon droit */}
-                                <motion.path d="M 259 200 L 249 200" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.83} />
+                                <motion.path d="M 265 238 L 258 238" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.80} />
                             </svg>
                         </motion.div>
                     )}
