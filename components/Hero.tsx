@@ -370,30 +370,29 @@ export default function Hero() {
                             exit={{ opacity: 0 }}
                             transition={{ duration: 2, delay: 0.5, ease: 'easeOut' }}
                         >
-                            <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round">
-                                {/* Demi-cercle soleil levant — bord plat = horizon montagne */}
+                            <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                                {/* Arc main levée — bézier irrégulier comme les montagnes */}
                                 <motion.path
-                                    d="M 148 210 A 48 48 0 0 1 244 210"
+                                    d="M 146 213 Q 152 190, 165 174 Q 178 158, 196 155 Q 215 153, 228 169 Q 241 185, 245 210"
                                     strokeWidth="3"
-                                    variants={drawLine} initial="hidden" animate="visible" custom={0.4}
+                                    variants={drawMountain} initial="hidden" animate="visible" custom={0.3}
                                 />
-                                {/* Halo externe */}
+                                {/* Halo intérieur — légèrement décalé pour effet calligraphique */}
                                 <motion.path
-                                    d="M 134 210 A 62 62 0 0 1 258 210"
-                                    strokeWidth="1.2" strokeDasharray="4 6"
-                                    variants={drawLine} initial="hidden" animate="visible" custom={0.3}
+                                    d="M 155 213 Q 160 194, 171 180 Q 183 165, 196 163 Q 210 162, 222 176 Q 234 192, 238 210"
+                                    strokeWidth="1"
+                                    variants={drawMountain} initial="hidden" animate="visible" custom={0.45}
                                 />
-                                {/* Rayon haut */}
-                                <motion.path d="M 196 152 L 196 162" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.65} />
-                                {/* Rayons diagonaux hauts */}
-                                <motion.path d="M 230 163 L 224 169" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.70} />
-                                <motion.path d="M 162 163 L 168 169" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.75} />
-                                {/* Rayons latéraux */}
-                                <motion.path d="M 246 198 L 256 198" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.80} />
-                                <motion.path d="M 136 198 L 146 198" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.85} />
-                                {/* Rayons diagonaux larges */}
-                                <motion.path d="M 244 175 L 252 169" strokeWidth="1.5" variants={drawLine} initial="hidden" animate="visible" custom={0.88} />
-                                <motion.path d="M 148 175 L 140 169" strokeWidth="1.5" variants={drawLine} initial="hidden" animate="visible" custom={0.91} />
+                                {/* Rayon haut — légèrement courbé */}
+                                <motion.path d="M 197 143 Q 196 149, 196 156" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.7} />
+                                {/* Rayon haut-droite */}
+                                <motion.path d="M 228 157 Q 224 162, 221 167" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.75} />
+                                {/* Rayon haut-gauche */}
+                                <motion.path d="M 164 157 Q 168 162, 171 167" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.78} />
+                                {/* Rayon droit */}
+                                <motion.path d="M 251 193 Q 247 193, 243 194" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.82} />
+                                {/* Rayon gauche */}
+                                <motion.path d="M 141 193 Q 145 193, 149 194" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.85} />
                             </svg>
                         </motion.div>
                     )}
