@@ -42,9 +42,33 @@ const techIcons: TechIconMap = {
     'Leaflet': SiLeaflet,
     'OSRM': null,
     'VRPTW': null,
+    'Drizzle ORM': null,
+    'Zod': null,
+    'n8n': null,
+    'Nextcloud': null,
+    'Odoo': null,
+    'OpenAI': null,
+    'Anthropic': null,
+    'React PDF': null,
+    'Vitest': null,
+    'XML-RPC': null,
 };
 
 const projects: Project[] = [
+    {
+        id: 7,
+        title: 'XIP Telecom v2',
+        shortDescription: 'Plateforme B2B de courtage télécom — architecture agents IA orchestrés, intégration Odoo CRM et génération de rapports PDF.',
+        description: 'Projet  réalisé en équipe de 4  (Jira/Confluence, GitLab) sur une plateforme B2B de courtage télécom en pnpm monorepo.\n\nConception et implémentation d\'une couche d\'agents IA orchestrés : Agent Superviseur/Routeur (identification de l\'agent cible via LLM, extraction du payload structuré et routage), Agent SDR (scoring automatique des prospects de 1 à 5, génération d\'accusé de réception, enregistrement en base), Agent Business Developer (génération de fiches de préparation avant rendez-vous commercial). LLMProvider abstrait supportant OpenAI, Anthropic et mock. Table agent_runs pour la journalisation complète. Convention transversale prompts/routes/schemas pour les 6 agents de l\'équipe.\n\nIntégration Odoo CRM complète via XML-RPC : synchronisation des prospects, contacts, opportunités et pièces jointes PDF en fire-and-forget.\n\nMoteur de génération automatique de rapports d\'audit télécom (React PDF, stockage Nextcloud WebDAV).\n\nAPI REST documentée avec spec OpenAPI manuelle et Swagger UI intégré. Documentation technique complète (Odoo, agents IA, conventions de développement). 104 tests unitaires avec Vitest.',
+        tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Drizzle ORM', 'OpenAI', 'Anthropic', 'Zod', 'n8n'],
+        image: '/images/xip-home.png',
+        screenshots: [
+            { url: '/images/xip-home.png', title: 'Page d\'accueil', description: 'Site vitrine de la plateforme XIP Telecom — conseil et courtage télécom B2B. Design épuré avec mise en avant des trois axes : internet, téléphonie et audit.' },
+            { url: '/images/xip-prospect.png', title: 'Extranet BDI — Nouveau prospect', description: 'Interface de création de prospect dans l\'extranet Business Developer. Formulaire qualifié avec société, contact, besoin télécom et affectation BDI, synchronisé en fire-and-forget vers Odoo CRM via XML-RPC.' },
+            { url: '/images/xip-audit.png', title: 'Questionnaire d\'audit télécom', description: 'Interface d\'audit structuré en 9 étapes (identification, infrastructure, téléphonie fixe/mobile, internet, sécurité…). Suivi de complétude en temps réel et validation avant génération du rapport PDF.' },
+            { url: '/images/xip-rapport.png', title: 'Rapport d\'audit', description: 'Récapitulatif de l\'audit télécom avec sommaire des 9 étapes, informations client et bouton de génération/téléchargement du rapport PDF — produit via React PDF et stocké sur Nextcloud.' },
+        ],
+    },
     {
         id: 1,
         title: 'KCD Formes',
