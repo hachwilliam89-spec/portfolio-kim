@@ -39,7 +39,7 @@ export const en: Translations = {
             devops: 'DevOps & Tools',
         },
         p1: '6 years of operational management as a <strong>logistics manager at a holding company</strong> gave me what few junior devs possess: precision under pressure, team coordination, and a results-oriented business mindset.',
-        p2: 'My <strong>Bachelor\'s degree in Economics</strong> (Paris 1 Panthéon-Sorbonne) gives me a different perspective on projects — I understand the business stakes behind the code, not just the technical side.',
+        p2: 'My <strong>Bachelor\'s degree in Economics</strong> (Paris 1 Panthéon-Sorbonne) gives me a different perspective on projects: I understand the business stakes behind the code, not just the technical side.',
         p3: 'Now completing a <strong>Professional Bachelor\'s in Full Stack Development</strong> at UHA 4.0, I built a B2B platform with orchestrated AI agents (XIP Telecom), led a team as Scrum Master (RecycleDashboard), and delivered a real-time multiplayer game solo (KCD Formes).',
         findMe: 'Find me',
     },
@@ -56,6 +56,6 @@ export const en: Translations = {
         connectionError: 'Connection error',
     },
     footer: {
-        copyright: '© 2026 William Kim HACH — Full Stack Development Student',
+        copyright: '© 2026 William Kim HACH · Full Stack Development Student',
     },
 };

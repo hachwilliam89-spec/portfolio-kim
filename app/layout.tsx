@@ -26,7 +26,7 @@ const maShanZheng = Ma_Shan_Zheng({
 })
 
 export const metadata: Metadata = {
-    title: 'William Kim HACH — Développeur Full Stack',
+    title: 'William Kim HACH , Développeur Full Stack',
     description: 'Portfolio de William Kim HACH, développeur Full Stack (Licence Pro UHA 4.0). Projets : XIP Telecom v2 (agents IA, Odoo), RecycleDashboard, KCD Formes, COS Strasbourg. Stack : Next.js, TypeScript, NestJS, Spring Boot, Docker, PostgreSQL.',
     keywords: ['développeur', 'full stack', 'react', 'next.js', 'nestjs', 'spring boot', 'node.js', 'typescript', 'docker', 'postgresql', 'agents ia', 'openai', 'portfolio', 'kim hach', 'stage', 'alternance', 'uha 4.0', 'mulhouse', 'drizzle orm', 'vitest'],
     authors: [{ name: 'William Kim HACH' }],
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
         type: 'website',
         locale: 'fr_FR',
         url: 'https://portfolio-kim.vercel.app',
-        siteName: 'William Kim HACH — Portfolio',
-        title: 'William Kim HACH — Développeur Full Stack',
-        description: 'Développeur Full Stack — Next.js, TypeScript, NestJS, Spring Boot, agents IA. 6 projets dont XIP Telecom v2 (plateforme B2B avec orchestration IA). Disponible en stage ou alternance.',
+        siteName: 'William Kim HACH , Portfolio',
+        title: 'William Kim HACH , Développeur Full Stack',
+        description: 'Développeur Full Stack , Next.js, TypeScript, NestJS, Spring Boot, agents IA. 6 projets dont XIP Telecom v2 (plateforme B2B avec orchestration IA). Disponible en stage ou alternance.',
         images: [
             {
                 url: '/og-image.png',
@@ -50,8 +50,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'William Kim HACH — Développeur Full Stack',
-        description: 'Développeur Full Stack — Next.js, TypeScript, NestJS, Spring Boot, agents IA. Disponible en stage ou alternance.',
+        title: 'William Kim HACH , Développeur Full Stack',
+        description: 'Développeur Full Stack , Next.js, TypeScript, NestJS, Spring Boot, agents IA. Disponible en stage ou alternance.',
         images: ['/og-image.png'],
     },
     icons: {
