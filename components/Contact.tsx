@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import SectionTitle from './SectionTitle';
+import { useLanguage, fr, en } from '@/lib/i18n';
 
 // Composant Toast compact avec style asiatique
 function Toast({ message, type = 'success' }: { message: string; type?: 'success' | 'error' }) {
@@ -56,6 +57,8 @@ function Spinner() {
 }
 
 export default function Contact() {
+    const { lang } = useLanguage();
+    const t = lang === 'fr' ? fr : en;
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -89,13 +92,13 @@ export default function Contact() {
             const data = await response.json();
 
             if (response.ok) {
-                showToast('Message envoyé !', 'success');
+                showToast(t.contact.successMsg, 'success');
                 setFormData({ name: '', email: '', message: '' });
             } else {
-                showToast(data.error || 'Erreur lors de l\'envoi', 'error');
+                showToast(data.error || t.contact.errorMsg, 'error');
             }
         } catch (error) {
-            showToast('Erreur de connexion', 'error');
+            showToast(t.contact.connectionError, 'error');
         } finally {
             setIsSubmitting(false);
         }
@@ -111,7 +114,7 @@ export default function Contact() {
     return (
         <section id="contact" className="relative max-w-4xl mx-auto px-4 py-16">
 
-            <SectionTitle>Contact</SectionTitle>
+            <SectionTitle>{t.contact.title}</SectionTitle>
 
             <div className="grid md:grid-cols-2 gap-8">
                 {/* Formulaire */}
@@ -124,7 +127,7 @@ export default function Contact() {
                 >
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
-                            <label htmlFor="name" className="block text-sm font-medium mb-2 text-ink">Nom</label>
+                            <label htmlFor="name" className="block text-sm font-medium mb-2 text-ink">{t.contact.name}</label>
                             <input
                                 type="text"
                                 id="name"
@@ -152,7 +155,7 @@ export default function Contact() {
                         </div>
 
                         <div>
-                            <label htmlFor="message" className="block text-sm font-medium mb-2 text-ink">Message</label>
+                            <label htmlFor="message" className="block text-sm font-medium mb-2 text-ink">{t.contact.message}</label>
                             <textarea
                                 id="message"
                                 name="message"
@@ -173,10 +176,10 @@ export default function Contact() {
                             {isSubmitting ? (
                                 <>
                                     <Spinner />
-                                    Envoi en cours...
+                                    {t.contact.sending}
                                 </>
                             ) : (
-                                'Envoyer'
+                                t.contact.send
                             )}
                         </button>
                     </form>
@@ -228,7 +231,7 @@ export default function Contact() {
                             </svg>
 
                             <h3 className="font-display text-xl md:text-2xl font-bold text-vermillon relative z-10">
-                                Retrouvez-moi
+                                {t.contact.findMe}
                             </h3>
                         </motion.div>
                     </div>

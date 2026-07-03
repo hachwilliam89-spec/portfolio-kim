@@ -4,6 +4,8 @@ export interface Screenshot {
     url: string;
     title: string;
     description: string;
+    titleEn?: string;
+    descriptionEn?: string;
 }
 
 export interface RawProjectLinks {
@@ -21,7 +23,9 @@ export interface Project {
     id: number;
     title: string;
     shortDescription: string;
+    shortDescriptionEn?: string;
     description: string;
+    descriptionEn?: string;
     tech: string[];
     image: string;
     screenshots: Screenshot[];

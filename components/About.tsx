@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPhp, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb } from 'react-icons/si';
 import SectionTitle from './SectionTitle';
+import { useLanguage, fr, en } from '@/lib/i18n';
 
 const techIcons: { [key: string]: any } = {
     'React': SiReact,
@@ -30,12 +31,12 @@ const techIcons: { [key: string]: any } = {
     'Vitest': null,
 };
 
-const skills = [
-    { category: 'Frontend', items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
-    { category: 'Backend', items: ['NestJS', 'Spring Boot', 'Node.js', 'API REST', 'Prisma', 'Drizzle ORM', 'Zod', 'PHP'] },
-    { category: 'Base de données', items: ['PostgreSQL', 'MariaDB', 'MySQL'] },
-    { category: 'IA & Intégrations', items: ['OpenAI / Anthropic', 'n8n'] },
-    { category: 'DevOps & Outils', items: ['Docker', 'Git', 'GitLab', 'Vitest', 'Scrum'] },
+const skillKeys = [
+    { key: 'frontend' as const, items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
+    { key: 'backend' as const, items: ['NestJS', 'Spring Boot', 'Node.js', 'API REST', 'Prisma', 'Drizzle ORM', 'Zod', 'PHP'] },
+    { key: 'database' as const, items: ['PostgreSQL', 'MariaDB', 'MySQL'] },
+    { key: 'ai' as const, items: ['OpenAI / Anthropic', 'n8n'] },
+    { key: 'devops' as const, items: ['Docker', 'Git', 'GitLab', 'Vitest', 'Scrum'] },
 ];
 
 function ChineseSeal() {
@@ -79,9 +80,12 @@ function ChineseSeal() {
 }
 
 export default function About() {
+    const { lang } = useLanguage();
+    const t = lang === 'fr' ? fr : en;
+
     return (
         <section id="about" className="max-w-6xl mx-auto px-4 py-20">
-            <SectionTitle>À propos</SectionTitle>
+            <SectionTitle>{t.about.title}</SectionTitle>
 
             <div className="grid md:grid-cols-2 gap-8">
                 {/* Parcours */}
@@ -92,17 +96,11 @@ export default function About() {
                     transition={{ duration: 0.6 }}
                     className="relative bg-white border-2 border-gold/40 rounded-lg p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
                 >
-                    <h3 className="font-display text-2xl font-bold text-vermillon mb-5">Parcours</h3>
+                    <h3 className="font-display text-2xl font-bold text-vermillon mb-5">{t.about.background}</h3>
                     <div className="space-y-4 text-sm text-ink leading-relaxed font-medium">
-                        <p>
-                            <strong className="text-ink font-bold">6 ans de management opérationnel</strong> en tant que responsable logistique m&apos;ont appris ce que peu de devs juniors maîtrisent : la rigueur sous pression, la coordination d&apos;équipes et la vision métier orientée résultat.
-                        </p>
-                        <p>
-                            Ma <strong className="text-ink font-bold">Licence en Économie</strong> (Paris 1 Panthéon-Sorbonne) me donne une lecture différente des projets — je comprends les enjeux business derrière le code, pas seulement la technique.
-                        </p>
-                        <p>
-                            Aujourd&apos;hui en <strong className="text-ink font-bold">Licence Pro Développement Full Stack</strong> à l&apos;UHA 4.0, j&apos;ai conçu une plateforme B2B avec agents IA orchestrés (XIP Telecom), piloté une équipe en Scrum Master (RecycleDashboard), et livré un jeu multijoueur temps réel en autonomie (KCD Formes).
-                        </p>
+                        <p dangerouslySetInnerHTML={{ __html: t.about.p1.replace(/<strong>/g, '<strong class="text-ink font-bold">') }} />
+                        <p dangerouslySetInnerHTML={{ __html: t.about.p2.replace(/<strong>/g, '<strong class="text-ink font-bold">') }} />
+                        <p dangerouslySetInnerHTML={{ __html: t.about.p3.replace(/<strong>/g, '<strong class="text-ink font-bold">') }} />
                     </div>
                     <ChineseSeal />
                 </motion.div>
@@ -115,15 +113,15 @@ export default function About() {
                     transition={{ duration: 0.6 }}
                     className="bg-white border-2 border-gold/40 rounded-lg p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
                 >
-                    <h3 className="font-display text-2xl font-bold text-vermillon mb-5">Compétences</h3>
+                    <h3 className="font-display text-2xl font-bold text-vermillon mb-5">{t.about.skills}</h3>
                     <div className="space-y-5">
-                        {skills.map((skillGroup) => (
-                            <div key={skillGroup.category}>
+                        {skillKeys.map((skillGroup) => (
+                            <div key={skillGroup.key}>
                                 <p className="text-xs uppercase tracking-wider text-ink/90 mb-2 font-bold">
-                                    {skillGroup.category}
+                                    {t.about.categories[skillGroup.key]}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
-                                    {skillGroup.items.map((skill) => {
+                                    {skillGroup.items.map((skill: string) => {
                                         const Icon = techIcons[skill];
                                         return (
                                             <span

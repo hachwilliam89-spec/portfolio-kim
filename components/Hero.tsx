@@ -3,8 +3,12 @@
 import { motion, Variants } from 'framer-motion';
 import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiSpring, SiDocker } from 'react-icons/si';
 import { HiArrowDown } from 'react-icons/hi';
+import { useLanguage, fr, en } from '@/lib/i18n';
 
 export default function Hero() {
+    const { lang } = useLanguage();
+    const t = lang === 'fr' ? fr : en;
+
     const scrollToProjects = () => {
         document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -146,7 +150,7 @@ export default function Hero() {
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-vermillon"></span>
                     </span>
                     <span className="text-xs uppercase tracking-[0.3em] text-vermillon font-medium">
-                        Développeur full-stack en formation
+                        {t.hero.badge}
                     </span>
                 </motion.div>
 
@@ -212,9 +216,13 @@ export default function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 3.2 }}
                     className="text-ink/70 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed"
-                >
-                    Étudiant en <span className="text-vermillon font-medium">Licence Pro Développement Full Stack</span> à l&apos;UHA 4.0
-                </motion.p>
+                    dangerouslySetInnerHTML={{
+                        __html: t.hero.subtitle.replace(
+                            /<highlight>(.*?)<\/highlight>/g,
+                            '<span class="text-vermillon font-medium">$1</span>'
+                        )
+                    }}
+                />
 
                 {/* Objectif */}
                 <motion.div
@@ -225,7 +233,7 @@ export default function Hero() {
                 >
 
                     <span className="text-sm font-semibold text-vermillon tracking-wide">
-                        Recherche un stage ou une alternance pour 2026
+                        {t.hero.cta}
                     </span>
                 </motion.div>
 
@@ -280,7 +288,7 @@ export default function Hero() {
                 className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-ink/40 hover:text-vermillon transition-colors duration-300 group cursor-pointer z-10"
                 aria-label="Défiler vers les projets"
             >
-                <span className="text-xs uppercase tracking-wider font-medium">Découvrir</span>
+                <span className="text-xs uppercase tracking-wider font-medium">{t.hero.discover}</span>
                 <motion.div
                     animate={{ y: [0, 8, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}

@@ -13,6 +13,7 @@ import {
 import ProjectModal from './ProjectModal';
 import SectionTitle from './SectionTitle';
 import type { Project } from '@/lib/types';
+import { useLanguage, fr, en } from '@/lib/i18n';
 
 type TechIconMap = Record<string, IconType | null>;
 
@@ -70,6 +71,8 @@ const projects: Project[] = [
         title: 'XIP Telecom v2',
         shortDescription: 'Plateforme B2B de courtage télécom — architecture agents IA orchestrés, intégration Odoo CRM et génération de rapports PDF.',
         description: 'Projet  réalisé en équipe de 4  (Jira/Confluence, GitLab) sur une plateforme B2B de courtage télécom en pnpm monorepo.\n\nConception et implémentation d\'une couche d\'agents IA orchestrés : Agent Superviseur/Routeur (identification de l\'agent cible via LLM, extraction du payload structuré et routage), Agent SDR (scoring automatique des prospects de 1 à 5, génération d\'accusé de réception, enregistrement en base), Agent Business Developer (génération de fiches de préparation avant rendez-vous commercial). LLMProvider abstrait supportant OpenAI, Anthropic et mock. Table agent_runs pour la journalisation complète. Convention transversale prompts/routes/schemas pour les 6 agents de l\'équipe.\n\nIntégration Odoo CRM complète via XML-RPC : synchronisation des prospects, contacts, opportunités et pièces jointes PDF en fire-and-forget.\n\nMoteur de génération automatique de rapports d\'audit télécom (React PDF, stockage Nextcloud WebDAV).\n\nAPI REST documentée avec spec OpenAPI manuelle et Swagger UI intégré. Documentation technique complète (Odoo, agents IA, conventions de développement). 104 tests unitaires avec Vitest.',
+        shortDescriptionEn: 'B2B telecom brokerage platform — orchestrated AI agents, Odoo CRM integration and automated PDF audit report generation.',
+        descriptionEn: 'Professional project built in a 4-developer agile team (Jira, GitLab) on a B2B telecom brokerage platform using a pnpm monorepo.\n\nDesigned and implemented an orchestrated AI agent layer: Supervisor/Router agent (LLM-based target identification, structured payload extraction and routing), SDR agent (automated prospect scoring 1–5, acknowledgment generation, score persistence), Business Developer agent (pre-meeting preparation sheets generation). Abstract LLMProvider supporting OpenAI, Anthropic and mock. agent_runs table for full audit logging. Cross-cutting prompts/routes/schemas convention for the 6 team agents.\n\nFull Odoo CRM integration via XML-RPC in a fire-and-forget pattern: syncing prospects, contacts, opportunities and PDF attachments.\n\nAutomated telecom audit PDF report engine (React PDF, Nextcloud WebDAV storage).\n\nREST API documented with manual OpenAPI spec and integrated Swagger UI. Full technical documentation (Odoo, AI agents, development conventions). 104 unit tests with Vitest.',
         tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Drizzle ORM', 'OpenAI', 'Anthropic', 'Zod', 'n8n'],
         image: '/images/xip-home.png',
         screenshots: [
@@ -85,6 +88,8 @@ const projects: Project[] = [
         id: 1,
         title: 'KCD Formes',
         shortDescription: 'Jeu de tower defense médiéval en pixel art avec mode multijoueur asymétrique temps réel.',
+        shortDescriptionEn: 'Medieval pixel art tower defense game with real-time asymmetric multiplayer — developed solo as the Licence Pro capstone project.',
+        descriptionEn: 'Capstone project of the Licence Pro, designed and developed entirely solo. Geometric shapes govern all mechanics: area determines damage and HP, perimeter determines range and speed. I architected the Java/Spring Boot backend with the Factory Method pattern for enemy and shape creation, implemented real-time communication via WebSocket/STOMP for the asymmetric multiplayer mode (attacker vs. defender), and designed the entire Next.js frontend with animated pixel art sprites, interactive grid and wave management. Deployed on university servers via a custom Docker Compose script.',
         description: 'Projet fil rouge de Licence Pro conçu et développé en autonomie complète. Les formes géométriques gouvernent toutes les mécaniques : l\'aire détermine les dégâts et les HP, le périmètre la portée et la vitesse. J\'ai architecturé le backend Java/Spring Boot avec le pattern Factory Method pour la création des ennemis et des formes, mis en place la communication temps réel via WebSocket/STOMP pour le mode multijoueur asymétrique (attaquant vs défenseur), et conçu l\'intégralité du frontend Next.js avec sprites pixel art animés, grille interactive et gestion des vagues. Déployé sur serveurs école via un script Docker Compose personnalisé.',
         tech: ['Next.js', 'Spring Boot', 'Java', 'WebSocket', 'Docker', 'MariaDB'],
         image: '/images/kcd-formes.jpg',
@@ -98,6 +103,8 @@ const projects: Project[] = [
         id: 2,
         title: 'RecycleDashboard',
         shortDescription: 'Application de gestion collecte biodéchets, développée en équipe , j\'y ai eu le rôle de SCRUM master.',
+        shortDescriptionEn: 'Bio-waste collection management app built in a team — Scrum Master role, VRPTW algorithm and drag-and-drop Kanban redistribution interface.',
+        descriptionEn: 'As Scrum Master, I facilitated ceremonies, managed the Jira backlog and coordinated sprints. On the development side of this bio-waste collection management app, my main contributions:\n\nDesigned and implemented the Evaluation Procedure (PE) for the VRPTW algorithm: 3-case decision tree (on time / definitively late / uncertain)\n\nProposed and integrated VROOM as the tour optimization engine\n\nBuilt the cancelled tour redistribution interface: drag-and-drop Kanban, 3 modes (individual client, full tour, full day)\n\nFull database migration from Supabase to local Docker PostgreSQL with a migration guide for the team\n\nDeveloped and documented 15 REST API routes (Swagger)',
         description: 'En tant que Scrum Master, j\'ai animé les cérémonies, géré le backlog Jira et coordonné les sprints. Côté développement de cette application de gestion collecte biodéchets, mes contributions majeures :\n' +
             '\n' +
             'Conception et implémentation de la Procédure d\'Évaluation (PE) pour l\'algorithme VRPTW : arbre de décision à 3 cas (à l\'heure / définitivement en retard / incertain)\n' +
@@ -120,6 +127,8 @@ const projects: Project[] = [
         id: 3,
         title: 'Miyazaki Garden V2',
         shortDescription: 'Refonte complète en Next.js — authentification, favoris, avis et design Ghibli immersif.',
+        shortDescriptionEn: 'Full Next.js rewrite — secure authentication, favorites, ratings and immersive Studio Ghibli design.',
+        descriptionEn: 'Complete rewrite of my PHP/MySQL capstone project into a modern Next.js/TypeScript/PostgreSQL stack. I designed and implemented the entire application: secure authentication with NextAuth, favorites and ratings system (out of 10), avatar upload via Vercel Blob, automatic translation of Ghibli API data, and an immersive poetic design. Enhanced security with Zod validation, XSS sanitization and strict HTTP headers. Deployed on Vercel with Neon PostgreSQL.',
         description: 'Refonte complète de mon projet fil rouge PHP/MySQL vers une stack moderne Next.js/TypeScript/PostgreSQL. J\'ai conçu et implémenté l\'intégralité de l\'application : système d\'authentification sécurisé avec NextAuth, gestion des favoris et des avis avec notation sur 10, upload d\'avatar via Vercel Blob, traduction automatique des données API Ghibli, et un design poétique immersif. Sécurité renforcée avec validation Zod, sanitisation XSS et headers HTTP stricts. Déployé sur Vercel avec Neon PostgreSQL.',
         tech: ['Next.js', 'React', 'Tailwind CSS', 'Prisma', 'PostgreSQL', 'Javascript'],
         image: '/images/miyazaki-garden-v2.jpg',
@@ -137,6 +146,8 @@ const projects: Project[] = [
         id: 4,
         title: 'COS Strasbourg',
         shortDescription: 'Application web de suivi pédagogique entre élèves et professeurs avec annotations de documents.',
+        shortDescriptionEn: 'Pedagogical tracking web app for a real client — in-browser document annotation, automated email notifications and role-based access.',
+        descriptionEn: 'Team project built for COS Strasbourg, a real client. I handled three major areas. First, I implemented the document highlighting and annotation system by integrating the Mammoth library to convert DOCX files to HTML, then built an interactive context menu allowing supervisors to select text and annotate dissertations directly in the browser, without any external plugin. Second, I developed the automated email notification system via the Brevo API: each key workflow action (document upload, validation, annotation) triggers a targeted email to the right recipient. Third, I handled the entire interface design, strictly following the client\'s brand guidelines and ensuring visual consistency and responsive design across all pages I was responsible for.',
         description: 'Projet réalisé en équipe pour le COS Strasbourg, client réel. J\'ai pris en charge trois axes majeurs. Premièrement, j\'ai implémenté le système de surlignage et d\'annotation de documents en intégrant la librairie Mammoth pour convertir les fichiers DOCX en HTML, puis développé un menu contextuel interactif permettant aux encadrants de sélectionner du texte et d\'annoter les mémoires directement dans le navigateur, sans plugin externe. Deuxièmement, j\'ai développé le système de notifications email automatiques via l\'API Brevo : chaque action clé du workflow pédagogique (dépôt de document, validation, annotation) déclenche un email ciblé au bon destinataire. Troisièmement, j\'ai pris en charge l\'intégralité du design de l\'interface en respectant strictement la charte graphique du client, en assurant cohérence visuelle et responsive design sur toutes les pages dont j\'étais responsable.',
         tech: ['Next.js', 'Prisma', 'Docker', 'Tailwind CSS'],
         image: '/images/cos-strasbourg.jpg',
@@ -151,6 +162,8 @@ const projects: Project[] = [
         id: 5,
         title: 'Evaluation RH',
         shortDescription: 'Système d\'évaluation RH avec création de sondages — API backend en POO avec NestJS.',
+        shortDescriptionEn: 'HR evaluation system with survey creation — NestJS REST API backend with OOP architecture and Swagger documentation.',
+        descriptionEn: 'Company project developed in a team within a demanding professional environment, with strict quality standards and regular code reviews. My contribution focused on the NestJS backend: I designed and implemented REST API endpoints following OOP principles — typed DTOs with class-validator for input validation, NestJS decorators (@Controller, @Get, @Post, @Body, @Param), dependency injection via services, and clear separation of concerns between controllers, services and repositories. I also contributed to the Swagger endpoint documentation and robust error handling with appropriate HTTP exceptions. This project taught me how to work in a demanding team context with strict code conventions, reviewed PRs and a real backend architecture.',
         description: 'Projet d\'entreprise développé en équipe dans un environnement professionnel exigeant, avec des standards de qualité stricts et des revues de code régulières. Ma contribution s\'est concentrée sur le backend NestJS : j\'ai conçu et implémenté des endpoints d\'API REST en suivant les principes de la POO — création de DTOs typés avec class-validator pour la validation des entrées, utilisation des décorateurs NestJS (@Controller, @Get, @Post, @Body, @Param), injection de dépendances via les services, et séparation claire des responsabilités entre controllers, services et repositories. J\'ai également contribué à la documentation Swagger des endpoints et à la gestion robuste des erreurs avec des exceptions HTTP appropriées. Ce projet m\'a appris à travailler dans un contexte d\'équipe exigeant avec des conventions de code strictes, des PR reviewées et un vrai niveau d\'architecture backend.',
         tech: ['React', 'Node.js', 'NestJS', 'PostgreSQL', 'Prisma ORM', 'Docker', 'API REST', 'Swagger', 'shadcn/ui'],
         image: '/images/evaluation-rh.jpg',
@@ -166,6 +179,8 @@ const projects: Project[] = [
         id: 6,
         title: 'Miyazaki-Garden',
         shortDescription: 'Site exposant les oeuvres du réalisateur avec un design rappelant le studio Ghibli.',
+        shortDescriptionEn: 'Site showcasing Miyazaki\'s films with an immersive Studio Ghibli-inspired design, sound atmosphere and member area.',
+        descriptionEn: 'First capstone project in native PHP/MySQL. Design and development of a showcase site dedicated to Hayao Miyazaki\'s universe with CSS animations, immersive sound atmosphere and member area. This project allowed me to master web fundamentals: MVC architecture in PHP, SQL queries, session management and responsive design. Starting point of my career transition, it laid the foundations on which I built the V2 in Next.js.',
         description: 'Premier projet fil rouge en PHP/MySQL natif. Conception et développement d\'un site vitrine dédié à l\'univers de Hayao Miyazaki avec animations CSS, ambiance sonore immersive et espace membre. Ce projet m\'a permis de maîtriser les fondamentaux du web : architecture MVC en PHP, requêtes SQL, gestion des sessions et design responsive. Point de départ de ma reconversion, il a posé les bases sur lesquelles j\'ai construit la V2 en Next.js.',
         tech: ['Javascript', 'PHP', 'HTML', 'CSS'],
         image: '/images/miyazaki-garden.jpg',
@@ -177,6 +192,8 @@ const projects: Project[] = [
 ];
 
 export default function Projects() {
+    const { lang } = useLanguage();
+    const t = lang === 'fr' ? fr : en;
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [activeFilter, setActiveFilter] = useState('all');
 
@@ -187,7 +204,7 @@ export default function Projects() {
     return (
         <>
             <section id="projects" className="max-w-6xl mx-auto px-4 py-20">
-                <SectionTitle>Projets</SectionTitle>
+                <SectionTitle>{t.projects.title}</SectionTitle>
 
                 {/* Filtres */}
                 <div className="flex flex-wrap gap-2 justify-center mb-10">
@@ -201,7 +218,7 @@ export default function Projects() {
                                     : 'bg-white text-ink border-gold/40 hover:border-vermillon hover:text-vermillon'
                             }`}
                         >
-                            {f.label}
+                            {f.value === 'all' ? t.projects.filterAll : f.label}
                         </button>
                     ))}
                 </div>
@@ -253,7 +270,7 @@ export default function Projects() {
                                     {project.title}
                                 </h3>
                                 <p className="text-ink text-sm mb-5 leading-relaxed font-medium line-clamp-3">
-                                    {project.shortDescription}
+                                    {lang === 'en' && project.shortDescriptionEn ? project.shortDescriptionEn : project.shortDescription}
                                 </p>
                                 <div className="flex flex-wrap gap-2 mb-5">
                                     {project.tech.slice(0, 4).map((tech) => {
@@ -283,7 +300,7 @@ export default function Projects() {
                                         className="inline-flex items-center gap-2 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark hover:shadow-lg hover:shadow-vermillon/30 hover:-translate-y-0.5 transition-all duration-300"
                                         onClick={(e) => e.stopPropagation()}
                                         >
-                                        🌐 Voir le site en ligne ↗
+                                        {t.projects.visitSite}
                                         </a>
                                         )}
                                 </div>

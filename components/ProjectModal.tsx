@@ -12,6 +12,7 @@ import {
     SiPostgresql, SiMysql, SiSwagger, SiSpring, SiMariadb,
     SiTypescript, SiLeaflet
 } from 'react-icons/si';
+import { useLanguage, fr, en } from '@/lib/i18n';
 
 const techIcons: Record<string, IconType | null> = {
     'Javascript': SiJavascript,
@@ -46,6 +47,8 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
+    const { lang } = useLanguage();
+    const t = lang === 'fr' ? fr : en;
     const [currentIndex, setCurrentIndex] = useState(0);
     const [lastProjectId, setLastProjectId] = useState<number | null>(null);
 
@@ -123,13 +126,13 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         {/* COLONNE GAUCHE - Description + Techs */}
                         <div className="md:w-2/5 shrink-0 flex flex-col overflow-y-auto p-6 border-r border-gold/20">
                             <p className="text-sm text-ink/80 leading-relaxed mb-6">
-                                {project.description}
+                                {lang === 'en' && project.descriptionEn ? project.descriptionEn : project.description}
                             </p>
 
                             {/* Techs */}
                             <div className="mt-auto">
                                 <p className="text-xs uppercase tracking-wider text-ink/50 font-bold mb-3">
-                                    Technologies
+                                    {t.projects.technologies}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
                                     {project.tech.map((tech) => {
@@ -154,7 +157,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark transition-all duration-300"
                                     >
-                                    🌐 Voir le site en ligne ↗
+                                    {t.projects.visitSite}
                                     </a>
                                     )}
                             </div>

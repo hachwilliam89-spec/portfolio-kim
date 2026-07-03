@@ -3,8 +3,11 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiMenu, HiX, HiDownload } from 'react-icons/hi';
+import { useLanguage, fr, en } from '@/lib/i18n';
 
 export default function Navbar() {
+    const { lang, toggle } = useLanguage();
+    const t = lang === 'fr' ? fr : en;
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -41,8 +44,8 @@ export default function Navbar() {
     };
 
     const navItems = [
-        { id: 'projects', label: 'Projets' },
-        { id: 'about', label: 'À propos' },
+        { id: 'projects', label: t.nav.projects },
+        { id: 'about', label: t.nav.about },
     ];
 
     return (
@@ -89,6 +92,15 @@ export default function Navbar() {
                                 </button>
                             ))}
 
+                            {/* Toggle FR/EN */}
+                            <button
+                                onClick={toggle}
+                                className="px-3 py-2 text-sm font-bold text-ink border border-gold/40 rounded-lg hover:border-vermillon hover:text-vermillon transition-all duration-200"
+                                aria-label="Switch language"
+                            >
+                                {lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR'}
+                            </button>
+
                             {/* Bouton CV avec dropdown */}
                             <div className="relative ml-2">
                                 <button
@@ -98,7 +110,7 @@ export default function Navbar() {
                                     className="px-4 py-2.5 text-sm font-medium text-ink border border-gold rounded-lg hover:bg-gold/10 hover:border-gold transition-all duration-200 flex items-center gap-1.5"
                                 >
                                     <HiDownload className="w-4 h-4" aria-hidden="true" />
-                                    CV
+                                    {t.nav.cvLabel}
                                     <svg className={`w-3 h-3 transition-transform duration-200 ${cvDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                     </svg>
@@ -128,8 +140,8 @@ export default function Navbar() {
                                                 >
                                                     <span className="text-lg">🇫🇷</span>
                                                     <div>
-                                                        <div className="font-semibold">CV Français</div>
-                                                        <div className="text-xs text-ink/50">Format français</div>
+                                                        <div className="font-semibold">{t.nav.cvFr}</div>
+                                                        <div className="text-xs text-ink/50">{t.nav.cvFrSub}</div>
                                                     </div>
                                                 </a>
                                                 <div className="border-t border-gold/20" />
@@ -141,8 +153,8 @@ export default function Navbar() {
                                                 >
                                                     <span className="text-lg">🇺🇸</span>
                                                     <div>
-                                                        <div className="font-semibold">Resume (US)</div>
-                                                        <div className="text-xs text-ink/50">American format</div>
+                                                        <div className="font-semibold">{t.nav.cvUs}</div>
+                                                        <div className="text-xs text-ink/50">{t.nav.cvUsSub}</div>
                                                     </div>
                                                 </a>
                                             </motion.div>
@@ -156,7 +168,7 @@ export default function Navbar() {
                                 onClick={() => scrollToSection('contact')}
                                 className="ml-2 px-6 py-2.5 bg-gradient-to-r from-vermillon to-gold text-washi text-sm font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
                             >
-                                Me contacter
+                                {t.nav.contact}
                             </button>
                         </div>
 
@@ -275,7 +287,7 @@ export default function Navbar() {
                                         transition={{ delay: 0.3, duration: 0.3 }}
                                         className="block w-full px-6 py-4 bg-gradient-to-r from-vermillon to-gold text-washi text-center font-semibold rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200"
                                     >
-                                        Me contacter
+                                        {t.nav.contact}
                                     </motion.button>
                                 </div>
                             </div>
