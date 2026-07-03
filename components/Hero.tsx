@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants, useReducedMotion } from 'framer-motion';
 import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiSpring, SiDocker } from 'react-icons/si';
 import { HiArrowDown } from 'react-icons/hi';
 import { useLanguage, fr, en } from '@/lib/i18n';
@@ -8,6 +8,7 @@ import { useLanguage, fr, en } from '@/lib/i18n';
 export default function Hero() {
     const { lang } = useLanguage();
     const t = lang === 'fr' ? fr : en;
+    const reduce = useReducedMotion();
 
     const scrollToProjects = () => {
         document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
@@ -133,16 +134,16 @@ export default function Hero() {
 
             {/* CONTENU PRINCIPAL */}
             <motion.div
-                initial={{ opacity: 0, y: 40 }}
+                initial={reduce ? false : { opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: 'easeOut', delay: 0.5 }}
+                transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
                 className="relative z-10 text-center space-y-8 max-w-4xl"
             >
                 {/* Badge status */}
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={reduce ? false : { opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, delay: 1 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
                     className="inline-flex items-center gap-2 px-4 py-2 bg-vermillon/10 border border-vermillon/30 rounded-full"
                 >
                     <span className="relative flex h-2 w-2">
@@ -154,37 +155,50 @@ export default function Hero() {
                     </span>
                 </motion.div>
 
-                {/* Nom */}
+                {/* Nom — hiérarchie : "William Kim" petit / "HACH" grand */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={reduce ? false : { opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 1.5 }}
-                    className="space-y-4"
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    className="space-y-1"
                 >
-                    <h1 className="font-display text-6xl md:text-8xl text-ink leading-none tracking-tight">
-                        {'William Kim HACH'.split('').map((char, i) => (
-                            <motion.span
-                                key={i}
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{
-                                    duration: 0.4,
-                                    delay: 1.5 + i * 0.08,
-                                    ease: [0.25, 0.46, 0.45, 0.94]
-                                }}
-                                className="inline-block"
-                            >
-                                {char === ' ' ? '\u00A0' : char}
-                            </motion.span>
-                        ))}
+                    <h1 className="leading-none">
+                        {/* Prénoms */}
+                        <div className="font-display text-2xl md:text-4xl text-ink/50 font-normal tracking-[0.15em] mb-1">
+                            {reduce ? 'William Kim' : 'William Kim'.split('').map((char, i) => (
+                                <motion.span
+                                    key={i}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3, delay: 0.6 + i * 0.04, ease: [0.25, 0.46, 0.45, 0.94] }}
+                                    className="inline-block"
+                                >
+                                    {char === ' ' ? ' ' : char}
+                                </motion.span>
+                            ))}
+                        </div>
+                        {/* Nom de famille */}
+                        <div className="font-display text-7xl md:text-9xl text-ink font-bold leading-none tracking-tight">
+                            {reduce ? 'HACH' : 'HACH'.split('').map((char, i) => (
+                                <motion.span
+                                    key={i}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.4, delay: 1.1 + i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
+                                    className="inline-block"
+                                >
+                                    {char}
+                                </motion.span>
+                            ))}
+                        </div>
                     </h1>
 
-                    <div className="relative inline-block">
+                    <div className="relative inline-block pt-2">
                         <motion.p
                             className="font-chinese text-3xl md:text-4xl text-ink/70 tracking-[0.2em]"
-                            initial={{ opacity: 0, scale: 0.9 }}
+                            initial={reduce ? false : { opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.8, delay: 2.5 }}
+                            transition={{ duration: 0.6, delay: 1.5 }}
                         >
                             金恩
                         </motion.p>
@@ -202,8 +216,8 @@ export default function Hero() {
                                 initial={{ pathLength: 0, opacity: 0 }}
                                 animate={{ pathLength: 1, opacity: 0.7 }}
                                 transition={{
-                                    pathLength: { duration: 0.8, ease: 'easeOut', delay: 3 },
-                                    opacity: { duration: 0.3, delay: 3 }
+                                    pathLength: { duration: 0.7, ease: 'easeOut', delay: reduce ? 0 : 1.8 },
+                                    opacity: { duration: 0.3, delay: reduce ? 0 : 1.8 }
                                 }}
                             />
                         </svg>
@@ -212,9 +226,9 @@ export default function Hero() {
 
                 {/* Description */}
                 <motion.p
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={reduce ? false : { opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 3.2 }}
+                    transition={{ duration: 0.6, delay: 1.8 }}
                     className="text-ink/70 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed"
                     dangerouslySetInnerHTML={{
                         __html: t.hero.subtitle.replace(
@@ -226,12 +240,11 @@ export default function Hero() {
 
                 {/* Objectif */}
                 <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={reduce ? false : { opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 3.4 }}
+                    transition={{ duration: 0.6, delay: 2.0 }}
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-vermillon/10 border border-vermillon/30 rounded-full"
                 >
-
                     <span className="text-sm font-semibold text-vermillon tracking-wide">
                         {t.hero.cta}
                     </span>
@@ -239,9 +252,9 @@ export default function Hero() {
 
                 {/* Projets mentionnés */}
                 <motion.p
-                    initial={{ opacity: 0 }}
+                    initial={reduce ? false : { opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 3.6 }}
+                    transition={{ duration: 0.6, delay: 2.2 }}
                     className="text-sm text-ink/50 tracking-wide"
                 >
                     KCD Formes • RecycleDashboard • Miyazaki Garden
@@ -249,9 +262,9 @@ export default function Hero() {
 
                 {/* Tech badges */}
                 <motion.div
-                    initial={{ opacity: 0 }}
+                    initial={reduce ? false : { opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 3.8 }}
+                    transition={{ duration: 0.6, delay: 2.3 }}
                     className="flex flex-wrap gap-3 justify-center pt-6"
                 >
                     {[
@@ -266,9 +279,9 @@ export default function Hero() {
                         return (
                             <motion.span
                                 key={tech.name}
-                                initial={{ opacity: 0, y: 10 }}
+                                initial={reduce ? false : { opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, delay: 3.9 + i * 0.1 }}
+                                transition={{ duration: 0.3, delay: 2.4 + i * 0.08 }}
                                 className="group px-4 py-2 bg-ink/5 hover:bg-gold/10 border border-ink/10 hover:border-gold/40 rounded-full text-sm text-ink/70 hover:text-ink transition-all duration-300 flex items-center gap-2"
                             >
                                 <Icon className="text-base group-hover:text-vermillon transition-colors" />
@@ -282,15 +295,15 @@ export default function Hero() {
             {/* Bouton scroll */}
             <motion.button
                 onClick={scrollToProjects}
-                initial={{ opacity: 0, y: -20 }}
+                initial={reduce ? false : { opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 4.5 }}
+                transition={{ duration: 0.6, delay: 2.8 }}
                 className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-ink/40 hover:text-vermillon transition-colors duration-300 group cursor-pointer z-10"
                 aria-label="Défiler vers les projets"
             >
                 <span className="text-xs uppercase tracking-wider font-medium">{t.hero.discover}</span>
                 <motion.div
-                    animate={{ y: [0, 8, 0] }}
+                    animate={reduce ? {} : { y: [0, 8, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                 >
                     <HiArrowDown className="w-6 h-6" />

@@ -216,14 +216,14 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                                         {/* Titre + description du screenshot courant */}
                                         <div className="mb-2">
                                             <span className="text-xs font-bold text-ink mr-2">
-                                                {currentScreenshot.title}
+                                                {lang === 'en' && currentScreenshot.titleEn ? currentScreenshot.titleEn : currentScreenshot.title}
                                             </span>
                                             <span className="text-xs text-ink/50">
                                                 {currentIndex + 1}/{project.screenshots.length}
                                             </span>
                                         </div>
                                         <p className="text-xs text-ink/60 mb-3 leading-relaxed">
-                                            {currentScreenshot.description}
+                                            {lang === 'en' && currentScreenshot.descriptionEn ? currentScreenshot.descriptionEn : currentScreenshot.description}
                                         </p>
 
                                         {/* Thumbnails */}
