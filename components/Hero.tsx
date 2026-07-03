@@ -363,29 +363,37 @@ export default function Hero() {
                     {!isDark && (
                         <motion.div
                             key="rising-sun"
-                            className="absolute inset-0"
+                            className="absolute inset-0 opacity-[0.12]"
                             style={reduce ? {} : { x: celestialX, y: celestialY }}
                             initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            animate={{ opacity: 0.12 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 2, delay: 0.6, ease: 'easeOut' }}
+                            transition={{ duration: 2, delay: 0.5, ease: 'easeOut' }}
                         >
                             <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round">
-                                {/* Halos atmosphériques */}
-                                <motion.circle cx="195" cy="182" r="52" strokeWidth="0.6" opacity="0.04" variants={drawLine} initial="hidden" animate="visible" custom={0.5} />
-                                <motion.circle cx="195" cy="182" r="42" strokeWidth="0.8" opacity="0.06" variants={drawLine} initial="hidden" animate="visible" custom={0.7} />
-                                {/* Corps du soleil */}
-                                <motion.circle cx="195" cy="182" r="30" strokeWidth="2.5" opacity="0.11" variants={drawLine} initial="hidden" animate="visible" custom={0.9} />
-                                {/* Rayons cardinaux */}
-                                <motion.path d="M 195 144 L 195 152" strokeWidth="2" opacity="0.10" variants={drawLine} initial="hidden" animate="visible" custom={1.1} />
-                                <motion.path d="M 195 212 L 195 220" strokeWidth="2" opacity="0.10" variants={drawLine} initial="hidden" animate="visible" custom={1.12} />
-                                <motion.path d="M 157 182 L 165 182" strokeWidth="2" opacity="0.10" variants={drawLine} initial="hidden" animate="visible" custom={1.14} />
-                                <motion.path d="M 225 182 L 233 182" strokeWidth="2" opacity="0.10" variants={drawLine} initial="hidden" animate="visible" custom={1.16} />
-                                {/* Rayons diagonaux */}
-                                <motion.path d="M 168 155 L 174 161" strokeWidth="1.5" opacity="0.09" variants={drawLine} initial="hidden" animate="visible" custom={1.18} />
-                                <motion.path d="M 216 203 L 222 209" strokeWidth="1.5" opacity="0.09" variants={drawLine} initial="hidden" animate="visible" custom={1.20} />
-                                <motion.path d="M 222 155 L 216 161" strokeWidth="1.5" opacity="0.09" variants={drawLine} initial="hidden" animate="visible" custom={1.22} />
-                                <motion.path d="M 174 203 L 168 209" strokeWidth="1.5" opacity="0.09" variants={drawLine} initial="hidden" animate="visible" custom={1.24} />
+                                {/* Demi-cercle soleil levant — bord plat = horizon montagne */}
+                                <motion.path
+                                    d="M 148 210 A 48 48 0 0 1 244 210"
+                                    strokeWidth="3"
+                                    variants={drawLine} initial="hidden" animate="visible" custom={0.4}
+                                />
+                                {/* Halo externe */}
+                                <motion.path
+                                    d="M 134 210 A 62 62 0 0 1 258 210"
+                                    strokeWidth="1.2" strokeDasharray="4 6"
+                                    variants={drawLine} initial="hidden" animate="visible" custom={0.3}
+                                />
+                                {/* Rayon haut */}
+                                <motion.path d="M 196 152 L 196 162" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.65} />
+                                {/* Rayons diagonaux hauts */}
+                                <motion.path d="M 230 163 L 224 169" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.70} />
+                                <motion.path d="M 162 163 L 168 169" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.75} />
+                                {/* Rayons latéraux */}
+                                <motion.path d="M 246 198 L 256 198" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.80} />
+                                <motion.path d="M 136 198 L 146 198" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.85} />
+                                {/* Rayons diagonaux larges */}
+                                <motion.path d="M 244 175 L 252 169" strokeWidth="1.5" variants={drawLine} initial="hidden" animate="visible" custom={0.88} />
+                                <motion.path d="M 148 175 L 140 169" strokeWidth="1.5" variants={drawLine} initial="hidden" animate="visible" custom={0.91} />
                             </svg>
                         </motion.div>
                     )}
