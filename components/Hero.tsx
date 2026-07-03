@@ -292,76 +292,46 @@ export default function Hero() {
                 ))}
             </motion.div>
 
-            {/* ── SOLEIL (light) / LUNE (dark) — à droite du bambou ── */}
-            <motion.div
-                className="absolute pointer-events-none opacity-[0.13]"
-                style={reduce
-                    ? { left: '20%', top: '7%' }
-                    : { left: '20%', top: '7%', x: celestialX, y: celestialY }
-                }
-            >
-                <AnimatePresence mode="wait">
-                    {isDark ? (
-                        /* LUNE — croissant rempli (masque SVG) */
-                        <motion.div
-                            key="moon"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                            transition={{ duration: 1.0, ease: 'easeOut' }}
+            {/* ── LUNE (dark mode) — à droite du bambou ── */}
+            <AnimatePresence>
+                {isDark && (
+                    <motion.div
+                        key="moon"
+                        className="absolute pointer-events-none"
+                        style={reduce
+                            ? { left: '20%', top: '7%' }
+                            : { left: '20%', top: '7%', x: celestialX, y: celestialY }
+                        }
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 0.13, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 1.0, ease: 'easeOut' }}
+                    >
+                        <motion.svg
+                            width="100" height="110" viewBox="0 0 90 100"
+                            animate={reduce ? {} : { opacity: [0.8, 1, 0.8] }}
+                            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
                         >
-                            <motion.svg
-                                width="100" height="110" viewBox="0 0 90 100"
-                                animate={reduce ? {} : { opacity: [0.8, 1, 0.8] }}
-                                transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-                            >
-                                <defs>
-                                    <mask id="crescent-ink">
-                                        <circle cx="45" cy="50" r="36" fill="white" />
-                                        <circle cx="62" cy="42" r="30" fill="black" />
-                                    </mask>
-                                </defs>
-                                {/* Croissant rempli */}
-                                <circle cx="45" cy="50" r="36" fill="currentColor" mask="url(#crescent-ink)" />
-                                {/* Contour du croissant */}
-                                <circle cx="45" cy="50" r="36" fill="none" stroke="currentColor" strokeWidth="1.5" mask="url(#crescent-ink)" />
-                                {/* Petite étoile */}
-                                <motion.path
-                                    d="M 74 22 L 75 25.5 L 78.5 25.5 L 75.8 27.6 L 76.8 31 L 74 29 L 71.2 31 L 72.2 27.6 L 69.5 25.5 L 73 25.5 Z"
-                                    fill="currentColor" stroke="none"
-                                    variants={drawLine} initial="hidden" animate="visible" custom={0.8}
-                                />
-                            </motion.svg>
-                        </motion.div>
-                    ) : (
-                        /* SOLEIL — cercle + rayons encre */
-                        <motion.div
-                            key="sun"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                            transition={{ duration: 1.0, ease: 'easeOut' }}
-                        >
-                            <motion.svg
-                                width="100" height="100" viewBox="0 0 100 100"
-                                fill="none" stroke="currentColor" strokeLinecap="round"
-                                animate={reduce ? {} : { opacity: [0.8, 1, 0.8] }}
-                                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                            >
-                                <motion.circle cx="50" cy="50" r="20" strokeWidth="3" variants={drawLine} initial="hidden" animate="visible" custom={0.4} />
-                                <motion.path d="M 50 14 L 50 22" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.85} />
-                                <motion.path d="M 50 78 L 50 86" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.88} />
-                                <motion.path d="M 14 50 L 22 50" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.91} />
-                                <motion.path d="M 78 50 L 86 50" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.94} />
-                                <motion.path d="M 26 26 L 32 32" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.97} />
-                                <motion.path d="M 74 74 L 68 68" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={1.00} />
-                                <motion.path d="M 74 26 L 68 32" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={1.03} />
-                                <motion.path d="M 26 74 L 32 68" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={1.06} />
-                            </motion.svg>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </motion.div>
+                            <defs>
+                                <mask id="crescent-ink">
+                                    <circle cx="45" cy="50" r="36" fill="white" />
+                                    <circle cx="62" cy="42" r="30" fill="black" />
+                                </mask>
+                            </defs>
+                            {/* Croissant rempli */}
+                            <circle cx="45" cy="50" r="36" fill="currentColor" mask="url(#crescent-ink)" />
+                            {/* Contour du croissant */}
+                            <circle cx="45" cy="50" r="36" fill="none" stroke="currentColor" strokeWidth="1.5" mask="url(#crescent-ink)" />
+                            {/* Petite étoile */}
+                            <motion.path
+                                d="M 74 22 L 75 25.5 L 78.5 25.5 L 75.8 27.6 L 76.8 31 L 74 29 L 71.2 31 L 72.2 27.6 L 69.5 25.5 L 73 25.5 Z"
+                                fill="currentColor" stroke="none"
+                                variants={drawLine} initial="hidden" animate="visible" custom={0.8}
+                            />
+                        </motion.svg>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* ── NUAGES — devant le soleil/lune ── */}
             {!reduce && (<>
@@ -387,6 +357,39 @@ export default function Hero() {
 
             {/* ── MONTAGNES en 4 calques parallax ── */}
             <div className="absolute right-0 bottom-0 pointer-events-none w-[350px] h-[450px] md:w-[450px] md:h-[550px] lg:w-[550px] lg:h-[650px]">
+
+                {/* ── SOLEIL LEVANT — calque 0, derrière toutes les montagnes ── */}
+                <AnimatePresence>
+                    {!isDark && (
+                        <motion.div
+                            key="rising-sun"
+                            className="absolute inset-0"
+                            style={reduce ? {} : { x: celestialX, y: celestialY }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 2, delay: 0.6, ease: 'easeOut' }}
+                        >
+                            <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round">
+                                {/* Halos atmosphériques */}
+                                <motion.circle cx="195" cy="182" r="52" strokeWidth="0.6" opacity="0.04" variants={drawLine} initial="hidden" animate="visible" custom={0.5} />
+                                <motion.circle cx="195" cy="182" r="42" strokeWidth="0.8" opacity="0.06" variants={drawLine} initial="hidden" animate="visible" custom={0.7} />
+                                {/* Corps du soleil */}
+                                <motion.circle cx="195" cy="182" r="30" strokeWidth="2.5" opacity="0.11" variants={drawLine} initial="hidden" animate="visible" custom={0.9} />
+                                {/* Rayons cardinaux */}
+                                <motion.path d="M 195 144 L 195 152" strokeWidth="2" opacity="0.10" variants={drawLine} initial="hidden" animate="visible" custom={1.1} />
+                                <motion.path d="M 195 212 L 195 220" strokeWidth="2" opacity="0.10" variants={drawLine} initial="hidden" animate="visible" custom={1.12} />
+                                <motion.path d="M 157 182 L 165 182" strokeWidth="2" opacity="0.10" variants={drawLine} initial="hidden" animate="visible" custom={1.14} />
+                                <motion.path d="M 225 182 L 233 182" strokeWidth="2" opacity="0.10" variants={drawLine} initial="hidden" animate="visible" custom={1.16} />
+                                {/* Rayons diagonaux */}
+                                <motion.path d="M 168 155 L 174 161" strokeWidth="1.5" opacity="0.09" variants={drawLine} initial="hidden" animate="visible" custom={1.18} />
+                                <motion.path d="M 216 203 L 222 209" strokeWidth="1.5" opacity="0.09" variants={drawLine} initial="hidden" animate="visible" custom={1.20} />
+                                <motion.path d="M 222 155 L 216 161" strokeWidth="1.5" opacity="0.09" variants={drawLine} initial="hidden" animate="visible" custom={1.22} />
+                                <motion.path d="M 174 203 L 168 209" strokeWidth="1.5" opacity="0.09" variants={drawLine} initial="hidden" animate="visible" custom={1.24} />
+                            </svg>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Calque 1 — le plus lointain */}
                 <motion.div className="absolute inset-0 opacity-[0.04]" style={reduce ? {} : { x: m1x, y: m1y }}>
