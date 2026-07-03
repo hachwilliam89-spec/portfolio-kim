@@ -1,7 +1,8 @@
 'use client';
 
 import { motion, AnimatePresence, Variants, useReducedMotion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Lottie from 'lottie-react';
 import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiSpring, SiDocker } from 'react-icons/si';
 import { HiArrowDown } from 'react-icons/hi';
 import { useLanguage, fr, en } from '@/lib/i18n';
@@ -117,6 +118,38 @@ function TwinklingStar({ x, y, r, delay, dur, shape = 'dot' }: {
                 </svg>
             )}
         </motion.div>
+    );
+}
+
+// ── Panda Lottie ─────────────────────────────────────────────────────────────
+function PandaAnimation({ isDark }: { isDark: boolean }) {
+    const [dayData, setDayData]     = useState<object | null>(null);
+    const [sleepData, setSleepData] = useState<object | null>(null);
+
+    useEffect(() => {
+        fetch('/panda-day.json').then(r => r.json()).then(setDayData);
+        fetch('/panda-sleep.json').then(r => r.json()).then(setSleepData);
+    }, []);
+
+    const data = isDark ? sleepData : dayData;
+    if (!data) return null;
+
+    return (
+        <AnimatePresence mode="wait">
+            <motion.div
+                key={isDark ? 'sleep' : 'day'}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.85 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+            >
+                <Lottie
+                    animationData={data}
+                    loop={true}
+                    className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32"
+                />
+            </motion.div>
+        </AnimatePresence>
     );
 }
 
@@ -284,6 +317,17 @@ export default function Hero() {
                 {!reduce && LEAVES.map((leaf, i) => (
                     <FallingLeaf key={i} {...leaf} />
                 ))}
+            </motion.div>
+
+            {/* ── PANDA — au pied du bambou ── */}
+            <motion.div
+                className="absolute pointer-events-none z-10"
+                style={reduce
+                    ? { left: '2rem', top: 'calc(50% + 175px)' }
+                    : { left: '2rem', top: 'calc(50% + 175px)', x: bambouX }
+                }
+            >
+                <PandaAnimation isDark={isDark} />
             </motion.div>
 
             {/* ── LUNE (dark mode) — à droite du bambou ── */}
