@@ -122,7 +122,7 @@ function TwinklingStar({ x, y, r, delay, dur, shape = 'dot' }: {
 
 // Positions évitant la zone de texte central (≈ 28-72% x, 20-80% y)
 const STARS: { x: string; y: string; r: number; delay: number; dur: number; shape?: StarShape }[] = [
-    // Haut
+    // Haut — toute la largeur
     { x: '4%',  y: '6%',  r: 1.2, delay: 0,    dur: 3.2 },
     { x: '17%', y: '4%',  r: 0.9, delay: 1.3,  dur: 2.9, shape: 'cross' },
     { x: '33%', y: '8%',  r: 1.0, delay: 0.6,  dur: 3.7 },
@@ -130,23 +130,17 @@ const STARS: { x: string; y: string; r: number; delay: number; dur: number; shap
     { x: '70%', y: '7%',  r: 0.9, delay: 0.9,  dur: 3.4 },
     { x: '84%', y: '3%',  r: 1.5, delay: 1.6,  dur: 3.0, shape: 'cross' },
     { x: '94%', y: '10%', r: 1.0, delay: 3.2,  dur: 4.0 },
-    // Bord gauche
+    // Milieu gauche — pas de montagnes côté bambou, on peut descendre
     { x: '2%',  y: '30%', r: 1.1, delay: 2.4,  dur: 3.5 },
-    { x: '7%',  y: '52%', r: 0.9, delay: 0.4,  dur: 2.8, shape: 'cross' },
-    { x: '14%', y: '70%', r: 1.3, delay: 1.9,  dur: 3.9 },
-    // Bord droit (zone montagnes)
-    { x: '80%', y: '20%', r: 1.2, delay: 3.0,  dur: 3.1, shape: 'cross' },
-    { x: '91%', y: '35%', r: 0.9, delay: 0.7,  dur: 2.7 },
-    { x: '76%', y: '48%', r: 1.4, delay: 2.3,  dur: 4.1, shape: 'cross' },
-    { x: '96%', y: '55%', r: 0.8, delay: 1.1,  dur: 3.3 },
-    // Bas
-    { x: '23%', y: '85%', r: 1.0, delay: 3.6,  dur: 3.8 },
-    { x: '44%', y: '82%', r: 0.9, delay: 0.8,  dur: 2.5 },
-    { x: '63%', y: '88%', r: 1.2, delay: 1.7,  dur: 3.6, shape: 'cross' },
-    { x: '88%', y: '80%', r: 1.0, delay: 2.9,  dur: 3.2 },
-    // Quelques éparses dans le reste
-    { x: '24%', y: '18%', r: 0.9, delay: 3.8,  dur: 2.8 },
-    { x: '74%', y: '14%', r: 1.1, delay: 1.5,  dur: 3.5, shape: 'cross' },
+    { x: '7%',  y: '50%', r: 0.9, delay: 0.4,  dur: 2.8, shape: 'cross' },
+    { x: '12%', y: '62%', r: 1.3, delay: 1.9,  dur: 3.9 },
+    // Centre — limité à la moitié haute
+    { x: '38%', y: '22%', r: 0.9, delay: 3.8,  dur: 2.8 },
+    { x: '58%', y: '28%', r: 1.0, delay: 0.5,  dur: 3.6, shape: 'cross' },
+    // Droite — au-dessus des sommets uniquement (y ≤ 28%)
+    { x: '78%', y: '18%', r: 1.2, delay: 3.0,  dur: 3.1, shape: 'cross' },
+    { x: '90%', y: '14%', r: 0.9, delay: 0.7,  dur: 2.7 },
+    { x: '74%', y: '26%', r: 1.1, delay: 1.5,  dur: 3.5, shape: 'cross' },
 ];
 
 // ── Feuilles config ──────────────────────────────────────────────────────────
@@ -397,17 +391,25 @@ export default function Hero() {
                 </AnimatePresence>
 
                 {/* Masque horizon — silhouette washi qui cache le bas du soleil sous la crête */}
-                {!isDark && (
-                    <div className="absolute inset-0 pointer-events-none">
-                        <svg className="w-full h-full" viewBox="0 0 320 400">
-                            <path
-                                d="M 0 400 L 0 270 Q 50 280, 80 300 Q 120 250, 160 220 Q 180 200, 200 220 Q 240 260, 280 240 Q 300 225, 320 260 L 320 400 Z"
-                                fill="var(--color-washi)"
-                                stroke="none"
-                            />
-                        </svg>
-                    </div>
-                )}
+                <AnimatePresence>
+                    {!isDark && (
+                        <motion.div
+                            key="sun-mask"
+                            className="absolute inset-0 pointer-events-none"
+                            initial={{ opacity: 1 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0, transition: { duration: 0.2, delay: 1.8 } }}
+                        >
+                            <svg className="w-full h-full" viewBox="0 0 320 400">
+                                <path
+                                    d="M 0 400 L 0 270 Q 50 280, 80 300 Q 120 250, 160 220 Q 180 200, 200 220 Q 240 260, 280 240 Q 300 225, 320 260 L 320 400 Z"
+                                    fill="var(--color-washi)"
+                                    stroke="none"
+                                />
+                            </svg>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Calque 1 — le plus lointain */}
                 <motion.div className="absolute inset-0 opacity-[0.04]" style={reduce ? {} : { x: m1x, y: m1y }}>
