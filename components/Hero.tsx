@@ -270,83 +270,78 @@ export default function Hero() {
                 ))}
             </motion.div>
 
-            {/* ── SOLEIL (light) / LUNE (dark) ── */}
+            {/* ── SOLEIL (light) / LUNE (dark) — style encre ── */}
             <motion.div
-                className="absolute pointer-events-none"
-                style={reduce ? { right: '11%', top: '8%' } : { right: '11%', top: '8%', x: celestialX, y: celestialY }}
+                className="absolute pointer-events-none opacity-[0.13]"
+                style={reduce ? { right: '10%', top: '6%' } : { right: '10%', top: '6%', x: celestialX, y: celestialY }}
             >
                 <AnimatePresence mode="wait">
                     {isDark ? (
-                        /* LUNE — croissant nacré */
+                        /* LUNE — croissant tracé à l'encre */
                         <motion.div
                             key="moon"
-                            initial={{ opacity: 0, scale: 0.85 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.85 }}
-                            transition={{ duration: 1.2, ease: 'easeOut' }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 1.0 }}
                         >
                             <motion.svg
-                                width="110" height="110" viewBox="0 0 100 100"
-                                animate={reduce ? {} : { scale: [1, 1.03, 1] }}
-                                transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+                                width="95" height="110" viewBox="0 0 80 95"
+                                fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                animate={reduce ? {} : { opacity: [0.85, 1, 0.85] }}
+                                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
                             >
-                                <defs>
-                                    <mask id="crescent-mask">
-                                        <circle cx="50" cy="50" r="36" fill="white" />
-                                        <circle cx="67" cy="41" r="30" fill="black" />
-                                    </mask>
-                                    <filter id="moon-glow">
-                                        <feGaussianBlur stdDeviation="3" result="blur" />
-                                        <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                                    </filter>
-                                </defs>
-                                {/* Halos */}
-                                <circle cx="50" cy="50" r="50" fill="#f0ede8" fillOpacity="0.03" />
-                                <circle cx="50" cy="50" r="44" fill="#f0ede8" fillOpacity="0.05" />
-                                {/* Croissant */}
-                                <circle
-                                    cx="50" cy="50" r="36"
-                                    fill="#f0ede8" fillOpacity="0.72"
-                                    mask="url(#crescent-mask)"
-                                    filter="url(#moon-glow)"
+                                {/* Arc extérieur — grande courbe */}
+                                <motion.path
+                                    d="M 36 8 Q 84 47, 36 87"
+                                    strokeWidth="3"
+                                    variants={drawLine} initial="hidden" animate="visible" custom={0.4}
+                                />
+                                {/* Arc intérieur — bord concave */}
+                                <motion.path
+                                    d="M 36 8 Q 52 47, 36 87"
+                                    strokeWidth="2.5"
+                                    variants={drawLine} initial="hidden" animate="visible" custom={0.8}
+                                />
+                                {/* Petite étoile d'accompagnement */}
+                                <motion.path
+                                    d="M 66 20 L 67.2 23.2 L 70.5 23.2 L 67.9 25.3 L 68.9 28.5 L 66 26.5 L 63.1 28.5 L 64.1 25.3 L 61.5 23.2 L 64.8 23.2 Z"
+                                    strokeWidth="1.2" fill="none"
+                                    variants={drawLine} initial="hidden" animate="visible" custom={1.2}
                                 />
                             </motion.svg>
                         </motion.div>
                     ) : (
-                        /* SOLEIL — dégradé vermillon → or */
+                        /* SOLEIL — cercle + rayons tracés à l'encre */
                         <motion.div
                             key="sun"
-                            initial={{ opacity: 0, scale: 0.85 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.85 }}
-                            transition={{ duration: 1.2, ease: 'easeOut' }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 1.0 }}
                         >
                             <motion.svg
-                                width="130" height="130" viewBox="0 0 120 120"
-                                animate={reduce ? {} : { scale: [1, 1.05, 1] }}
+                                width="100" height="100" viewBox="0 0 100 100"
+                                fill="none" stroke="currentColor" strokeLinecap="round"
+                                animate={reduce ? {} : { opacity: [0.85, 1, 0.85] }}
                                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
                             >
-                                <defs>
-                                    <radialGradient id="sun-grad" cx="40%" cy="38%" r="60%">
-                                        <stop offset="0%"   stopColor="#d4504c" stopOpacity="0.90" />
-                                        <stop offset="55%"  stopColor="#b8956a" stopOpacity="0.80" />
-                                        <stop offset="100%" stopColor="#b8956a" stopOpacity="0.20" />
-                                    </radialGradient>
-                                    <filter id="sun-glow">
-                                        <feGaussianBlur stdDeviation="4" result="blur" />
-                                        <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                                    </filter>
-                                </defs>
-                                {/* Halos */}
-                                <circle cx="60" cy="60" r="58" fill="#b8956a" fillOpacity="0.04" />
-                                <circle cx="60" cy="60" r="50" fill="#b8956a" fillOpacity="0.07" />
-                                <circle cx="60" cy="60" r="42" fill="#b8956a" fillOpacity="0.09" />
-                                {/* Corps */}
-                                <circle
-                                    cx="60" cy="60" r="32"
-                                    fill="url(#sun-grad)"
-                                    filter="url(#sun-glow)"
+                                {/* Corps — cercle */}
+                                <motion.circle
+                                    cx="50" cy="50" r="20"
+                                    strokeWidth="3"
+                                    variants={drawLine} initial="hidden" animate="visible" custom={0.4}
                                 />
+                                {/* Rayons cardinaux */}
+                                <motion.path d="M 50 14 L 50 22" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.85} />
+                                <motion.path d="M 50 78 L 50 86" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.88} />
+                                <motion.path d="M 14 50 L 22 50" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.91} />
+                                <motion.path d="M 78 50 L 86 50" strokeWidth="2.5" variants={drawLine} initial="hidden" animate="visible" custom={0.94} />
+                                {/* Rayons diagonaux */}
+                                <motion.path d="M 26 26 L 32 32" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.97} />
+                                <motion.path d="M 74 74 L 68 68" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={1.00} />
+                                <motion.path d="M 74 26 L 68 32" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={1.03} />
+                                <motion.path d="M 26 74 L 32 68" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={1.06} />
                             </motion.svg>
                         </motion.div>
                     )}
