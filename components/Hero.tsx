@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, Variants, useReducedMotion, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, Variants, useReducedMotion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { useEffect } from 'react';
 import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiSpring, SiDocker } from 'react-icons/si';
 import { HiArrowDown } from 'react-icons/hi';
@@ -167,6 +167,9 @@ export default function Hero() {
     // Bambou en sens inverse (effet de profondeur)
     const bambouX = useTransform(mx, [-0.5, 0.5], [6, -6]);
     const bambouY = useTransform(my, [-0.5, 0.5], [3, -3]);
+    // Corps céleste — à l'infini, bougé à peine (moins que la montagne la plus lointaine)
+    const celestialX = useTransform(mx, [-0.5, 0.5], [-1.2, 1.2]);
+    const celestialY = useTransform(my, [-0.5, 0.5], [-0.6, 0.6]);
 
     useEffect(() => {
         if (reduce) return;
@@ -265,6 +268,89 @@ export default function Hero() {
                 {!reduce && LEAVES.map((leaf, i) => (
                     <FallingLeaf key={i} {...leaf} />
                 ))}
+            </motion.div>
+
+            {/* ── SOLEIL (light) / LUNE (dark) ── */}
+            <motion.div
+                className="absolute pointer-events-none"
+                style={reduce ? { right: '11%', top: '8%' } : { right: '11%', top: '8%', x: celestialX, y: celestialY }}
+            >
+                <AnimatePresence mode="wait">
+                    {isDark ? (
+                        /* LUNE — croissant nacré */
+                        <motion.div
+                            key="moon"
+                            initial={{ opacity: 0, scale: 0.85 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.85 }}
+                            transition={{ duration: 1.2, ease: 'easeOut' }}
+                        >
+                            <motion.svg
+                                width="110" height="110" viewBox="0 0 100 100"
+                                animate={reduce ? {} : { scale: [1, 1.03, 1] }}
+                                transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+                            >
+                                <defs>
+                                    <mask id="crescent-mask">
+                                        <circle cx="50" cy="50" r="36" fill="white" />
+                                        <circle cx="67" cy="41" r="30" fill="black" />
+                                    </mask>
+                                    <filter id="moon-glow">
+                                        <feGaussianBlur stdDeviation="3" result="blur" />
+                                        <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                                    </filter>
+                                </defs>
+                                {/* Halos */}
+                                <circle cx="50" cy="50" r="50" fill="#f0ede8" fillOpacity="0.03" />
+                                <circle cx="50" cy="50" r="44" fill="#f0ede8" fillOpacity="0.05" />
+                                {/* Croissant */}
+                                <circle
+                                    cx="50" cy="50" r="36"
+                                    fill="#f0ede8" fillOpacity="0.72"
+                                    mask="url(#crescent-mask)"
+                                    filter="url(#moon-glow)"
+                                />
+                            </motion.svg>
+                        </motion.div>
+                    ) : (
+                        /* SOLEIL — dégradé vermillon → or */
+                        <motion.div
+                            key="sun"
+                            initial={{ opacity: 0, scale: 0.85 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.85 }}
+                            transition={{ duration: 1.2, ease: 'easeOut' }}
+                        >
+                            <motion.svg
+                                width="130" height="130" viewBox="0 0 120 120"
+                                animate={reduce ? {} : { scale: [1, 1.05, 1] }}
+                                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                            >
+                                <defs>
+                                    <radialGradient id="sun-grad" cx="40%" cy="38%" r="60%">
+                                        <stop offset="0%"   stopColor="#d4504c" stopOpacity="0.90" />
+                                        <stop offset="55%"  stopColor="#b8956a" stopOpacity="0.80" />
+                                        <stop offset="100%" stopColor="#b8956a" stopOpacity="0.20" />
+                                    </radialGradient>
+                                    <filter id="sun-glow">
+                                        <feGaussianBlur stdDeviation="4" result="blur" />
+                                        <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                                    </filter>
+                                </defs>
+                                {/* Halos */}
+                                <circle cx="60" cy="60" r="58" fill="#b8956a" fillOpacity="0.04" />
+                                <circle cx="60" cy="60" r="50" fill="#b8956a" fillOpacity="0.07" />
+                                <circle cx="60" cy="60" r="42" fill="#b8956a" fillOpacity="0.09" />
+                                {/* Corps */}
+                                <circle
+                                    cx="60" cy="60" r="32"
+                                    fill="url(#sun-grad)"
+                                    filter="url(#sun-glow)"
+                                />
+                            </motion.svg>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </motion.div>
 
             {/* ── MONTAGNES en 4 calques parallax ── */}
