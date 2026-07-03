@@ -147,6 +147,7 @@ function PandaAnimation({ isDark }: { isDark: boolean }) {
                     animationData={data}
                     loop={true}
                     className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32"
+                    style={{ background: 'transparent' }}
                 />
             </motion.div>
         </AnimatePresence>
@@ -323,8 +324,8 @@ export default function Hero() {
             <motion.div
                 className="absolute pointer-events-none z-10"
                 style={reduce
-                    ? { left: '2rem', top: 'calc(50% + 175px)' }
-                    : { left: '2rem', top: 'calc(50% + 175px)', x: bambouX }
+                    ? { left: '3rem', top: 'calc(50% + 195px)' }
+                    : { left: '3rem', top: 'calc(50% + 195px)', x: bambouX }
                 }
             >
                 <PandaAnimation isDark={isDark} />
