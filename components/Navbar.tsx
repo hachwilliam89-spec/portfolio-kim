@@ -187,20 +187,36 @@ export default function Navbar() {
                             </button>
                         </div>
 
-                        {/* Burger Menu Mobile */}
-                        <button
-                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className="md:hidden p-2 rounded-lg hover:bg-gold/10 transition-colors duration-200"
-                            aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-                            aria-expanded={mobileMenuOpen}
-                            aria-controls="mobile-menu"
-                        >
-                            {mobileMenuOpen ? (
-                                <HiX className="w-7 h-7 text-ink" aria-hidden="true" />
-                            ) : (
-                                <HiMenu className="w-7 h-7 text-ink" aria-hidden="true" />
-                            )}
-                        </button>
+                        {/* Contrôles mobile : thème + langue + burger */}
+                        <div className="md:hidden flex items-center gap-1">
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 text-ink/60 hover:text-ink rounded-lg hover:bg-gold/10 transition-all duration-200"
+                                aria-label={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
+                            >
+                                {theme === 'dark' ? <HiSun className="w-4 h-4" /> : <HiMoon className="w-4 h-4" />}
+                            </button>
+                            <button
+                                onClick={toggle}
+                                className="text-xs font-bold text-ink/60 hover:text-ink rounded-lg hover:bg-gold/10 px-2 py-2 transition-all duration-200"
+                                aria-label="Switch language"
+                            >
+                                {lang === 'fr' ? 'EN' : 'FR'}
+                            </button>
+                            <button
+                                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                                className="p-2 rounded-lg hover:bg-gold/10 transition-colors duration-200"
+                                aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+                                aria-expanded={mobileMenuOpen}
+                                aria-controls="mobile-menu"
+                            >
+                                {mobileMenuOpen ? (
+                                    <HiX className="w-7 h-7 text-ink" aria-hidden="true" />
+                                ) : (
+                                    <HiMenu className="w-7 h-7 text-ink" aria-hidden="true" />
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </motion.nav>
