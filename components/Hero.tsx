@@ -296,49 +296,6 @@ export default function Hero() {
                 ))}
             </motion.div>
 
-            {/* ── PANDA JOUR — droite du nom, mode clair ── */}
-            <AnimatePresence>
-                {!isDark && pandaDayData && (
-                    <motion.div
-                        key="panda-day"
-                        className="absolute hidden sm:block pointer-events-none z-10 right-[6%] md:right-[8%] lg:right-[10%]"
-                        style={{ top: '28%' }}
-                        initial={{ opacity: 0, scale: 0.8, x: 20 }}
-                        animate={{ opacity: 1, scale: 1, x: 0 }}
-                        exit={{ opacity: 0, scale: 0.8, x: 20 }}
-                        transition={{ duration: 0.5, ease: 'easeOut' }}
-                    >
-                        <Lottie
-                            animationData={pandaDayData}
-                            loop
-                            style={{ background: 'transparent' }}
-                            className="w-32 h-32 md:w-40 md:h-40 lg:w-44 lg:h-44"
-                        />
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* ── PANDA NUIT — gauche du nom, mode sombre ── */}
-            <AnimatePresence>
-                {isDark && pandaSleepData && (
-                    <motion.div
-                        key="panda-night"
-                        className="absolute hidden sm:block pointer-events-none z-10 left-[18%] md:left-[20%] lg:left-[22%]"
-                        style={{ top: '28%' }}
-                        initial={{ opacity: 0, scale: 0.8, x: -20 }}
-                        animate={{ opacity: 1, scale: 1, x: 0 }}
-                        exit={{ opacity: 0, scale: 0.8, x: -20 }}
-                        transition={{ duration: 0.5, ease: 'easeOut' }}
-                    >
-                        <Lottie
-                            animationData={pandaSleepData}
-                            loop
-                            style={{ background: 'transparent' }}
-                            className="w-32 h-32 md:w-40 md:h-40 lg:w-44 lg:h-44"
-                        />
-                    </motion.div>
-                )}
-            </AnimatePresence>
 
             {/* ── LUNE (dark mode) — à droite du bambou ── */}
             <AnimatePresence>
@@ -557,13 +514,46 @@ export default function Hero() {
                                 >{char === ' ' ? ' ' : char}</motion.span>
                             ))}
                         </div>
-                        <div className="font-display text-7xl md:text-9xl text-ink font-bold leading-none tracking-tight">
-                            {reduce ? 'HACH' : 'HACH'.split('').map((char, i) => (
-                                <motion.span key={i} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.4, delay: 1.1 + i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
-                                    className="inline-block"
-                                >{char}</motion.span>
-                            ))}
+                        <div className="flex items-center justify-center gap-2 md:gap-4">
+                            {/* Slot gauche — sleeping panda (nuit), taille fixe pour éviter le layout shift */}
+                            <div className="flex-shrink-0 h-[4.5rem] w-[4.5rem] md:h-32 md:w-32 hidden sm:block">
+                                <AnimatePresence>
+                                    {isDark && pandaSleepData && (
+                                        <motion.div key="panda-sleep" className="w-full h-full"
+                                            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
+                                            exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.5, ease: 'easeOut' }}
+                                        >
+                                            <Lottie animationData={pandaSleepData} loop
+                                                style={{ background: 'transparent', width: '100%', height: '100%' }} />
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+
+                            {/* Texte HACH */}
+                            <div className="font-display text-7xl md:text-9xl text-ink font-bold leading-none tracking-tight">
+                                {reduce ? 'HACH' : 'HACH'.split('').map((char, i) => (
+                                    <motion.span key={i} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.4, delay: 1.1 + i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
+                                        className="inline-block"
+                                    >{char}</motion.span>
+                                ))}
+                            </div>
+
+                            {/* Slot droite — waving panda (jour), taille fixe pour éviter le layout shift */}
+                            <div className="flex-shrink-0 h-[4.5rem] w-[4.5rem] md:h-32 md:w-32 hidden sm:block">
+                                <AnimatePresence>
+                                    {!isDark && pandaDayData && (
+                                        <motion.div key="panda-day" className="w-full h-full"
+                                            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
+                                            exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.5, ease: 'easeOut' }}
+                                        >
+                                            <Lottie animationData={pandaDayData} loop
+                                                style={{ background: 'transparent', width: '100%', height: '100%' }} />
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
                         </div>
                     </h1>
 
