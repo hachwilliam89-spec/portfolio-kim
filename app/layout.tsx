@@ -31,11 +31,11 @@ export const metadata: Metadata = {
     keywords: ['développeur', 'full stack', 'react', 'next.js', 'nestjs', 'spring boot', 'node.js', 'typescript', 'docker', 'postgresql', 'agents ia', 'openai', 'portfolio', 'kim hach', 'stage', 'alternance', 'uha 4.0', 'mulhouse', 'drizzle orm', 'vitest'],
     authors: [{ name: 'William Kim HACH' }],
     creator: 'William Kim HACH',
-    metadataBase: new URL('https://portfolio-kim.vercel.app'),
+    metadataBase: new URL('https://wkhach.dev'),
     openGraph: {
         type: 'website',
         locale: 'fr_FR',
-        url: 'https://portfolio-kim.vercel.app',
+        url: 'https://wkhach.dev',
         siteName: 'William Kim HACH , Portfolio',
         title: 'William Kim HACH , Développeur Full Stack',
         description: 'Développeur Full Stack , Next.js, TypeScript, NestJS, Spring Boot, agents IA. 6 projets dont XIP Telecom v2 (plateforme B2B avec orchestration IA). Disponible en stage ou alternance.',
