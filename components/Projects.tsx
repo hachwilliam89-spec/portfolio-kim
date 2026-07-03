@@ -215,7 +215,7 @@ export default function Projects() {
                             className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all duration-200 ${
                                 activeFilter === f.value
                                     ? 'bg-vermillon text-white border-vermillon shadow-md'
-                                    : 'bg-white text-ink border-gold/40 hover:border-vermillon hover:text-vermillon'
+                                    : 'bg-white dark:bg-washi-dark text-ink border-gold/40 hover:border-vermillon hover:text-vermillon'
                             }`}
                         >
                             {f.value === 'all' ? t.projects.filterAll : f.label}
@@ -232,7 +232,7 @@ export default function Projects() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             onClick={() => setSelectedProject(project)}
-                            className="bg-white border-2 border-gold/40 rounded-lg overflow-hidden hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300 group cursor-pointer flex flex-col"
+                            className="bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg overflow-hidden hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300 group cursor-pointer flex flex-col"
                             role="button"
                             tabIndex={0}
                             aria-label={`Voir les détails du projet ${project.title}`}

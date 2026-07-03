@@ -7,7 +7,7 @@ export default function Footer() {
     const t = lang === 'fr' ? fr : en;
 
     return (
-        <footer className="relative border-t border-gold/30 bg-ink py-4 text-center text-sm text-washi/90">
+        <footer className="relative border-t border-gold/30 bg-ink dark:bg-[#090807] py-4 text-center text-sm text-washi/90 dark:text-ink/90">
             {/* Motif grecque chinoise en bordure haute */}
             <div className="absolute top-0 left-0 right-0 h-5 overflow-hidden opacity-20" aria-hidden="true">
                 <svg
@@ -18,7 +18,7 @@ export default function Footer() {
                 >
                     <defs>
                         <pattern id="greek-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                            <g fill="none" stroke="#faf9f6" strokeWidth="1.2" strokeLinecap="square">
+                            <g fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="square">
                                 <path d="M 2 2 L 18 2 L 18 18 L 5 18 L 5 5 L 15 5 L 15 15 L 8 15 L 8 8 L 12 8 L 12 12 L 10 12 L 10 10" />
                             </g>
                         </pattern>

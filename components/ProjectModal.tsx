@@ -95,7 +95,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-50 flex items-center justify-center bg-ink/90 p-4"
+                className="fixed inset-0 z-50 flex items-center justify-center bg-ink/90 dark:bg-[#090807]/95 p-4"
                 onClick={onClose}
             >
                 <motion.div

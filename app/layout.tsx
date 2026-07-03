@@ -74,7 +74,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="fr" className={`scroll-smooth ${inter.variable} ${playfair.variable} ${maShanZheng.variable}`}>
-        <body className="bg-washi text-ink antialiased font-sans">
+        <head>
+            {/* Anti-flash : applique .dark avant le premier rendu */}
+            <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t===null&&d))document.documentElement.classList.add('dark')}catch(e){}` }} />
+        </head>
+        <body className="bg-washi text-ink antialiased font-sans transition-colors duration-300">
         <Providers>
             <Navbar />
             <main>

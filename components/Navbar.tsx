@@ -3,10 +3,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiMenu, HiX, HiDownload } from 'react-icons/hi';
+import { HiSun, HiMoon } from 'react-icons/hi2';
 import { useLanguage, fr, en } from '@/lib/i18n';
+import { useTheme } from './ThemeProvider';
 
 export default function Navbar() {
     const { lang, toggle } = useLanguage();
+    const { theme, toggleTheme } = useTheme();
     const t = lang === 'fr' ? fr : en;
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('');
@@ -99,6 +102,15 @@ export default function Navbar() {
                                 aria-label="Switch language"
                             >
                                 {lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR'}
+                            </button>
+
+                            {/* Toggle Dark/Light */}
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 text-ink border border-gold/40 rounded-lg hover:border-vermillon hover:text-vermillon transition-all duration-200"
+                                aria-label={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
+                            >
+                                {theme === 'dark' ? <HiSun className="w-5 h-5" /> : <HiMoon className="w-5 h-5" />}
                             </button>
 
                             {/* Bouton CV avec dropdown */}

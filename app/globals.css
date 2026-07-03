@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* ── Dark mode via classe .dark sur <html> ── */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* Couleurs principales */
   --color-ink: #1a1a1a;
@@ -26,6 +29,13 @@
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Playfair Display', serif;
   --font-chinese: 'Ma Shan Zheng', cursive;
+}
+
+/* ── Palette dark mode ── */
+.dark {
+  --color-washi: #0f0e0d;
+  --color-washi-dark: #1c1b19;
+  --color-ink: #f0ede8;
 }
 
 @layer base {

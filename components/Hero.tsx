@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiSpring, SiDocker } from 'react-icons/si';
 import { HiArrowDown } from 'react-icons/hi';
 import { useLanguage, fr, en } from '@/lib/i18n';
+import { useTheme } from './ThemeProvider';
 
 // ── Feuille qui tombe ────────────────────────────────────────────────────────
 function FallingLeaf({ delay, startX, startY, duration }: {
@@ -30,8 +31,7 @@ function FallingLeaf({ delay, startX, startY, duration }: {
             }}
         >
             <svg width="9" height="13" viewBox="0 0 9 13" fill="none">
-                <ellipse cx="4.5" cy="6.5" rx="3.2" ry="5.8" fill="#1a1a1a" />
-                <line x1="4.5" y1="1" x2="4.5" y2="12" stroke="#faf9f6" strokeWidth="0.6" />
+                <ellipse cx="4.5" cy="6.5" rx="3.2" ry="5.8" fill="currentColor" />
             </svg>
         </motion.div>
     );
@@ -61,7 +61,7 @@ function FlyingBird({ top, delay, duration, scale = 1 }: {
                 <svg
                     width={22 * scale} height={10 * scale}
                     viewBox="0 0 22 10" fill="none"
-                    stroke="#1a1a1a" strokeWidth={1.4} strokeLinecap="round"
+                    stroke="currentColor" strokeWidth={1.4} strokeLinecap="round"
                 >
                     <path d="M 0 5 Q 5.5 0, 11 5 Q 16.5 0, 22 5" />
                 </svg>
@@ -69,6 +69,63 @@ function FlyingBird({ top, delay, duration, scale = 1 }: {
         </motion.div>
     );
 }
+
+// ── Étoile scintillante ───────────────────────────────────────────────────────
+type StarShape = 'dot' | 'cross';
+function TwinklingStar({ x, y, r, delay, dur, shape = 'dot' }: {
+    x: string; y: string; r: number; delay: number; dur: number; shape?: StarShape;
+}) {
+    return (
+        <motion.div
+            className="absolute pointer-events-none text-ink"
+            style={{ left: x, top: y, filter: `drop-shadow(0 0 ${r * 2.5}px currentColor)` }}
+            animate={{ scale: [0.5, 1.6, 0.5], opacity: [0.15, 0.9, 0.15] }}
+            transition={{ duration: dur, delay, repeat: Infinity, ease: 'easeInOut' }}
+        >
+            {shape === 'cross' ? (
+                <svg width={r * 4} height={r * 4} viewBox="0 0 12 12" style={{ margin: -r }}>
+                    <path
+                        d="M6 0.5 L6.9 5.1 L11.5 6 L6.9 6.9 L6 11.5 L5.1 6.9 L0.5 6 L5.1 5.1 Z"
+                        fill="currentColor"
+                    />
+                </svg>
+            ) : (
+                <svg width={r * 2} height={r * 2} viewBox={`0 0 ${r * 2} ${r * 2}`} style={{ display: 'block' }}>
+                    <circle cx={r} cy={r} r={r} fill="currentColor" />
+                </svg>
+            )}
+        </motion.div>
+    );
+}
+
+// Positions évitant la zone de texte central (≈ 28-72% x, 20-80% y)
+const STARS: { x: string; y: string; r: number; delay: number; dur: number; shape?: StarShape }[] = [
+    // Haut
+    { x: '4%',  y: '6%',  r: 1.2, delay: 0,    dur: 3.2 },
+    { x: '17%', y: '4%',  r: 0.9, delay: 1.3,  dur: 2.9, shape: 'cross' },
+    { x: '33%', y: '8%',  r: 1.0, delay: 0.6,  dur: 3.7 },
+    { x: '52%', y: '5%',  r: 1.3, delay: 2.1,  dur: 2.6, shape: 'cross' },
+    { x: '70%', y: '7%',  r: 0.9, delay: 0.9,  dur: 3.4 },
+    { x: '84%', y: '3%',  r: 1.5, delay: 1.6,  dur: 3.0, shape: 'cross' },
+    { x: '94%', y: '10%', r: 1.0, delay: 3.2,  dur: 4.0 },
+    // Bord gauche
+    { x: '2%',  y: '30%', r: 1.1, delay: 2.4,  dur: 3.5 },
+    { x: '7%',  y: '52%', r: 0.9, delay: 0.4,  dur: 2.8, shape: 'cross' },
+    { x: '14%', y: '70%', r: 1.3, delay: 1.9,  dur: 3.9 },
+    // Bord droit (zone montagnes)
+    { x: '80%', y: '20%', r: 1.2, delay: 3.0,  dur: 3.1, shape: 'cross' },
+    { x: '91%', y: '35%', r: 0.9, delay: 0.7,  dur: 2.7 },
+    { x: '76%', y: '48%', r: 1.4, delay: 2.3,  dur: 4.1, shape: 'cross' },
+    { x: '96%', y: '55%', r: 0.8, delay: 1.1,  dur: 3.3 },
+    // Bas
+    { x: '23%', y: '85%', r: 1.0, delay: 3.6,  dur: 3.8 },
+    { x: '44%', y: '82%', r: 0.9, delay: 0.8,  dur: 2.5 },
+    { x: '63%', y: '88%', r: 1.2, delay: 1.7,  dur: 3.6, shape: 'cross' },
+    { x: '88%', y: '80%', r: 1.0, delay: 2.9,  dur: 3.2 },
+    // Quelques éparses dans le reste
+    { x: '24%', y: '18%', r: 0.9, delay: 3.8,  dur: 2.8 },
+    { x: '74%', y: '14%', r: 1.1, delay: 1.5,  dur: 3.5, shape: 'cross' },
+];
 
 // ── Feuilles config ──────────────────────────────────────────────────────────
 const LEAVES = [
@@ -84,8 +141,10 @@ const LEAVES = [
 
 export default function Hero() {
     const { lang } = useLanguage();
+    const { theme } = useTheme();
     const t = lang === 'fr' ? fr : en;
     const reduce = useReducedMotion();
+    const isDark = theme === 'dark';
 
     // ── Mouse parallax ───────────────────────────────────────────────────────
     const rawX = useMotionValue(0);
@@ -166,7 +225,7 @@ export default function Hero() {
                     viewBox="0 0 100 400"
                     xmlns="http://www.w3.org/2000/svg"
                 >
-                    <g stroke="#1a1a1a" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                    <g stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <motion.path d="M 30 400 L 30 320" strokeWidth="6" variants={drawLine} initial="hidden" animate="visible" custom={0} />
                         <motion.path d="M 25 320 L 35 320" strokeWidth="4" variants={drawLine} initial="hidden" animate="visible" custom={0.3} />
                         <motion.path d="M 30 320 L 30 240" strokeWidth="6" variants={drawLine} initial="hidden" animate="visible" custom={0.4} />
@@ -213,35 +272,35 @@ export default function Hero() {
 
                 {/* Calque 1 — le plus lointain */}
                 <motion.div className="absolute inset-0 opacity-[0.04]" style={reduce ? {} : { x: m1x, y: m1y }}>
-                    <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="#1a1a1a" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
                         <motion.path d="M 20 320 Q 50 280, 80 300 Q 120 250, 160 220 Q 180 200, 200 220 Q 240 260, 280 240 Q 300 225, 320 260" strokeWidth="2.5" variants={drawMountain} initial="hidden" animate="visible" custom={0.5} />
                     </svg>
                 </motion.div>
 
                 {/* Calque 2 */}
                 <motion.div className="absolute inset-0 opacity-[0.055]" style={reduce ? {} : { x: m2x, y: m2y }}>
-                    <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="#1a1a1a" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
                         <motion.path d="M 60 350 Q 100 310, 140 325 Q 180 290, 220 260 Q 250 240, 275 260 Q 300 285, 320 275" strokeWidth="3.5" variants={drawMountain} initial="hidden" animate="visible" custom={1.0} />
                     </svg>
                 </motion.div>
 
                 {/* Calque 3 */}
                 <motion.div className="absolute inset-0 opacity-[0.065]" style={reduce ? {} : { x: m3x, y: m3y }}>
-                    <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="#1a1a1a" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
                         <motion.path d="M 120 380 Q 160 345, 200 358 Q 240 330, 270 310 Q 295 295, 310 308 Q 318 318, 320 330" strokeWidth="5" variants={drawMountain} initial="hidden" animate="visible" custom={1.5} />
                     </svg>
                 </motion.div>
 
                 {/* Calque 4 — le plus proche */}
                 <motion.div className="absolute inset-0 opacity-[0.08]" style={reduce ? {} : { x: m4x, y: m4y }}>
-                    <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="#1a1a1a" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
                         <motion.path d="M 200 400 Q 230 375, 260 382 Q 285 365, 305 355 Q 315 350, 320 360" strokeWidth="6" variants={drawMountain} initial="hidden" animate="visible" custom={1.8} />
                     </svg>
                 </motion.div>
 
                 {/* Oiseaux statiques avec parallax léger */}
                 <motion.div className="absolute inset-0 opacity-[0.06]" style={reduce ? {} : { x: bx, y: by }}>
-                    <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="#1a1a1a" strokeLinecap="round">
+                    <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round">
                         <motion.path d="M 45 80 Q 52 72, 59 80 Q 66 72, 73 80"       strokeWidth="2"   variants={drawBird} initial="hidden" animate="visible" custom={2.5} />
                         <motion.path d="M 130 55 Q 135 50, 140 55 Q 145 50, 150 55"  strokeWidth="1.8" variants={drawBird} initial="hidden" animate="visible" custom={2.65} />
                         <motion.path d="M 105 95 Q 109 91, 113 95 Q 117 91, 121 95"  strokeWidth="1.5" variants={drawBird} initial="hidden" animate="visible" custom={2.8} />
@@ -253,14 +312,16 @@ export default function Hero() {
                 </motion.div>
             </div>
 
-            {/* ── OISEAUX QUI VOLENT ── */}
-            {!reduce && (
+            {/* ── OISEAUX (light) ou ÉTOILES (dark) ── */}
+            {!reduce && (isDark ? (
+                STARS.map((s, i) => <TwinklingStar key={i} {...s} />)
+            ) : (
                 <>
                     <FlyingBird top="18%"  delay={5}   duration={22} scale={1.1} />
                     <FlyingBird top="25%"  delay={13}  duration={28} scale={0.8} />
                     <FlyingBird top="14%"  delay={20}  duration={18} scale={0.9} />
                 </>
-            )}
+            ))}
 
             {/* ── CONTENU PRINCIPAL ── */}
             <motion.div

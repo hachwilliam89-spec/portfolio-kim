@@ -63,7 +63,7 @@ function ChineseSeal() {
                     strokeLinecap="round"
                     opacity="0.5"
                 />
-                <g fill="none" stroke="#faf9f6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <g fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M 18 16 L 42 16" />
                     <path d="M 22 20 L 15 30" />
                     <path d="M 38 20 L 45 30" />
@@ -94,7 +94,7 @@ export default function About() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="relative bg-white border-2 border-gold/40 rounded-lg p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
+                    className="relative bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
                 >
                     <h3 className="font-display text-2xl font-bold text-vermillon mb-5">{t.about.background}</h3>
                     <div className="space-y-4 text-sm text-ink leading-relaxed font-medium">
@@ -111,7 +111,7 @@ export default function About() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="bg-white border-2 border-gold/40 rounded-lg p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
+                    className="bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
                 >
                     <h3 className="font-display text-2xl font-bold text-vermillon mb-5">{t.about.skills}</h3>
                     <div className="space-y-5">

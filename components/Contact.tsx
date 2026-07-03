@@ -123,7 +123,7 @@ export default function Contact() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="bg-white border-2 border-gold/40 rounded-lg p-6 hover:border-vermillon hover:shadow-xl hover:shadow-vermillon/20 transition-all duration-300"
+                    className="bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg p-6 hover:border-vermillon hover:shadow-xl hover:shadow-vermillon/20 transition-all duration-300"
                 >
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
