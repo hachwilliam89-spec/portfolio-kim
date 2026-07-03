@@ -71,7 +71,7 @@ export default function Navbar() {
                             aria-label="Retour à l'accueil"
                         >
                             <span className="font-serif text-3xl font-bold text-ink transition-colors duration-200 group-hover:text-vermillon">
-                                KH
+                                WKH
                             </span>
                             <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" aria-hidden="true" />
                         </button>
@@ -133,7 +133,7 @@ export default function Navbar() {
                                                 className="absolute right-0 top-full mt-2 w-52 bg-washi border border-gold/30 rounded-xl shadow-xl z-50 overflow-hidden"
                                             >
                                                 <a
-                                                    href="/CV_Kim_HACH_Developpeur_Fullstack.pdf"
+                                                    href="/CV_William_Kim_HACH_Developpeur_Fullstack.pdf"
                                                     download
                                                     onClick={() => setCvDropdownOpen(false)}
                                                     className="flex items-center gap-3 px-4 py-3 text-sm text-ink hover:bg-gold/10 transition-colors duration-150"
@@ -146,7 +146,7 @@ export default function Navbar() {
                                                 </a>
                                                 <div className="border-t border-gold/20" />
                                                 <a
-                                                    href="/CV_Kim_HACH_Resume_US.pdf"
+                                                    href="/CV_William_Kim_HACH_Resume_US.pdf"
                                                     download
                                                     onClick={() => setCvDropdownOpen(false)}
                                                     className="flex items-center gap-3 px-4 py-3 text-sm text-ink hover:bg-gold/10 transition-colors duration-150"
@@ -253,7 +253,7 @@ export default function Navbar() {
 
                                     {/* Boutons CV Mobile */}
                                     <motion.a
-                                        href="/CV_Kim_HACH_Developpeur_Fullstack.pdf"
+                                        href="/CV_William_Kim_HACH_Developpeur_Fullstack.pdf"
                                         download
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
@@ -265,7 +265,7 @@ export default function Navbar() {
                                         <span>🇫🇷 CV Français</span>
                                     </motion.a>
                                     <motion.a
-                                        href="/CV_Kim_HACH_Resume_US.pdf"
+                                        href="/CV_William_Kim_HACH_Resume_US.pdf"
                                         download
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}

@@ -54,7 +54,7 @@ export const fr = {
         connectionError: 'Erreur de connexion',
     },
     footer: {
-        copyright: '© 2026 Kim HACH — Étudiant en Licence Pro Développement Full Stack',
+        copyright: '© 2026 William Kim HACH — Étudiant en Licence Pro Développement Full Stack',
     },
 };
 

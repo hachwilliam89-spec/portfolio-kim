@@ -56,6 +56,6 @@ export const en: Translations = {
         connectionError: 'Connection error',
     },
     footer: {
-        copyright: '© 2026 Kim HACH — Full Stack Development Student',
+        copyright: '© 2026 William Kim HACH — Full Stack Development Student',
     },
 };

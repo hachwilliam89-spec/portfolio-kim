@@ -26,31 +26,31 @@ const maShanZheng = Ma_Shan_Zheng({
 })
 
 export const metadata: Metadata = {
-    title: 'Kim HACH — Développeur Full Stack',
-    description: 'Portfolio de Kim HACH, développeur Full Stack (Licence Pro UHA 4.0). Projets : XIP Telecom v2 (agents IA, Odoo), RecycleDashboard, KCD Formes, COS Strasbourg. Stack : Next.js, TypeScript, NestJS, Spring Boot, Docker, PostgreSQL.',
+    title: 'William Kim HACH — Développeur Full Stack',
+    description: 'Portfolio de William Kim HACH, développeur Full Stack (Licence Pro UHA 4.0). Projets : XIP Telecom v2 (agents IA, Odoo), RecycleDashboard, KCD Formes, COS Strasbourg. Stack : Next.js, TypeScript, NestJS, Spring Boot, Docker, PostgreSQL.',
     keywords: ['développeur', 'full stack', 'react', 'next.js', 'nestjs', 'spring boot', 'node.js', 'typescript', 'docker', 'postgresql', 'agents ia', 'openai', 'portfolio', 'kim hach', 'stage', 'alternance', 'uha 4.0', 'mulhouse', 'drizzle orm', 'vitest'],
-    authors: [{ name: 'Kim HACH' }],
-    creator: 'Kim HACH',
+    authors: [{ name: 'William Kim HACH' }],
+    creator: 'William Kim HACH',
     metadataBase: new URL('https://portfolio-kim.vercel.app'),
     openGraph: {
         type: 'website',
         locale: 'fr_FR',
         url: 'https://portfolio-kim.vercel.app',
-        siteName: 'Kim HACH — Portfolio',
-        title: 'Kim HACH — Développeur Full Stack',
+        siteName: 'William Kim HACH — Portfolio',
+        title: 'William Kim HACH — Développeur Full Stack',
         description: 'Développeur Full Stack — Next.js, TypeScript, NestJS, Spring Boot, agents IA. 6 projets dont XIP Telecom v2 (plateforme B2B avec orchestration IA). Disponible en stage ou alternance.',
         images: [
             {
                 url: '/og-image.png',
                 width: 1200,
                 height: 630,
-                alt: 'Kim HACH - Développeur Full Stack',
+                alt: 'William Kim HACH - Développeur Full Stack',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Kim HACH — Développeur Full Stack',
+        title: 'William Kim HACH — Développeur Full Stack',
         description: 'Développeur Full Stack — Next.js, TypeScript, NestJS, Spring Boot, agents IA. Disponible en stage ou alternance.',
         images: ['/og-image.png'],
     },

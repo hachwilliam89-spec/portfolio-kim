@@ -162,7 +162,7 @@ export default function Hero() {
                     className="space-y-4"
                 >
                     <h1 className="font-display text-6xl md:text-8xl text-ink leading-none tracking-tight">
-                        {'Kim HACH'.split('').map((char, i) => (
+                        {'William Kim HACH'.split('').map((char, i) => (
                             <motion.span
                                 key={i}
                                 initial={{ opacity: 0, y: 30 }}
