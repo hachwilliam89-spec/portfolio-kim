@@ -137,7 +137,7 @@ export default function Hero() {
                 initial={reduce ? false : { opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-                className="relative z-10 text-center space-y-8 max-w-4xl"
+                className="relative z-10 text-center space-y-8 max-w-4xl pb-20"
             >
                 {/* Badge status */}
                 <motion.div
@@ -249,16 +249,6 @@ export default function Hero() {
                         {t.hero.cta}
                     </span>
                 </motion.div>
-
-                {/* Projets mentionnés */}
-                <motion.p
-                    initial={reduce ? false : { opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 2.2 }}
-                    className="text-sm text-ink/50 tracking-wide"
-                >
-                    KCD Formes • RecycleDashboard • Miyazaki Garden
-                </motion.p>
 
                 {/* Tech badges */}
                 <motion.div
