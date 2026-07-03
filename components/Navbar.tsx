@@ -95,24 +95,6 @@ export default function Navbar() {
                                 </button>
                             ))}
 
-                            {/* Toggle FR/EN */}
-                            <button
-                                onClick={toggle}
-                                className="px-3 py-2 text-sm font-bold text-ink border border-gold/40 rounded-lg hover:border-vermillon hover:text-vermillon transition-all duration-200"
-                                aria-label="Switch language"
-                            >
-                                {lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR'}
-                            </button>
-
-                            {/* Toggle Dark/Light */}
-                            <button
-                                onClick={toggleTheme}
-                                className="p-2 text-ink border border-gold/40 rounded-lg hover:border-vermillon hover:text-vermillon transition-all duration-200"
-                                aria-label={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
-                            >
-                                {theme === 'dark' ? <HiSun className="w-5 h-5" /> : <HiMoon className="w-5 h-5" />}
-                            </button>
-
                             {/* Bouton CV avec dropdown */}
                             <div className="relative ml-2">
                                 <button
@@ -181,6 +163,27 @@ export default function Navbar() {
                                 className="ml-2 px-6 py-2.5 bg-gradient-to-r from-vermillon to-gold text-washi text-sm font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
                             >
                                 {t.nav.contact}
+                            </button>
+
+                            {/* Séparateur */}
+                            <div className="w-px h-6 bg-gold/30 mx-1" aria-hidden="true" />
+
+                            {/* Toggle Dark/Light */}
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 text-ink/60 hover:text-ink rounded-lg hover:bg-gold/10 transition-all duration-200"
+                                aria-label={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
+                            >
+                                {theme === 'dark' ? <HiSun className="w-4 h-4" /> : <HiMoon className="w-4 h-4" />}
+                            </button>
+
+                            {/* Toggle FR/EN */}
+                            <button
+                                onClick={toggle}
+                                className="text-xs font-bold text-ink/60 hover:text-ink rounded-lg hover:bg-gold/10 px-2 py-2 transition-all duration-200"
+                                aria-label="Switch language"
+                            >
+                                {lang === 'fr' ? 'EN' : 'FR'}
                             </button>
                         </div>
 
