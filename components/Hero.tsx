@@ -121,38 +121,6 @@ function TwinklingStar({ x, y, r, delay, dur, shape = 'dot' }: {
     );
 }
 
-// ── Panda Lottie ─────────────────────────────────────────────────────────────
-function PandaAnimation({ isDark }: { isDark: boolean }) {
-    const [dayData, setDayData]     = useState<object | null>(null);
-    const [sleepData, setSleepData] = useState<object | null>(null);
-
-    useEffect(() => {
-        fetch('/panda-day.json').then(r => r.json()).then(setDayData);
-        fetch('/panda-sleep.json').then(r => r.json()).then(setSleepData);
-    }, []);
-
-    const data = isDark ? sleepData : dayData;
-    if (!data) return null;
-
-    return (
-        <AnimatePresence mode="wait">
-            <motion.div
-                key={isDark ? 'sleep' : 'day'}
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.85 }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
-            >
-                <Lottie
-                    animationData={data}
-                    loop={true}
-                    className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32"
-                    style={{ background: 'transparent' }}
-                />
-            </motion.div>
-        </AnimatePresence>
-    );
-}
 
 // Positions évitant la zone de texte central (≈ 28-72% x, 20-80% y)
 const STARS: { x: string; y: string; r: number; delay: number; dur: number; shape?: StarShape }[] = [
@@ -195,6 +163,14 @@ export default function Hero() {
     const t = lang === 'fr' ? fr : en;
     const reduce = useReducedMotion();
     const isDark = theme === 'dark';
+
+    // ── Panda data ───────────────────────────────────────────────────────────
+    const [pandaDayData,   setPandaDayData]   = useState<object | null>(null);
+    const [pandaSleepData, setPandaSleepData] = useState<object | null>(null);
+    useEffect(() => {
+        fetch('/panda-day.json').then(r => r.json()).then(setPandaDayData);
+        fetch('/panda-sleep.json').then(r => r.json()).then(setPandaSleepData);
+    }, []);
 
     // ── Mouse parallax ───────────────────────────────────────────────────────
     const rawX = useMotionValue(0);
@@ -320,16 +296,49 @@ export default function Hero() {
                 ))}
             </motion.div>
 
-            {/* ── PANDA — au pied du bambou ── */}
-            <motion.div
-                className="absolute pointer-events-none z-10"
-                style={reduce
-                    ? { left: '3rem', top: 'calc(50% + 195px)' }
-                    : { left: '3rem', top: 'calc(50% + 195px)', x: bambouX }
-                }
-            >
-                <PandaAnimation isDark={isDark} />
-            </motion.div>
+            {/* ── PANDA JOUR — droite du nom, mode clair ── */}
+            <AnimatePresence>
+                {!isDark && pandaDayData && (
+                    <motion.div
+                        key="panda-day"
+                        className="absolute hidden sm:block pointer-events-none z-10 right-[6%] md:right-[8%] lg:right-[10%]"
+                        style={{ top: '28%' }}
+                        initial={{ opacity: 0, scale: 0.8, x: 20 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.8, x: 20 }}
+                        transition={{ duration: 0.5, ease: 'easeOut' }}
+                    >
+                        <Lottie
+                            animationData={pandaDayData}
+                            loop
+                            style={{ background: 'transparent' }}
+                            className="w-32 h-32 md:w-40 md:h-40 lg:w-44 lg:h-44"
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* ── PANDA NUIT — gauche du nom, mode sombre ── */}
+            <AnimatePresence>
+                {isDark && pandaSleepData && (
+                    <motion.div
+                        key="panda-night"
+                        className="absolute hidden sm:block pointer-events-none z-10 left-[18%] md:left-[20%] lg:left-[22%]"
+                        style={{ top: '28%' }}
+                        initial={{ opacity: 0, scale: 0.8, x: -20 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.8, x: -20 }}
+                        transition={{ duration: 0.5, ease: 'easeOut' }}
+                    >
+                        <Lottie
+                            animationData={pandaSleepData}
+                            loop
+                            style={{ background: 'transparent' }}
+                            className="w-32 h-32 md:w-40 md:h-40 lg:w-44 lg:h-44"
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* ── LUNE (dark mode) — à droite du bambou ── */}
             <AnimatePresence>
