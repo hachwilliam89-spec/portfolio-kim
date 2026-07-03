@@ -8,6 +8,7 @@ export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [cvDropdownOpen, setCvDropdownOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -88,16 +89,67 @@ export default function Navbar() {
                                 </button>
                             ))}
 
-                            {/* Bouton CV - contraste amélioré */}
-                            <a
-                                href="/CV_Kim_HACH_Developpeur_Fullstack.pdf"
-                                download
-                                aria-label="Télécharger mon CV en PDF"
-                                className="ml-2 px-4 py-2.5 text-sm font-medium text-ink border border-gold rounded-lg hover:bg-gold/10 hover:border-gold transition-all duration-200 flex items-center gap-1.5"
-                            >
-                                <HiDownload className="w-4 h-4" aria-hidden="true" />
-                                CV
-                            </a>
+                            {/* Bouton CV avec dropdown */}
+                            <div className="relative ml-2">
+                                <button
+                                    onClick={() => setCvDropdownOpen(!cvDropdownOpen)}
+                                    aria-label="Télécharger mon CV"
+                                    aria-expanded={cvDropdownOpen}
+                                    className="px-4 py-2.5 text-sm font-medium text-ink border border-gold rounded-lg hover:bg-gold/10 hover:border-gold transition-all duration-200 flex items-center gap-1.5"
+                                >
+                                    <HiDownload className="w-4 h-4" aria-hidden="true" />
+                                    CV
+                                    <svg className={`w-3 h-3 transition-transform duration-200 ${cvDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                <AnimatePresence>
+                                    {cvDropdownOpen && (
+                                        <>
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                exit={{ opacity: 0 }}
+                                                className="fixed inset-0 z-40"
+                                                onClick={() => setCvDropdownOpen(false)}
+                                            />
+                                            <motion.div
+                                                initial={{ opacity: 0, y: -8 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: -8 }}
+                                                transition={{ duration: 0.15 }}
+                                                className="absolute right-0 top-full mt-2 w-52 bg-washi border border-gold/30 rounded-xl shadow-xl z-50 overflow-hidden"
+                                            >
+                                                <a
+                                                    href="/CV_Kim_HACH_Developpeur_Fullstack.pdf"
+                                                    download
+                                                    onClick={() => setCvDropdownOpen(false)}
+                                                    className="flex items-center gap-3 px-4 py-3 text-sm text-ink hover:bg-gold/10 transition-colors duration-150"
+                                                >
+                                                    <span className="text-lg">🇫🇷</span>
+                                                    <div>
+                                                        <div className="font-semibold">CV Français</div>
+                                                        <div className="text-xs text-ink/50">Format français</div>
+                                                    </div>
+                                                </a>
+                                                <div className="border-t border-gold/20" />
+                                                <a
+                                                    href="/CV_Kim_HACH_Resume_US.pdf"
+                                                    download
+                                                    onClick={() => setCvDropdownOpen(false)}
+                                                    className="flex items-center gap-3 px-4 py-3 text-sm text-ink hover:bg-gold/10 transition-colors duration-150"
+                                                >
+                                                    <span className="text-lg">🇺🇸</span>
+                                                    <div>
+                                                        <div className="font-semibold">Resume (US)</div>
+                                                        <div className="text-xs text-ink/50">American format</div>
+                                                    </div>
+                                                </a>
+                                            </motion.div>
+                                        </>
+                                    )}
+                                </AnimatePresence>
+                            </div>
 
                             {/* CTA Button */}
                             <button
@@ -187,18 +239,30 @@ export default function Navbar() {
                                         </motion.button>
                                     ))}
 
-                                    {/* Bouton CV Mobile - contraste amélioré */}
+                                    {/* Boutons CV Mobile */}
                                     <motion.a
                                         href="/CV_Kim_HACH_Developpeur_Fullstack.pdf"
                                         download
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: 0.24, duration: 0.3 }}
-                                        aria-label="Télécharger mon CV en PDF"
-                                        className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-lg font-medium text-ink border border-gold hover:bg-gold/10 transition-all duration-200"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="w-full flex items-center gap-3 px-5 py-4 rounded-lg font-medium text-ink border border-gold hover:bg-gold/10 transition-all duration-200"
                                     >
                                         <HiDownload className="w-5 h-5" aria-hidden="true" />
-                                        Télécharger CV
+                                        <span>🇫🇷 CV Français</span>
+                                    </motion.a>
+                                    <motion.a
+                                        href="/CV_Kim_HACH_Resume_US.pdf"
+                                        download
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: 0.28, duration: 0.3 }}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="w-full flex items-center gap-3 px-5 py-4 rounded-lg font-medium text-ink border border-gold hover:bg-gold/10 transition-all duration-200"
+                                    >
+                                        <HiDownload className="w-5 h-5" aria-hidden="true" />
+                                        <span>🇺🇸 Resume (US)</span>
                                     </motion.a>
                                 </div>
 

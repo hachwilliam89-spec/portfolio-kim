@@ -254,7 +254,7 @@ export default function Contact() {
                         </a>
 
                         <a
-                            href="https://www.linkedin.com/in/kim-hach"
+                            href="https://www.linkedin.com/in/william-hach-31117b407/"
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Voir mon profil LinkedIn"
@@ -265,7 +265,7 @@ export default function Contact() {
                             </svg>
                             <div className="flex-1">
                                 <p className="font-semibold text-ink group-hover:text-vermillon transition-colors">LinkedIn</p>
-                                <p className="text-xs text-ink/80">kim-hach</p>
+                                <p className="text-xs text-ink/80">william-hach-31117b407</p>
                             </div>
                             <svg className="w-5 h-5 text-ink/60 group-hover:text-vermillon group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

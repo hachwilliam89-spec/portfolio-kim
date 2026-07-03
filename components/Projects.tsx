@@ -54,6 +54,16 @@ const techIcons: TechIconMap = {
     'XML-RPC': null,
 };
 
+const FILTERS = [
+    { label: 'Tous', value: 'all' },
+    { label: 'Next.js', value: 'Next.js' },
+    { label: 'TypeScript', value: 'TypeScript' },
+    { label: 'Spring Boot', value: 'Spring Boot' },
+    { label: 'NestJS', value: 'NestJS' },
+    { label: 'IA', value: 'OpenAI' },
+    { label: 'Docker', value: 'Docker' },
+];
+
 const projects: Project[] = [
     {
         id: 7,
@@ -168,14 +178,36 @@ const projects: Project[] = [
 
 export default function Projects() {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [activeFilter, setActiveFilter] = useState('all');
+
+    const filtered = activeFilter === 'all'
+        ? projects
+        : projects.filter(p => p.tech.some(t => t.includes(activeFilter)));
 
     return (
         <>
             <section id="projects" className="max-w-6xl mx-auto px-4 py-20">
                 <SectionTitle>Projets</SectionTitle>
 
+                {/* Filtres */}
+                <div className="flex flex-wrap gap-2 justify-center mb-10">
+                    {FILTERS.map((f) => (
+                        <button
+                            key={f.value}
+                            onClick={() => setActiveFilter(f.value)}
+                            className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all duration-200 ${
+                                activeFilter === f.value
+                                    ? 'bg-vermillon text-white border-vermillon shadow-md'
+                                    : 'bg-white text-ink border-gold/40 hover:border-vermillon hover:text-vermillon'
+                            }`}
+                        >
+                            {f.label}
+                        </button>
+                    ))}
+                </div>
+
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-                    {projects.map((project, index) => (
+                    {filtered.map((project, index) => (
                         <motion.article
                             key={project.id}
                             initial={{ opacity: 0, y: 30 }}

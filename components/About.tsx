@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiPrisma, SiPhp, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb } from 'react-icons/si';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPhp, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb } from 'react-icons/si';
 import SectionTitle from './SectionTitle';
 
 const techIcons: { [key: string]: any } = {
@@ -11,9 +11,12 @@ const techIcons: { [key: string]: any } = {
     'Tailwind CSS': SiTailwindcss,
     'Framer Motion': SiFramer,
     'Node.js': SiNodedotjs,
+    'NestJS': SiNestjs,
     'Spring Boot': SiSpring,
     'API REST': null,
     'Prisma': SiPrisma,
+    'Drizzle ORM': null,
+    'Zod': null,
     'PHP': SiPhp,
     'PostgreSQL': SiPostgresql,
     'MariaDB': SiMariadb,
@@ -22,13 +25,17 @@ const techIcons: { [key: string]: any } = {
     'Git': SiGit,
     'GitLab': SiGitlab,
     'Scrum': null,
+    'OpenAI / Anthropic': null,
+    'n8n': null,
+    'Vitest': null,
 };
 
 const skills = [
     { category: 'Frontend', items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
-    { category: 'Backend', items: ['Spring Boot', 'Node.js', 'API REST', 'Prisma', 'PHP'] },
+    { category: 'Backend', items: ['NestJS', 'Spring Boot', 'Node.js', 'API REST', 'Prisma', 'Drizzle ORM', 'Zod', 'PHP'] },
     { category: 'Base de données', items: ['PostgreSQL', 'MariaDB', 'MySQL'] },
-    { category: 'DevOps & Outils', items: ['Docker', 'Git', 'GitLab', 'Scrum'] },
+    { category: 'IA & Intégrations', items: ['OpenAI / Anthropic', 'n8n'] },
+    { category: 'DevOps & Outils', items: ['Docker', 'Git', 'GitLab', 'Vitest', 'Scrum'] },
 ];
 
 function ChineseSeal() {
@@ -88,13 +95,13 @@ export default function About() {
                     <h3 className="font-display text-2xl font-bold text-vermillon mb-5">Parcours</h3>
                     <div className="space-y-4 text-sm text-ink leading-relaxed font-medium">
                         <p>
-                            Ancien <strong className="text-ink font-bold">responsable logistique dans une holding de transport</strong>, j&apos;ai acquis une solide expérience en gestion de projet, coordination d&apos;équipes et résolution de problèmes complexes sous pression.
+                            <strong className="text-ink font-bold">6 ans de management opérationnel</strong> en tant que responsable logistique m&apos;ont appris ce que peu de devs juniors maîtrisent : la rigueur sous pression, la coordination d&apos;équipes et la vision métier orientée résultat.
                         </p>
                         <p>
-                            Curieux et à la recherche d&apos;un nouveau défi, j&apos;ai entamé une reconversion vers le <strong className="text-ink font-bold">développement web</strong> — un domaine qui allie logique, créativité et apprentissage permanent.
+                            Ma <strong className="text-ink font-bold">Licence en Économie</strong> (Paris 1 Panthéon-Sorbonne) me donne une lecture différente des projets — je comprends les enjeux business derrière le code, pas seulement la technique.
                         </p>
                         <p>
-                            Aujourd&apos;hui en formation intensive, mes projets récents (KCD Formes, RecycleDashboard, Miyazaki Garden) illustrent ma capacité à concevoir et déployer des solutions complètes. Mon parcours en logistique m&apos;apporte une rigueur et une vision métier que peu de développeurs juniors possèdent.
+                            Aujourd&apos;hui en <strong className="text-ink font-bold">Licence Pro Développement Full Stack</strong> à l&apos;UHA 4.0, j&apos;ai conçu une plateforme B2B avec agents IA orchestrés (XIP Telecom), piloté une équipe en Scrum Master (RecycleDashboard), et livré un jeu multijoueur temps réel en autonomie (KCD Formes).
                         </p>
                     </div>
                     <ChineseSeal />

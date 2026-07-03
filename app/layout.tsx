@@ -25,18 +25,18 @@ const maShanZheng = Ma_Shan_Zheng({
 
 export const metadata: Metadata = {
     title: 'Kim HACH — Développeur Full Stack',
-    description: 'Portfolio de Kim HACH, développeur full-stack en formation. Projets : Miyazaki-Garden, COS Strasbourg, Application RH. React, Next.js, Node.js, TypeScript.',
-    keywords: ['développeur', 'full stack', 'react', 'next.js', 'node.js', 'typescript', 'portfolio', 'kim hach', 'stage', 'alternance'],
+    description: 'Portfolio de Kim HACH, développeur Full Stack (Licence Pro UHA 4.0). Projets : XIP Telecom v2 (agents IA, Odoo), RecycleDashboard, KCD Formes, COS Strasbourg. Stack : Next.js, TypeScript, NestJS, Spring Boot, Docker, PostgreSQL.',
+    keywords: ['développeur', 'full stack', 'react', 'next.js', 'nestjs', 'spring boot', 'node.js', 'typescript', 'docker', 'postgresql', 'agents ia', 'openai', 'portfolio', 'kim hach', 'stage', 'alternance', 'uha 4.0', 'mulhouse', 'drizzle orm', 'vitest'],
     authors: [{ name: 'Kim HACH' }],
     creator: 'Kim HACH',
-    metadataBase: new URL('https://portfolio-kim-liart.vercel.app'),
+    metadataBase: new URL('https://portfolio-kim.vercel.app'),
     openGraph: {
         type: 'website',
         locale: 'fr_FR',
-        url: 'https://portfolio-kim-liart.vercel.app',
+        url: 'https://portfolio-kim.vercel.app',
         siteName: 'Kim HACH — Portfolio',
         title: 'Kim HACH — Développeur Full Stack',
-        description: 'Développeur full-stack en reconversion. React, Next.js, Node.js, TypeScript. Découvrez mes projets et contactez-moi.',
+        description: 'Développeur Full Stack — Next.js, TypeScript, NestJS, Spring Boot, agents IA. 6 projets dont XIP Telecom v2 (plateforme B2B avec orchestration IA). Disponible en stage ou alternance.',
         images: [
             {
                 url: '/og-image.png',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'Kim HACH — Développeur Full Stack',
-        description: 'Développeur full-stack en reconversion. React, Next.js, Node.js, TypeScript.',
+        description: 'Développeur Full Stack — Next.js, TypeScript, NestJS, Spring Boot, agents IA. Disponible en stage ou alternance.',
         images: ['/og-image.png'],
     },
     icons: {
@@ -112,10 +112,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ChineseGreekPattern />
 
             <div className="relative z-10 pt-1">
-                <p className="mb-1">© 2025 Kim HACH — Étudiant en Licence Pro Développement Full Stack</p>
+                <p className="mb-1">© 2026 Kim HACH — Étudiant en Licence Pro Développement Full Stack</p>
                 <div className="flex justify-center gap-6 text-gold">
                     <a
-                        href="https://www.linkedin.com/in/kim-hach"
+                        href="https://www.linkedin.com/in/william-hach-31117b407/"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Voir mon profil LinkedIn"
