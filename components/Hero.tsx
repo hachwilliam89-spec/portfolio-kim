@@ -371,30 +371,43 @@ export default function Hero() {
                             transition={{ duration: 2, delay: 0.5, ease: 'easeOut' }}
                         >
                             <svg className="w-full h-full" viewBox="0 0 320 400" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-                                {/* Arc soleil — plus petit, plus bas, aplati (ellipse), entre les deux sommets */}
+                                {/* Arc soleil — décalé droite, centré dans la vallée entre les deux sommets */}
                                 <motion.path
-                                    d="M 185 248 Q 189 230, 200 221 Q 210 215, 220 214 Q 231 214, 241 222 Q 251 231, 255 248"
+                                    d="M 200 252 Q 205 234, 216 225 Q 226 218, 236 217 Q 247 217, 257 225 Q 268 234, 272 252"
                                     strokeWidth="2.5"
                                     variants={drawMountain} initial="hidden" animate="visible" custom={0.3}
                                 />
                                 {/* Rayon haut */}
-                                <motion.path d="M 220 206 L 220 213" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.62} />
+                                <motion.path d="M 236 208 L 236 216" strokeWidth="2" variants={drawLine} initial="hidden" animate="visible" custom={0.62} />
                                 {/* Rayon haut-gauche 30° */}
-                                <motion.path d="M 200 209 L 203 215" strokeWidth="1.8" variants={drawLine} initial="hidden" animate="visible" custom={0.65} />
+                                <motion.path d="M 214 213 L 217 220" strokeWidth="1.8" variants={drawLine} initial="hidden" animate="visible" custom={0.65} />
                                 {/* Rayon haut-droite 30° */}
-                                <motion.path d="M 240 209 L 237 215" strokeWidth="1.8" variants={drawLine} initial="hidden" animate="visible" custom={0.68} />
+                                <motion.path d="M 258 213 L 255 220" strokeWidth="1.8" variants={drawLine} initial="hidden" animate="visible" custom={0.68} />
                                 {/* Rayon haut-gauche 60° */}
-                                <motion.path d="M 186 220 L 190 225" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.71} />
+                                <motion.path d="M 198 227 L 203 232" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.71} />
                                 {/* Rayon haut-droite 60° */}
-                                <motion.path d="M 254 220 L 250 225" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.74} />
+                                <motion.path d="M 274 227 L 269 232" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.74} />
                                 {/* Rayon gauche */}
-                                <motion.path d="M 175 238 L 182 238" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.77} />
+                                <motion.path d="M 187 244 L 196 244" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.77} />
                                 {/* Rayon droit */}
-                                <motion.path d="M 265 238 L 258 238" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.80} />
+                                <motion.path d="M 285 244 L 276 244" strokeWidth="1.6" variants={drawLine} initial="hidden" animate="visible" custom={0.80} />
                             </svg>
                         </motion.div>
                     )}
                 </AnimatePresence>
+
+                {/* Masque horizon — silhouette washi qui cache le bas du soleil sous la crête */}
+                {!isDark && (
+                    <div className="absolute inset-0 pointer-events-none">
+                        <svg className="w-full h-full" viewBox="0 0 320 400">
+                            <path
+                                d="M 0 400 L 0 270 Q 50 280, 80 300 Q 120 250, 160 220 Q 180 200, 200 220 Q 240 260, 280 240 Q 300 225, 320 260 L 320 400 Z"
+                                fill="var(--color-washi)"
+                                stroke="none"
+                            />
+                        </svg>
+                    </div>
+                )}
 
                 {/* Calque 1 — le plus lointain */}
                 <motion.div className="absolute inset-0 opacity-[0.04]" style={reduce ? {} : { x: m1x, y: m1y }}>
