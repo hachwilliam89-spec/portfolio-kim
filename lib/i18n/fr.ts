@@ -36,7 +36,7 @@ export const fr = {
             ai: 'IA & Intégrations',
             devops: 'DevOps & Outils',
         },
-        p1: "6 ans de management opérationnel en tant que <strong>responsable logistique dans une holding</strong> m'ont appris ce que peu de devs juniors maîtrisent : la rigueur sous pression, la coordination d'équipes et la vision métier orientée résultat.",
+        p1: "4 ans de management opérationnel en tant que <strong>responsable logistique dans une holding</strong> m'ont appris ce que peu de devs juniors maîtrisent : la rigueur sous pression, la coordination d'équipes et la vision métier orientée résultat.",
         p2: "Ma <strong>Licence en Économie</strong> (Paris 1 Panthéon-Sorbonne) me donne une lecture différente des projets : je comprends les enjeux business derrière le code, pas seulement la technique.",
         p3: "Aujourd'hui en <strong>Licence Pro Développement Full Stack</strong> à l'UHA 4.0, j'ai conçu une plateforme B2B avec agents IA orchestrés (XIP Telecom), piloté une équipe en Scrum Master (RecycleDashboard), et livré un jeu multijoueur temps réel en autonomie (KCD Formes).",
         findMe: 'Retrouvez-moi',
