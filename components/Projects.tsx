@@ -74,7 +74,7 @@ const projects: Project[] = [
         title: 'KCD Formes v2',
         shortDescription: 'Refonte complète de mon fil rouge en architecture hexagonale, déployée en production sur mon propre VPS (Docker, HTTPS, CI/CD).',
         shortDescriptionEn: 'Full rewrite of my capstone game in hexagonal architecture, deployed to production on my own VPS (Docker, HTTPS, CI/CD).',
-        description: 'Reprise de mon projet fil rouge de 2ᵉ année, entièrement réarchitecturée avec les compétences accumulées depuis. Objectif : un vrai projet de bout en bout, du code métier jusqu\'à la mise en production.\n\n' +
+        description: 'Reprise de mon projet fil rouge de 2ᵉ année, entièrement réarchitecturée avec les compétences accumulées depuis. Objectif : j\ai procédé à une vraie restructuration du  projet de bout en bout, du code métier jusqu\'à la mise en production.\n\n' +
             'Backend Java 21 / Spring Boot en architecture hexagonale (ports & adapters) : le domaine métier (formes, ennemis, vagues, économie) est isolé des détails techniques (JPA/PostgreSQL, contrôleurs REST). Persistance PostgreSQL avec migrations Flyway, authentification JWT et verrou optimiste sur les parties. La simulation des vagues est entièrement résolue côté serveur (puis rejouée à l\'écran) et couverte par 100+ tests unitaires, dont un harnais d\'équilibrage multi-graines qui vérifie automatiquement que le jeu reste jouable et équilibré.\n\n' +
             'Frontend Next.js / TypeScript avec le moteur Phaser pour le rendu temps réel : tower-defense solo en survie (chemin serpentin, 5 types de tours, modes de ciblage, boss à capacités, paliers de bonus, classement). Habillage pixel-art médiéval complet : HUD, tutoriel contextuel, système de son (bruitages + musique), animations d\'impact et de destruction.\n\n' +
             'DevOps : conteneurisation Docker multi-stage, reverse-proxy Caddy en same-origin, HTTPS Let\'s Encrypt auto-renouvelé, et pipeline CI/CD GitHub Actions qui teste puis déploie automatiquement sur mon VPS OVH à chaque push sur main. En ligne sur kcd-formes.fr.',
@@ -83,14 +83,14 @@ const projects: Project[] = [
             'Next.js / TypeScript frontend using the Phaser engine for real-time rendering: a solo survival tower-defense (serpentine path, 5 tower types, targeting modes, boss abilities, bonus milestones, leaderboard). Full medieval pixel-art layer: HUD, contextual tutorial, sound system (SFX + music), impact and destruction animations.\n\n' +
             'DevOps: multi-stage Docker containerization, same-origin Caddy reverse-proxy, auto-renewed Let\'s Encrypt HTTPS, and a GitHub Actions CI/CD pipeline that tests then automatically deploys to my OVH VPS on every push to main. Live at kcd-formes.fr.',
         tech: ['Next.js', 'TypeScript', 'Phaser', 'Spring Boot', 'Java', 'PostgreSQL', 'Docker', 'CI/CD', 'Architecture hexagonale'],
-        image: '/images/kcd-formes.jpg',
+        image: '/images/kcd-v2-home.jpg',
         links: {
             demo: 'https://kcd-formes.fr',
             github: 'https://github.com/hachwilliam89-spec/kcd-formes-v2',
         },
         screenshots: [
-            { url: '/images/kcd-formes.jpg', title: 'Page d\'accueil', description: 'Accueil animé (fond héros, braises, titre pixel médiéval) et connexion/inscription. Sous-titre « Combien de vagues tiendras-tu ? ».', titleEn: 'Homepage', descriptionEn: 'Animated home (hero background, embers, medieval pixel title) with login/registration.' },
-            { url: '/images/kcd-combat.jpg', title: 'Phase de combat', description: 'Grille « champ de bataille » avec chemin serpentin, tours (Archer, Mage, Catapulte, Baliste, Mur), ennemis animés, effets et sons synchronisés. Vagues résolues côté serveur puis rejouées.', titleEn: 'Combat phase', descriptionEn: 'Battlefield grid with serpentine path, towers, animated enemies, synced effects and sounds. Waves resolved server-side then replayed.' },
+            { url: '/images/kcd-v2-home.jpg', title: 'Page d\'accueil', description: 'Accueil animé (fond héros, braises, titre pixel médiéval) et connexion/inscription. Sous-titre « Combien de vagues tiendras-tu ? ».', titleEn: 'Homepage', descriptionEn: 'Animated home (hero background, embers, medieval pixel title) with login/registration.' },
+            { url: '/images/kcd-v2-combat.jpg', title: 'Phase de combat', description: 'Grille « champ de bataille » avec chemin serpentin, tours (Archer, Mage, Catapulte, Baliste, Mur), ennemis animés, effets et sons synchronisés. Vagues résolues côté serveur puis rejouées.', titleEn: 'Combat phase', descriptionEn: 'Battlefield grid with serpentine path, towers, animated enemies, synced effects and sounds. Waves resolved server-side then replayed.' },
         ],
     },
     {
