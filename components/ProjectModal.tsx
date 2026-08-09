@@ -4,7 +4,7 @@ import { Project } from "@/lib/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, type ReactNode } from "react";
 import type { IconType } from "react-icons";
 import {
     SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma,
@@ -44,6 +44,41 @@ const techIcons: Record<string, IconType | null> = {
 interface ProjectModalProps {
     project: Project | null;
     onClose: () => void;
+}
+
+// Rendu "riche" léger des descriptions : **gras**, et puces pour les lignes
+// commençant par "- " (les blocs sont séparés par des lignes vides).
+function renderInline(text: string): ReactNode {
+    return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+        part.startsWith('**') && part.endsWith('**')
+            ? <strong key={i} className="font-semibold text-ink">{part.slice(2, -2)}</strong>
+            : <span key={i}>{part}</span>
+    );
+}
+
+function RichText({ text }: { text: string }) {
+    const blocks: ReactNode[] = [];
+    let bullets: string[] = [];
+    const flush = () => {
+        if (bullets.length) {
+            const items = [...bullets];
+            blocks.push(
+                <ul key={`ul-${blocks.length}`} className="list-disc pl-5 space-y-1.5 mb-4 marker:text-gold">
+                    {items.map((b, i) => <li key={i}>{renderInline(b)}</li>)}
+                </ul>
+            );
+            bullets = [];
+        }
+    };
+    for (const raw of text.split('\n')) {
+        const line = raw.trim();
+        if (!line) { flush(); continue; }
+        if (line.startsWith('- ')) { bullets.push(line.slice(2)); continue; }
+        flush();
+        blocks.push(<p key={`p-${blocks.length}`} className="mb-3">{renderInline(line)}</p>);
+    }
+    flush();
+    return <div className="text-sm text-ink/80 leading-relaxed mb-6">{blocks}</div>;
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
@@ -125,9 +160,8 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
                         {/* COLONNE GAUCHE - Description + Techs */}
                         <div className="md:w-2/5 shrink-0 flex flex-col overflow-y-auto p-6 border-r border-gold/20">
-                            <p className="text-sm text-ink/80 leading-relaxed mb-6">
-                                {lang === 'en' && project.descriptionEn ? project.descriptionEn : project.description}
-                            </p>
+                            <RichText text={lang === 'en' && project.descriptionEn ? project.descriptionEn : project.description} />
+
 
                             {/* Techs */}
                             <div className="mt-auto">

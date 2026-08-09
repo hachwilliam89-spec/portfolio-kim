@@ -74,14 +74,22 @@ const projects: Project[] = [
         title: 'KCD Formes v2',
         shortDescription: 'Refonte complète de mon fil rouge en architecture hexagonale, déployée en production sur mon propre VPS (Docker, HTTPS, CI/CD).',
         shortDescriptionEn: 'Full rewrite of my capstone game in hexagonal architecture, deployed to production on my own VPS (Docker, HTTPS, CI/CD).',
-        description: 'Reprise de mon projet fil rouge de 2ᵉ année, entièrement réarchitecturée avec les compétences accumulées depuis. Objectif : j\ai procédé à une vraie restructuration du  projet de bout en bout, du code métier jusqu\'à la mise en production.\n\n' +
-            'Backend Java 21 / Spring Boot en architecture hexagonale (ports & adapters) : le domaine métier (formes, ennemis, vagues, économie) est isolé des détails techniques (JPA/PostgreSQL, contrôleurs REST). Persistance PostgreSQL avec migrations Flyway, authentification JWT et verrou optimiste sur les parties. La simulation des vagues est entièrement résolue côté serveur (puis rejouée à l\'écran) et couverte par 100+ tests unitaires, dont un harnais d\'équilibrage multi-graines qui vérifie automatiquement que le jeu reste jouable et équilibré.\n\n' +
-            'Frontend Next.js / TypeScript avec le moteur Phaser pour le rendu temps réel : tower-defense solo en survie (chemin serpentin, 5 types de tours, modes de ciblage, boss à capacités, paliers de bonus, classement). Habillage pixel-art médiéval complet : HUD, tutoriel contextuel, système de son (bruitages + musique), animations d\'impact et de destruction.\n\n' +
-            'DevOps : conteneurisation Docker multi-stage, reverse-proxy Caddy en same-origin, HTTPS Let\'s Encrypt auto-renouvelé, et pipeline CI/CD GitHub Actions qui teste puis déploie automatiquement sur mon VPS OVH à chaque push sur main. En ligne sur kcd-formes.fr.',
-        descriptionEn: 'A full re-architecture of my 2nd-year capstone game, rebuilt with the skills I\'ve accumulated since. The goal: a real end-to-end project, from domain code to production.\n\n' +
-            'Java 21 / Spring Boot backend in hexagonal architecture (ports & adapters): the business domain (shapes, enemies, waves, economy) is isolated from technical details (JPA/PostgreSQL, REST controllers). PostgreSQL persistence with Flyway migrations, JWT authentication and optimistic locking on games. Wave simulation is fully resolved server-side (then replayed on screen) and covered by 100+ unit tests, including a multi-seed balancing harness that automatically checks the game stays playable and balanced.\n\n' +
-            'Next.js / TypeScript frontend using the Phaser engine for real-time rendering: a solo survival tower-defense (serpentine path, 5 tower types, targeting modes, boss abilities, bonus milestones, leaderboard). Full medieval pixel-art layer: HUD, contextual tutorial, sound system (SFX + music), impact and destruction animations.\n\n' +
-            'DevOps: multi-stage Docker containerization, same-origin Caddy reverse-proxy, auto-renewed Let\'s Encrypt HTTPS, and a GitHub Actions CI/CD pipeline that tests then automatically deploys to my OVH VPS on every push to main. Live at kcd-formes.fr.',
+        description: 'Reprise de mon **projet fil rouge de 2ᵉ année**, entièrement réarchitecturée avec les compétences acquises depuis. Objectif : une vraie restructuration **de bout en bout**, du code métier jusqu\'à la mise en production.\n\n' +
+            '- **Architecture hexagonale** (ports & adapters) : le domaine métier (formes, ennemis, vagues, économie) est isolé des détails techniques (JPA/PostgreSQL, contrôleurs REST).\n' +
+            '- **Backend Java 21 / Spring Boot** : PostgreSQL + migrations Flyway, authentification JWT, verrou optimiste sur les parties.\n' +
+            '- **Simulation côté serveur** : les vagues sont résolues sur le serveur puis rejouées à l\'écran — **100+ tests** unitaires et un **harnais d\'équilibrage multi-graines** qui vérifie que le jeu reste jouable.\n' +
+            '- **Frontend Next.js / TypeScript + Phaser** : tower-defense solo (chemin serpentin, 5 tours, modes de ciblage, boss à capacités, paliers de bonus, classement).\n' +
+            '- **Habillage pixel-art** : HUD médiéval, tutoriel contextuel, sons (bruitages + musique), animations d\'impact et de destruction.\n' +
+            '- **DevOps** : Docker multi-stage, reverse-proxy Caddy, HTTPS Let\'s Encrypt auto-renouvelé, **CI/CD GitHub Actions** (déploiement auto sur mon VPS OVH à chaque push).\n\n' +
+            'En ligne sur **kcd-formes.fr**.',
+        descriptionEn: 'A full re-architecture of my **2nd-year capstone game**, rebuilt with the skills I\'ve gained since. The goal: a real **end-to-end** rebuild, from domain code to production.\n\n' +
+            '- **Hexagonal architecture** (ports & adapters): the business domain (shapes, enemies, waves, economy) is isolated from technical details (JPA/PostgreSQL, REST controllers).\n' +
+            '- **Java 21 / Spring Boot backend**: PostgreSQL + Flyway migrations, JWT authentication, optimistic locking on games.\n' +
+            '- **Server-side simulation**: waves are resolved on the server then replayed on screen — **100+ unit tests** and a **multi-seed balancing harness** that checks the game stays playable.\n' +
+            '- **Next.js / TypeScript + Phaser frontend**: solo tower-defense (serpentine path, 5 towers, targeting modes, boss abilities, bonus milestones, leaderboard).\n' +
+            '- **Pixel-art layer**: medieval HUD, contextual tutorial, sound (SFX + music), impact and destruction animations.\n' +
+            '- **DevOps**: multi-stage Docker, Caddy reverse-proxy, auto-renewed Let\'s Encrypt HTTPS, **GitHub Actions CI/CD** (auto-deploy to my OVH VPS on every push).\n\n' +
+            'Live at **kcd-formes.fr**.',
         tech: ['Next.js', 'TypeScript', 'Phaser', 'Spring Boot', 'Java', 'PostgreSQL', 'Docker', 'CI/CD', 'Architecture hexagonale'],
         image: '/images/kcd-v2-home.jpg',
         links: {
@@ -97,9 +105,19 @@ const projects: Project[] = [
         id: 7,
         title: 'XIP Telecom v2',
         shortDescription: 'Plateforme B2B de courtage télécom  architecture agents IA orchestrés, intégration Odoo CRM et génération de rapports PDF.',
-        description: 'Projet  réalisé en équipe de 4  (Jira/Confluence, GitLab) sur une plateforme B2B de courtage télécom en pnpm monorepo.\n\nConception et implémentation d\'une couche d\'agents IA orchestrés : Agent Superviseur/Routeur (identification de l\'agent cible via LLM, extraction du payload structuré et routage), Agent SDR (scoring automatique des prospects de 1 à 5, génération d\'accusé de réception, enregistrement en base), Agent Business Developer (génération de fiches de préparation avant rendez-vous commercial). LLMProvider abstrait supportant OpenAI, Anthropic et mock. Table agent_runs pour la journalisation complète. Convention transversale prompts/routes/schemas pour les 6 agents de l\'équipe.\n\nIntégration Odoo CRM complète via XML-RPC : synchronisation des prospects, contacts, opportunités et pièces jointes PDF en fire-and-forget.\n\nMoteur de génération automatique de rapports d\'audit télécom (React PDF, stockage Nextcloud WebDAV).\n\nAPI REST documentée avec spec OpenAPI manuelle et Swagger UI intégré. Documentation technique complète (Odoo, agents IA, conventions de développement). 104 tests unitaires avec Vitest.',
+        description: 'Projet réalisé **en équipe de 4** (Jira/Confluence, GitLab) sur une plateforme **B2B de courtage télécom** (monorepo pnpm).\n\n' +
+            '- **Couche d\'agents IA orchestrés** : Superviseur/Routeur (identification via LLM, extraction du payload, routage), SDR (scoring auto des prospects 1–5, accusé de réception), Business Developer (fiches de préparation avant RDV).\n' +
+            '- **LLMProvider abstrait** (OpenAI, Anthropic, mock), table agent_runs pour la journalisation, convention transversale prompts/routes/schemas pour les 6 agents de l\'équipe.\n' +
+            '- **Intégration Odoo CRM** via XML-RPC en fire-and-forget : prospects, contacts, opportunités et pièces jointes PDF.\n' +
+            '- **Rapports d\'audit télécom** générés automatiquement (React PDF, stockage Nextcloud WebDAV).\n' +
+            '- **API REST** documentée (OpenAPI + Swagger UI), documentation technique complète et **104 tests** unitaires (Vitest).',
         shortDescriptionEn: 'B2B telecom brokerage platform orchestrated AI agents, Odoo CRM integration and automated PDF audit report generation.',
-        descriptionEn: 'Professional project built in a 4-developer agile team (Jira, GitLab) on a B2B telecom brokerage platform using a pnpm monorepo.\n\nDesigned and implemented an orchestrated AI agent layer: Supervisor/Router agent (LLM-based target identification, structured payload extraction and routing), SDR agent (automated prospect scoring 1–5, acknowledgment generation, score persistence), Business Developer agent (pre-meeting preparation sheets generation). Abstract LLMProvider supporting OpenAI, Anthropic and mock. agent_runs table for full audit logging. Cross-cutting prompts/routes/schemas convention for the 6 team agents.\n\nFull Odoo CRM integration via XML-RPC in a fire-and-forget pattern: syncing prospects, contacts, opportunities and PDF attachments.\n\nAutomated telecom audit PDF report engine (React PDF, Nextcloud WebDAV storage).\n\nREST API documented with manual OpenAPI spec and integrated Swagger UI. Full technical documentation (Odoo, AI agents, development conventions). 104 unit tests with Vitest.',
+        descriptionEn: 'Team project (4 devs, Jira/Confluence, GitLab) on a **B2B telecom brokerage** platform (pnpm monorepo).\n\n' +
+            '- **Orchestrated AI agent layer**: Supervisor/Router (LLM-based target ID, payload extraction, routing), SDR (automated prospect scoring 1–5, acknowledgment), Business Developer (pre-meeting prep sheets).\n' +
+            '- **Abstract LLMProvider** (OpenAI, Anthropic, mock), agent_runs audit-logging table, cross-cutting prompts/routes/schemas convention for the team\'s 6 agents.\n' +
+            '- **Odoo CRM integration** via XML-RPC (fire-and-forget): prospects, contacts, opportunities and PDF attachments.\n' +
+            '- **Telecom audit reports** auto-generated (React PDF, Nextcloud WebDAV storage).\n' +
+            '- **REST API** documented (OpenAPI + Swagger UI), full technical docs and **104 unit tests** (Vitest).',
         tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Drizzle ORM', 'OpenAI', 'Anthropic', 'Zod', 'n8n'],
         image: '/images/xip-home.png',
         screenshots: [
@@ -116,8 +134,16 @@ const projects: Project[] = [
         title: 'KCD Formes',
         shortDescription: 'Jeu de tower defense médiéval en pixel art avec mode multijoueur asymétrique temps réel.',
         shortDescriptionEn: 'Medieval pixel art tower defense game with real-time asymmetric multiplayer git status developed solo as the Licence Pro capstone project.',
-        descriptionEn: 'Capstone project of the Licence Pro, designed and developed entirely solo. Geometric shapes govern all mechanics: area determines damage and HP, perimeter determines range and speed. I architected the Java/Spring Boot backend with the Factory Method pattern for enemy and shape creation, implemented real-time communication via WebSocket/STOMP for the asymmetric multiplayer mode (attacker vs. defender), and designed the entire Next.js frontend with animated pixel art sprites, interactive grid and wave management. Deployed on university servers via a custom Docker Compose script.',
-        description: 'Projet fil rouge de Licence Pro conçu et développé en autonomie complète. Les formes géométriques gouvernent toutes les mécaniques : l\'aire détermine les dégâts et les HP, le périmètre la portée et la vitesse. J\'ai architecturé le backend Java/Spring Boot avec le pattern Factory Method pour la création des ennemis et des formes, mis en place la communication temps réel via WebSocket/STOMP pour le mode multijoueur asymétrique (attaquant vs défenseur), et conçu l\'intégralité du frontend Next.js avec sprites pixel art animés, grille interactive et gestion des vagues. Déployé sur serveurs école via un script Docker Compose personnalisé.',
+        descriptionEn: '**Licence Pro capstone project**, designed and developed **entirely solo**. Geometric shapes govern every mechanic: area sets damage and HP, perimeter sets range and speed.\n\n' +
+            '- **Java / Spring Boot backend** architected with the **Factory Method** pattern (enemy and shape creation).\n' +
+            '- **Real-time asymmetric multiplayer** via **WebSocket/STOMP** (attacker vs. defender).\n' +
+            '- **Next.js frontend**: animated pixel-art sprites, interactive grid, wave management.\n' +
+            '- **Deployed** on university servers via a custom Docker Compose script.',
+        description: '**Projet fil rouge de Licence Pro**, conçu et développé **en autonomie complète**. Les **formes géométriques** gouvernent toutes les mécaniques : l\'aire détermine les dégâts et les PV, le périmètre la portée et la vitesse.\n\n' +
+            '- **Backend Java / Spring Boot** architecturé avec le pattern **Factory Method** (création des ennemis et des formes).\n' +
+            '- **Multijoueur asymétrique temps réel** via **WebSocket/STOMP** (attaquant vs défenseur).\n' +
+            '- **Frontend Next.js** : sprites pixel-art animés, grille interactive, gestion des vagues.\n' +
+            '- **Déploiement** sur serveurs école via un script Docker Compose personnalisé.',
         tech: ['Next.js', 'Spring Boot', 'Java', 'WebSocket', 'Docker', 'MariaDB'],
         image: '/images/kcd-formes.jpg',
         screenshots: [
@@ -131,18 +157,18 @@ const projects: Project[] = [
         title: 'RecycleDashboard',
         shortDescription: 'Application de gestion collecte biodéchets, développée en équipe , j\'y ai eu le rôle de SCRUM master.',
         shortDescriptionEn: 'Bio-waste collection management app built in a team, Scrum Master role, VRPTW algorithm and drag-and-drop Kanban redistribution interface.',
-        descriptionEn: 'As Scrum Master, I facilitated ceremonies, managed the Jira backlog and coordinated sprints. On the development side of this bio-waste collection management app, my main contributions:\n\nDesigned and implemented the Evaluation Procedure (PE) for the VRPTW algorithm: 3-case decision tree (on time / definitively late / uncertain)\n\nProposed and integrated VROOM as the tour optimization engine\n\nBuilt the cancelled tour redistribution interface: drag-and-drop Kanban, 3 modes (individual client, full tour, full day)\n\nFull database migration from Supabase to local Docker PostgreSQL with a migration guide for the team\n\nDeveloped and documented 15 REST API routes (Swagger)',
-        description: 'En tant que Scrum Master, j\'ai animé les cérémonies, géré le backlog Jira et coordonné les sprints. Côté développement de cette application de gestion collecte biodéchets, mes contributions majeures :\n' +
-            '\n' +
-            'Conception et implémentation de la Procédure d\'Évaluation (PE) pour l\'algorithme VRPTW : arbre de décision à 3 cas (à l\'heure / définitivement en retard / incertain)\n' +
-            '\n' +
-            'Proposition et intégration de VROOM comme moteur d\'optimisation des tournées\n' +
-            '\n' +
-            'Développement de l\'interface de redistribution des tournées annulées : Kanban drag-and-drop, 3 modes (client individuel, tournée complète, journée entière)\n' +
-            '\n' +
-            'Migration complète Supabase → PostgreSQL Docker local avec guide de migration pour l\'équipe\n' +
-            '\n' +
-            'Développement et documentation de 15 routes API (Swagger)',
+        descriptionEn: 'As **Scrum Master** I ran the ceremonies, managed the Jira backlog and coordinated sprints. Bio-waste collection management app; my dev contributions:\n\n' +
+            '- **Evaluation Procedure (PE)** for the **VRPTW** algorithm: 3-case decision tree (on time / definitively late / uncertain).\n' +
+            '- Proposed and integrated **VROOM** as the tour optimization engine.\n' +
+            '- **Cancelled-tour redistribution** UI: **drag-and-drop** Kanban, 3 modes (client, full tour, full day).\n' +
+            '- Full **database migration** Supabase → local Docker PostgreSQL (+ team guide).\n' +
+            '- Built and documented **15 REST API routes** (Swagger).',
+        description: '**Scrum Master** de l\'équipe : animation des cérémonies, gestion du backlog Jira, coordination des sprints. Application de **gestion de collecte de biodéchets** ; mes contributions côté développement :\n\n' +
+            '- **Procédure d\'Évaluation (PE)** pour l\'algorithme **VRPTW** : arbre de décision à 3 cas (à l\'heure / définitivement en retard / incertain).\n' +
+            '- Proposition et intégration de **VROOM** comme moteur d\'optimisation des tournées.\n' +
+            '- **Interface de redistribution** des tournées annulées : Kanban **drag-and-drop**, 3 modes (client, tournée, journée).\n' +
+            '- **Migration** complète Supabase → PostgreSQL Docker local (+ guide pour l\'équipe).\n' +
+            '- Développement et documentation de **15 routes API** (Swagger).',
         tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Leaflet', 'OSRM'],
         image: '/images/recycle-dashboard.jpg',
         screenshots: [
@@ -155,8 +181,18 @@ const projects: Project[] = [
         title: 'Miyazaki Garden V2',
         shortDescription: 'Refonte complète en Next.js : authentification, favoris, avis et design Ghibli immersif.',
         shortDescriptionEn: 'Full Next.js rewrite, secure authentication, favorites, ratings and immersive Studio Ghibli design.',
-        descriptionEn: 'Complete rewrite of my PHP/MySQL capstone project into a modern Next.js/TypeScript/PostgreSQL stack. I designed and implemented the entire application: secure authentication with NextAuth, favorites and ratings system (out of 10), avatar upload via Vercel Blob, automatic translation of Ghibli API data, and an immersive poetic design. Enhanced security with Zod validation, XSS sanitization and strict HTTP headers. Deployed on Vercel with Neon PostgreSQL.',
-        description: 'Refonte complète de mon projet fil rouge PHP/MySQL vers une stack moderne Next.js/TypeScript/PostgreSQL. J\'ai conçu et implémenté l\'intégralité de l\'application : système d\'authentification sécurisé avec NextAuth, gestion des favoris et des avis avec notation sur 10, upload d\'avatar via Vercel Blob, traduction automatique des données API Ghibli, et un design poétique immersif. Sécurité renforcée avec validation Zod, sanitisation XSS et headers HTTP stricts. Déployé sur Vercel avec Neon PostgreSQL.',
+        descriptionEn: 'Full rewrite of my **PHP/MySQL** capstone into a modern **Next.js / TypeScript / PostgreSQL** stack. Entirely designed and implemented:\n\n' +
+            '- **Secure authentication** with NextAuth.\n' +
+            '- **Favorites and ratings** (out of 10), avatar upload via Vercel Blob.\n' +
+            '- **Automatic translation** of Ghibli API data.\n' +
+            '- **Hardened security**: Zod validation, XSS sanitization, strict HTTP headers.\n' +
+            '- **Immersive poetic design**, deployed on Vercel with Neon PostgreSQL.',
+        description: 'Refonte complète de mon fil rouge **PHP/MySQL** vers une stack moderne **Next.js / TypeScript / PostgreSQL**. Application conçue et implémentée intégralement :\n\n' +
+            '- **Authentification sécurisée** avec NextAuth.\n' +
+            '- **Favoris et avis** (notation sur 10), upload d\'avatar via Vercel Blob.\n' +
+            '- **Traduction automatique** des données de l\'API Ghibli.\n' +
+            '- **Sécurité renforcée** : validation Zod, sanitisation XSS, headers HTTP stricts.\n' +
+            '- **Design poétique immersif**, déployé sur Vercel avec Neon PostgreSQL.',
         tech: ['Next.js', 'React', 'Tailwind CSS', 'Prisma', 'PostgreSQL', 'Javascript'],
         image: '/images/miyazaki-garden-v2.jpg',
         links: {
@@ -174,8 +210,14 @@ const projects: Project[] = [
         title: 'COS Strasbourg',
         shortDescription: 'Application web de suivi pédagogique entre élèves et professeurs avec annotations de documents.',
         shortDescriptionEn: 'Pedagogical tracking web app for a real client: in-browser document annotation, automated email notifications and role-based access.',
-        descriptionEn: 'Team project built for COS Strasbourg, a real client. I handled three major areas. First, I implemented the document highlighting and annotation system by integrating the Mammoth library to convert DOCX files to HTML, then built an interactive context menu allowing supervisors to select text and annotate dissertations directly in the browser, without any external plugin. Second, I developed the automated email notification system via the Brevo API: each key workflow action (document upload, validation, annotation) triggers a targeted email to the right recipient. Third, I handled the entire interface design, strictly following the client\'s brand guidelines and ensuring visual consistency and responsive design across all pages I was responsible for.',
-        description: 'Projet réalisé en équipe pour le COS Strasbourg, client réel. J\'ai pris en charge trois axes majeurs. Premièrement, j\'ai implémenté le système de surlignage et d\'annotation de documents en intégrant la librairie Mammoth pour convertir les fichiers DOCX en HTML, puis développé un menu contextuel interactif permettant aux encadrants de sélectionner du texte et d\'annoter les mémoires directement dans le navigateur, sans plugin externe. Deuxièmement, j\'ai développé le système de notifications email automatiques via l\'API Brevo : chaque action clé du workflow pédagogique (dépôt de document, validation, annotation) déclenche un email ciblé au bon destinataire. Troisièmement, j\'ai pris en charge l\'intégralité du design de l\'interface en respectant strictement la charte graphique du client, en assurant cohérence visuelle et responsive design sur toutes les pages dont j\'étais responsable.',
+        descriptionEn: 'Team project for a **real client** (COS Strasbourg). I owned three main areas:\n\n' +
+            '- **In-browser document annotation**: DOCX→HTML conversion (Mammoth) + context menu to highlight/annotate dissertations, no external plugin.\n' +
+            '- **Automated email notifications** (Brevo API) triggered on each key workflow action (upload, validation, annotation).\n' +
+            '- **Interface design**: strict adherence to the client\'s brand guidelines, visual consistency and responsive design.',
+        description: 'Projet **en équipe pour un client réel** (COS Strasbourg). J\'ai pris en charge trois axes :\n\n' +
+            '- **Annotation de documents** dans le navigateur : conversion DOCX→HTML (Mammoth) + menu contextuel de surlignage/annotation des mémoires, sans plugin externe.\n' +
+            '- **Notifications email automatiques** (API Brevo) déclenchées à chaque action clé du workflow (dépôt, validation, annotation).\n' +
+            '- **Design de l\'interface** : respect strict de la charte client, cohérence visuelle et responsive.',
         tech: ['Next.js', 'Prisma', 'Docker', 'Tailwind CSS'],
         image: '/images/cos-strasbourg.jpg',
         screenshots: [
@@ -190,8 +232,16 @@ const projects: Project[] = [
         title: 'Evaluation RH',
         shortDescription: 'Système d\'évaluation RH avec création de sondages, API backend en POO avec NestJS.',
         shortDescriptionEn: 'HR evaluation system with survey creation, NestJS REST API backend with OOP architecture and Swagger documentation.',
-        descriptionEn: 'Company project developed in a team within a demanding professional environment, with strict quality standards and regular code reviews. My contribution focused on the NestJS backend: I designed and implemented REST API endpoints following OOP principles: typed DTOs with class-validator for input validation, NestJS decorators (@Controller, @Get, @Post, @Body, @Param), dependency injection via services, and clear separation of concerns between controllers, services and repositories. I also contributed to the Swagger endpoint documentation and robust error handling with appropriate HTTP exceptions. This project taught me how to work in a demanding team context with strict code conventions, reviewed PRs and a real backend architecture.',
-        description: 'Projet d\'entreprise développé en équipe dans un environnement professionnel exigeant, avec des standards de qualité stricts et des revues de code régulières. Ma contribution s\'est concentrée sur le backend NestJS : j\'ai conçu et implémenté des endpoints d\'API REST en suivant les principes de la POO : création de DTOs typés avec class-validator pour la validation des entrées, utilisation des décorateurs NestJS (@Controller, @Get, @Post, @Body, @Param), injection de dépendances via les services, et séparation claire des responsabilités entre controllers, services et repositories. J\'ai également contribué à la documentation Swagger des endpoints et à la gestion robuste des erreurs avec des exceptions HTTP appropriées. Ce projet m\'a appris à travailler dans un contexte d\'équipe exigeant avec des conventions de code strictes, des PR reviewées et un vrai niveau d\'architecture backend.',
+        descriptionEn: 'Company project built **in a team** in a demanding professional environment (strict quality standards, regular **code reviews**). My contribution focused on the **NestJS backend**:\n\n' +
+            '- **OOP REST API endpoints**: typed DTOs + class-validator, NestJS decorators, dependency injection.\n' +
+            '- Clear **separation of concerns** (controllers / services / repositories).\n' +
+            '- **Swagger documentation** and robust error handling (appropriate HTTP exceptions).\n\n' +
+            'Taught me to work with **strict code conventions**, **reviewed PRs** and a real backend architecture.',
+        description: 'Projet **d\'entreprise en équipe**, environnement pro exigeant (standards de qualité, **revues de code** régulières). Contribution centrée sur le **backend NestJS** :\n\n' +
+            '- **Endpoints API REST en POO** : DTOs typés + class-validator, décorateurs NestJS, injection de dépendances.\n' +
+            '- **Séparation des responsabilités** claire (controllers / services / repositories).\n' +
+            '- **Documentation Swagger** et gestion robuste des erreurs (exceptions HTTP appropriées).\n\n' +
+            'M\'a appris à travailler avec des **conventions strictes**, des **PR reviewées** et une vraie architecture backend.',
         tech: ['React', 'Node.js', 'NestJS', 'PostgreSQL', 'Prisma ORM', 'Docker', 'API REST', 'Swagger', 'shadcn/ui'],
         image: '/images/evaluation-rh.jpg',
         screenshots: [
@@ -207,8 +257,14 @@ const projects: Project[] = [
         title: 'Miyazaki-Garden',
         shortDescription: 'Site exposant les oeuvres du réalisateur avec un design rappelant le studio Ghibli.',
         shortDescriptionEn: 'Site showcasing Miyazaki\'s films with an immersive Studio Ghibli-inspired design, sound atmosphere and member area.',
-        descriptionEn: 'First capstone project in native PHP/MySQL. Design and development of a showcase site dedicated to Hayao Miyazaki\'s universe with CSS animations, immersive sound atmosphere and member area. This project allowed me to master web fundamentals: MVC architecture in PHP, SQL queries, session management and responsive design. Starting point of my career transition, it laid the foundations on which I built the V2 in Next.js.',
-        description: 'Premier projet fil rouge en PHP/MySQL natif. Conception et développement d\'un site vitrine dédié à l\'univers de Hayao Miyazaki avec animations CSS, ambiance sonore immersive et espace membre. Ce projet m\'a permis de maîtriser les fondamentaux du web : architecture MVC en PHP, requêtes SQL, gestion des sessions et design responsive. Point de départ de ma reconversion, il a posé les bases sur lesquelles j\'ai construit la V2 en Next.js.',
+        descriptionEn: '**First capstone project** in **native PHP/MySQL**: a showcase site dedicated to Hayao Miyazaki\'s universe.\n\n' +
+            '- **MVC architecture** in PHP, SQL queries, session management.\n' +
+            '- **CSS animations**, immersive sound atmosphere and **member area**.\n' +
+            '- Starting point of my **career transition** — the foundations for the Next.js V2.',
+        description: '**Premier projet fil rouge** en **PHP/MySQL natif** : site vitrine dédié à l\'univers de Hayao Miyazaki.\n\n' +
+            '- **Architecture MVC** en PHP, requêtes SQL, gestion des sessions.\n' +
+            '- **Animations CSS**, ambiance sonore immersive et **espace membre**.\n' +
+            '- Point de départ de ma **reconversion** — les bases sur lesquelles j\'ai construit la V2 en Next.js.',
         tech: ['Javascript', 'PHP', 'HTML', 'CSS'],
         image: '/images/miyazaki-garden.jpg',
         screenshots: [
