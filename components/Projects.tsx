@@ -81,7 +81,8 @@ const projects: Project[] = [
             '- **Frontend Next.js / TypeScript + Phaser** : tower-defense solo (chemin serpentin, 5 tours, modes de ciblage, boss à capacités, paliers de bonus, classement).\n' +
             '- **Habillage pixel-art** : HUD médiéval, tutoriel contextuel, sons (bruitages + musique), animations d\'impact et de destruction.\n' +
             '- **DevOps** : Docker multi-stage, reverse-proxy Caddy, HTTPS Let\'s Encrypt auto-renouvelé, **CI/CD GitHub Actions** (déploiement auto sur mon VPS OVH à chaque push).\n\n' +
-            'En ligne sur **kcd-formes.fr**.',
+            'En ligne sur **kcd-formes.fr**.\n\n' +
+            '**En cours de conception** : un mode **multijoueur** et une **version mobile**.',
         descriptionEn: 'A full re-architecture of my **2nd-year capstone game**, rebuilt with the skills I\'ve gained since. The goal: a real **end-to-end** rebuild, from domain code to production.\n\n' +
             '- **Hexagonal architecture** (ports & adapters): the business domain (shapes, enemies, waves, economy) is isolated from technical details (JPA/PostgreSQL, REST controllers).\n' +
             '- **Java 21 / Spring Boot backend**: PostgreSQL + Flyway migrations, JWT authentication, optimistic locking on games.\n' +
@@ -89,7 +90,8 @@ const projects: Project[] = [
             '- **Next.js / TypeScript + Phaser frontend**: solo tower-defense (serpentine path, 5 towers, targeting modes, boss abilities, bonus milestones, leaderboard).\n' +
             '- **Pixel-art layer**: medieval HUD, contextual tutorial, sound (SFX + music), impact and destruction animations.\n' +
             '- **DevOps**: multi-stage Docker, Caddy reverse-proxy, auto-renewed Let\'s Encrypt HTTPS, **GitHub Actions CI/CD** (auto-deploy to my OVH VPS on every push).\n\n' +
-            'Live at **kcd-formes.fr**.',
+            'Live at **kcd-formes.fr**.\n\n' +
+            '**In progress**: a **multiplayer** mode and a **mobile version**.',
         tech: ['Next.js', 'TypeScript', 'Phaser', 'Spring Boot', 'Java', 'PostgreSQL', 'Docker', 'CI/CD', 'Architecture hexagonale'],
         image: '/images/kcd-v2-home.jpg',
         links: {
