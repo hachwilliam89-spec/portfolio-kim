@@ -78,21 +78,23 @@ const projects: Project[] = [
             '- **Architecture hexagonale** (ports & adapters) : le domaine métier (formes, ennemis, vagues, économie) est isolé des détails techniques (JPA/PostgreSQL, contrôleurs REST).\n' +
             '- **Backend Java 21 / Spring Boot** : PostgreSQL + migrations Flyway, authentification JWT, verrou optimiste sur les parties.\n' +
             '- **Simulation côté serveur** : les vagues sont résolues sur le serveur puis rejouées à l\'écran : **100+ tests** unitaires et un **harnais d\'équilibrage multi-graines** qui vérifie que le jeu reste jouable.\n' +
-            '- **Frontend Next.js / TypeScript + Phaser** : tower-defense solo (chemin serpentin, 5 tours, modes de ciblage, boss à capacités, paliers de bonus, classement).\n' +
-            '- **Habillage pixel-art** : HUD médiéval, tutoriel contextuel, sons (bruitages + musique), animations d\'impact et de destruction.\n' +
+            '- **Multijoueur temps réel (WebSocket/STOMP)** : mode **Versus 1v1** (chacun défend son château et envoie des vagues à l\'adversaire, avec **aperçu live de sa grille** et revenu passif) et mode **Coop** ; **chat de match** et **tutoriel guidé** intégrés.\n' +
+            '- **Frontend Next.js / TypeScript + Phaser** : tower-defense solo (chemin serpentin, 5 tours, modes de ciblage, boss à capacités, paliers de bonus, classement) + **évolution des tours** (amélioration plafonnée, coûteuse mais décisive : dégâts, portée, solidité anti-siège).\n' +
+            '- **Habillage pixel-art** : map « terres désolées » au chemin naturel, décor de ruines, HUD médiéval optimisé, tutoriel contextuel, sons (bruitages + musique réglables séparément), animations d\'impact et de destruction.\n' +
             '- **DevOps** : Docker multi-stage, reverse-proxy Caddy, HTTPS Let\'s Encrypt auto-renouvelé, **CI/CD GitHub Actions** (déploiement auto sur mon VPS OVH à chaque push).\n\n' +
             'En ligne sur **kcd-formes.fr**.\n\n' +
-            '**En cours de conception** : un mode **multijoueur** et une **version mobile**.',
+            '**En cours** : une **version mobile**.',
         descriptionEn: 'A full re-architecture of my **2nd-year capstone game**, rebuilt with the skills I\'ve gained since. The goal: a real **end-to-end** rebuild, from domain code to production.\n\n' +
             '- **Hexagonal architecture** (ports & adapters): the business domain (shapes, enemies, waves, economy) is isolated from technical details (JPA/PostgreSQL, REST controllers).\n' +
             '- **Java 21 / Spring Boot backend**: PostgreSQL + Flyway migrations, JWT authentication, optimistic locking on games.\n' +
             '- **Server-side simulation**: waves are resolved on the server then replayed on screen — **100+ unit tests** and a **multi-seed balancing harness** that checks the game stays playable.\n' +
-            '- **Next.js / TypeScript + Phaser frontend**: solo tower-defense (serpentine path, 5 towers, targeting modes, boss abilities, bonus milestones, leaderboard).\n' +
-            '- **Pixel-art layer**: medieval HUD, contextual tutorial, sound (SFX + music), impact and destruction animations.\n' +
+            '- **Real-time multiplayer (WebSocket/STOMP)**: **Versus 1v1** mode (each defends their castle and sends waves to the opponent, with a **live opponent mini-map** and passive income) and **Coop** mode; built-in **in-match chat** and **guided tutorial**.\n' +
+            '- **Next.js / TypeScript + Phaser frontend**: solo tower-defense (serpentine path, 5 towers, targeting modes, boss abilities, bonus milestones, leaderboard) + **tower evolution** (capped upgrades, costly but decisive: damage, range, siege-resistant HP).\n' +
+            '- **Pixel-art layer**: "wasteland" map with a natural path, ruin décor, optimized medieval HUD, contextual tutorial, sound (separately adjustable SFX + music), impact and destruction animations.\n' +
             '- **DevOps**: multi-stage Docker, Caddy reverse-proxy, auto-renewed Let\'s Encrypt HTTPS, **GitHub Actions CI/CD** (auto-deploy to my OVH VPS on every push).\n\n' +
             'Live at **kcd-formes.fr**.\n\n' +
-            '**In progress**: a **multiplayer** mode and a **mobile version**.',
-        tech: ['Next.js', 'TypeScript', 'Phaser', 'Spring Boot', 'Java', 'PostgreSQL', 'Docker', 'CI/CD', 'Architecture hexagonale'],
+            '**In progress**: a **mobile version**.',
+        tech: ['Next.js', 'TypeScript', 'Phaser', 'Spring Boot', 'Java', 'WebSocket', 'PostgreSQL', 'Docker', 'CI/CD', 'Architecture hexagonale'],
         image: '/images/kcd-v2-home.jpg',
         links: {
             demo: 'https://kcd-formes.fr',
@@ -100,7 +102,10 @@ const projects: Project[] = [
         },
         screenshots: [
             { url: '/images/kcd-v2-home.jpg', title: 'Page d\'accueil', description: 'Accueil animé (fond héros, braises, titre pixel médiéval) et connexion/inscription. Sous-titre « Combien de vagues tiendras-tu ? ».', titleEn: 'Homepage', descriptionEn: 'Animated home (hero background, embers, medieval pixel title) with login/registration.' },
-            { url: '/images/kcd-v2-combat.jpg', title: 'Phase de combat', description: 'Grille « champ de bataille » avec chemin serpentin, tours (Archer, Mage, Catapulte, Baliste, Mur), ennemis animés, effets et sons synchronisés. Vagues résolues côté serveur puis rejouées.', titleEn: 'Combat phase', descriptionEn: 'Battlefield grid with serpentine path, towers, animated enemies, synced effects and sounds. Waves resolved server-side then replayed.' },
+            { url: '/images/kcd-v2-combat.jpg', title: 'Combat solo', description: 'Map « terres désolées » au chemin naturel, tours (Archer, Mage, Catapulte, Baliste, Mur), ennemis animés. Panneau latéral : statistiques + évolution des tours (dégâts, portée, PV, cadence). Vagues résolues côté serveur puis rejouées.', titleEn: 'Solo combat', descriptionEn: 'Wasteland map with a natural path, towers, animated enemies. Side panel: run stats + tower evolution (damage, range, HP, fire rate). Waves resolved server-side then replayed.' },
+            { url: '/images/kcd-v2-lobby.jpg', title: 'Lobby multijoueur', description: 'Duel 1 contre 1 : on crée un salon (code partageable) ou on rejoint par code. Statut « Prêt » de chaque joueur synchronisé en temps réel via WebSocket/STOMP.', titleEn: 'Multiplayer lobby', descriptionEn: '1v1 duel: create a room (shareable code) or join by code. Each player\'s "Ready" status synced in real time over WebSocket/STOMP.' },
+            { url: '/images/kcd-v2-duel.jpg', title: 'Duel en temps réel', description: 'Mode Versus : chacun défend son château et dépense son or pour envoyer des vagues d\'ennemis chez l\'adversaire (ce qui augmente son revenu passif). Barre de vie de l\'adversaire suivie en direct. Dernier château debout gagne.', titleEn: 'Real-time duel', descriptionEn: 'Versus mode: each defends their castle and spends gold to send enemy waves to the opponent (which boosts passive income). Opponent\'s HP tracked live. Last castle standing wins.' },
+            { url: '/images/kcd-v2-versus.jpg', title: 'Aperçu adverse + chat', description: 'Aperçu live de la grille adverse (mini-map : château, tours et ennemis en temps réel), chat de match et tutoriel guidé « Le Héraut ». Le tout via WebSocket/STOMP.', titleEn: 'Opponent preview + chat', descriptionEn: 'Live opponent mini-map (castle, towers and enemies in real time), in-match chat and guided "Herald" tutorial. All over WebSocket/STOMP.' },
         ],
     },
     {
