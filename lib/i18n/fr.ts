@@ -12,7 +12,7 @@ export const fr = {
     hero: {
         badge: 'Développeur full-stack en formation',
         subtitle: "Étudiant en <highlight>Licence Pro Développement Full Stack</highlight> à l'UHA 4.0",
-        cta: 'Recherche un stage ou une alternance pour 2026',
+        cta: 'Recherche un stage ou une alternance pour janvier 2027',
         discover: 'Découvrir',
     },
     projects: {
