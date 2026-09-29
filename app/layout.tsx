@@ -38,7 +38,7 @@ export const metadata: Metadata = {
         url: 'https://wkhach.dev',
         siteName: 'William Kim HACH , Portfolio',
         title: 'William Kim HACH , Développeur Full Stack',
-        description: 'Développeur Full Stack , Next.js, TypeScript, NestJS, Spring Boot, agents IA. 6 projets dont XIP Telecom v2 (plateforme B2B avec orchestration IA). Disponible en stage ou alternance.',
+        description: 'Développeur Full Stack , Next.js, TypeScript, NestJS, Spring Boot, agents IA. 6 projets dont XIP Telecom v2 (plateforme B2B avec orchestration IA). Recherche un stage de fin d\'études à partir de janvier 2027.',
         images: [
             {
                 url: '/og-image.png',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'William Kim HACH , Développeur Full Stack',
-        description: 'Développeur Full Stack , Next.js, TypeScript, NestJS, Spring Boot, agents IA. Disponible en stage ou alternance.',
+        description: 'Développeur Full Stack , Next.js, TypeScript, NestJS, Spring Boot, agents IA. Recherche un stage de fin d\'études à partir de janvier 2027.',
         images: ['/og-image.png'],
     },
     icons: {

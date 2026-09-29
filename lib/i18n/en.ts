@@ -14,7 +14,7 @@ export const en: Translations = {
     hero: {
         badge: 'Full Stack Developer in Training',
         subtitle: 'Studying <highlight>Full Stack Development</highlight> at UHA 4.0, Mulhouse',
-        cta: 'Looking for an internship or work-study program in January 2027',
+        cta: 'Looking for an end-of-studies internship starting January 2027',
         discover: 'Discover',
     },
     projects: {
