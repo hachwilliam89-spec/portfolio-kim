@@ -76,6 +76,18 @@ export default function Contact() {
         setTimeout(() => setToast(prev => ({ ...prev, show: false })), 4000);
     };
 
+    const EMAIL = 'hach.william89@outlook.fr';
+    const [copied, setCopied] = useState(false);
+    const copyEmail = async () => {
+        try {
+            await navigator.clipboard.writeText(EMAIL);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch {
+            showToast(t.contact.copyError, 'error');
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -112,7 +124,7 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="relative max-w-4xl mx-auto px-4 py-16">
+        <section id="contact" className="relative max-w-4xl mx-auto px-4 pt-10 pb-16">
 
             <SectionTitle>{t.contact.title}</SectionTitle>
 
@@ -275,22 +287,46 @@ export default function Contact() {
                             </svg>
                         </a>
 
+                        <div className="flex items-stretch gap-2">
                         <a
-                            href="mailto:hach.william89@outlook.fr"
-                            aria-label="M'envoyer un email"
-                            className="flex items-center gap-4 p-4 bg-ink/5 hover:bg-gold/10 border border-ink/10 hover:border-gold/40 rounded-lg transition-all duration-300 group"
+                            href={`mailto:${EMAIL}`}
+                            aria-label={t.contact.sendEmail}
+                            className="flex-1 min-w-0 flex items-center gap-4 p-4 bg-ink/5 hover:bg-gold/10 border border-ink/10 hover:border-gold/40 rounded-lg transition-all duration-300 group"
                         >
                             <svg className="w-8 h-8 text-ink group-hover:text-vermillon transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                             <div className="flex-1">
                                 <p className="font-semibold text-ink group-hover:text-vermillon transition-colors">Email</p>
-                                <p className="text-xs text-ink/80">hach.william89@outlook.fr</p>
+                                <p className="text-xs text-ink/80 break-all">{EMAIL}</p>
                             </div>
                             <svg className="w-5 h-5 text-ink/60 group-hover:text-vermillon group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                         </a>
+                        <button
+                            type="button"
+                            onClick={copyEmail}
+                            aria-label={t.contact.copyEmail}
+                            className={`shrink-0 flex flex-col items-center justify-center gap-1 px-4 rounded-lg border transition-all duration-300 text-xs font-semibold ${
+                                copied
+                                    ? 'bg-vermillon/10 border-vermillon/40 text-vermillon'
+                                    : 'bg-ink/5 border-ink/10 text-ink/70 hover:bg-gold/10 hover:border-gold/40 hover:text-vermillon'
+                            }`}
+                        >
+                            {copied ? (
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                            ) : (
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <rect x="9" y="9" width="11" height="11" rx="2" strokeWidth={2} />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1" />
+                                </svg>
+                            )}
+                            <span aria-live="polite">{copied ? t.contact.copied : t.contact.copy}</span>
+                        </button>
+                        </div>
                     </div>
                 </motion.div>
             </div>

@@ -56,7 +56,8 @@
   #projects,
   #about,
   #contact {
-    scroll-margin-top: 25px;
+    /* = hauteur de la navbar fixe (h-20) : le haut de la section arrive juste dessous */
+    scroll-margin-top: 5rem;
   }
 }
 

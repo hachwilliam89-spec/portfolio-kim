@@ -334,7 +334,7 @@ export default function Projects() {
 
     return (
         <>
-            <section id="projects" className="max-w-6xl mx-auto px-4 py-20">
+            <section id="projects" className="max-w-6xl mx-auto px-4 pt-10 pb-16">
                 <SectionTitle>{t.projects.title}</SectionTitle>
 
                 {/* Filtres */}

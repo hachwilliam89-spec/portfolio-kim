@@ -242,7 +242,7 @@ export default function Hero() {
     };
 
     return (
-        <section className="relative flex min-h-screen items-center justify-center px-4 overflow-hidden pt-20 pb-28">
+        <section className="relative flex min-h-[100svh] items-center justify-center px-4 overflow-hidden pt-24 pb-24">
 
             {/* ── BAMBOU + FEUILLES QUI TOMBENT ── */}
             <motion.div
@@ -480,7 +480,7 @@ export default function Hero() {
                 initial={reduce ? false : { opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-                className="relative z-10 text-center space-y-8 max-w-4xl"
+                className="relative z-10 text-center space-y-4 md:space-y-5 max-w-4xl"
             >
                 {/* Badge status */}
                 <motion.div
@@ -506,7 +506,7 @@ export default function Hero() {
                     className="space-y-1"
                 >
                     <h1 className="leading-none">
-                        <div className="font-display text-2xl md:text-4xl text-ink/50 font-normal tracking-[0.15em] mb-1">
+                        <div className="font-display text-2xl md:text-3xl text-ink/50 font-normal tracking-[0.15em] mb-1">
                             {reduce ? 'William Kim' : 'William Kim'.split('').map((char, i) => (
                                 <motion.span key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.3, delay: 0.6 + i * 0.04, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -518,7 +518,7 @@ export default function Hero() {
                         {/* HACH seul dans le flux : les pandas sont en absolu pour garder le nom centré */}
                         <div className="relative">
                             {/* Panda gauche — sleeping panda (nuit) */}
-                            <div className="absolute right-full top-1/2 -translate-y-1/2 mr-2 md:mr-4 h-28 w-28 md:h-44 md:w-44 hidden sm:block">
+                            <div className="absolute right-full top-1/2 -translate-y-1/2 mr-2 md:mr-4 h-24 w-24 md:h-36 md:w-36 hidden sm:block">
                                 <AnimatePresence>
                                     {isDark && pandaSleepData && (
                                         <motion.div key="panda-sleep" className="w-full h-full"
@@ -533,7 +533,7 @@ export default function Hero() {
                             </div>
 
                             {/* Texte HACH */}
-                            <div className="font-display text-7xl md:text-9xl text-ink font-bold leading-none tracking-tight">
+                            <div className="font-display text-7xl md:text-8xl text-ink font-bold leading-none tracking-tight">
                                 {reduce ? 'HACH' : 'HACH'.split('').map((char, i) => (
                                     <motion.span key={i} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.4, delay: 1.1 + i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -543,7 +543,7 @@ export default function Hero() {
                             </div>
 
                             {/* Panda droite — waving panda (jour) */}
-                            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 md:ml-4 h-[4.5rem] w-[4.5rem] md:h-32 md:w-32 hidden sm:block">
+                            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 md:ml-4 h-16 w-16 md:h-28 md:w-28 hidden sm:block">
                                 <AnimatePresence>
                                     {!isDark && pandaDayData && (
                                         <motion.div key="panda-day" className="w-full h-full"
@@ -562,7 +562,7 @@ export default function Hero() {
 
                     <div className="relative inline-block pt-2">
                         <motion.p
-                            className="font-chinese text-3xl md:text-4xl text-ink/70 tracking-[0.2em]"
+                            className="font-chinese text-2xl md:text-3xl text-ink/70 tracking-[0.2em]"
                             initial={reduce ? false : { opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.6, delay: 1.5 }}
@@ -586,7 +586,7 @@ export default function Hero() {
                     initial={reduce ? false : { opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 1.6 }}
-                    className="text-ink max-w-2xl mx-auto text-xl md:text-2xl leading-relaxed font-medium"
+                    className="text-ink max-w-3xl mx-auto text-lg md:text-xl leading-snug font-medium pt-2"
                 >
                     {t.hero.pitch}
                 </motion.p>
@@ -596,7 +596,7 @@ export default function Hero() {
                     initial={reduce ? false : { opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 1.8 }}
-                    className="text-ink/70 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed"
+                    className="text-ink/70 max-w-2xl mx-auto text-base md:text-lg leading-relaxed"
                     dangerouslySetInnerHTML={{
                         __html: t.hero.subtitle.replace(
                             /<highlight>(.*?)<\/highlight>/g,
@@ -610,10 +610,10 @@ export default function Hero() {
                     initial={reduce ? false : { opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 2.0 }}
-                    className="inline-flex flex-col items-center text-center gap-1 px-5 py-3 bg-vermillon/10 border border-vermillon/30 rounded-2xl"
+                    className="inline-flex flex-col items-center text-center gap-1 px-5 py-2.5 bg-vermillon/10 border border-vermillon/30 rounded-2xl"
                 >
                     <span className="text-sm font-semibold text-vermillon tracking-wide">{t.hero.cta}</span>
-                    <span className="block text-sm text-ink/70 mt-2">{t.hero.mobility}</span>
+                    <span className="block text-sm text-ink/70">{t.hero.mobility}</span>
                 </motion.div>
 
                 {/* Tech badges */}
@@ -621,7 +621,7 @@ export default function Hero() {
                     initial={reduce ? false : { opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 2.3 }}
-                    className="flex flex-wrap gap-3 justify-center pt-6"
+                    className="flex flex-wrap gap-2 md:gap-3 justify-center pt-2"
                 >
                     {[
                         { name: 'React',       icon: SiReact },
@@ -638,7 +638,7 @@ export default function Hero() {
                                 initial={reduce ? false : { opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.3, delay: 2.4 + i * 0.08 }}
-                                className="group px-4 py-2 bg-ink/5 hover:bg-gold/10 border border-ink/10 hover:border-gold/40 rounded-full text-sm text-ink/70 hover:text-ink transition-all duration-300 flex items-center gap-2"
+                                className="group px-3.5 py-1.5 bg-ink/5 hover:bg-gold/10 border border-ink/10 hover:border-gold/40 rounded-full text-sm text-ink/70 hover:text-ink transition-all duration-300 flex items-center gap-2"
                             >
                                 <Icon className="text-base group-hover:text-vermillon transition-colors" />
                                 {tech.name}
@@ -654,7 +654,7 @@ export default function Hero() {
                 initial={reduce ? false : { opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 2.8 }}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-ink/40 hover:text-vermillon transition-colors duration-300 group cursor-pointer z-10"
+                className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-ink/40 hover:text-vermillon transition-colors duration-300 group cursor-pointer z-10"
                 aria-label="Défiler vers les projets"
             >
                 <span className="text-xs uppercase tracking-wider font-medium">{t.hero.discover}</span>

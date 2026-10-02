@@ -62,6 +62,11 @@ export const fr = {
         successMsg: 'Message envoyé !',
         errorMsg: "Erreur lors de l'envoi",
         connectionError: 'Erreur de connexion',
+        sendEmail: "M'envoyer un email",
+        copyEmail: "Copier l'adresse email",
+        copy: 'Copier',
+        copied: 'Copié !',
+        copyError: "Impossible de copier l'adresse",
     },
     footer: {
         copyright: '© 2026 William Kim HACH · Étudiant en Licence Pro Développement Full Stack',

@@ -64,6 +64,11 @@ export const en: Translations = {
         successMsg: 'Message sent!',
         errorMsg: 'Error sending message',
         connectionError: 'Connection error',
+        sendEmail: 'Send me an email',
+        copyEmail: 'Copy email address',
+        copy: 'Copy',
+        copied: 'Copied!',
+        copyError: 'Could not copy the address',
     },
     footer: {
         copyright: '© 2026 William Kim HACH · Full Stack Development Student',

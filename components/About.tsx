@@ -84,7 +84,7 @@ export default function About() {
     const t = lang === 'fr' ? fr : en;
 
     return (
-        <section id="about" className="max-w-6xl mx-auto px-4 py-20">
+        <section id="about" className="max-w-6xl mx-auto px-4 pt-10 pb-16">
             <SectionTitle>{t.about.title}</SectionTitle>
 
             <div className="grid md:grid-cols-2 gap-8">
