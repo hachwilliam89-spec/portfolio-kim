@@ -238,13 +238,13 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                             [t.projects.caseChallenge, caseStudy.challenge],
                                         ] as const).map(([label, text]) => (
                                             <div key={label} className="border-l-2 border-vermillon/60 pl-3">
-                                                <dt className="text-xs uppercase tracking-wider font-bold text-vermillon mb-1">{label}</dt>
+                                                <dt className="text-xs uppercase tracking-wider font-bold text-vermillon dark:text-[#e98c70] mb-1">{label}</dt>
                                                 <dd className="text-sm text-ink/85 leading-relaxed">{renderInline(text)}</dd>
                                             </div>
                                         ))}
                                     </dl>
                                     <details className="group/details mb-6">
-                                        <summary className="cursor-pointer select-none text-sm font-semibold text-ink/70 hover:text-vermillon transition-colors list-none flex items-center gap-2">
+                                        <summary className="cursor-pointer select-none text-sm font-semibold text-ink/70 hover:text-vermillon dark:hover:text-[#e98c70] transition-colors list-none flex items-center gap-2">
                                             <span className="inline-block transition-transform group-open/details:rotate-90" aria-hidden="true">›</span>
                                             {t.projects.technicalDetails}
                                         </summary>
@@ -262,7 +262,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                 <button
                                     type="button"
                                     onClick={() => onSelectProject(relatedProject)}
-                                    className="self-start mb-6 text-sm font-semibold text-vermillon underline underline-offset-4"
+                                    className="self-start mb-6 text-sm font-semibold text-vermillon dark:text-[#e98c70] underline underline-offset-4"
                                 >
                                     {project.previousVersionId ? t.projects.previousVersion : t.projects.currentVersion}
                                 </button>
@@ -279,7 +279,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                         return (
                                             <span
                                                 key={tech}
-                                                className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold flex items-center gap-1.5"
+                                                className="text-xs bg-gold/15 text-ink border border-gold/30 px-3 py-1.5 rounded-full font-medium flex items-center gap-1.5"
                                             >
                                                 {Icon && <Icon className="text-sm" aria-hidden="true" />}
                                                 {tech}

@@ -40,10 +40,11 @@ export default function Navbar() {
 
     const scrollToSection = (id: string) => {
         setMobileMenuOpen(false);
+        const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
         if (id === 'home') {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior });
         } else {
-            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById(id)?.scrollIntoView({ behavior, block: 'start' });
         }
     };
 
@@ -74,7 +75,7 @@ export default function Navbar() {
                             className="relative group"
                             aria-label={t.nav.home}
                         >
-                            <span className="font-serif text-3xl font-bold text-ink transition-colors duration-200 group-hover:text-vermillon">
+                            <span className="font-serif text-3xl font-bold text-ink transition-colors duration-200 group-hover:text-vermillon dark:group-hover:text-[#e98c70]">
                                 WKH
                             </span>
                             <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" aria-hidden="true" />
@@ -89,7 +90,7 @@ export default function Navbar() {
                                     className={`relative px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
                                         activeSection === id
                                             ? 'text-washi bg-gradient-to-r from-vermillon to-gold shadow-md'
-                                            : 'text-ink hover:text-vermillon hover:bg-gold/5'
+                                            : 'text-ink hover:text-vermillon dark:hover:text-[#e98c70] hover:bg-gold/5'
                                     }`}
                                 >
                                     {label}

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Lottie, { type LottieRefCurrentProps } from 'lottie-react';
 import { useTheme } from './ThemeProvider';
-import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiSpring, SiDocker } from 'react-icons/si';
+import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiSpring, SiDocker, SiNestjs, SiOpenjdk } from 'react-icons/si';
 import { HiArrowDown } from 'react-icons/hi';
 import { useLanguage, fr, en } from '@/lib/i18n';
 import InkLandscape from './InkLandscape';
@@ -11,8 +11,9 @@ import './ink-landscape.css';
 
 const technologies = [
     { name: 'React', icon: SiReact }, { name: 'Next.js', icon: SiNextdotjs },
-    { name: 'Spring Boot', icon: SiSpring }, { name: 'TypeScript', icon: SiTypescript },
-    { name: 'Node.js', icon: SiNodedotjs }, { name: 'Docker', icon: SiDocker },
+    { name: 'TypeScript', icon: SiTypescript }, { name: 'NestJS', icon: SiNestjs },
+    { name: 'Node.js', icon: SiNodedotjs }, { name: 'Java', icon: SiOpenjdk },
+    { name: 'Spring Boot', icon: SiSpring }, { name: 'Docker', icon: SiDocker },
 ];
 
 export default function Hero() {
@@ -95,7 +96,7 @@ export default function Hero() {
                 <div className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-3">
                     {technologies.map(({ name, icon: Icon }) => <span key={name} className="flex items-center gap-2 text-xs text-ink/65"><Icon className="text-gold" aria-hidden="true" />{name}</span>)}
                 </div>
-                <a href="#projects" aria-label={t.hero.scrollProjects} className="mt-9 inline-flex items-center gap-3 py-3 text-xs uppercase tracking-[.18em] text-ink/70 hover:text-vermillon transition-colors">{t.hero.discover}<HiArrowDown className="h-4 w-4" aria-hidden="true" /></a>
+                <a href="#projects" aria-label={t.hero.scrollProjects} className="mt-9 inline-flex items-center gap-3 py-3 text-xs uppercase tracking-[.18em] text-ink/70 hover:text-vermillon dark:hover:text-[#e98c70] transition-colors">{t.hero.discover}<HiArrowDown className="h-4 w-4" aria-hidden="true" /></a>
             </div>
         </section>
     );

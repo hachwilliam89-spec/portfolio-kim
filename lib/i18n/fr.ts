@@ -71,6 +71,7 @@ export const fr = {
         findMe: 'Retrouvez-moi',
     },
     contact: {
+        intro: 'Un projet à développer ou une opportunité de stage ? Parlons-en.',
         githubProfile: 'Voir mon profil GitHub',
         linkedinProfile: 'Voir mon profil LinkedIn',
         title: 'Contact',

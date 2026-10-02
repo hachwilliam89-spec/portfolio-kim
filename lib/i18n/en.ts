@@ -73,6 +73,7 @@ export const en: Translations = {
         findMe: 'Find me',
     },
     contact: {
+        intro: 'Have a project in mind or an internship opportunity? Let’s talk.',
         githubProfile: 'View my GitHub profile',
         linkedinProfile: 'View my LinkedIn profile',
         title: 'Contact',

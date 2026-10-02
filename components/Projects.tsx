@@ -432,7 +432,7 @@ export default function Projects() {
                             className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all duration-200 ${
                                 activeFilter === f.value
                                     ? 'bg-vermillon text-white border-vermillon shadow-md'
-                                    : 'bg-white dark:bg-washi-dark text-ink border-gold/40 hover:border-vermillon hover:text-vermillon'
+                                    : 'bg-white dark:bg-washi-dark text-ink border-gold/40 hover:border-vermillon hover:text-vermillon dark:hover:text-[#e98c70]'
                             }`}
                         >
                             {f.value === 'all' ? t.projects.filterAll : f.value === 'OpenAI' && lang === 'en' ? 'AI' : f.label}
@@ -468,7 +468,7 @@ export default function Projects() {
                                         {t.projects.inDevelopment}
                                     </span>
                                 )}
-                                <h4 className="font-display text-2xl font-bold mb-3 text-ink group-hover:text-vermillon transition-colors duration-300">
+                                <h4 className="font-display text-2xl font-bold mb-3 text-ink group-hover:text-vermillon dark:group-hover:text-[#e98c70] transition-colors duration-300">
                                     {project.title}
                                 </h4>
                                 <p className="text-ink text-sm mb-5 leading-relaxed font-medium">
@@ -480,7 +480,7 @@ export default function Projects() {
                                         return (
                                             <span
                                                 key={tech}
-                                                className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold shadow-sm flex items-center gap-1.5"
+                                                className="text-xs bg-gold/15 text-ink border border-gold/30 px-3 py-1.5 rounded-full font-medium flex items-center gap-1.5"
                                             >
                                                 {Icon && <Icon className="text-sm" aria-hidden="true" />}
                                                 {tech}
@@ -509,7 +509,7 @@ export default function Projects() {
                                     <button
                                         type="button"
                                         onClick={() => setSelectedProject(project)}
-                                        className="text-sm font-semibold text-vermillon underline underline-offset-4 hover:text-vermillon-dark"
+                                        className="text-sm font-semibold text-vermillon dark:text-[#e98c70] underline underline-offset-4 hover:text-vermillon-dark dark:hover:text-[#f3b39f]"
                                         aria-label={`${t.projects.details} : ${project.title}`}
                                     >
                                         {t.projects.details}

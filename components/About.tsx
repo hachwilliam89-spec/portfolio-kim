@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import type { IconType } from 'react-icons';
-import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPhp, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb, SiMongodb } from 'react-icons/si';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPhp, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb, SiMongodb, SiOpenjdk } from 'react-icons/si';
 import SectionTitle from './SectionTitle';
 import { useLanguage, fr, en } from '@/lib/i18n';
 
@@ -17,6 +17,8 @@ const techIcons: Record<string, IconType | null> = {
     'Node.js': SiNodedotjs,
     'NestJS': SiNestjs,
     'Spring Boot': SiSpring,
+    'Java': SiOpenjdk,
+    'POO': null,
     'API REST': null,
     'Prisma': SiPrisma,
     'Drizzle ORM': null,
@@ -36,7 +38,7 @@ const techIcons: Record<string, IconType | null> = {
 
 const skillKeys = [
     { key: 'frontend' as const, items: ['React', 'React Native', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
-    { key: 'backend' as const, items: ['NestJS', 'Spring Boot', 'Node.js', 'API REST', 'Prisma', 'Drizzle ORM', 'Zod', 'PHP'] },
+    { key: 'backend' as const, items: ['NestJS', 'Node.js', 'Java', 'Spring Boot', 'POO', 'API REST', 'Prisma', 'Drizzle ORM', 'Zod', 'PHP'] },
     { key: 'database' as const, items: ['PostgreSQL', 'MongoDB', 'MariaDB', 'MySQL'] },
     { key: 'ai' as const, items: ['OpenAI / Anthropic', 'n8n'] },
     { key: 'devops' as const, items: ['Docker', 'Git', 'GitLab', 'Vitest', 'Scrum'] },
@@ -93,13 +95,13 @@ export default function About() {
             <div className="grid md:grid-cols-2 gap-8">
                 {/* Parcours */}
                 <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="relative bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg p-6 sm:p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
+                    className="relative bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg p-6 sm:p-8"
                 >
-                    <h3 className="font-display text-2xl font-bold text-vermillon mb-5">{t.about.background}</h3>
+                    <h3 className="font-display text-2xl font-bold text-vermillon dark:text-[#e98c70] mb-5">{t.about.background}</h3>
                     <div className="space-y-5 pb-14 text-[15px] text-ink leading-7">
                         <p dangerouslySetInnerHTML={{ __html: t.about.p1.replace(/<strong>/g, '<strong class="text-ink font-bold">') }} />
                         <p dangerouslySetInnerHTML={{ __html: t.about.p2.replace(/<strong>/g, '<strong class="text-ink font-bold">') }} />
@@ -110,13 +112,13 @@ export default function About() {
 
                 {/* Compétences */}
                 <motion.div
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg p-6 sm:p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
+                    className="bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg p-6 sm:p-8"
                 >
-                    <h3 className="font-display text-2xl font-bold text-vermillon mb-5">{t.about.skills}</h3>
+                    <h3 className="font-display text-2xl font-bold text-vermillon dark:text-[#e98c70] mb-5">{t.about.skills}</h3>
                     <div className="space-y-5">
                         {skillKeys.map((skillGroup) => (
                             <div key={skillGroup.key}>
@@ -132,7 +134,7 @@ export default function About() {
                                                 className="text-xs bg-gold/15 text-ink border border-gold/30 px-3 py-1.5 rounded-full font-medium flex items-center gap-1.5"
                                             >
                                                 {Icon && <Icon className="text-sm" aria-hidden="true" />}
-                                                {skill}
+                                                {lang === 'en' ? ({ POO: 'OOP', 'API REST': 'REST API' }[skill] ?? skill) : skill}
                                             </span>
                                         );
                                     })}

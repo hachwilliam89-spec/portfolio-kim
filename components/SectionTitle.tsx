@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface SectionTitleProps {
     children: React.ReactNode;
@@ -8,8 +8,9 @@ interface SectionTitleProps {
 }
 
 export default function SectionTitle({ children, className = '' }: SectionTitleProps) {
+    const reduceMotion = useReducedMotion();
     return (
-        <div className={`relative w-full text-center mb-12 ${className}`}>
+        <div className={`relative w-full text-center ${className || 'mb-12'}`}>
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -33,12 +34,10 @@ export default function SectionTitle({ children, className = '' }: SectionTitleP
                         strokeWidth="2"
                         fill="none"
                         strokeLinecap="square"
-                        animate={{
-                            opacity: [0.5, 0.9, 0.5],
-                        }}
+                        animate={{ opacity: reduceMotion ? 0.7 : [0.5, 0.9, 0.5] }}
                         transition={{
-                            duration: 3,
-                            repeat: Infinity,
+                            duration: reduceMotion ? 0 : 3,
+                            repeat: reduceMotion ? 0 : Infinity,
                             ease: "easeInOut"
                         }}
                     >
