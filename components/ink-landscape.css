@@ -5,9 +5,19 @@
 .ink-moon { opacity: 0; }
 /* Panda de nuit passé en tons d'encre pour s'accorder au paysage */
 .panda-ink { filter: sepia(.45) saturate(.35) brightness(.92); opacity: .9; }
-.ink-sun, .ink-moon { transition: opacity .8s ease; }
-.dark .ink-sun { opacity: 0; }
-.dark .ink-moon { opacity: .85; }
+/* Soleil et lune : l'un plonge derrière les montagnes de droite pendant que l'autre en surgit,
+   en léger arc, avec un rebond à l'arrivée façon anime. */
+.ink-sun { transform: translate(0, 0); opacity: 1; transition: transform 1.3s cubic-bezier(.34, 1.4, .64, 1) .4s, opacity .5s ease-out .4s; }
+.ink-moon { transform: translate(-50px, 430px); opacity: 0; transition: transform .9s cubic-bezier(.55, 0, .8, .2), opacity .7s ease-in .15s; }
+.dark .ink-sun { transform: translate(60px, 430px); opacity: 0; transition: transform .9s cubic-bezier(.55, 0, .8, .2), opacity .7s ease-in .15s; }
+.dark .ink-moon { transform: translate(0, 0); opacity: .85; transition: transform 1.3s cubic-bezier(.34, 1.4, .64, 1) .4s, opacity .5s ease-out .4s; }
+/* Éclat « kira » à l'arrivée de l'astre (déclenché seulement par un clic sur le thème) */
+.ink-kira { opacity: 0; transform-box: fill-box; transform-origin: center; pointer-events: none; }
+.ink-kira-star { transform-box: fill-box; transform-origin: center; }
+.ink-hero[data-switch="light"] .ink-kira-sun,
+.ink-hero[data-switch="dark"] .ink-kira-moon { animation: ink-kira .9s ease-out 1.35s both; }
+.ink-hero[data-switch="light"] .ink-kira-sun .ink-kira-star,
+.ink-hero[data-switch="dark"] .ink-kira-moon .ink-kira-star { animation: ink-kira-star .9s ease-out 1.35s both; }
 .ink-bamboo { transform-origin: 60px 930px; animation: ink-sway 12s ease-in-out infinite alternate; }
 .ink-birds { animation: ink-flight 22s ease-in-out infinite alternate; }
 .ink-mist { animation: ink-drift 18s ease-in-out infinite alternate; }
@@ -41,6 +51,16 @@
   25% { transform: rotate(calc(var(--r0, 80deg) - 35deg)) translateX(-10px); }
   75% { transform: rotate(calc(var(--r0, 80deg) + 35deg)) translateX(10px); }
   100% { transform: rotate(calc(var(--r0, 80deg) + 10deg)) translateX(4px); }
+}
+@keyframes ink-kira {
+  0% { opacity: 0; transform: scale(.7); }
+  25% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.25); }
+}
+@keyframes ink-kira-star {
+  0% { transform: scale(0) rotate(0); }
+  35% { transform: scale(1.3) rotate(45deg); }
+  100% { transform: scale(.6) rotate(90deg); }
 }
 @keyframes ink-twinkle { 0%, 100% { opacity: .15; transform: scale(.55); } 50% { opacity: .9; transform: scale(1.5); } }
 @keyframes ink-sway { from { transform: rotate(-.6deg); } to { transform: rotate(.8deg); } }

@@ -49,6 +49,22 @@ export default function Hero() {
         return () => { observer.disconnect(); document.removeEventListener('visibilitychange', update); reduced.removeEventListener('change', update); };
     }, [theme, pandas]);
 
+    // Lever / coucher animé : uniquement sur un clic du bouton de thème, jamais au chargement
+    useEffect(() => {
+        let timer: ReturnType<typeof setTimeout>;
+        const onSwitch = (event: Event) => {
+            const section = sectionRef.current;
+            if (!section) return;
+            clearTimeout(timer);
+            delete section.dataset.switch;
+            void section.offsetWidth; // relance l'animation si on reclique pendant qu'elle tourne
+            section.dataset.switch = (event as CustomEvent<string>).detail;
+            timer = setTimeout(() => { delete section.dataset.switch; }, 3000);
+        };
+        window.addEventListener('theme-switch', onSwitch);
+        return () => { window.removeEventListener('theme-switch', onSwitch); clearTimeout(timer); };
+    }, []);
+
     return (
         <section id="home" ref={sectionRef} className="ink-hero relative isolate overflow-hidden" data-running="false">
             <InkLandscape />

@@ -23,6 +23,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setTheme(next);
         document.documentElement.classList.toggle('dark', next === 'dark');
         localStorage.setItem('theme', next);
+        // Signale un changement volontaire (clic), pour animer le lever/coucher du soleil et de la lune
+        window.dispatchEvent(new CustomEvent('theme-switch', { detail: next }));
     };
 
     return (

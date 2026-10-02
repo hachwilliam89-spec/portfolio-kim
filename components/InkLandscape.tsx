@@ -41,6 +41,20 @@ const FALLING_LEAVES = LEAF_SPOTS.map(l => {
     return { ...l, fall, drift: Math.round(fall * 0.12), dur: +(fall / 50 / 0.75).toFixed(1) };
 });
 
+/** Éclat « kira » façon anime : traits de vitesse rayonnants + étoile à quatre branches. */
+function Kira({ className, color }: { className: string; color: string }) {
+    return (
+        <g className={`ink-kira ${className}`} stroke={color} strokeLinecap="round">
+            {Array.from({ length: 12 }, (_, i) => {
+                const a = (i * 30 + 8) * Math.PI / 180;
+                const [r1, r2] = i % 2 ? [100, 122] : [96, 140];
+                return <path key={i} strokeWidth={i % 2 ? 2 : 3} d={`M${(1180 + Math.cos(a) * r1).toFixed(1)} ${(230 + Math.sin(a) * r1).toFixed(1)}L${(1180 + Math.cos(a) * r2).toFixed(1)} ${(230 + Math.sin(a) * r2).toFixed(1)}`} />;
+            })}
+            <path className="ink-kira-star" fill={color} stroke="none" d="M1262 150L1266 166L1282 170L1266 174L1262 190L1258 174L1242 170L1258 166Z" />
+        </g>
+    );
+}
+
 /** Static ink drawing; only whole layers (and the stars) are animated in CSS. */
 export default function InkLandscape() {
     return (
@@ -83,6 +97,8 @@ export default function InkLandscape() {
                 <circle cx="1180" cy="230" r="72" fill="#d8bf89" />
                 <circle cx="1180" cy="230" r="71" stroke="#b8956a" strokeOpacity=".55" strokeWidth="2" />
             </g>
+            <Kira className="ink-kira-sun" color="#c73e1d" />
+            <Kira className="ink-kira-moon" color="#e8cd97" />
             <g className="ink-stars" fill="currentColor">
                 {STARS.map((s, i) => (
                     <g key={i} className="ink-star" style={{ '--d': `${s.dur}s`, '--delay': `${s.delay}s` } as CSSProperties}>
