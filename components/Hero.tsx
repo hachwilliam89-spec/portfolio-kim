@@ -1,4 +1,4 @@
-gti 'use client';
+'use client';
 
 import { motion, AnimatePresence, Variants, useReducedMotion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { useEffect, useState } from 'react';
