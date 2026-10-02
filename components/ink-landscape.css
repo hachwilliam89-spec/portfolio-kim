@@ -37,6 +37,22 @@
 .project-chapter { margin: 12px 0 0; color: var(--color-ink); }
 .chapter-rule { height: 1px; background: linear-gradient(90deg, #b8956a88, #b8956a10); }
 .chapter-featured .chapter-rule { background: linear-gradient(90deg, #c73e1d66, #b8956a22); }
+/* Lanterne : éteinte par défaut, s'allume au survol ou quand on est dans la catégorie */
+.lantern { transition: filter .6s ease; }
+.lantern-light { opacity: 0; transition: opacity .6s ease; }
+.lantern-core { transition: fill .6s ease; }
+.lantern-tassel { transform-box: fill-box; transform-origin: 50% 0; }
+.chapter-rule { transition: opacity .6s ease; opacity: .6; }
+.lantern-lit .lantern { filter: drop-shadow(0 0 10px rgba(255, 176, 80, .55)) drop-shadow(0 0 22px rgba(255, 140, 50, .25)); }
+.lantern-lit .lantern-light { opacity: .9; animation: lantern-flicker 2.6s ease-in-out infinite; }
+.lantern-lit .lantern-core { fill: #fff6d8; }
+.lantern-lit .lantern-tassel { animation: lantern-sway 3.2s ease-in-out infinite alternate; }
+.lantern-lit .chapter-rule { opacity: 1; }
+@keyframes lantern-flicker { 0%, 100% { opacity: .9; } 30% { opacity: .75; } 55% { opacity: .95; } 80% { opacity: .82; } }
+@keyframes lantern-sway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .lantern-lit .lantern-light, .lantern-lit .lantern-tassel { animation: none; }
+}
 /* Détachement lent, chute portée par le vent, fondu au sol, puis pause avant la suivante */
 @keyframes ink-leaf-fall {
   0% { transform: translate(0, 0); opacity: 0; animation-timing-function: cubic-bezier(.4, 0, .6, 1); }
