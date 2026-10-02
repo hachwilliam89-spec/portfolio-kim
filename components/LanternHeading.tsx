@@ -70,7 +70,6 @@ export default function LanternHeading({ children, featured = false }: { childre
             </svg>
             <h3 className={`font-display text-ink ${featured ? 'text-2xl sm:text-3xl' : 'text-xl sm:text-2xl'}`}>{children}</h3>
             <span className="chapter-rule flex-1" aria-hidden="true" />
-            <span className="hidden sm:block text-xs tracking-widest text-gold" aria-hidden="true">{featured ? '01' : '02'}</span>
         </div>
     );
 }
