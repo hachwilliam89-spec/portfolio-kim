@@ -598,9 +598,10 @@ export default function Hero() {
                     initial={reduce ? false : { opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 2.0 }}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-vermillon/10 border border-vermillon/30 rounded-full"
+                    className="inline-flex flex-col items-start gap-1 px-5 py-3 bg-vermillon/10 border border-vermillon/30 rounded-2xl"
                 >
                     <span className="text-sm font-semibold text-vermillon tracking-wide">{t.hero.cta}</span>
+                    <span className="block text-sm text-ink/70 mt-2">{t.hero.mobility}</span>
                 </motion.div>
 
                 {/* Tech badges */}

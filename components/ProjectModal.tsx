@@ -1,6 +1,7 @@
 "use client";
 
 import { Project } from "@/lib/types";
+import ProjectCover from "./ProjectCover";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
@@ -149,17 +150,32 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         <button
                             onClick={onClose}
                             className="p-2 hover:bg-gold/10 rounded-full transition-all duration-300"
-                            aria-label="Fermer"
+                            aria-label={t.projects.close}
                         >
                             <X className="w-5 h-5 text-ink" />
                         </button>
                     </div>
 
                     {/* BODY - deux colonnes */}
-                    <div className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden">
+                    <div className="flex-1 min-h-0 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden">
 
                         {/* COLONNE GAUCHE - Description + Techs */}
-                        <div className="md:w-2/5 shrink-0 flex flex-col overflow-y-auto p-6 border-r border-gold/20">
+                        <div className="order-2 md:order-1 md:w-2/5 shrink-0 flex flex-col md:overflow-y-auto p-6 md:border-r border-gold/20">
+                            {project.status === 'development' && (
+                                <span className="self-start mb-4 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-semibold text-ink">
+                                    {t.projects.inDevelopment}
+                                </span>
+                            )}
+                            {project.links?.demo && (
+                                <a
+                                    href={project.links.demo}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex self-start items-center gap-2 mb-5 px-4 py-2 bg-vermillon text-white text-sm font-semibold rounded-full hover:bg-vermillon-dark transition-colors"
+                                >
+                                    {t.projects.visitSite}
+                                </a>
+                            )}
                             <RichText text={lang === 'en' && project.descriptionEn ? project.descriptionEn : project.description} />
 
 
@@ -183,22 +199,11 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                                     })}
                                 </div>
 
-                                {/* Lien demo si présent */}
-                                {project.links?.demo && ( <a
-
-                                    href={project.links.demo}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark transition-all duration-300"
-                                    >
-                                    {t.projects.visitSite}
-                                    </a>
-                                    )}
                             </div>
                         </div>
 
                         {/* COLONNE DROITE - Carrousel ou placeholder */}
-                        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+                        <div className="order-1 md:order-2 shrink-0 md:flex-1 flex flex-col h-[26rem] md:h-auto min-h-0 overflow-hidden">
                             {hasScreenshots && currentScreenshot ? (
                                 <>
                                     {/* Image */}
@@ -287,16 +292,13 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                                     </div>
                                 </>
                             ) : (
-                                /* Pas de screenshots - placeholder */
-                                <div className="flex-1 flex items-center justify-center bg-ink/5">
-                                    <div className="text-center p-8">
-                                        <p className="font-display text-5xl text-ink/10 mb-4">
-                                            {project.title[0]}
-                                        </p>
-                                        <p className="text-sm text-ink/30">
-                                            Screenshots à venir
-                                        </p>
+                                <div className="flex-1 flex flex-col min-h-0">
+                                    <div className="relative flex-1 min-h-0">
+                                        <ProjectCover project={project} />
                                     </div>
+                                    <p className="shrink-0 p-5 text-center text-sm text-ink/70 border-t border-gold/20">
+                                        {t.projects.previewComing}
+                                    </p>
                                 </div>
                             )}
                         </div>

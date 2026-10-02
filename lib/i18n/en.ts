@@ -14,7 +14,8 @@ export const en: Translations = {
     hero: {
         badge: 'Full Stack Developer in Training',
         subtitle: 'Studying <highlight>Full Stack Development</highlight> at UHA 4.0, Mulhouse',
-        cta: 'Looking for an end-of-studies internship starting January 2027',
+        cta: 'Six-month final-year internship · Starting January 2027',
+        mobility: 'France or abroad · On-site preferred · University agreement available for internships abroad',
         discover: 'Discover',
     },
     projects: {
@@ -22,6 +23,10 @@ export const en: Translations = {
         filterAll: 'All',
         viewMore: 'View more',
         visitSite: '🌐 View live site ↗',
+        inDevelopment: 'In development',
+        previewComing: 'Screenshots and demo coming soon',
+        close: 'Close',
+        details: 'Explore project',
         technologies: 'Technologies',
     },
     filters: {
@@ -38,9 +43,9 @@ export const en: Translations = {
             ai: 'AI & Integrations',
             devops: 'DevOps & Tools',
         },
-        p1: '4 years of operational management as a <strong>logistics manager at a holding company</strong> gave me what few junior devs possess: precision under pressure, team coordination, and a results-oriented business mindset.',
+        p1: '4 years of operational management as a <strong>logistics manager at a holding company</strong> taught me precision under pressure, team coordination, and a results-oriented business mindset.',
         p2: 'My <strong>Bachelor\'s degree in Economics</strong> (Paris 1 Panthéon-Sorbonne) gives me a different perspective on projects: I understand the business stakes behind the code, not just the technical side.',
-        p3: 'Now completing a <strong>Professional Bachelor\'s in Full Stack Development</strong> at UHA 4.0, I built a B2B platform with orchestrated AI agents (XIP Telecom), led a team as Scrum Master (RecycleDashboard), and delivered a real-time multiplayer game solo (KCD Formes).',
+        p3: 'Now completing a <strong>Professional Bachelor\'s in Full Stack Development</strong> at UHA 4.0, I contributed to a team-built B2B platform with orchestrated AI agents (XIP Telecom), led a team as Scrum Master (RecycleDashboard), and delivered a real-time multiplayer game solo (KCD Formes).',
         findMe: 'Find me',
     },
     contact: {

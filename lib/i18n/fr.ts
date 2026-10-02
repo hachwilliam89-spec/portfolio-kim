@@ -12,7 +12,8 @@ export const fr = {
     hero: {
         badge: 'Développeur full-stack en formation',
         subtitle: "Étudiant en <highlight>Licence Pro Développement Full Stack</highlight> à l'UHA 4.0",
-        cta: 'Recherche un stage de fin d\'études pour janvier 2027',
+        cta: 'Stage de fin d\'études · 6 mois dès janvier 2027',
+        mobility: 'France ou étranger · Présentiel privilégié · Convention possible à l’étranger',
         discover: 'Découvrir',
     },
     projects: {
@@ -20,6 +21,10 @@ export const fr = {
         filterAll: 'Tous',
         viewMore: 'Voir plus',
         visitSite: '🌐 Voir le site en ligne ↗',
+        inDevelopment: 'En développement',
+        previewComing: 'Captures et démonstration à venir',
+        close: 'Fermer',
+        details: 'Découvrir le projet',
         technologies: 'Technologies',
     },
     filters: {
@@ -36,9 +41,9 @@ export const fr = {
             ai: 'IA & Intégrations',
             devops: 'DevOps & Outils',
         },
-        p1: "4 ans de management opérationnel en tant que <strong>responsable logistique dans une holding</strong> m'ont appris ce que peu de devs juniors maîtrisent : la rigueur sous pression, la coordination d'équipes et la vision métier orientée résultat.",
+        p1: "4 ans de management opérationnel en tant que <strong>responsable logistique dans une holding</strong> m'ont appris la rigueur sous pression, la coordination d'équipes et la vision métier orientée résultat.",
         p2: "Ma <strong>Licence en Économie</strong> (Paris 1 Panthéon-Sorbonne) me donne une lecture différente des projets : je comprends les enjeux business derrière le code, pas seulement la technique.",
-        p3: "Aujourd'hui en <strong>Licence Pro Développement Full Stack</strong> à l'UHA 4.0, j'ai conçu une plateforme B2B avec agents IA orchestrés (XIP Telecom), piloté une équipe en Scrum Master (RecycleDashboard), et livré un jeu multijoueur temps réel en autonomie (KCD Formes).",
+        p3: "Aujourd'hui en <strong>Licence Pro Développement Full Stack</strong> à l'UHA 4.0, j'ai contribué en équipe à une plateforme B2B avec agents IA orchestrés (XIP Telecom), piloté une équipe en Scrum Master (RecycleDashboard), et livré un jeu multijoueur temps réel en autonomie (KCD Formes).",
         findMe: 'Retrouvez-moi',
     },
     contact: {

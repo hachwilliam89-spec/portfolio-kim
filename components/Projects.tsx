@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import type { IconType } from 'react-icons';
 import {
     SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma,
@@ -11,6 +10,7 @@ import {
     SiTypescript, SiLeaflet
 } from 'react-icons/si';
 import ProjectModal from './ProjectModal';
+import ProjectCover from './ProjectCover';
 import SectionTitle from './SectionTitle';
 import type { Project } from '@/lib/types';
 import { useLanguage, fr, en } from '@/lib/i18n';
@@ -27,6 +27,7 @@ const techIcons: TechIconMap = {
     'Docker': SiDocker,
     'Tailwind CSS': SiTailwindcss,
     'React': SiReact,
+    'React Native': SiReact,
     'Node.js': SiNodedotjs,
     'NestJS': SiNestjs,
     'PostgreSQL': SiPostgresql,
@@ -60,6 +61,7 @@ const techIcons: TechIconMap = {
 
 const FILTERS = [
     { label: 'Tous', value: 'all' },
+    { label: 'Mobile', value: 'React Native' },
     { label: 'Next.js', value: 'Next.js' },
     { label: 'TypeScript', value: 'TypeScript' },
     { label: 'Spring Boot', value: 'Spring Boot' },
@@ -69,6 +71,31 @@ const FILTERS = [
 ];
 
 const projects: Project[] = [
+    {
+        id: 9,
+        title: 'Équilibre',
+        status: 'development',
+        imageKind: 'logo',
+        shortDescription: 'Mon projet de fin d’études : une application mobile pour relier coach et utilisateur autour d’un plan personnalisé et du suivi du poids.',
+        shortDescriptionEn: 'My final-year project: a mobile app connecting coaches and users through personalised plans and weight tracking.',
+        description: '**Projet de fin d’études en cours de développement** à l’UHA 4.0. Je développe une application mobile de suivi alimentaire avec accompagnement coach, de l’interface React Native à l’API NestJS.\n\n' +
+            '**Parcours déjà développés :**\n' +
+            '- **Espaces coach et utilisateur** : authentification, gestion de session et accès selon le rôle.\n' +
+            '- **Plans personnalisés** : le coach définit les objectifs et le budget calorique ; l’utilisateur consulte son suivi.\n' +
+            '- **Suivi du poids** : historique des pesées, statut par rapport au plan et correction manuelle. Les pesées automatiques proviennent d’un **simulateur de balance connectée**.\n\n' +
+            '**Conception et fiabilité :** API NestJS structurée en architecture hexagonale, MongoDB, tests unitaires et d’intégration, documentation Swagger et environnements Docker séparés.\n\n' +
+            '**En cours :** journal alimentaire côté API et préparation d’une version Android de démonstration. Les captures, la vidéo et les accès de test seront ajoutés après validation des parcours.',
+        descriptionEn: '**Final-year project in active development** at UHA 4.0. I am developing a mobile nutrition tracking app with coach support, from the React Native interface to the NestJS API.\n\n' +
+            '**Implemented flows:**\n' +
+            '- **Coach and user spaces**: authentication, session management and role-based access.\n' +
+            '- **Personalised plans**: coaches set goals and calorie budgets; users view their progress.\n' +
+            '- **Weight tracking**: measurement history, progress status and manual corrections. Automatic readings come from a **connected-scale simulator**.\n\n' +
+            '**Design and reliability:** a NestJS API using hexagonal architecture, MongoDB, unit and integration tests, Swagger documentation and separate Docker environments.\n\n' +
+            '**In progress:** food diary API and preparation of an Android demo build. Screenshots, video and test access will be added after the flows have been validated.',
+        tech: ['React Native', 'TypeScript', 'NestJS', 'MongoDB', 'Expo', 'Docker', 'Swagger', 'Jest'],
+        image: '/images/equilibre-logo.png',
+        screenshots: [],
+    },
     {
         id: 8,
         title: 'KCD Formes v2',
@@ -111,15 +138,15 @@ const projects: Project[] = [
     {
         id: 7,
         title: 'XIP Telecom v2',
-        shortDescription: 'Plateforme B2B de courtage télécom  architecture agents IA orchestrés, intégration Odoo CRM et génération de rapports PDF.',
-        description: 'Projet réalisé **en équipe de 4** (Jira/Confluence, GitLab) sur une plateforme **B2B de courtage télécom** (monorepo pnpm).\n\n' +
+        shortDescription: 'Équipe de 4 : j’ai développé la couche d’agents IA, l’intégration Odoo, les rapports PDF et l’API documentée.',
+        description: 'Projet réalisé **en équipe de 4** (Jira/Confluence, GitLab) sur une plateforme **B2B de courtage télécom** (monorepo pnpm). **Mes contributions :**\n\n' +
             '- **Couche d\'agents IA orchestrés** : Superviseur/Routeur (identification via LLM, extraction du payload, routage), SDR (scoring auto des prospects 1–5, accusé de réception), Business Developer (fiches de préparation avant RDV).\n' +
             '- **LLMProvider abstrait** (OpenAI, Anthropic, mock), table agent_runs pour la journalisation, convention transversale prompts/routes/schemas pour les 6 agents de l\'équipe.\n' +
             '- **Intégration Odoo CRM** via XML-RPC en fire-and-forget : prospects, contacts, opportunités et pièces jointes PDF.\n' +
             '- **Rapports d\'audit télécom** générés automatiquement (React PDF, stockage Nextcloud WebDAV).\n' +
             '- **API REST** documentée (OpenAPI + Swagger UI), documentation technique complète et **104 tests** unitaires (Vitest).',
-        shortDescriptionEn: 'B2B telecom brokerage platform orchestrated AI agents, Odoo CRM integration and automated PDF audit report generation.',
-        descriptionEn: 'Team project (4 devs, Jira/Confluence, GitLab) on a **B2B telecom brokerage** platform (pnpm monorepo).\n\n' +
+        shortDescriptionEn: 'Team of 4: I developed the AI agent layer, Odoo integration, PDF reports and documented API.',
+        descriptionEn: 'Team project (4 devs, Jira/Confluence, GitLab) on a **B2B telecom brokerage** platform (pnpm monorepo). **My contributions:**\n\n' +
             '- **Orchestrated AI agent layer**: Supervisor/Router (LLM-based target ID, payload extraction, routing), SDR (automated prospect scoring 1–5, acknowledgment), Business Developer (pre-meeting prep sheets).\n' +
             '- **Abstract LLMProvider** (OpenAI, Anthropic, mock), agent_runs audit-logging table, cross-cutting prompts/routes/schemas convention for the team\'s 6 agents.\n' +
             '- **Odoo CRM integration** via XML-RPC (fire-and-forget): prospects, contacts, opportunities and PDF attachments.\n' +
@@ -140,7 +167,7 @@ const projects: Project[] = [
         id: 1,
         title: 'KCD Formes',
         shortDescription: 'Jeu de tower defense médiéval en pixel art avec mode multijoueur asymétrique temps réel.',
-        shortDescriptionEn: 'Medieval pixel art tower defense game with real-time asymmetric multiplayer git status developed solo as the Licence Pro capstone project.',
+        shortDescriptionEn: 'Medieval pixel art tower defense game with real-time asymmetric multiplayer, developed solo as the Licence Pro capstone project.',
         descriptionEn: '**Licence Pro capstone project**, designed and developed **entirely solo**. Geometric shapes govern every mechanic: area sets damage and HP, perimeter sets range and speed.\n\n' +
             '- **Java / Spring Boot backend** architected with the **Factory Method** pattern (enemy and shape creation).\n' +
             '- **Real-time asymmetric multiplayer** via **WebSocket/STOMP** (attacker vs. defender).\n' +
@@ -162,7 +189,7 @@ const projects: Project[] = [
     {
         id: 2,
         title: 'RecycleDashboard',
-        shortDescription: 'Application de gestion collecte biodéchets, développée en équipe , j\'y ai eu le rôle de SCRUM master.',
+        shortDescription: 'Projet en équipe : Scrum Master et développeur du planning de redistribution, de l’optimisation des tournées et des API.',
         shortDescriptionEn: 'Bio-waste collection management app built in a team, Scrum Master role, VRPTW algorithm and drag-and-drop Kanban redistribution interface.',
         descriptionEn: 'As **Scrum Master** I ran the ceremonies, managed the Jira backlog and coordinated sprints. Bio-waste collection management app; my dev contributions:\n\n' +
             '- **Evaluation Procedure (PE)** for the **VRPTW** algorithm: 3-case decision tree (on time / definitively late / uncertain).\n' +
@@ -215,8 +242,8 @@ const projects: Project[] = [
     {
         id: 4,
         title: 'COS Strasbourg',
-        shortDescription: 'Application web de suivi pédagogique entre élèves et professeurs avec annotations de documents.',
-        shortDescriptionEn: 'Pedagogical tracking web app for a real client: in-browser document annotation, automated email notifications and role-based access.',
+        shortDescription: 'Projet client en équipe : j’ai développé les annotations de documents, les notifications email et le design de l’interface.',
+        shortDescriptionEn: 'Client team project: I built document annotation, automated email notifications and the interface design.',
         descriptionEn: 'Team project for a **real client** (COS Strasbourg). I owned three main areas:\n\n' +
             '- **In-browser document annotation**: DOCX→HTML conversion (Mammoth) + context menu to highlight/annotate dissertations, no external plugin.\n' +
             '- **Automated email notifications** (Brevo API) triggered on each key workflow action (upload, validation, annotation).\n' +
@@ -237,8 +264,8 @@ const projects: Project[] = [
     {
         id: 5,
         title: 'Evaluation RH',
-        shortDescription: 'Système d\'évaluation RH avec création de sondages, API backend en POO avec NestJS.',
-        shortDescriptionEn: 'HR evaluation system with survey creation, NestJS REST API backend with OOP architecture and Swagger documentation.',
+        shortDescription: 'Projet en équipe : développement du backend NestJS, des endpoints API et de leur documentation Swagger.',
+        shortDescriptionEn: 'Team project: I developed NestJS backend endpoints and Swagger API documentation for an HR evaluation system.',
         descriptionEn: 'Company project built **in a team** in a demanding professional environment (strict quality standards, regular **code reviews**). My contribution focused on the **NestJS backend**:\n\n' +
             '- **OOP REST API endpoints**: typed DTOs + class-validator, NestJS decorators, dependency injection.\n' +
             '- Clear **separation of concerns** (controllers / services / repositories).\n' +
@@ -321,45 +348,27 @@ export default function Projects() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            onClick={() => setSelectedProject(project)}
                             className="bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg overflow-hidden hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300 group cursor-pointer flex flex-col"
-                            role="button"
-                            tabIndex={0}
-                            aria-label={`Voir les détails du projet ${project.title}`}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                    e.preventDefault();
-                                    setSelectedProject(project);
-                                }
-                            }}
                         >
-                            <div className="relative h-48 w-full overflow-hidden bg-washi-dark shrink-0">
-                                {project.image ? (
-                                    <Image
-                                        src={project.image}
-                                        alt={`Aperçu du projet ${project.title}`}
-                                        fill
-                                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-ink/10 to-gold/20">
-                                        <span className="font-display text-4xl text-ink/20">{project.title[0]}</span>
-                                    </div>
-                                )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
-                                <div className="absolute top-4 right-4 px-3 py-1 bg-washi/90 backdrop-blur-sm rounded-full text-xs font-semibold text-ink opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1" aria-hidden="true">
-                                    Voir plus
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </div>
-                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setSelectedProject(project)}
+                                aria-label={`${t.projects.details} : ${project.title}`}
+                                className="relative h-48 w-full overflow-hidden shrink-0 focus-visible:outline-2 focus-visible:outline-vermillon focus-visible:outline-offset-[-4px]"
+                            >
+                                <ProjectCover project={project} />
+                            </button>
 
                             <div className="p-6 flex flex-col flex-1">
+                                {project.status === 'development' && (
+                                    <span className="self-start mb-3 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-semibold text-ink">
+                                        {t.projects.inDevelopment}
+                                    </span>
+                                )}
                                 <h3 className="font-display text-2xl font-bold mb-3 text-ink group-hover:text-vermillon transition-colors duration-300">
                                     {project.title}
                                 </h3>
-                                <p className="text-ink text-sm mb-5 leading-relaxed font-medium line-clamp-3">
+                                <p className="text-ink text-sm mb-5 leading-relaxed font-medium">
                                     {lang === 'en' && project.shortDescriptionEn ? project.shortDescriptionEn : project.shortDescription}
                                 </p>
                                 <div className="flex flex-wrap gap-2 mb-5">
@@ -381,7 +390,15 @@ export default function Projects() {
                                         </span>
                                     )}
                                 </div>
-                                <div className="mt-auto">
+                                <div className="mt-auto flex flex-wrap items-center gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => setSelectedProject(project)}
+                                        className="text-sm font-semibold text-vermillon underline underline-offset-4 hover:text-vermillon-dark"
+                                        aria-label={`${t.projects.details} : ${project.title}`}
+                                    >
+                                        {t.projects.details}
+                                    </button>
                                     {project.links?.demo && ( <a
 
                                         href={project.links.demo}

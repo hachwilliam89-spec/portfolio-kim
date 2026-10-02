@@ -28,6 +28,8 @@ export interface Project {
     descriptionEn?: string;
     tech: string[];
     image: string;
+    imageKind?: 'logo';
+    status?: 'development';
     screenshots: Screenshot[];
     links?: RawProjectLinks;
 }
