@@ -13,6 +13,7 @@ export const en: Translations = {
     },
     hero: {
         badge: 'Full Stack Developer in Training',
+        pitch: 'I turn ideas into web and mobile applications, built to be reliable and evolve over time.',
         subtitle: 'Studying <highlight>Full Stack Development</highlight> at UHA 4.0, Mulhouse',
         cta: 'Six-month final-year internship · Starting January 2027',
         mobility: 'France or abroad · On-site preferred · University agreement available for internships abroad',
@@ -20,6 +21,10 @@ export const en: Translations = {
     },
     projects: {
         title: 'Projects',
+        featured: 'Three projects to explore',
+        moreProjects: 'More projects',
+        previousVersion: 'Explore the first version',
+        currentVersion: 'Back to the current version',
         filterAll: 'All',
         viewMore: 'View more',
         visitSite: '🌐 View live site ↗',

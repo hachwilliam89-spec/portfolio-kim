@@ -1,4 +1,4 @@
-'use client';
+gti 'use client';
 
 import { motion, AnimatePresence, Variants, useReducedMotion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -242,7 +242,7 @@ export default function Hero() {
     };
 
     return (
-        <section className="relative flex min-h-screen items-center justify-center px-4 overflow-hidden pt-20">
+        <section className="relative flex min-h-screen items-center justify-center px-4 overflow-hidden pt-20 pb-28">
 
             {/* ── BAMBOU + FEUILLES QUI TOMBENT ── */}
             <motion.div
@@ -511,12 +511,14 @@ export default function Hero() {
                                 <motion.span key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.3, delay: 0.6 + i * 0.04, ease: [0.25, 0.46, 0.45, 0.94] }}
                                     className="inline-block"
-                                >{char === ' ' ? ' ' : char}</motion.span>
+                                >{char === ' ' ? '\u00A0' : char}</motion.span>
                             ))}
                         </div>
-                        <div className="flex items-center justify-center gap-2 md:gap-4">
-                            {/* Slot gauche — sleeping panda (nuit), taille fixe pour éviter le layout shift */}
-                            <div className="flex-shrink-0 h-28 w-28 md:h-44 md:w-44 hidden sm:block">
+                        <div className="flex justify-center">
+                        {/* HACH seul dans le flux : les pandas sont en absolu pour garder le nom centré */}
+                        <div className="relative">
+                            {/* Panda gauche — sleeping panda (nuit) */}
+                            <div className="absolute right-full top-1/2 -translate-y-1/2 mr-2 md:mr-4 h-28 w-28 md:h-44 md:w-44 hidden sm:block">
                                 <AnimatePresence>
                                     {isDark && pandaSleepData && (
                                         <motion.div key="panda-sleep" className="w-full h-full"
@@ -540,8 +542,8 @@ export default function Hero() {
                                 ))}
                             </div>
 
-                            {/* Slot droite — waving panda (jour), taille fixe pour éviter le layout shift */}
-                            <div className="flex-shrink-0 h-[4.5rem] w-[4.5rem] md:h-32 md:w-32 hidden sm:block">
+                            {/* Panda droite — waving panda (jour) */}
+                            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 md:ml-4 h-[4.5rem] w-[4.5rem] md:h-32 md:w-32 hidden sm:block">
                                 <AnimatePresence>
                                     {!isDark && pandaDayData && (
                                         <motion.div key="panda-day" className="w-full h-full"
@@ -554,6 +556,7 @@ export default function Hero() {
                                     )}
                                 </AnimatePresence>
                             </div>
+                        </div>
                         </div>
                     </h1>
 
@@ -579,6 +582,15 @@ export default function Hero() {
                     </div>
                 </motion.div>
 
+                <motion.p
+                    initial={reduce ? false : { opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 1.6 }}
+                    className="text-ink max-w-2xl mx-auto text-xl md:text-2xl leading-relaxed font-medium"
+                >
+                    {t.hero.pitch}
+                </motion.p>
+
                 {/* Description */}
                 <motion.p
                     initial={reduce ? false : { opacity: 0, y: 20 }}
@@ -598,7 +610,7 @@ export default function Hero() {
                     initial={reduce ? false : { opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 2.0 }}
-                    className="inline-flex flex-col items-start gap-1 px-5 py-3 bg-vermillon/10 border border-vermillon/30 rounded-2xl"
+                    className="inline-flex flex-col items-center text-center gap-1 px-5 py-3 bg-vermillon/10 border border-vermillon/30 rounded-2xl"
                 >
                     <span className="text-sm font-semibold text-vermillon tracking-wide">{t.hero.cta}</span>
                     <span className="block text-sm text-ink/70 mt-2">{t.hero.mobility}</span>
@@ -609,7 +621,7 @@ export default function Hero() {
                     initial={reduce ? false : { opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 2.3 }}
-                    className="flex flex-wrap gap-3 justify-center pt-6 pb-16"
+                    className="flex flex-wrap gap-3 justify-center pt-6"
                 >
                     {[
                         { name: 'React',       icon: SiReact },

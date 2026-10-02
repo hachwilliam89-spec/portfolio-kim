@@ -21,6 +21,7 @@ export interface ProjectLinks {
 
 export interface Project {
     id: number;
+    previousVersionId?: number;
     title: string;
     shortDescription: string;
     shortDescriptionEn?: string;

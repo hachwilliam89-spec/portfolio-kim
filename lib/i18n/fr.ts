@@ -11,6 +11,7 @@ export const fr = {
     },
     hero: {
         badge: 'Développeur full-stack en formation',
+        pitch: 'Je transforme des idées en applications web et mobiles, pensées pour être fiables et évoluer dans le temps.',
         subtitle: "Étudiant en <highlight>Licence Pro Développement Full Stack</highlight> à l'UHA 4.0",
         cta: 'Stage de fin d\'études · 6 mois dès janvier 2027',
         mobility: 'France ou étranger · Présentiel privilégié · Convention possible à l’étranger',
@@ -18,6 +19,10 @@ export const fr = {
     },
     projects: {
         title: 'Projets',
+        featured: 'Trois projets à découvrir',
+        moreProjects: 'Autres réalisations',
+        previousVersion: 'Découvrir la première version',
+        currentVersion: 'Revenir à la version actuelle',
         filterAll: 'Tous',
         viewMore: 'Voir plus',
         visitSite: '🌐 Voir le site en ligne ↗',

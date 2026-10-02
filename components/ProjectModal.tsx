@@ -45,6 +45,8 @@ const techIcons: Record<string, IconType | null> = {
 interface ProjectModalProps {
     project: Project | null;
     onClose: () => void;
+    relatedProject?: Project;
+    onSelectProject?: (project: Project) => void;
 }
 
 // Rendu "riche" léger des descriptions : **gras**, et puces pour les lignes
@@ -82,7 +84,7 @@ function RichText({ text }: { text: string }) {
     return <div className="text-sm text-ink/80 leading-relaxed mb-6">{blocks}</div>;
 }
 
-export default function ProjectModal({ project, onClose }: ProjectModalProps) {
+export default function ProjectModal({ project, onClose, relatedProject, onSelectProject }: ProjectModalProps) {
     const { lang } = useLanguage();
     const t = lang === 'fr' ? fr : en;
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -160,7 +162,8 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     <div className="flex-1 min-h-0 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden">
 
                         {/* COLONNE GAUCHE - Description + Techs */}
-                        <div className="order-2 md:order-1 md:w-2/5 shrink-0 flex flex-col md:overflow-y-auto p-6 md:border-r border-gold/20">
+                        <div key={project.id}
+                            className="order-2 md:order-1 md:w-2/5 shrink-0 flex flex-col md:overflow-y-auto p-6 md:border-r border-gold/20">
                             {project.status === 'development' && (
                                 <span className="self-start mb-4 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-semibold text-ink">
                                     {t.projects.inDevelopment}
@@ -178,6 +181,16 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                             )}
                             <RichText text={lang === 'en' && project.descriptionEn ? project.descriptionEn : project.description} />
 
+
+                            {relatedProject && onSelectProject && (
+                                <button
+                                    type="button"
+                                    onClick={() => onSelectProject(relatedProject)}
+                                    className="self-start mb-6 text-sm font-semibold text-vermillon underline underline-offset-4"
+                                >
+                                    {project.previousVersionId ? t.projects.previousVersion : t.projects.currentVersion}
+                                </button>
+                            )}
 
                             {/* Techs */}
                             <div className="mt-auto">

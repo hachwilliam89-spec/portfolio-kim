@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { IconType } from 'react-icons';
 import {
@@ -98,6 +98,7 @@ const projects: Project[] = [
     },
     {
         id: 8,
+        previousVersionId: 1,
         title: 'KCD Formes v2',
         shortDescription: 'Refonte complète de mon fil rouge en architecture hexagonale, déployée en production sur mon propre VPS (Docker, HTTPS, CI/CD).',
         shortDescriptionEn: 'Full rewrite of my capstone game in hexagonal architecture, deployed to production on my own VPS (Docker, HTTPS, CI/CD).',
@@ -212,6 +213,7 @@ const projects: Project[] = [
     },
     {
         id: 3,
+        previousVersionId: 6,
         title: 'Miyazaki Garden V2',
         shortDescription: 'Refonte complète en Next.js : authentification, favoris, avis et design Ghibli immersif.',
         shortDescriptionEn: 'Full Next.js rewrite, secure authentication, favorites, ratings and immersive Studio Ghibli design.',
@@ -314,9 +316,21 @@ export default function Projects() {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [activeFilter, setActiveFilter] = useState('all');
 
-    const filtered = activeFilter === 'all'
-        ? projects
-        : projects.filter(p => p.tech.some(t => t.includes(activeFilter)));
+    const featuredIds = [9, 7, 8];
+    const previousIds = new Set(projects.map(project => project.previousVersionId));
+    const currentProjects = projects.filter(project => !previousIds.has(project.id));
+    const matchesFilter = (project: Project) => activeFilter === 'all'
+        || project.tech.some(tech => tech.includes(activeFilter));
+    const featured = featuredIds.flatMap(id => currentProjects.filter(project => project.id === id && matchesFilter(project)));
+    const others = currentProjects.filter(project => !featuredIds.includes(project.id) && matchesFilter(project));
+    const groups = [
+        { title: t.projects.featured, items: featured },
+        { title: t.projects.moreProjects, items: others },
+    ].filter(group => group.items.length > 0);
+    const relatedProject = selectedProject
+        ? projects.find(project => selectedProject.previousVersionId === project.id
+            || project.previousVersionId === selectedProject.id)
+        : undefined;
 
     return (
         <>
@@ -329,6 +343,7 @@ export default function Projects() {
                         <button
                             key={f.value}
                             onClick={() => setActiveFilter(f.value)}
+                            aria-pressed={activeFilter === f.value}
                             className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all duration-200 ${
                                 activeFilter === f.value
                                     ? 'bg-vermillon text-white border-vermillon shadow-md'
@@ -341,14 +356,17 @@ export default function Projects() {
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-                    {filtered.map((project, index) => (
+                    {groups.map(group => (
+                        <Fragment key={group.title}>
+                            <h3 className="col-span-full font-display text-2xl text-ink border-b border-gold/30 pb-4 mt-4">{group.title}</h3>
+                    {group.items.map((project, index) => (
                         <motion.article
                             key={project.id}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg overflow-hidden hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300 group cursor-pointer flex flex-col"
+                            className="bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg overflow-hidden hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300 group flex flex-col"
                         >
                             <button
                                 type="button"
@@ -365,9 +383,9 @@ export default function Projects() {
                                         {t.projects.inDevelopment}
                                     </span>
                                 )}
-                                <h3 className="font-display text-2xl font-bold mb-3 text-ink group-hover:text-vermillon transition-colors duration-300">
+                                <h4 className="font-display text-2xl font-bold mb-3 text-ink group-hover:text-vermillon transition-colors duration-300">
                                     {project.title}
-                                </h3>
+                                </h4>
                                 <p className="text-ink text-sm mb-5 leading-relaxed font-medium">
                                     {lang === 'en' && project.shortDescriptionEn ? project.shortDescriptionEn : project.shortDescription}
                                 </p>
@@ -416,11 +434,15 @@ export default function Projects() {
                             <div className="h-1 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left shrink-0" aria-hidden="true" />
                         </motion.article>
                         ))}
+                        </Fragment>
+                    ))}
                 </div>
             </section>
 
             <ProjectModal
                 project={selectedProject}
+                relatedProject={relatedProject}
+                onSelectProject={setSelectedProject}
                 onClose={() => setSelectedProject(null)}
             />
         </>
