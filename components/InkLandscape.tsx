@@ -55,6 +55,15 @@ function Kira({ className, color }: { className: string; color: string }) {
     );
 }
 
+/** Nuages au lavis (traînées de pinceau) : à droite parmi les sommets, à gauche au-dessus des bambous. */
+const CLOUDS: { x: number; y: number; scale: number; dur: number; delay: number; flip?: boolean }[] = [
+    { x: 1050, y: 470, scale: 1, dur: 26, delay: 0 },
+    { x: 1130, y: 615, scale: 0.85, dur: 32, delay: -9, flip: true },
+    { x: 1270, y: 395, scale: 0.6, dur: 22, delay: -4 },
+    { x: 20, y: 180, scale: 0.9, dur: 28, delay: -14 },
+    { x: 170, y: 255, scale: 0.6, dur: 24, delay: -6, flip: true },
+];
+
 /** Static ink drawing; only whole layers (and the stars) are animated in CSS. */
 export default function InkLandscape() {
     return (
@@ -77,6 +86,21 @@ export default function InkLandscape() {
                     <circle cx="1180" cy="230" r="72" fill="white" />
                     <circle cx="1212" cy="204" r="62" fill="black" />
                 </mask>
+                {/* Nuage au lavis : traînées de pinceau effilées, sans contour, comme la brume et les montagnes */}
+                <linearGradient id="ink-cloud-wash" x2="1" y2="0">
+                    <stop stopColor="currentColor" stopOpacity="0" />
+                    <stop offset=".3" stopColor="currentColor" stopOpacity=".2" />
+                    <stop offset=".65" stopColor="currentColor" stopOpacity=".14" />
+                    <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+                </linearGradient>
+                <filter id="ink-cloud-soft" x="-10%" y="-50%" width="120%" height="200%">
+                    <feGaussianBlur stdDeviation="1.6" />
+                </filter>
+                <g id="ink-cloud" fill="url(#ink-cloud-wash)" filter="url(#ink-cloud-soft)">
+                    <path d="M0 30Q60 8 150 20Q215 13 262 27Q205 33 125 32Q55 40 0 30Z" />
+                    <path d="M45 47Q125 35 228 45Q150 52 45 47Z" />
+                    <path d="M92 13Q142 1 205 9Q152 16 92 13Z" opacity=".8" />
+                </g>
                 <g id="ink-stalk">
                     {[0, 1, 2, 3, 4, 5].map(i => (
                         <g key={i} transform={`translate(${i * 2} ${-i * 100})`}>
@@ -116,6 +140,15 @@ export default function InkLandscape() {
             <g stroke="currentColor" strokeOpacity=".13" strokeLinecap="round">
                 <path d="M1110 620L1087 715 1060 757M1210 560L1191 675 1166 713M1220 465L1200 559M1305 711L1287 802" />
                 <path d="M713 841Q1000 805 1280 865M880 877Q1120 851 1435 885" />
+            </g>
+            <g className="ink-clouds">
+                {CLOUDS.map((c, i) => (
+                    <g key={i} transform={`translate(${c.x} ${c.y}) scale(${c.flip ? -c.scale : c.scale} ${c.scale})${c.flip ? ' translate(-262 0)' : ''}`}>
+                        <g className="ink-cloud" style={{ '--d': `${c.dur}s`, '--delay': `${c.delay}s` } as CSSProperties}>
+                            <use href="#ink-cloud" />
+                        </g>
+                    </g>
+                ))}
             </g>
             <g className="ink-mist" fill="var(--color-washi)" opacity=".3"><path d="M680 784Q890 735 1220 772Q1050 757 680 784ZM900 839Q1160 786 1490 817Q1230 800 900 839Z" /></g>
             <g className="ink-birds" fill="currentColor" opacity=".65">
