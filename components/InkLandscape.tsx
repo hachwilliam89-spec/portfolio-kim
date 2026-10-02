@@ -22,6 +22,25 @@ const STARS: { x: number; y: number; r: number; delay: number; dur: number; cros
     { x: 1250, y: 410, r: 1.6, delay: 0.2, dur: 3.8 },
 ];
 
+/**
+ * Feuilles de bambou qui se détachent du feuillage existant.
+ * x/y : milieu d'une feuille réelle des tiges (coordonnées du viewBox, calculées depuis les transforms des tiges).
+ * Chute jusqu'au sol (~y 900) poussée par un léger vent vers la droite ; durée proportionnelle à la hauteur.
+ */
+const LEAF_SPOTS: { x: number; y: number; r0: number; delay: number; scale: number }[] = [
+    { x: 80, y: 340, r0: 70, delay: 0, scale: 1 },
+    { x: 240, y: 455, r0: 105, delay: 2.5, scale: 0.85 },
+    { x: 155, y: 615, r0: 80, delay: 5, scale: 1 },
+    { x: 95, y: 362, r0: 95, delay: 7.5, scale: 0.95 },
+    { x: 305, y: 508, r0: 60, delay: 10, scale: 0.8 },
+    { x: 178, y: 668, r0: 110, delay: 12.5, scale: 0.9 },
+    { x: 298, y: 726, r0: 75, delay: 15, scale: 0.8 },
+];
+const FALLING_LEAVES = LEAF_SPOTS.map(l => {
+    const fall = 900 - l.y;
+    return { ...l, fall, drift: Math.round(fall * 0.12), dur: +(fall / 50 / 0.75).toFixed(1) };
+});
+
 /** Static ink drawing; only whole layers (and the stars) are animated in CSS. */
 export default function InkLandscape() {
     return (
@@ -62,7 +81,6 @@ export default function InkLandscape() {
             <g className="ink-sun"><circle cx="1180" cy="230" r="77" fill="#c73e1d" opacity=".85" /><circle cx="1180" cy="230" r="88" stroke="#b8956a" strokeOpacity=".45" /></g>
             <g className="ink-moon" mask="url(#ink-crescent)">
                 <circle cx="1180" cy="230" r="72" fill="#d8bf89" />
-                <circle cx="1150" cy="250" r="14" fill="#b8956a" opacity=".22" />
                 <circle cx="1180" cy="230" r="71" stroke="#b8956a" strokeOpacity=".55" strokeWidth="2" />
             </g>
             <g className="ink-stars" fill="currentColor">
@@ -88,6 +106,17 @@ export default function InkLandscape() {
                 <path d="M984 297Q960 273 941 283Q967 282 984 303Q1005 288 1026 293Q1007 282 984 297Z" />
                 <path d="M1067 340Q1050 322 1036 325Q1054 327 1067 344Q1080 333 1097 335Q1085 328 1067 340Z" />
                 <path d="M1111 288Q1100 276 1086 279Q1100 280 1111 292Q1124 282 1138 285Q1126 278 1111 288Z" />
+            </g>
+            <g className="ink-falling" fill="currentColor">
+                {FALLING_LEAVES.map((l, i) => (
+                    <g key={i} transform={`translate(${l.x} ${l.y})`}>
+                        <g className="ink-leaf-fall" style={{ '--d': `${l.dur}s`, '--delay': `${l.delay}s`, '--fall': `${l.fall}px`, '--drift': `${l.drift}px` } as CSSProperties}>
+                            <g className="ink-leaf-spin" style={{ '--d': `${(l.dur / 4).toFixed(2)}s`, '--delay': `${l.delay}s`, '--r0': `${l.r0}deg` } as CSSProperties}>
+                                <path transform={`scale(${l.scale})`} d="M0 -13Q5 -3 1 12L0 14L-1 12Q-5 -3 0 -13Z" />
+                            </g>
+                        </g>
+                    </g>
+                ))}
             </g>
             <g className="ink-bamboo" opacity=".38">
                 <use href="#ink-stalk" transform="translate(55 934) rotate(-9) scale(1)" />

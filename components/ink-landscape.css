@@ -14,6 +14,12 @@
 .ink-stars { opacity: 0; transition: opacity .8s ease; filter: drop-shadow(0 0 3px currentColor); }
 .dark .ink-stars { opacity: 1; }
 .ink-star { transform-box: fill-box; transform-origin: center; opacity: .2; animation: ink-twinkle var(--d, 3s) ease-in-out var(--delay, 0s) infinite; }
+/* Même opacité que le bambou : la feuille qui se détache a la même teinte que le feuillage */
+.ink-falling { opacity: .38; }
+.ink-leaf-fall { opacity: 0; animation: ink-leaf-fall var(--d, 10s) linear var(--delay, 0s) infinite; }
+.ink-leaf-spin { transform-box: fill-box; transform-origin: 50% 0; animation: ink-leaf-spin var(--d, 2.5s) ease-in-out var(--delay, 0s) infinite alternate; }
+.ink-hero[data-running="false"] .ink-leaf-fall,
+.ink-hero[data-running="false"] .ink-leaf-spin,
 .ink-hero[data-running="false"] .ink-star,
 .ink-hero[data-running="false"] .ink-bamboo,
 .ink-hero[data-running="false"] .ink-birds,
@@ -21,6 +27,21 @@
 .project-chapter { margin: 12px 0 0; color: var(--color-ink); }
 .chapter-rule { height: 1px; background: linear-gradient(90deg, #b8956a88, #b8956a10); }
 .chapter-featured .chapter-rule { background: linear-gradient(90deg, #c73e1d66, #b8956a22); }
+/* Détachement lent, chute portée par le vent, fondu au sol, puis pause avant la suivante */
+@keyframes ink-leaf-fall {
+  0% { transform: translate(0, 0); opacity: 0; animation-timing-function: cubic-bezier(.4, 0, .6, 1); }
+  3% { opacity: 1; }
+  62% { opacity: 1; }
+  75% { transform: translate(var(--drift, 40px), var(--fall, 400px)); opacity: 0; }
+  100% { transform: translate(var(--drift, 40px), var(--fall, 400px)); opacity: 0; }
+}
+/* Balancier en feuille morte : la feuille pivote autour de sa base en oscillant de part et d'autre */
+@keyframes ink-leaf-spin {
+  0% { transform: rotate(var(--r0, 80deg)) translateX(0); }
+  25% { transform: rotate(calc(var(--r0, 80deg) - 35deg)) translateX(-10px); }
+  75% { transform: rotate(calc(var(--r0, 80deg) + 35deg)) translateX(10px); }
+  100% { transform: rotate(calc(var(--r0, 80deg) + 10deg)) translateX(4px); }
+}
 @keyframes ink-twinkle { 0%, 100% { opacity: .15; transform: scale(.55); } 50% { opacity: .9; transform: scale(1.5); } }
 @keyframes ink-sway { from { transform: rotate(-.6deg); } to { transform: rotate(.8deg); } }
 @keyframes ink-flight { from { transform: translate(0, 0); } to { transform: translate(-65px, -16px); } }
