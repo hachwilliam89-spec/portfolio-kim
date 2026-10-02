@@ -1,12 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPhp, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb } from 'react-icons/si';
+import type { IconType } from 'react-icons';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPhp, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb, SiMongodb } from 'react-icons/si';
 import SectionTitle from './SectionTitle';
 import { useLanguage, fr, en } from '@/lib/i18n';
 
-const techIcons: { [key: string]: any } = {
+const techIcons: Record<string, IconType | null> = {
     'React': SiReact,
+    'React Native': SiReact,
+    'MongoDB': SiMongodb,
     'Next.js': SiNextdotjs,
     'TypeScript': SiTypescript,
     'Tailwind CSS': SiTailwindcss,
@@ -32,9 +35,9 @@ const techIcons: { [key: string]: any } = {
 };
 
 const skillKeys = [
-    { key: 'frontend' as const, items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
+    { key: 'frontend' as const, items: ['React', 'React Native', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
     { key: 'backend' as const, items: ['NestJS', 'Spring Boot', 'Node.js', 'API REST', 'Prisma', 'Drizzle ORM', 'Zod', 'PHP'] },
-    { key: 'database' as const, items: ['PostgreSQL', 'MariaDB', 'MySQL'] },
+    { key: 'database' as const, items: ['PostgreSQL', 'MongoDB', 'MariaDB', 'MySQL'] },
     { key: 'ai' as const, items: ['OpenAI / Anthropic', 'n8n'] },
     { key: 'devops' as const, items: ['Docker', 'Git', 'GitLab', 'Vitest', 'Scrum'] },
 ];
@@ -94,10 +97,10 @@ export default function About() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="relative bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
+                    className="relative bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg p-6 sm:p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
                 >
                     <h3 className="font-display text-2xl font-bold text-vermillon mb-5">{t.about.background}</h3>
-                    <div className="space-y-4 text-sm text-ink leading-relaxed font-medium">
+                    <div className="space-y-5 pb-14 text-[15px] text-ink leading-7">
                         <p dangerouslySetInnerHTML={{ __html: t.about.p1.replace(/<strong>/g, '<strong class="text-ink font-bold">') }} />
                         <p dangerouslySetInnerHTML={{ __html: t.about.p2.replace(/<strong>/g, '<strong class="text-ink font-bold">') }} />
                         <p dangerouslySetInnerHTML={{ __html: t.about.p3.replace(/<strong>/g, '<strong class="text-ink font-bold">') }} />
@@ -111,7 +114,7 @@ export default function About() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
+                    className="bg-white dark:bg-washi-dark border-2 border-gold/40 rounded-lg p-6 sm:p-8 hover:border-vermillon hover:shadow-2xl hover:shadow-vermillon/20 transition-all duration-300"
                 >
                     <h3 className="font-display text-2xl font-bold text-vermillon mb-5">{t.about.skills}</h3>
                     <div className="space-y-5">
@@ -126,7 +129,7 @@ export default function About() {
                                         return (
                                             <span
                                                 key={skill}
-                                                className="text-xs bg-gold text-white px-3 py-1.5 rounded-full font-semibold shadow-sm flex items-center gap-1.5"
+                                                className="text-xs bg-gold/15 text-ink border border-gold/30 px-3 py-1.5 rounded-full font-medium flex items-center gap-1.5"
                                             >
                                                 {Icon && <Icon className="text-sm" aria-hidden="true" />}
                                                 {skill}

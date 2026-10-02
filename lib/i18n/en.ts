@@ -67,9 +67,9 @@ export const en: Translations = {
             ai: 'AI & Integrations',
             devops: 'DevOps & Tools',
         },
-        p1: '4 years of operational management as a <strong>logistics manager at a holding company</strong> taught me precision under pressure, team coordination, and a results-oriented business mindset.',
-        p2: 'My <strong>Bachelor\'s degree in Economics</strong> (Paris 1 Panthéon-Sorbonne) gives me a different perspective on projects: I understand the business stakes behind the code, not just the technical side.',
-        p3: 'Now completing a <strong>Professional Bachelor\'s in Computer Science: software design, development and testing</strong> (<em>Licence professionnelle Métiers de l\'informatique</em>) at UHA 4.0, I contributed to a team-built B2B platform with orchestrated AI agents (XIP Telecom), led a team as Scrum Master (RecycleDashboard), and delivered a real-time multiplayer game solo (KCD Formes).',
+        p1: "After four years as a <strong>logistics manager</strong>, I chose to move into software development to <strong>bring ideas to life</strong> — both my own and other people’s. I enjoy starting with a need, building a solution and refining the details that make it useful in everyday life.",
+        p2: "My management experience taught me to organise work, set priorities and coordinate a team. My <strong>Bachelor’s degree in Economics from Paris 1 Panthéon-Sorbonne</strong> also shapes how I approach a company’s needs and constraints.",
+        p3: "I am now studying for a professional Bachelor’s degree in Computer Science at <strong>UHA 4.0</strong>, building web and mobile applications independently and in teams. With <strong>Équilibre</strong>, my final-year project, I am focusing on architecture, testing and maintainability. I am looking for an internship where I can contribute to a real product, learn from a team and develop my skills through new challenges.",
         findMe: 'Find me',
     },
     contact: {

@@ -6,6 +6,7 @@ import { HiMenu, HiX, HiDownload } from 'react-icons/hi';
 import { HiSun, HiMoon } from 'react-icons/hi2';
 import { useLanguage, fr, en } from '@/lib/i18n';
 import { useTheme } from './ThemeProvider';
+import CvFlag from './CvFlag';
 
 export default function Navbar() {
     const { lang, toggle } = useLanguage();
@@ -132,7 +133,7 @@ export default function Navbar() {
                                                     onClick={() => setCvDropdownOpen(false)}
                                                     className="flex items-center gap-3 px-4 py-3 text-sm text-ink hover:bg-gold/10 transition-colors duration-150"
                                                 >
-                                                    <span className="text-lg">🇫🇷</span>
+                                                    <CvFlag country="fr" />
                                                     <div>
                                                         <div className="font-semibold">{t.nav.cvFr}</div>
                                                         <div className="text-xs text-ink/50">{t.nav.cvFrSub}</div>
@@ -145,7 +146,7 @@ export default function Navbar() {
                                                     onClick={() => setCvDropdownOpen(false)}
                                                     className="flex items-center gap-3 px-4 py-3 text-sm text-ink hover:bg-gold/10 transition-colors duration-150"
                                                 >
-                                                    <span className="text-lg">🇬🇧</span>
+                                                    <CvFlag country="gb" />
                                                     <div>
                                                         <div className="font-semibold">{t.nav.cvUs}</div>
                                                         <div className="text-xs text-ink/50">{t.nav.cvUsSub}</div>
@@ -293,7 +294,8 @@ export default function Navbar() {
                                         className="w-full flex items-center gap-3 px-5 py-4 rounded-lg font-medium text-ink border border-gold hover:bg-gold/10 transition-all duration-200"
                                     >
                                         <HiDownload className="w-5 h-5" aria-hidden="true" />
-                                        <span>🇫🇷 {t.nav.cvFr}</span>
+                                        <CvFlag country="fr" />
+                                        <span>{t.nav.cvFr}</span>
                                     </motion.a>
                                     <motion.a
                                         href="/CV_William_Kim_HACH_EN.pdf"
@@ -305,7 +307,8 @@ export default function Navbar() {
                                         className="w-full flex items-center gap-3 px-5 py-4 rounded-lg font-medium text-ink border border-gold hover:bg-gold/10 transition-all duration-200"
                                     >
                                         <HiDownload className="w-5 h-5" aria-hidden="true" />
-                                        <span>🇬🇧 {t.nav.cvUs}</span>
+                                        <CvFlag country="gb" />
+                                        <span>{t.nav.cvUs}</span>
                                     </motion.a>
                                 </div>
 

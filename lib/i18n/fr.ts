@@ -65,9 +65,9 @@ export const fr = {
             ai: 'IA & Intégrations',
             devops: 'DevOps & Outils',
         },
-        p1: "4 ans de management opérationnel en tant que <strong>responsable logistique dans une holding</strong> m'ont appris la rigueur sous pression, la coordination d'équipes et la vision métier orientée résultat.",
-        p2: "Ma <strong>Licence en Économie</strong> (Paris 1 Panthéon-Sorbonne) me donne une lecture différente des projets : je comprends les enjeux business derrière le code, pas seulement la technique.",
-        p3: "Aujourd'hui en <strong>Licence professionnelle Métiers de l'informatique : conception, développement et test de logiciels</strong> à l'UHA 4.0, j'ai contribué en équipe à une plateforme B2B avec agents IA orchestrés (XIP Telecom), piloté une équipe en Scrum Master (RecycleDashboard), et livré un jeu multijoueur temps réel en autonomie (KCD Formes).",
+        p1: "Après quatre ans comme <strong>responsable logistique</strong>, j’ai choisi de me reconvertir dans le développement pour <strong>concrétiser des idées</strong> : les miennes, mais aussi celles des autres. Ce qui me plaît, c’est de partir d’un besoin, construire une solution et soigner les détails qui la rendent utile au quotidien.",
+        p2: "Mon expérience du management m’a appris à organiser le travail, gérer les priorités et coordonner une équipe. Ma <strong>licence en économie à Paris 1 Panthéon-Sorbonne</strong> nourrit aussi mon attention aux besoins et aux contraintes de l’entreprise.",
+        p3: "Aujourd’hui en licence professionnelle Métiers de l’informatique à <strong>l’UHA 4.0</strong>, je développe des applications web et mobiles, seul et en équipe. Avec <strong>Équilibre</strong>, mon projet de fin d’études, je travaille particulièrement l’architecture, les tests et la maintenabilité. Je recherche un stage où contribuer à un produit concret, apprendre auprès d’une équipe et progresser face à de nouveaux défis.",
         findMe: 'Retrouvez-moi',
     },
     contact: {

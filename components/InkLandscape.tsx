@@ -10,6 +10,17 @@ const STARS: { x: number; y: number; r: number; delay: number; dur: number; cros
     { x: 1010, y: 60, r: 1.8, delay: 0.9, dur: 3.4 },
     { x: 1210, y: 35, r: 2.6, delay: 1.6, dur: 3.0, cross: true },
     { x: 1390, y: 85, r: 1.8, delay: 3.2, dur: 4.0 },
+    // Ciel dégagé à gauche : sous la navigation et au-dessus des bambous.
+    { x: 80, y: 132, r: 1.4, delay: -1.5, dur: 4.6 },
+    { x: 225, y: 188, r: 1.3, delay: -2.7, dur: 5.2 },
+    { x: 390, y: 118, r: 1.5, delay: -3.2, dur: 4.8 },
+    { x: 115, y: 240, r: 1.6, delay: -0.8, dur: 5.6, cross: true },
+    { x: 345, y: 222, r: 1.3, delay: -4.1, dur: 6.0 },
+    { x: 55, y: 298, r: 1.2, delay: -2.0, dur: 4.4 },
+    { x: 200, y: 282, r: 1.6, delay: -3.6, dur: 5.4 },
+    { x: 305, y: 320, r: 1.4, delay: -1.3, dur: 4.9, cross: true },
+    { x: 395, y: 278, r: 1.1, delay: -2.9, dur: 5.8 },
+    { x: 135, y: 345, r: 1.1, delay: -4.5, dur: 6.2 },
     // Gauche, au-dessus du bambou
     { x: 35, y: 200, r: 2, delay: 2.4, dur: 3.5 },
     { x: 300, y: 150, r: 1.8, delay: 0.4, dur: 2.8, cross: true },
