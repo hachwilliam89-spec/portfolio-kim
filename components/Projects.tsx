@@ -74,6 +74,18 @@ const projects: Project[] = [
     {
         id: 9,
         title: 'Équilibre',
+        caseStudy: {
+            need: 'Permettre à un coach et à son client de suivre ensemble un plan alimentaire personnalisé et l’évolution du poids, depuis le téléphone.',
+            role: 'Seul, de l’application mobile React Native à l’API NestJS, dans le cadre de mon projet de fin d’études.',
+            result: 'Espaces coach et utilisateur, plans personnalisés et suivi des pesées fonctionnels. Journal alimentaire et version Android de démonstration en cours.',
+            challenge: 'Mener un projet sérieux **de bout en bout** : rédaction d’un **cahier des charges complet**, anticipation, **TDD**, et prise en main de **MongoDB**, dont le modèle document n’a rien à voir avec le SQL de PostgreSQL. Une rigueur tenue partout : Git, UX, tests et pipeline.',
+        },
+        caseStudyEn: {
+            need: 'Help a coach and their client follow a personalised nutrition plan and weight progress together, from their phone.',
+            role: 'Solo, from the React Native mobile app to the NestJS API, as my final-year project.',
+            result: 'Coach and user spaces, personalised plans and weight tracking are working. Food diary and Android demo build in progress.',
+            challenge: 'Running a serious project **end to end**: writing **full specifications**, planning ahead, **TDD**, and learning **MongoDB**, whose document model is nothing like PostgreSQL’s SQL. Rigour applied everywhere: Git, UX, tests and pipeline.',
+        },
         status: 'development',
         imageKind: 'logo',
         shortDescription: 'Mon projet de fin d’études : une application mobile pour relier coach et utilisateur autour d’un plan personnalisé et du suivi du poids.',
@@ -100,6 +112,18 @@ const projects: Project[] = [
         id: 8,
         previousVersionId: 1,
         title: 'KCD Formes v2',
+        caseStudy: {
+            need: 'Faire passer mon projet fil rouge d’un prototype d’école à un jeu en ligne, robuste et maintenable.',
+            role: 'Seul sur tout le projet, de l’architecture au déploiement.',
+            result: 'Jeu en ligne sur **kcd-formes.fr** : solo, duel 1v1 et coop en temps réel, déployé automatiquement à chaque push.',
+            challenge: 'Ma première **architecture hexagonale** : respecter ses règles avec rigueur (domaine isolé, dépendances tournées vers lui) pour en tirer les bénéfices. Multijoueur, simulation serveur et **100+ tests** branchés sans toucher au cœur du jeu. Et ma première chaîne **CI/CD** complète, jusqu’à mon propre VPS.',
+        },
+        caseStudyEn: {
+            need: 'Turn my capstone project from a school prototype into a robust, maintainable online game.',
+            role: 'Solo on the whole project, from architecture to deployment.',
+            result: 'Live at **kcd-formes.fr**: solo, real-time 1v1 duel and co-op, deployed automatically on every push.',
+            challenge: 'My first **hexagonal architecture**: following its rules rigorously (isolated domain, dependencies pointing inward) to get its benefits. Multiplayer, server-side simulation and **100+ tests** plugged in without touching the game core. And my first complete **CI/CD** pipeline, all the way to my own VPS.',
+        },
         shortDescription: 'Refonte complète de mon fil rouge en architecture hexagonale, déployée en production sur mon propre VPS (Docker, HTTPS, CI/CD).',
         shortDescriptionEn: 'Full rewrite of my capstone game in hexagonal architecture, deployed to production on my own VPS (Docker, HTTPS, CI/CD).',
         description: 'Reprise de mon **projet fil rouge de 2ᵉ année**, entièrement réarchitecturée avec les compétences acquises depuis. Objectif : une vraie restructuration **de bout en bout**, du code métier jusqu\'à la mise en production.\n\n' +
@@ -139,6 +163,18 @@ const projects: Project[] = [
     {
         id: 7,
         title: 'XIP Telecom v2',
+        caseStudy: {
+            need: 'Une plateforme B2B de courtage télécom qui qualifie les prospects, prépare les rendez-vous et produit des rapports d’audit, synchronisés avec le CRM de l’entreprise.',
+            role: 'En équipe de 4 : j’ai développé la couche d’agents IA, l’intégration Odoo, les rapports PDF et l’API documentée.',
+            result: 'Un parcours complet, du lead entrant au rapport d’audit attaché automatiquement à l’opportunité Odoo, couvert par **104 tests** unitaires.',
+            challenge: 'Faire **travailler ensemble plusieurs agents IA** et garder les données cohérentes entre plusieurs plateformes (application, Odoo, Nextcloud, n8n). Avec **n8n**, apprendre à agencer des briques plutôt qu’à coder.',
+        },
+        caseStudyEn: {
+            need: 'A B2B telecom brokerage platform that qualifies prospects, prepares meetings and produces audit reports, all synced with the company CRM.',
+            role: 'Team of 4: I developed the AI agent layer, the Odoo integration, the PDF reports and the documented API.',
+            result: 'A complete flow, from inbound lead to an audit report automatically attached to the Odoo opportunity, covered by **104 unit tests**.',
+            challenge: 'Getting **several AI agents to work together** and keeping data consistent across platforms (app, Odoo, Nextcloud, n8n). With **n8n**, learning to assemble building blocks rather than write code.',
+        },
         shortDescription: 'Équipe de 4 : j’ai développé la couche d’agents IA, l’intégration Odoo, les rapports PDF et l’API documentée.',
         description: 'Projet réalisé **en équipe de 4** (Jira/Confluence, GitLab) sur une plateforme **B2B de courtage télécom** (monorepo pnpm). **Mes contributions :**\n\n' +
             '- **Couche d\'agents IA orchestrés** : Superviseur/Routeur (identification via LLM, extraction du payload, routage), SDR (scoring auto des prospects 1–5, accusé de réception), Business Developer (fiches de préparation avant RDV).\n' +
@@ -408,7 +444,19 @@ export default function Projects() {
                                         </span>
                                     )}
                                 </div>
-                                <div className="mt-auto flex flex-wrap items-center gap-3">
+                                {/* Pied de carte : « Découvrir » toujours en bas, le lien site éventuel juste au-dessus */}
+                                <div className="mt-auto flex flex-col items-start gap-4">
+                                    {project.links?.demo && (
+                                        <a
+                                            href={project.links.demo}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark hover:shadow-lg hover:shadow-vermillon/30 hover:-translate-y-0.5 transition-all duration-300"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {t.projects.visitSite}
+                                        </a>
+                                    )}
                                     <button
                                         type="button"
                                         onClick={() => setSelectedProject(project)}
@@ -417,17 +465,6 @@ export default function Projects() {
                                     >
                                         {t.projects.details}
                                     </button>
-                                    {project.links?.demo && ( <a
-
-                                        href={project.links.demo}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark hover:shadow-lg hover:shadow-vermillon/30 hover:-translate-y-0.5 transition-all duration-300"
-                                        onClick={(e) => e.stopPropagation()}
-                                        >
-                                        {t.projects.visitSite}
-                                        </a>
-                                        )}
                                 </div>
                             </div>
 

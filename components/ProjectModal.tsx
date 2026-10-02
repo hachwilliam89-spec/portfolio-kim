@@ -125,6 +125,9 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
 
     if (!project) return null;
 
+    const caseStudy = lang === 'en' ? (project.caseStudyEn ?? project.caseStudy) : project.caseStudy;
+    const description = lang === 'en' && project.descriptionEn ? project.descriptionEn : project.description;
+
     const currentScreenshot = hasScreenshots ? project.screenshots[currentIndex] : null;
 
     return (
@@ -179,7 +182,34 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                     {t.projects.visitSite}
                                 </a>
                             )}
-                            <RichText text={lang === 'en' && project.descriptionEn ? project.descriptionEn : project.description} />
+                            {caseStudy ? (
+                                <>
+                                    <dl className="space-y-4 mb-6">
+                                        {([
+                                            [t.projects.caseNeed, caseStudy.need],
+                                            [t.projects.caseRole, caseStudy.role],
+                                            [t.projects.caseResult, caseStudy.result],
+                                            [t.projects.caseChallenge, caseStudy.challenge],
+                                        ] as const).map(([label, text]) => (
+                                            <div key={label} className="border-l-2 border-vermillon/60 pl-3">
+                                                <dt className="text-xs uppercase tracking-wider font-bold text-vermillon mb-1">{label}</dt>
+                                                <dd className="text-sm text-ink/85 leading-relaxed">{renderInline(text)}</dd>
+                                            </div>
+                                        ))}
+                                    </dl>
+                                    <details className="group/details mb-6">
+                                        <summary className="cursor-pointer select-none text-sm font-semibold text-ink/70 hover:text-vermillon transition-colors list-none flex items-center gap-2">
+                                            <span className="inline-block transition-transform group-open/details:rotate-90" aria-hidden="true">›</span>
+                                            {t.projects.technicalDetails}
+                                        </summary>
+                                        <div className="mt-4">
+                                            <RichText text={description} />
+                                        </div>
+                                    </details>
+                                </>
+                            ) : (
+                                <RichText text={description} />
+                            )}
 
 
                             {relatedProject && onSelectProject && (

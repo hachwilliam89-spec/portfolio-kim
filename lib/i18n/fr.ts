@@ -31,6 +31,11 @@ export const fr = {
         close: 'Fermer',
         details: 'Découvrir le projet',
         technologies: 'Technologies',
+        caseNeed: 'Besoin',
+        caseRole: 'Mon rôle',
+        caseResult: 'Résultat',
+        caseChallenge: 'Difficulté résolue',
+        technicalDetails: 'Détails techniques',
     },
     filters: {
         all: 'Tous',

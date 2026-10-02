@@ -19,6 +19,13 @@ export interface ProjectLinks {
     github?: string;
 }
 
+export interface CaseStudy {
+    need: string;
+    role: string;
+    result: string;
+    challenge: string;
+}
+
 export interface Project {
     id: number;
     previousVersionId?: number;
@@ -27,6 +34,8 @@ export interface Project {
     shortDescriptionEn?: string;
     description: string;
     descriptionEn?: string;
+    caseStudy?: CaseStudy;
+    caseStudyEn?: CaseStudy;
     tech: string[];
     image: string;
     imageKind?: 'logo';

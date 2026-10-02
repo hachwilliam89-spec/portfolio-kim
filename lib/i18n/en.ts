@@ -33,6 +33,11 @@ export const en: Translations = {
         close: 'Close',
         details: 'Explore project',
         technologies: 'Technologies',
+        caseNeed: 'Need',
+        caseRole: 'My role',
+        caseResult: 'Outcome',
+        caseChallenge: 'Challenge overcome',
+        technicalDetails: 'Technical details',
     },
     filters: {
         all: 'All',
