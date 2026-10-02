@@ -24,7 +24,8 @@ export const en: Translations = {
         scrollProjects: 'Scroll to projects',
         badge: 'Full Stack Developer in Training',
         pitch: 'I turn ideas into web and mobile applications, built to be reliable and evolve over time.',
-        subtitle: 'Studying <highlight>Full Stack Development</highlight> at UHA 4.0, Mulhouse',
+        subtitle: 'Studying for a <highlight>Professional Bachelor\'s in Computer Science</highlight> at UHA 4.0, Mulhouse',
+        subtitleDetail: 'Software design, development and testing',
         cta: 'Six-month final-year internship · Starting January 2027',
         mobility: 'France or abroad · On-site preferred · University agreement available for internships abroad',
         discover: 'Discover',
@@ -68,7 +69,7 @@ export const en: Translations = {
         },
         p1: '4 years of operational management as a <strong>logistics manager at a holding company</strong> taught me precision under pressure, team coordination, and a results-oriented business mindset.',
         p2: 'My <strong>Bachelor\'s degree in Economics</strong> (Paris 1 Panthéon-Sorbonne) gives me a different perspective on projects: I understand the business stakes behind the code, not just the technical side.',
-        p3: 'Now completing a <strong>Professional Bachelor\'s in Full Stack Development</strong> at UHA 4.0, I contributed to a team-built B2B platform with orchestrated AI agents (XIP Telecom), led a team as Scrum Master (RecycleDashboard), and delivered a real-time multiplayer game solo (KCD Formes).',
+        p3: 'Now completing a <strong>Professional Bachelor\'s in Computer Science: software design, development and testing</strong> (<em>Licence professionnelle Métiers de l\'informatique</em>) at UHA 4.0, I contributed to a team-built B2B platform with orchestrated AI agents (XIP Telecom), led a team as Scrum Master (RecycleDashboard), and delivered a real-time multiplayer game solo (KCD Formes).',
         findMe: 'Find me',
     },
     contact: {
@@ -91,6 +92,6 @@ export const en: Translations = {
         copyError: 'Could not copy the address',
     },
     footer: {
-        copyright: '© 2026 William Kim HACH · Full Stack Development Student',
+        copyright: '© 2026 William Kim HACH · Professional Bachelor\'s student in Computer Science · UHA 4.0',
     },
 };

@@ -22,7 +22,8 @@ export const fr = {
         scrollProjects: 'Défiler vers les projets',
         badge: 'Développeur full-stack en formation',
         pitch: 'Je transforme des idées en applications web et mobiles, pensées pour être fiables et évoluer dans le temps.',
-        subtitle: "Étudiant en <highlight>Licence Pro Développement Full Stack</highlight> à l'UHA 4.0",
+        subtitle: "Étudiant en <highlight>Licence Pro Métiers de l'informatique</highlight> à l'UHA 4.0",
+        subtitleDetail: 'Conception, développement et test de logiciels',
         cta: 'Stage de fin d\'études · 6 mois dès janvier 2027',
         mobility: 'France ou étranger · Présentiel privilégié · Convention possible à l’étranger',
         discover: 'Découvrir',
@@ -66,7 +67,7 @@ export const fr = {
         },
         p1: "4 ans de management opérationnel en tant que <strong>responsable logistique dans une holding</strong> m'ont appris la rigueur sous pression, la coordination d'équipes et la vision métier orientée résultat.",
         p2: "Ma <strong>Licence en Économie</strong> (Paris 1 Panthéon-Sorbonne) me donne une lecture différente des projets : je comprends les enjeux business derrière le code, pas seulement la technique.",
-        p3: "Aujourd'hui en <strong>Licence Pro Développement Full Stack</strong> à l'UHA 4.0, j'ai contribué en équipe à une plateforme B2B avec agents IA orchestrés (XIP Telecom), piloté une équipe en Scrum Master (RecycleDashboard), et livré un jeu multijoueur temps réel en autonomie (KCD Formes).",
+        p3: "Aujourd'hui en <strong>Licence professionnelle Métiers de l'informatique : conception, développement et test de logiciels</strong> à l'UHA 4.0, j'ai contribué en équipe à une plateforme B2B avec agents IA orchestrés (XIP Telecom), piloté une équipe en Scrum Master (RecycleDashboard), et livré un jeu multijoueur temps réel en autonomie (KCD Formes).",
         findMe: 'Retrouvez-moi',
     },
     contact: {
@@ -89,7 +90,7 @@ export const fr = {
         copyError: "Impossible de copier l'adresse",
     },
     footer: {
-        copyright: '© 2026 William Kim HACH · Étudiant en Licence Pro Développement Full Stack',
+        copyright: "© 2026 William Kim HACH · Étudiant en Licence Pro Métiers de l'informatique · UHA 4.0",
     },
 };
 

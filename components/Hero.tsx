@@ -87,6 +87,7 @@ export default function Hero() {
                 <div className="mx-auto my-7 h-px w-20 bg-vermillon/65" />
                 <p className="mx-auto max-w-xl text-lg sm:text-xl leading-relaxed font-medium">{t.hero.pitch}</p>
                 <p className="mx-auto mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-ink/65" dangerouslySetInnerHTML={{ __html: t.hero.subtitle.replace(/<highlight>(.*?)<\/highlight>/g, '<span class="text-ink font-medium">$1</span>') }} />
+                <p className="mx-auto mt-1 max-w-xl text-xs sm:text-sm text-ink/50">{t.hero.subtitleDetail}</p>
                 <div className="mt-7 inline-flex flex-col gap-2 border-y border-gold/35 px-2 py-4">
                     <span className="text-sm font-semibold text-vermillon dark:text-[#e98c70]">{t.hero.cta}</span>
                     <span className="text-xs sm:text-sm text-ink/65">{t.hero.mobility}</span>
