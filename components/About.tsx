@@ -2,46 +2,57 @@
 
 import { motion } from 'framer-motion';
 import type { IconType } from 'react-icons';
-import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPhp, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb, SiMongodb, SiOpenjdk } from 'react-icons/si';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb, SiMongodb, SiOpenjdk, SiExpo, SiSwagger, SiJsonwebtokens, SiGithubactions, SiJest, SiVitest, SiJira, SiOdoo, SiOpenai, SiDrizzle, SiZod } from 'react-icons/si';
 import SectionTitle from './SectionTitle';
 import { useLanguage, fr, en } from '@/lib/i18n';
 
 const techIcons: Record<string, IconType | null> = {
     'React': SiReact,
     'React Native': SiReact,
-    'MongoDB': SiMongodb,
+    'Expo': SiExpo,
     'Next.js': SiNextdotjs,
     'TypeScript': SiTypescript,
     'Tailwind CSS': SiTailwindcss,
     'Framer Motion': SiFramer,
-    'Node.js': SiNodedotjs,
+    'Phaser': null,
     'NestJS': SiNestjs,
-    'Spring Boot': SiSpring,
+    'Node.js': SiNodedotjs,
     'Java': SiOpenjdk,
+    'Spring Boot': SiSpring,
     'POO': null,
+    'Architecture hexagonale': null,
     'API REST': null,
+    'WebSocket': null,
+    'JWT': SiJsonwebtokens,
+    'Swagger': SiSwagger,
     'Prisma': SiPrisma,
-    'Drizzle ORM': null,
-    'Zod': null,
-    'PHP': SiPhp,
+    'Drizzle ORM': SiDrizzle,
+    'Zod': SiZod,
     'PostgreSQL': SiPostgresql,
+    'MongoDB': SiMongodb,
     'MariaDB': SiMariadb,
     'MySQL': SiMysql,
+    'OpenAI / Anthropic': SiOpenai,
+    'n8n': null,
+    'Odoo': SiOdoo,
     'Docker': SiDocker,
+    'CI/CD GitHub Actions': SiGithubactions,
     'Git': SiGit,
     'GitLab': SiGitlab,
+    'Husky': null,
+    'TDD': null,
+    'Jest': SiJest,
+    'Vitest': SiVitest,
     'Scrum': null,
-    'OpenAI / Anthropic': null,
-    'n8n': null,
-    'Vitest': null,
+    'Jira': SiJira,
 };
 
 const skillKeys = [
-    { key: 'frontend' as const, items: ['React', 'React Native', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
-    { key: 'backend' as const, items: ['NestJS', 'Node.js', 'Java', 'Spring Boot', 'POO', 'API REST', 'Prisma', 'Drizzle ORM', 'Zod', 'PHP'] },
+    { key: 'frontend' as const, items: ['React', 'React Native', 'Expo', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Phaser'] },
+    { key: 'backend' as const, items: ['NestJS', 'Node.js', 'Java', 'Spring Boot', 'POO', 'Architecture hexagonale', 'API REST', 'WebSocket', 'JWT', 'Swagger', 'Prisma', 'Drizzle ORM', 'Zod'] },
     { key: 'database' as const, items: ['PostgreSQL', 'MongoDB', 'MariaDB', 'MySQL'] },
-    { key: 'ai' as const, items: ['OpenAI / Anthropic', 'n8n'] },
-    { key: 'devops' as const, items: ['Docker', 'Git', 'GitLab', 'Vitest', 'Scrum'] },
+    { key: 'ai' as const, items: ['OpenAI / Anthropic', 'n8n', 'Odoo'] },
+    { key: 'devops' as const, items: ['Docker', 'CI/CD GitHub Actions', 'Git', 'GitLab', 'Husky', 'TDD', 'Jest', 'Vitest', 'Scrum', 'Jira'] },
 ];
 
 function ChineseSeal() {
@@ -134,7 +145,7 @@ export default function About() {
                                                 className="text-xs bg-gold/15 text-ink border border-gold/30 px-3 py-1.5 rounded-full font-medium flex items-center gap-1.5"
                                             >
                                                 {Icon && <Icon className="text-sm" aria-hidden="true" />}
-                                                {lang === 'en' ? ({ POO: 'OOP', 'API REST': 'REST API' }[skill] ?? skill) : skill}
+                                                {lang === 'en' ? ({ POO: 'OOP', 'API REST': 'REST API', 'Architecture hexagonale': 'Hexagonal architecture' }[skill] ?? skill) : skill}
                                             </span>
                                         );
                                     })}
