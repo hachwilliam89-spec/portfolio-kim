@@ -109,7 +109,7 @@ export default function Contact() {
             } else {
                 showToast(data.error || t.contact.errorMsg, 'error');
             }
-        } catch (error) {
+        } catch {
             showToast(t.contact.connectionError, 'error');
         } finally {
             setIsSubmitting(false);
@@ -253,7 +253,7 @@ export default function Contact() {
                             href="https://github.com/hachwilliam89-spec"
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label="Voir mon profil GitHub"
+                            aria-label={t.contact.githubProfile}
                             className="flex items-center gap-4 p-4 bg-ink/5 hover:bg-gold/10 border border-ink/10 hover:border-gold/40 rounded-lg transition-all duration-300 group"
                         >
                             <svg className="w-8 h-8 text-ink group-hover:text-vermillon transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -272,7 +272,7 @@ export default function Contact() {
                             href="https://www.linkedin.com/in/william-hach-31117b407/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label="Voir mon profil LinkedIn"
+                            aria-label={t.contact.linkedinProfile}
                             className="flex items-center gap-4 p-4 bg-ink/5 hover:bg-gold/10 border border-ink/10 hover:border-gold/40 rounded-lg transition-all duration-300 group"
                         >
                             <svg className="w-8 h-8 text-ink group-hover:text-vermillon transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

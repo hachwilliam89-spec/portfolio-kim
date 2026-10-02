@@ -12,6 +12,7 @@ import {
 import ProjectModal from './ProjectModal';
 import ProjectCover from './ProjectCover';
 import SectionTitle from './SectionTitle';
+import LanternHeading from './LanternHeading';
 import type { Project } from '@/lib/types';
 import { useLanguage, fr, en } from '@/lib/i18n';
 
@@ -78,13 +79,13 @@ const projects: Project[] = [
             need: 'Permettre à un coach et à son client de suivre ensemble un plan alimentaire personnalisé et l’évolution du poids, depuis le téléphone.',
             role: 'Seul, de l’application mobile React Native à l’API NestJS, dans le cadre de mon projet de fin d’études.',
             result: 'Espaces coach et utilisateur, plans personnalisés et suivi des pesées fonctionnels. Journal alimentaire et version Android de démonstration en cours.',
-            challenge: 'Mener un projet sérieux **de bout en bout** : rédaction d’un **cahier des charges complet**, anticipation, **TDD**, et prise en main de **MongoDB**, dont le modèle document n’a rien à voir avec le SQL de PostgreSQL. Une rigueur tenue partout : Git, UX, tests et pipeline.',
+            challenge: 'Concevoir un **modèle documentaire MongoDB** adapté à la consultation et à la mise à jour des plans et des pesées. Le cahier des charges et les tests en **TDD** cadrent les règles métier ; un contrôle de version protège les données lors de mises à jour simultanées.',
         },
         caseStudyEn: {
             need: 'Help a coach and their client follow a personalised nutrition plan and weight progress together, from their phone.',
             role: 'Solo, from the React Native mobile app to the NestJS API, as my final-year project.',
             result: 'Coach and user spaces, personalised plans and weight tracking are working. Food diary and Android demo build in progress.',
-            challenge: 'Running a serious project **end to end**: writing **full specifications**, planning ahead, **TDD**, and learning **MongoDB**, whose document model is nothing like PostgreSQL’s SQL. Rigour applied everywhere: Git, UX, tests and pipeline.',
+            challenge: 'Design a **MongoDB document model** suited to reading and updating plans and weight measurements. Specifications and **TDD** tests define the business rules; version checks protect data during concurrent updates.',
         },
         status: 'development',
         imageKind: 'logo',
@@ -226,6 +227,18 @@ const projects: Project[] = [
     {
         id: 2,
         title: 'RecycleDashboard',
+        caseStudy: {
+            need: "Organiser les collectes de biodéchets et réaffecter les clients lorsqu’une tournée est annulée.",
+            role: "Scrum Master et développeur au sein de l’équipe : coordination des sprints, redistribution des tournées, optimisation et API.",
+            result: "Une interface de redistribution par glisser-déposer, l’intégration de VROOM et **15 routes API documentées**. Migration vers PostgreSQL sous Docker avec un guide pour l’équipe.",
+            challenge: "Évaluer les risques de retard et permettre la redistribution d’un client, d’une tournée ou d’une journée. J’ai développé une procédure distinguant les situations à l’heure, en retard ou incertaines.",
+        },
+        caseStudyEn: {
+            need: "Organise bio-waste collections and reassign customers when a route is cancelled.",
+            role: "Team Scrum Master and developer: sprint coordination, route redistribution, optimisation and APIs.",
+            result: "A drag-and-drop redistribution interface, VROOM integration and **15 documented API routes**. Migration to Docker-based PostgreSQL with a guide for the team.",
+            challenge: "Assess lateness risks and support redistributing a customer, a route or a whole day. I developed an evaluation procedure that distinguishes on-time, late and uncertain cases.",
+        },
         shortDescription: 'Projet en équipe : Scrum Master et développeur du planning de redistribution, de l’optimisation des tournées et des API.',
         shortDescriptionEn: 'Bio-waste collection management app built in a team, Scrum Master role, VRPTW algorithm and drag-and-drop Kanban redistribution interface.',
         descriptionEn: 'As **Scrum Master** I ran the ceremonies, managed the Jira backlog and coordinated sprints. Bio-waste collection management app; my dev contributions:\n\n' +
@@ -251,6 +264,18 @@ const projects: Project[] = [
         id: 3,
         previousVersionId: 6,
         title: 'Miyazaki Garden V2',
+        caseStudy: {
+            need: "Faire évoluer mon premier site consacré à Miyazaki vers une application avec comptes membres, favoris et avis.",
+            role: "Conception et développement de la refonte, du frontend Next.js à la base PostgreSQL et au déploiement.",
+            result: "Une application en ligne avec authentification, favoris, notes et avatars, dans un univers visuel inspiré de Ghibli.",
+            challenge: "Repenser mon projet PHP/MySQL avec Next.js et TypeScript, intégrer les données de l’API Ghibli et leur traduction, et valider les données saisies par les membres.",
+        },
+        caseStudyEn: {
+            need: "Evolve my first Miyazaki website into an app with member accounts, favourites and reviews.",
+            role: "Designed and developed the rewrite, from the Next.js frontend to the PostgreSQL database and deployment.",
+            result: "A live app with authentication, favourites, ratings and avatars, with a Ghibli-inspired visual identity.",
+            challenge: "Rebuild my PHP/MySQL project with Next.js and TypeScript, integrate and translate Ghibli API data, and validate member input.",
+        },
         shortDescription: 'Refonte complète en Next.js : authentification, favoris, avis et design Ghibli immersif.',
         shortDescriptionEn: 'Full Next.js rewrite, secure authentication, favorites, ratings and immersive Studio Ghibli design.',
         descriptionEn: 'Full rewrite of my **PHP/MySQL** capstone into a modern **Next.js / TypeScript / PostgreSQL** stack. Entirely designed and implemented:\n\n' +
@@ -280,6 +305,18 @@ const projects: Project[] = [
     {
         id: 4,
         title: 'COS Strasbourg',
+        caseStudy: {
+            need: "Permettre aux étudiants de déposer leurs documents et aux encadrants de les annoter et de suivre leur progression.",
+            role: "Développement en équipe pour COS Strasbourg : annotations dans le navigateur, notifications email et interface conforme à la charte du client.",
+            result: "Des documents annotables dans le navigateur et des notifications liées aux étapes du suivi : dépôt, validation et annotation.",
+            challenge: "Rendre les mémoires DOCX annotables sans plugin externe : conversion en HTML avec Mammoth et ajout d’un menu de surlignage et d’annotation.",
+        },
+        caseStudyEn: {
+            need: "Let students submit documents and supervisors annotate them and track their progress.",
+            role: "Team development for COS Strasbourg: in-browser annotation, email notifications and an interface following the client’s brand guidelines.",
+            result: "Documents that can be annotated in the browser, with notifications for submission, validation and annotation.",
+            challenge: "Make DOCX dissertations annotatable without an external plugin: convert them to HTML with Mammoth and add a highlighting and annotation menu.",
+        },
         shortDescription: 'Projet client en équipe : j’ai développé les annotations de documents, les notifications email et le design de l’interface.',
         shortDescriptionEn: 'Client team project: I built document annotation, automated email notifications and the interface design.',
         descriptionEn: 'Team project for a **real client** (COS Strasbourg). I owned three main areas:\n\n' +
@@ -302,6 +339,18 @@ const projects: Project[] = [
     {
         id: 5,
         title: 'Evaluation RH',
+        caseStudy: {
+            need: "Permettre la création et la gestion de questionnaires d’évaluation RH pour plusieurs sociétés.",
+            role: "Développeur backend NestJS au sein d’une équipe, avec conventions de code et revues de contributions.",
+            result: "Des endpoints REST pour le système d’évaluation, avec validation des données, gestion des erreurs et documentation Swagger.",
+            challenge: "Intégrer mes contributions dans l’architecture de l’équipe : séparer contrôleurs, services et accès aux données, et appliquer les retours des revues de code.",
+        },
+        caseStudyEn: {
+            need: "Support creating and managing HR evaluation surveys for multiple companies.",
+            role: "NestJS backend developer in a team using shared coding conventions and code reviews.",
+            result: "REST endpoints for the evaluation system, with input validation, error handling and Swagger documentation.",
+            challenge: "Fit my contributions into the team’s architecture: separate controllers, services and data access, and apply code review feedback.",
+        },
         shortDescription: 'Projet en équipe : développement du backend NestJS, des endpoints API et de leur documentation Swagger.',
         shortDescriptionEn: 'Team project: I developed NestJS backend endpoints and Swagger API documentation for an HR evaluation system.',
         descriptionEn: 'Company project built **in a team** in a demanding professional environment (strict quality standards, regular **code reviews**). My contribution focused on the **NestJS backend**:\n\n' +
@@ -386,7 +435,7 @@ export default function Projects() {
                                     : 'bg-white dark:bg-washi-dark text-ink border-gold/40 hover:border-vermillon hover:text-vermillon'
                             }`}
                         >
-                            {f.value === 'all' ? t.projects.filterAll : f.label}
+                            {f.value === 'all' ? t.projects.filterAll : f.value === 'OpenAI' && lang === 'en' ? 'AI' : f.label}
                         </button>
                     ))}
                 </div>
@@ -394,7 +443,7 @@ export default function Projects() {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
                     {groups.map(group => (
                         <Fragment key={group.title}>
-                            <h3 className="col-span-full font-display text-2xl text-ink border-b border-gold/30 pb-4 mt-4">{group.title}</h3>
+                            <LanternHeading featured={group.title === t.projects.featured}>{group.title}</LanternHeading>
                     {group.items.map((project, index) => (
                         <motion.article
                             key={project.id}

@@ -5,7 +5,7 @@ import ProjectCover from "./ProjectCover";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState, useCallback, type ReactNode } from "react";
+import { useEffect, useState, useCallback, useRef, useId, type ReactNode } from "react";
 import type { IconType } from "react-icons";
 import {
     SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma,
@@ -89,6 +89,29 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
     const t = lang === 'fr' ? fr : en;
     const [currentIndex, setCurrentIndex] = useState(0);
     const [lastProjectId, setLastProjectId] = useState<number | null>(null);
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    const closeRef = useRef<HTMLButtonElement>(null);
+    const titleId = useId();
+    const isOpen = project !== null;
+
+    // Native modal dialogs make the background inert and contain keyboard focus.
+    useEffect(() => {
+        if (!isOpen || !dialogRef.current) return;
+        const dialog = dialogRef.current;
+        const trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        const previousOverflow = document.body.style.overflow;
+        dialog.showModal();
+        document.body.style.overflow = 'hidden';
+        return () => {
+            dialog.close();
+            document.body.style.overflow = previousOverflow;
+            if (trigger?.isConnected) trigger.focus({ preventScroll: true });
+        };
+    }, [isOpen]);
+
+    useEffect(() => {
+        if (project?.id !== undefined) closeRef.current?.focus({ preventScroll: true });
+    }, [project?.id]);
 
     const projectId = project?.id ?? null;
     if (projectId !== lastProjectId) {
@@ -115,13 +138,28 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (!project) return;
-            if (e.key === "Escape") onClose();
-            else if (e.key === "ArrowLeft") handlePrevious();
-            else if (e.key === "ArrowRight") handleNext();
+            if (e.key === 'Tab') {
+                const controls = Array.from(dialogRef.current?.querySelectorAll<HTMLElement>(
+                    'a[href], button:not([disabled]), summary, input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                ) ?? []).filter(element => element.getClientRects().length > 0);
+                const first = controls[0];
+                const last = controls[controls.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last?.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first?.focus();
+                }
+                return;
+            }
+            if (e.key === "ArrowLeft") { e.preventDefault(); handlePrevious(); }
+            else if (e.key === "ArrowRight") { e.preventDefault(); handleNext(); }
         };
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [project, handleNext, handlePrevious, onClose]);
+        const dialog = dialogRef.current;
+        dialog?.addEventListener("keydown", handleKeyDown);
+        return () => dialog?.removeEventListener("keydown", handleKeyDown);
+    }, [project, handleNext, handlePrevious]);
 
     if (!project) return null;
 
@@ -131,6 +169,13 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
     const currentScreenshot = hasScreenshots ? project.screenshots[currentIndex] : null;
 
     return (
+        <dialog
+            ref={dialogRef}
+            aria-labelledby={titleId}
+            aria-modal="true"
+            onCancel={(event) => { event.preventDefault(); onClose(); }}
+            className="fixed inset-0 m-0 h-dvh w-screen max-h-none max-w-none border-0 bg-transparent p-0 text-ink backdrop:bg-transparent"
+        >
         <AnimatePresence>
             <motion.div
                 initial={{ opacity: 0 }}
@@ -149,10 +194,11 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                 >
                     {/* HEADER */}
                     <div className="shrink-0 flex items-center justify-between px-6 py-4 border-b border-gold/20">
-                        <h3 className="font-display text-xl md:text-2xl text-ink font-semibold">
+                        <h3 id={titleId} className="font-display text-xl md:text-2xl text-ink font-semibold">
                             {project.title}
                         </h3>
                         <button
+                            ref={closeRef}
                             onClick={onClose}
                             className="p-2 hover:bg-gold/10 rounded-full transition-all duration-300"
                             aria-label={t.projects.close}
@@ -263,8 +309,9 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                                 >
                                                     <Image
                                                         src={currentScreenshot.url}
-                                                        alt={currentScreenshot.title}
+                                                        alt={lang === 'en' && currentScreenshot.titleEn ? currentScreenshot.titleEn : currentScreenshot.title}
                                                         fill
+                                                        sizes="(max-width: 767px) 100vw, 60vw"
                                                         className="object-contain"
                                                         priority
                                                     />
@@ -277,14 +324,14 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                                     <button
                                                         onClick={handlePrevious}
                                                         className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-washi/90 hover:bg-washi rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-                                                        aria-label="Image précédente"
+                                                        aria-label={t.projects.previousImage}
                                                     >
                                                         <ChevronLeft className="w-5 h-5 text-ink" />
                                                     </button>
                                                     <button
                                                         onClick={handleNext}
                                                         className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-washi/90 hover:bg-washi rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-                                                        aria-label="Image suivante"
+                                                        aria-label={t.projects.nextImage}
                                                     >
                                                         <ChevronRight className="w-5 h-5 text-ink" />
                                                     </button>
@@ -320,12 +367,14 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                                                 ? "ring-2 ring-vermillon scale-105"
                                                                 : "ring-1 ring-gold/20 hover:ring-gold/50 hover:scale-105"
                                                         }`}
-                                                        aria-label={`Voir ${screenshot.title}`}
+                                                        aria-label={`${t.projects.viewImage} ${idx + 1}`}
+                                                        aria-current={idx === currentIndex ? 'true' : undefined}
                                                     >
                                                         <Image
                                                             src={screenshot.url}
-                                                            alt={screenshot.title}
+                                                            alt=""
                                                             fill
+                                                            sizes="64px"
                                                             className="object-cover"
                                                         />
                                                     </button>
@@ -349,5 +398,6 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                 </motion.div>
             </motion.div>
         </AnimatePresence>
+        </dialog>
     );
 }

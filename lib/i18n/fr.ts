@@ -1,5 +1,14 @@
 export const fr = {
     nav: {
+        mainNavigation: 'Navigation principale',
+        home: 'Retour à l’accueil',
+        downloadCv: 'Télécharger mon CV',
+        lightTheme: 'Passer en mode clair',
+        darkTheme: 'Passer en mode sombre',
+        switchLanguage: 'Switch to English',
+        openMenu: 'Ouvrir le menu',
+        closeMenu: 'Fermer le menu',
+        navigationMenu: 'Menu de navigation',
         projects: 'Projets',
         about: 'À propos',
         contact: 'Me contacter',
@@ -10,6 +19,7 @@ export const fr = {
         cvUsSub: 'American format',
     },
     hero: {
+        scrollProjects: 'Défiler vers les projets',
         badge: 'Développeur full-stack en formation',
         pitch: 'Je transforme des idées en applications web et mobiles, pensées pour être fiables et évoluer dans le temps.',
         subtitle: "Étudiant en <highlight>Licence Pro Développement Full Stack</highlight> à l'UHA 4.0",
@@ -18,6 +28,9 @@ export const fr = {
         discover: 'Découvrir',
     },
     projects: {
+        previousImage: 'Image précédente',
+        nextImage: 'Image suivante',
+        viewImage: 'Voir l’image',
         title: 'Projets',
         featured: 'Trois projets à découvrir',
         moreProjects: 'Autres réalisations',
@@ -57,6 +70,8 @@ export const fr = {
         findMe: 'Retrouvez-moi',
     },
     contact: {
+        githubProfile: 'Voir mon profil GitHub',
+        linkedinProfile: 'Voir mon profil LinkedIn',
         title: 'Contact',
         name: 'Nom',
         email: 'Email',

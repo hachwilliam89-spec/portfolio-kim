@@ -26,9 +26,9 @@ const maShanZheng = Ma_Shan_Zheng({
 })
 
 export const metadata: Metadata = {
-    title: 'William Kim HACH , Développeur Full Stack',
-    description: 'Portfolio de William Kim HACH, développeur Full Stack (Licence Pro UHA 4.0). Projets : XIP Telecom v2 (agents IA, Odoo), RecycleDashboard, KCD Formes, COS Strasbourg. Stack : Next.js, TypeScript, NestJS, Spring Boot, Docker, PostgreSQL.',
-    keywords: ['développeur', 'full stack', 'react', 'next.js', 'nestjs', 'spring boot', 'node.js', 'typescript', 'docker', 'postgresql', 'agents ia', 'openai', 'portfolio', 'kim hach', 'stage', 'alternance', 'uha 4.0', 'mulhouse', 'drizzle orm', 'vitest'],
+    title: 'William Kim HACH — Développeur web & mobile',
+    description: 'Portfolio de William Kim HACH : applications web et mobiles, Équilibre, XIP Telecom et KCD Formes. Stage de 6 mois dès janvier 2027, en France ou à l’étranger.',
+    keywords: ['développeur', 'full stack', 'mobile', 'react native', 'expo', 'équilibre', 'react', 'next.js', 'nestjs', 'spring boot', 'node.js', 'typescript', 'docker', 'postgresql', 'agents ia', 'openai', 'portfolio', 'kim hach', 'stage', 'alternance', 'uha 4.0', 'mulhouse', 'drizzle orm', 'vitest'],
     authors: [{ name: 'William Kim HACH' }],
     creator: 'William Kim HACH',
     metadataBase: new URL('https://wkhach.dev'),
@@ -36,22 +36,22 @@ export const metadata: Metadata = {
         type: 'website',
         locale: 'fr_FR',
         url: 'https://wkhach.dev',
-        siteName: 'William Kim HACH , Portfolio',
-        title: 'William Kim HACH , Développeur Full Stack',
-        description: 'Développeur Full Stack , Next.js, TypeScript, NestJS, Spring Boot, agents IA. 6 projets dont XIP Telecom v2 (plateforme B2B avec orchestration IA). Recherche un stage de fin d\'études à partir de janvier 2027.',
+        siteName: 'William Kim HACH — Portfolio',
+        title: 'William Kim HACH — Développeur web & mobile',
+        description: 'Portfolio de William Kim HACH : applications web et mobiles, Équilibre, XIP Telecom et KCD Formes. Stage de 6 mois dès janvier 2027, en France ou à l’étranger.',
         images: [
             {
                 url: '/og-image.png',
                 width: 1200,
                 height: 630,
-                alt: 'William Kim HACH - Développeur Full Stack',
+                alt: 'William Kim HACH — Développeur web et mobile',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'William Kim HACH , Développeur Full Stack',
-        description: 'Développeur Full Stack , Next.js, TypeScript, NestJS, Spring Boot, agents IA. Recherche un stage de fin d\'études à partir de janvier 2027.',
+        title: 'William Kim HACH — Développeur web & mobile',
+        description: 'Portfolio de William Kim HACH : applications web et mobiles, Équilibre, XIP Telecom et KCD Formes. Stage de 6 mois dès janvier 2027, en France ou à l’étranger.',
         images: ['/og-image.png'],
     },
     icons: {

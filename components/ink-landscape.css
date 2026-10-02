@@ -1,0 +1,36 @@
+/* Ink landscape: SVG geometry is static, only whole layers move. */
+.ink-hero { min-height: min(960px, 100svh); padding: 140px 0 40px; }
+.ink-landscape { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--color-ink); pointer-events: none; }
+.hero-content { text-shadow: 0 1px 16px var(--color-washi); }
+.ink-moon { opacity: 0; }
+/* Panda de nuit passé en tons d'encre pour s'accorder au paysage */
+.panda-ink { filter: sepia(.45) saturate(.35) brightness(.92); opacity: .9; }
+.ink-sun, .ink-moon { transition: opacity .8s ease; }
+.dark .ink-sun { opacity: 0; }
+.dark .ink-moon { opacity: .85; }
+.ink-bamboo { transform-origin: 60px 930px; animation: ink-sway 12s ease-in-out infinite alternate; }
+.ink-birds { animation: ink-flight 22s ease-in-out infinite alternate; }
+.ink-mist { animation: ink-drift 18s ease-in-out infinite alternate; }
+.ink-stars { opacity: 0; transition: opacity .8s ease; filter: drop-shadow(0 0 3px currentColor); }
+.dark .ink-stars { opacity: 1; }
+.ink-star { transform-box: fill-box; transform-origin: center; opacity: .2; animation: ink-twinkle var(--d, 3s) ease-in-out var(--delay, 0s) infinite; }
+.ink-hero[data-running="false"] .ink-star,
+.ink-hero[data-running="false"] .ink-bamboo,
+.ink-hero[data-running="false"] .ink-birds,
+.ink-hero[data-running="false"] .ink-mist { animation-play-state: paused; }
+.project-chapter { margin: 12px 0 0; color: var(--color-ink); }
+.chapter-rule { height: 1px; background: linear-gradient(90deg, #b8956a88, #b8956a10); }
+.chapter-featured .chapter-rule { background: linear-gradient(90deg, #c73e1d66, #b8956a22); }
+@keyframes ink-twinkle { 0%, 100% { opacity: .15; transform: scale(.55); } 50% { opacity: .9; transform: scale(1.5); } }
+@keyframes ink-sway { from { transform: rotate(-.6deg); } to { transform: rotate(.8deg); } }
+@keyframes ink-flight { from { transform: translate(0, 0); } to { transform: translate(-65px, -16px); } }
+@keyframes ink-drift { from { transform: translateX(-20px); } to { transform: translateX(30px); } }
+@media (max-width: 767px) {
+  .ink-hero { min-height: auto; padding: 122px 0 28px; }
+  .ink-landscape { width: 160%; left: -30%; opacity: .3; }
+  .hero-content { background: radial-gradient(ellipse, var(--color-washi) 25%, transparent 74%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  .ink-landscape *, .ink-landscape { animation: none !important; transition: none !important; }
+}

@@ -2,16 +2,26 @@ import type { Translations } from './fr';
 
 export const en: Translations = {
     nav: {
+        mainNavigation: 'Main navigation',
+        home: 'Back to home',
+        downloadCv: 'Download my CV',
+        lightTheme: 'Switch to light mode',
+        darkTheme: 'Switch to dark mode',
+        switchLanguage: 'Passer en français',
+        openMenu: 'Open menu',
+        closeMenu: 'Close menu',
+        navigationMenu: 'Navigation menu',
         projects: 'Projects',
         about: 'About',
         contact: 'Contact me',
         cvLabel: 'CV',
-        cvFr: 'CV Français',
+        cvFr: 'French CV',
         cvFrSub: 'French format',
         cvUs: 'Resume (US)',
         cvUsSub: 'American format',
     },
     hero: {
+        scrollProjects: 'Scroll to projects',
         badge: 'Full Stack Developer in Training',
         pitch: 'I turn ideas into web and mobile applications, built to be reliable and evolve over time.',
         subtitle: 'Studying <highlight>Full Stack Development</highlight> at UHA 4.0, Mulhouse',
@@ -20,6 +30,9 @@ export const en: Translations = {
         discover: 'Discover',
     },
     projects: {
+        previousImage: 'Previous image',
+        nextImage: 'Next image',
+        viewImage: 'View image',
         title: 'Projects',
         featured: 'Three projects to explore',
         moreProjects: 'More projects',
@@ -59,6 +72,8 @@ export const en: Translations = {
         findMe: 'Find me',
     },
     contact: {
+        githubProfile: 'View my GitHub profile',
+        linkedinProfile: 'View my LinkedIn profile',
         title: 'Contact',
         name: 'Name',
         email: 'Email',

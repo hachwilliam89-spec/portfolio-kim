@@ -63,7 +63,7 @@ export default function Navbar() {
                         : 'bg-washi/80 backdrop-blur-sm border-b border-gold/10'
                 }`}
                 role="navigation"
-                aria-label="Navigation principale"
+                aria-label={t.nav.mainNavigation}
             >
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex justify-between items-center h-20">
@@ -71,7 +71,7 @@ export default function Navbar() {
                         <button
                             onClick={() => scrollToSection('home')}
                             className="relative group"
-                            aria-label="Retour à l'accueil"
+                            aria-label={t.nav.home}
                         >
                             <span className="font-serif text-3xl font-bold text-ink transition-colors duration-200 group-hover:text-vermillon">
                                 WKH
@@ -99,7 +99,7 @@ export default function Navbar() {
                             <div className="relative ml-2">
                                 <button
                                     onClick={() => setCvDropdownOpen(!cvDropdownOpen)}
-                                    aria-label="Télécharger mon CV"
+                                    aria-label={t.nav.downloadCv}
                                     aria-expanded={cvDropdownOpen}
                                     className="px-4 py-2.5 text-sm font-medium text-ink border border-gold rounded-lg hover:bg-gold/10 hover:border-gold transition-all duration-200 flex items-center gap-1.5"
                                 >
@@ -172,7 +172,7 @@ export default function Navbar() {
                             <button
                                 onClick={toggleTheme}
                                 className="p-2 text-ink/60 hover:text-ink rounded-lg hover:bg-gold/10 transition-all duration-200"
-                                aria-label={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
+                                aria-label={theme === 'dark' ? t.nav.lightTheme : t.nav.darkTheme}
                             >
                                 {theme === 'dark' ? <HiSun className="w-4 h-4" /> : <HiMoon className="w-4 h-4" />}
                             </button>
@@ -181,7 +181,7 @@ export default function Navbar() {
                             <button
                                 onClick={toggle}
                                 className="text-xs font-bold text-ink/60 hover:text-ink rounded-lg hover:bg-gold/10 px-2 py-2 transition-all duration-200"
-                                aria-label="Switch language"
+                                aria-label={t.nav.switchLanguage}
                             >
                                 {lang === 'fr' ? 'EN' : 'FR'}
                             </button>
@@ -192,21 +192,21 @@ export default function Navbar() {
                             <button
                                 onClick={toggleTheme}
                                 className="p-2 text-ink/60 hover:text-ink rounded-lg hover:bg-gold/10 transition-all duration-200"
-                                aria-label={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
+                                aria-label={theme === 'dark' ? t.nav.lightTheme : t.nav.darkTheme}
                             >
                                 {theme === 'dark' ? <HiSun className="w-4 h-4" /> : <HiMoon className="w-4 h-4" />}
                             </button>
                             <button
                                 onClick={toggle}
                                 className="text-xs font-bold text-ink/60 hover:text-ink rounded-lg hover:bg-gold/10 px-2 py-2 transition-all duration-200"
-                                aria-label="Switch language"
+                                aria-label={t.nav.switchLanguage}
                             >
                                 {lang === 'fr' ? 'EN' : 'FR'}
                             </button>
                             <button
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                                 className="p-2 rounded-lg hover:bg-gold/10 transition-colors duration-200"
-                                aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+                                aria-label={mobileMenuOpen ? t.nav.closeMenu : t.nav.openMenu}
                                 aria-expanded={mobileMenuOpen}
                                 aria-controls="mobile-menu"
                             >
@@ -246,7 +246,7 @@ export default function Navbar() {
                             className="fixed top-0 right-0 bottom-0 w-80 bg-washi shadow-2xl z-50 md:hidden border-l border-gold/30"
                             role="dialog"
                             aria-modal="true"
-                            aria-label="Menu de navigation"
+                            aria-label={t.nav.navigationMenu}
                         >
                             <div className="flex flex-col h-full">
                                 {/* Header */}
@@ -257,7 +257,7 @@ export default function Navbar() {
                                     <button
                                         onClick={() => setMobileMenuOpen(false)}
                                         className="p-2 rounded-lg hover:bg-gold/10 transition-colors duration-200"
-                                        aria-label="Fermer le menu"
+                                        aria-label={t.nav.closeMenu}
                                     >
                                         <HiX className="w-6 h-6 text-ink" aria-hidden="true" />
                                     </button>
