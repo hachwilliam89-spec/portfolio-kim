@@ -1,0 +1,119 @@
+/* CV William Kim HACH — même direction artistique que wkhach.dev
+   Papier washi, encre, accents vermillon et or, Playfair Display + Inter. */
+
+@font-face { font-family: 'Inter'; font-weight: 400; src: url(fonts/inter-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 500; src: url(fonts/inter-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 600; src: url(fonts/inter-latin-600-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 700; src: url(fonts/inter-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 400; src: url(fonts/inter-latin-ext-400-normal.woff2) format('woff2'); unicode-range: U+0100-024F, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Inter'; font-weight: 600; src: url(fonts/inter-latin-ext-600-normal.woff2) format('woff2'); unicode-range: U+0100-024F, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Playfair Display'; font-weight: 400; src: url(fonts/playfair-display-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Playfair Display'; font-weight: 700; src: url(fonts/playfair-display-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Playfair Display'; font-style: italic; font-weight: 400; src: url(fonts/playfair-display-latin-400-italic.woff2) format('woff2'); }
+
+:root {
+    --ink: #1a1a1a;
+    --ink-soft: #4a4744;
+    --ink-faint: #7a756e;
+    --washi: #faf9f6;
+    --washi-deep: #f3efe7;
+    --vermillon: #c73e1d;
+    --gold: #b8956a;
+    --gold-line: #d9c7a8;
+}
+
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { background: #e9e5de; font-family: 'Inter', system-ui, sans-serif; color: var(--ink); }
+
+.page {
+    width: 210mm; height: 297mm; margin: 0 auto; overflow: hidden;
+    background: var(--washi);
+    padding: 11mm 12mm 9mm;
+    display: flex; flex-direction: column;
+    font-size: 8.15pt; line-height: 1.4;
+    position: relative;
+}
+@media screen { .page { margin: 24px auto; box-shadow: 0 8px 30px rgba(0,0,0,.15); } }
+
+a { color: inherit; text-decoration: none; }
+strong { font-weight: 600; color: var(--ink); }
+
+/* ── En-tête ─────────────────────────────────────────────── */
+.header { display: flex; align-items: center; gap: 6mm; }
+.photo {
+    width: 29mm; height: 29mm; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+    border: 1.2mm solid var(--washi); box-shadow: 0 0 0 .35mm var(--gold);
+}
+.identity { flex: 1; min-width: 0; }
+.eyebrow { font-size: 7pt; letter-spacing: .06em; text-transform: uppercase; color: var(--vermillon); font-weight: 600; }
+.name { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 25pt; line-height: 1.05; letter-spacing: .01em; margin-top: 1mm; }
+.name b { font-weight: 700; letter-spacing: .02em; }
+.pitch { font-family: 'Playfair Display', serif; font-style: italic; font-size: 10pt; color: var(--ink-soft); margin-top: 1.2mm; }
+.contact { margin-top: 2.2mm; display: flex; flex-wrap: wrap; gap: .6mm 3.2mm; font-size: 7.6pt; color: var(--ink-soft); }
+.contact span::before { content: ''; display: inline-block; width: 1.2mm; height: 1.2mm; border-radius: 50%; background: var(--gold); margin-right: 1.4mm; vertical-align: middle; position: relative; top: -.15mm; }
+.seal { width: 11mm; flex-shrink: 0; align-self: flex-start; margin-top: 1mm; transform: rotate(2deg); opacity: .92; }
+
+/* ── Bandeau stage ──────────────────────────────────────── */
+.goal {
+    margin-top: 4.5mm; padding: 2.2mm 0; text-align: center;
+    border-top: .3mm solid var(--gold-line); border-bottom: .3mm solid var(--gold-line);
+}
+.goal-main { font-weight: 600; color: var(--vermillon); font-size: 9.2pt; letter-spacing: .01em; }
+.goal-sub { color: var(--ink-soft); font-size: 7.6pt; margin-top: .4mm; }
+
+/* ── Corps : colonne principale + colonne latérale ─────── */
+.body { flex: 1; display: grid; grid-template-columns: 1fr 52mm; gap: 7mm; margin-top: 4.5mm; min-height: 0; }
+.main { grid-column: 1; grid-row: 1; }
+.side { grid-column: 2; grid-row: 1; padding-left: 5mm; border-left: .3mm solid var(--gold-line); }
+
+.section { margin-bottom: 3.2mm; }
+.section:last-child { margin-bottom: 0; }
+.section-title {
+    font-family: 'Playfair Display', serif; font-weight: 700; font-size: 11.5pt; color: var(--ink);
+    display: flex; align-items: center; gap: 2.2mm; margin-bottom: 1.8mm;
+}
+/* Trait de pinceau vermillon devant chaque titre */
+.section-title::before {
+    content: ''; width: 6mm; height: 1.6mm; flex-shrink: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 16'%3E%3Cpath fill='%23c73e1d' d='M2 9Q10 3 30 5Q50 6 58 8Q50 12 30 12Q12 13 2 9Z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+.section-title::after { content: ''; flex: 1; height: .25mm; background: linear-gradient(90deg, var(--gold-line), transparent); }
+
+.lead { color: var(--ink-soft); }
+
+/* Projets */
+.item { margin-bottom: 2.4mm; break-inside: avoid; }
+.item:last-child { margin-bottom: 0; }
+.item-head { display: flex; align-items: baseline; gap: 2mm; }
+.item-title { font-weight: 700; font-size: 9pt; }
+.item-meta { color: var(--ink-faint); font-size: 7.4pt; }
+.item-when { margin-left: auto; color: var(--ink-faint); font-size: 7.4pt; white-space: nowrap; }
+.tag {
+    font-size: 6.4pt; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--vermillon); border: .25mm solid rgba(199,62,29,.45); border-radius: 1mm; padding: 0 1.1mm;
+    position: relative; top: -.2mm;
+}
+.stack { color: var(--gold); font-size: 7.3pt; font-weight: 500; margin: .3mm 0 .6mm; }
+.item ul { list-style: none; }
+.item li { padding-left: 3mm; position: relative; color: var(--ink-soft); }
+.item li::before { content: ''; position: absolute; left: .3mm; top: 1.65mm; width: 1.3mm; height: .3mm; background: var(--vermillon); }
+.more { margin-top: 2mm; font-size: 7.4pt; color: var(--ink-faint); font-style: italic; }
+
+/* Colonne latérale */
+.side .section-title { font-size: 10.5pt; }
+.facts { color: var(--ink-soft); }
+.facts div + div { margin-top: .5mm; }
+.skill-group + .skill-group { margin-top: 1.6mm; }
+.skill-label { font-size: 6.6pt; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
+.skill-list { color: var(--ink-soft); }
+.trait + .trait { margin-top: 1.4mm; }
+.trait-name { font-weight: 600; }
+.trait-text { color: var(--ink-soft); }
+.lang { display: flex; justify-content: space-between; color: var(--ink-soft); }
+.lang b { color: var(--ink); font-weight: 600; }
+
+/* Pied de page discret */
+.footer { margin-top: 3mm; text-align: center; font-size: 6.8pt; color: var(--ink-faint); letter-spacing: .08em; }
+.footer em { color: var(--vermillon); font-style: normal; }
