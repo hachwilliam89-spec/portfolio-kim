@@ -140,12 +140,12 @@ export default function Navbar() {
                                                 </a>
                                                 <div className="border-t border-gold/20" />
                                                 <a
-                                                    href="/CV_William_Kim_HACH_Resume_US.pdf"
+                                                    href="/CV_William_Kim_HACH_EN.pdf"
                                                     download
                                                     onClick={() => setCvDropdownOpen(false)}
                                                     className="flex items-center gap-3 px-4 py-3 text-sm text-ink hover:bg-gold/10 transition-colors duration-150"
                                                 >
-                                                    <span className="text-lg">🇺🇸</span>
+                                                    <span className="text-lg">🇬🇧</span>
                                                     <div>
                                                         <div className="font-semibold">{t.nav.cvUs}</div>
                                                         <div className="text-xs text-ink/50">{t.nav.cvUsSub}</div>
@@ -293,10 +293,10 @@ export default function Navbar() {
                                         className="w-full flex items-center gap-3 px-5 py-4 rounded-lg font-medium text-ink border border-gold hover:bg-gold/10 transition-all duration-200"
                                     >
                                         <HiDownload className="w-5 h-5" aria-hidden="true" />
-                                        <span>🇫🇷 CV Français</span>
+                                        <span>🇫🇷 {t.nav.cvFr}</span>
                                     </motion.a>
                                     <motion.a
-                                        href="/CV_William_Kim_HACH_Resume_US.pdf"
+                                        href="/CV_William_Kim_HACH_EN.pdf"
                                         download
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
@@ -305,7 +305,7 @@ export default function Navbar() {
                                         className="w-full flex items-center gap-3 px-5 py-4 rounded-lg font-medium text-ink border border-gold hover:bg-gold/10 transition-all duration-200"
                                     >
                                         <HiDownload className="w-5 h-5" aria-hidden="true" />
-                                        <span>🇺🇸 Resume (US)</span>
+                                        <span>🇬🇧 {t.nav.cvUs}</span>
                                     </motion.a>
                                 </div>
 

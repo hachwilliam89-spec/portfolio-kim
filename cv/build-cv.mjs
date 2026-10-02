@@ -12,7 +12,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const out = process.env.CV_OUT ?? join(here, '..', 'public');
 const jobs = [
     ['cv-fr.html', 'CV_William_Kim_HACH_Developpeur_Fullstack.pdf'],
-    ['cv-en.html', 'CV_William_Kim_HACH_Resume_US.pdf'],
+    ['cv-en.html', 'CV_William_Kim_HACH_EN.pdf'],
 ];
 
 const executablePath = process.env.CHROME_PATH

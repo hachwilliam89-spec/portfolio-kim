@@ -17,8 +17,8 @@ export const en: Translations = {
         cvLabel: 'CV',
         cvFr: 'French CV',
         cvFrSub: 'French format',
-        cvUs: 'Resume (US)',
-        cvUsSub: 'American format',
+        cvUs: 'English CV',
+        cvUsSub: 'International format',
     },
     hero: {
         scrollProjects: 'Scroll to projects',

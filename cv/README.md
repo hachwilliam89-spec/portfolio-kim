@@ -4,7 +4,7 @@ Les CV téléchargeables du portfolio (`public/CV_William_Kim_HACH_*.pdf`) sont 
 dans la même direction artistique que le site (papier washi, encre, vermillon et or, Playfair Display + Inter, sceau 金恩).
 
 - `cv-fr.html` → `public/CV_William_Kim_HACH_Developpeur_Fullstack.pdf` (avec photo)
-- `cv-en.html` → `public/CV_William_Kim_HACH_Resume_US.pdf` (format US : sans photo ni état civil)
+- `cv-en.html` → `public/CV_William_Kim_HACH_EN.pdf` (CV anglais international, anglais britannique : sans photo ni état civil)
 - Variante colonne latérale à gauche : ajouter la classe `side-left` sur `<div class="page">` (dans le CV français, la photo passe alors en haut de la colonne)
 - `cv.css` : styles communs ; `fonts/`, `photo.jpg`, `seal.svg` : ressources locales (aucun accès réseau nécessaire)
 

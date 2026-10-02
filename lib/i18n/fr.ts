@@ -15,8 +15,8 @@ export const fr = {
         cvLabel: 'CV',
         cvFr: 'CV Français',
         cvFrSub: 'Format français',
-        cvUs: 'Resume (US)',
-        cvUsSub: 'American format',
+        cvUs: 'CV anglais',
+        cvUsSub: 'Format international',
     },
     hero: {
         scrollProjects: 'Défiler vers les projets',
