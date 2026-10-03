@@ -7,7 +7,8 @@ import {
     SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma,
     SiDocker, SiTailwindcss, SiReact, SiNodedotjs, SiNestjs,
     SiPostgresql, SiMysql, SiSwagger, SiSpring, SiMariadb,
-    SiTypescript, SiLeaflet
+    SiTypescript, SiLeaflet,
+    SiOpenjdk, SiPython,
 } from 'react-icons/si';
 import ProjectModal from './ProjectModal';
 import ProjectCover from './ProjectCover';
@@ -38,7 +39,8 @@ const techIcons: TechIconMap = {
     'API REST': null,
     'shadcn/ui': null,
     'Spring Boot': SiSpring,
-    'Java': null,
+    'Java': SiOpenjdk,
+    'Python': SiPython,
     'WebSocket': null,
     'MariaDB': SiMariadb,
     'TypeScript': SiTypescript,
@@ -190,7 +192,7 @@ const projects: Project[] = [
             '- **Odoo CRM integration** via XML-RPC (fire-and-forget): prospects, contacts, opportunities and PDF attachments.\n' +
             '- **Telecom audit reports** auto-generated (React PDF, Nextcloud WebDAV storage).\n' +
             '- **REST API** documented (OpenAPI + Swagger UI), full technical docs and **104 unit tests** (Vitest).',
-        tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Drizzle ORM', 'OpenAI', 'Anthropic', 'Zod', 'n8n'],
+        tech: ['Next.js', 'TypeScript', 'Python', 'PostgreSQL', 'Docker', 'Drizzle ORM', 'OpenAI', 'Anthropic', 'Zod', 'n8n'],
         image: '/images/xip-home.png',
         screenshots: [
             { url: '/images/xip-home.png', title: 'Page d\'accueil', description: 'Site vitrine public de XIP Telecom, plateforme B2B de conseil et courtage télécom. Navigation vers les sections Solutions, Missions d\'audit, Recrutement BDI et l\'extranet via le bouton Login. Développé en Next.js avec design sobre et professionnel.', titleEn: 'Homepage', descriptionEn: 'Public landing page of XIP Telecom, a B2B telecom consulting and brokerage platform. Navigation to Solutions, Audit Missions, BDI Recruitment sections and the extranet via the Login button. Built with Next.js.' },

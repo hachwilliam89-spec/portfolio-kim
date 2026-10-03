@@ -11,7 +11,8 @@ import {
     SiJavascript, SiPhp, SiHtml5, SiCss3, SiNextdotjs, SiPrisma,
     SiDocker, SiTailwindcss, SiReact, SiNodedotjs, SiNestjs,
     SiPostgresql, SiMysql, SiSwagger, SiSpring, SiMariadb,
-    SiTypescript, SiLeaflet
+    SiTypescript, SiLeaflet,
+    SiOpenjdk, SiPython,
 } from 'react-icons/si';
 import { useLanguage, fr, en } from '@/lib/i18n';
 
@@ -34,7 +35,8 @@ const techIcons: Record<string, IconType | null> = {
     'API REST': null,
     'shadcn/ui': null,
     'Spring Boot': SiSpring,
-    'Java': null,
+    'Java': SiOpenjdk,
+    'Python': SiPython,
     'WebSocket': null,
     'MariaDB': SiMariadb,
     'TypeScript': SiTypescript,
