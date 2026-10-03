@@ -19,7 +19,7 @@ export async function POST(request: Request) {
         }
 
         // Envoyer l'email via Mailjet
-        const result = await mailjet.post('send', { version: 'v3.1' }).request({
+        await mailjet.post('send', { version: 'v3.1' }).request({
             Messages: [
                 {
                     From: {

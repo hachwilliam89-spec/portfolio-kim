@@ -41,10 +41,10 @@ export const metadata: Metadata = {
         description: 'Portfolio de William Kim HACH : applications web et mobiles, Équilibre, XIP Telecom et KCD Formes. Stage de 6 mois dès janvier 2027, en France ou à l’étranger.',
         images: [
             {
-                url: '/og-image.png',
+                url: '/og-image-encre.png',
                 width: 1200,
                 height: 630,
-                alt: 'William Kim HACH — Développeur web et mobile',
+                alt: 'William Kim HACH — Développeur full-stack web et mobile, stage de 6 mois dès janvier 2027',
             },
         ],
     },
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
         card: 'summary_large_image',
         title: 'William Kim HACH — Développeur web & mobile',
         description: 'Portfolio de William Kim HACH : applications web et mobiles, Équilibre, XIP Telecom et KCD Formes. Stage de 6 mois dès janvier 2027, en France ou à l’étranger.',
-        images: ['/og-image.png'],
+        images: ['/og-image-encre.png'],
     },
     icons: {
         icon: [
