@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import type { IconType } from 'react-icons';
-import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb, SiMongodb, SiOpenjdk, SiExpo, SiSwagger, SiJsonwebtokens, SiGithubactions, SiJest, SiVitest, SiJira, SiOdoo, SiOpenai, SiDrizzle, SiZod } from 'react-icons/si';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb, SiMongodb, SiOpenjdk, SiPython, SiExpo, SiSwagger, SiJsonwebtokens, SiGithubactions, SiJest, SiVitest, SiJira, SiOdoo, SiOpenai, SiDrizzle, SiZod } from 'react-icons/si';
 import SectionTitle from './SectionTitle';
 import { useLanguage, fr, en } from '@/lib/i18n';
 
@@ -19,6 +19,7 @@ const techIcons: Record<string, IconType | null> = {
     'Node.js': SiNodedotjs,
     'Java': SiOpenjdk,
     'Spring Boot': SiSpring,
+    'Python': SiPython,
     'POO': null,
     'Architecture hexagonale': null,
     'API REST': null,
@@ -49,7 +50,7 @@ const techIcons: Record<string, IconType | null> = {
 
 const skillKeys = [
     { key: 'frontend' as const, items: ['React', 'React Native', 'Expo', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Phaser'] },
-    { key: 'backend' as const, items: ['NestJS', 'Node.js', 'Java', 'Spring Boot', 'POO', 'Architecture hexagonale', 'API REST', 'WebSocket', 'JWT', 'Swagger', 'Prisma', 'Drizzle ORM', 'Zod'] },
+    { key: 'backend' as const, items: ['NestJS', 'Node.js', 'Java', 'Spring Boot', 'Python', 'POO', 'Architecture hexagonale', 'API REST', 'WebSocket', 'JWT', 'Swagger', 'Prisma', 'Drizzle ORM', 'Zod'] },
     { key: 'database' as const, items: ['PostgreSQL', 'MongoDB', 'MariaDB', 'MySQL'] },
     { key: 'ai' as const, items: ['OpenAI / Anthropic', 'n8n', 'Odoo'] },
     { key: 'devops' as const, items: ['Docker', 'CI/CD GitHub Actions', 'Git', 'GitLab', 'Husky', 'TDD', 'Jest', 'Vitest', 'Scrum', 'Jira'] },
