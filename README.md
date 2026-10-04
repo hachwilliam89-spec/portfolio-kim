@@ -7,7 +7,7 @@ Je recherche un **stage de fin d'études de 6 mois à partir de janvier 2027**, 
 
 ## Ce que présente le site
 
-- **Projets** : trois projets mis en avant (Équilibre, XIP Telecom v2, KCD Formes v2), puis les autres réalisations.
+- **Projets** : trois projets mis en avant (Équilibre, XIP Telecom v2, War Seasons), puis les autres réalisations.
   Chaque fiche suit le même fil : besoin, mon rôle, résultat, difficulté résolue, puis les détails techniques.
 - **À propos** : mon parcours (reconversion après 4 ans et demi en logistique) et mes compétences.
 - **Contact** : formulaire relié à Mailjet, adresse email copiable en un clic.

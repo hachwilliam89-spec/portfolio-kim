@@ -43,53 +43,54 @@ export const projects: Project[] = [
         id: 8,
         slug: 'kcd-formes',
         previousVersionId: 1,
-        title: 'KCD Formes v2',
+        title: 'War Seasons',
         caseStudy: {
-            need: 'Faire passer mon projet fil rouge d’un prototype d’école à un jeu en ligne, robuste et maintenable.',
-            role: 'Seul sur tout le projet, de l’architecture au déploiement.',
-            result: 'Jeu en ligne sur **kcd-formes.fr** : solo, duel 1v1 et coop en temps réel, déployé automatiquement à chaque push.',
-            challenge: 'Ma première **architecture hexagonale** : respecter ses règles avec rigueur (domaine isolé, dépendances tournées vers lui) pour en tirer les bénéfices. Multijoueur, simulation serveur et **100+ tests** branchés sans toucher au cœur du jeu. Et ma première chaîne **CI/CD** complète, jusqu’à mon propre VPS.',
+            need: 'Faire passer mon projet fil rouge d’un prototype d’école à un vrai jeu en ligne : robuste, maintenable et avec sa propre identité visuelle.',
+            role: 'Seul sur tout le projet, de l’architecture au déploiement, jusqu’à la direction artistique.',
+            result: 'Jeu en ligne sur **kcd-formes.fr** : solo, duel 1v1 et coop en temps réel sur quatre cartes saisonnières, déployé automatiquement à chaque push.',
+            challenge: 'Ma première **architecture hexagonale**, tenue jusqu’au bout : multijoueur, simulation serveur et **100+ tests** branchés sans toucher au cœur du jeu. Puis des **règles saisonnières** (crues, grêle, boue, brume) écrites une seule fois dans le domaine et partagées par le solo et le moteur temps réel.',
         },
         caseStudyEn: {
-            need: 'Turn my capstone project from a school prototype into a robust, maintainable online game.',
-            role: 'Solo on the whole project, from architecture to deployment.',
-            result: 'Live at **kcd-formes.fr**: solo, real-time 1v1 duel and co-op, deployed automatically on every push.',
-            challenge: 'My first **hexagonal architecture**: following its rules rigorously (isolated domain, dependencies pointing inward) to get its benefits. Multiplayer, server-side simulation and **100+ tests** plugged in without touching the game core. And my first complete **CI/CD** pipeline, all the way to my own VPS.',
+            need: 'Turn my capstone project from a school prototype into a real online game: robust, maintainable and with its own visual identity.',
+            role: 'Solo on the whole project, from architecture to deployment, all the way to the art direction.',
+            result: 'Live at **kcd-formes.fr**: solo, real-time 1v1 duel and co-op on four seasonal maps, deployed automatically on every push.',
+            challenge: 'My first **hexagonal architecture**, kept clean to the end: multiplayer, server-side simulation and **100+ tests** plugged in without touching the game core. Then **seasonal rules** (floods, hail, mud, fog) written once in the domain and shared by solo play and the real-time engine.',
         },
-        shortDescription: 'Refonte complète de mon fil rouge en architecture hexagonale, déployée en production sur mon propre VPS (Docker, HTTPS, CI/CD).',
-        shortDescriptionEn: 'Full rewrite of my capstone game in hexagonal architecture, deployed to production on my own VPS (Docker, HTTPS, CI/CD).',
-        description: 'Reprise de mon **projet fil rouge de 2ᵉ année**, entièrement réarchitecturée avec les compétences acquises depuis. Objectif : une vraie restructuration **de bout en bout**, du code métier jusqu\'à la mise en production.\n\n' +
-            '- **Architecture hexagonale** (ports & adapters) : le domaine métier (formes, ennemis, vagues, économie) est isolé des détails techniques (JPA/PostgreSQL, contrôleurs REST).\n' +
-            '- **Backend Java 21 / Spring Boot** : PostgreSQL + migrations Flyway, authentification JWT, verrou optimiste sur les parties.\n' +
-            '- **Simulation côté serveur** : les vagues sont résolues sur le serveur puis rejouées à l\'écran : **100+ tests** unitaires et un **harnais d\'équilibrage multi-graines** qui vérifie que le jeu reste jouable.\n' +
-            '- **Multijoueur temps réel (WebSocket/STOMP)** : mode **Versus 1v1** (chacun défend son château et envoie des vagues à l\'adversaire, avec **aperçu live de sa grille** et revenu passif) et mode **Coop** ; **chat de match** et **tutoriel guidé** intégrés.\n' +
-            '- **Frontend Next.js / TypeScript + Phaser** : tower-defense solo (chemin serpentin, 5 tours, modes de ciblage, boss à capacités, paliers de bonus, classement) + **évolution des tours** (amélioration plafonnée, coûteuse mais décisive : dégâts, portée, solidité anti-siège).\n' +
-            '- **Habillage pixel-art** : map « terres désolées » au chemin naturel, décor de ruines, HUD médiéval optimisé, tutoriel contextuel, sons (bruitages + musique réglables séparément), animations d\'impact et de destruction.\n' +
-            '- **DevOps** : Docker multi-stage, reverse-proxy Caddy, HTTPS Let\'s Encrypt auto-renouvelé, **CI/CD GitHub Actions** (déploiement auto sur mon VPS OVH à chaque push).\n\n' +
+        shortDescription: 'Mon fil rouge devenu un vrai jeu : tower defense en architecture hexagonale, quatre cartes saisonnières, multijoueur temps réel, en production sur mon VPS.',
+        shortDescriptionEn: 'My capstone turned into a real game: a hexagonal-architecture tower defense with four seasonal maps and real-time multiplayer, in production on my own VPS.',
+        description: 'Reprise de mon **projet fil rouge de 2ᵉ année** (anciennement KCD Formes), entièrement réarchitecturée puis devenue **War Seasons** : un tower defense médiéval-fantasy en ligne.\n\n' +
+            '- **Architecture hexagonale** (ports & adapters) : le domaine métier (tours, ennemis, vagues, économie, terrain saisonnier) est isolé des détails techniques (JPA/PostgreSQL, REST, WebSocket).\n' +
+            '- **Quatre cartes, quatre saisons** : au printemps, le château est au milieu d\'un lac et des **crues** neutralisent les tours d\'une berge ; la **grêle** rend les ennemis plus vulnérables. En automne, la **boue** ralentit les ennemis (sauf les géants) et la **brume** réduit la portée des tours ; toutes deux changent de place à chaque vague.\n' +
+            '- **Simulation côté serveur** : les vagues sont résolues sur le serveur puis rejouées à l\'écran ; les règles saisonnières sont partagées par le solo et le moteur temps réel. **100+ tests** unitaires et un **harnais d\'équilibrage multi-graines**.\n' +
+            '- **Multijoueur temps réel (WebSocket/STOMP)** : **Versus 1v1** (envoi d\'ennemis chez l\'adversaire, aperçu live de sa grille) et **Coop** ; chat de match et tutoriel contextuel.\n' +
+            '- **Frontend Next.js / TypeScript + Phaser** : 5 tours avec évolution et modes de ciblage, boss à capacités, paliers de bonus, classement par carte ; météo animée (pluie, grêle, crues, brume) et décor de saison trié en profondeur.\n' +
+            '- **Direction artistique** : accueil animé en Canvas (ennemis en marche, tirs des tours, catapultes, météo de chaque saison), connexion sur un étendard qui se déroule, blason et charte unifiée sur tout le jeu.\n' +
+            '- **DevOps** : Docker multi-stage, reverse-proxy Caddy, HTTPS Let\'s Encrypt auto-renouvelé, **CI/CD GitHub Actions** (déploiement auto sur mon VPS OVH à chaque push) et **banc de performance** de la scène de jeu.\n\n' +
             'En ligne sur **kcd-formes.fr**.\n\n' +
             '**En cours** : une **version mobile**.',
-        descriptionEn: 'A full re-architecture of my **2nd-year capstone game**, rebuilt with the skills I\'ve gained since. The goal: a real **end-to-end** rebuild, from domain code to production.\n\n' +
-            '- **Hexagonal architecture** (ports & adapters): the business domain (shapes, enemies, waves, economy) is isolated from technical details (JPA/PostgreSQL, REST controllers).\n' +
-            '- **Java 21 / Spring Boot backend**: PostgreSQL + Flyway migrations, JWT authentication, optimistic locking on games.\n' +
-            '- **Server-side simulation**: waves are resolved on the server then replayed on screen — **100+ unit tests** and a **multi-seed balancing harness** that checks the game stays playable.\n' +
-            '- **Real-time multiplayer (WebSocket/STOMP)**: **Versus 1v1** mode (each defends their castle and sends waves to the opponent, with a **live opponent mini-map** and passive income) and **Coop** mode; built-in **in-match chat** and **guided tutorial**.\n' +
-            '- **Next.js / TypeScript + Phaser frontend**: solo tower-defense (serpentine path, 5 towers, targeting modes, boss abilities, bonus milestones, leaderboard) + **tower evolution** (capped upgrades, costly but decisive: damage, range, siege-resistant HP).\n' +
-            '- **Pixel-art layer**: "wasteland" map with a natural path, ruin décor, optimized medieval HUD, contextual tutorial, sound (separately adjustable SFX + music), impact and destruction animations.\n' +
-            '- **DevOps**: multi-stage Docker, Caddy reverse-proxy, auto-renewed Let\'s Encrypt HTTPS, **GitHub Actions CI/CD** (auto-deploy to my OVH VPS on every push).\n\n' +
+        descriptionEn: 'A full re-architecture of my **2nd-year capstone game** (formerly KCD Formes), now **War Seasons**: an online medieval-fantasy tower defense.\n\n' +
+            '- **Hexagonal architecture** (ports & adapters): the business domain (towers, enemies, waves, economy, seasonal terrain) is isolated from technical details (JPA/PostgreSQL, REST, WebSocket).\n' +
+            '- **Four maps, four seasons**: in spring, the castle stands in the middle of a lake and **floods** disable the towers on one bank; **hail** makes enemies more vulnerable. In autumn, **mud** slows enemies (except giants) and **fog** cuts tower range; both move every wave.\n' +
+            '- **Server-side simulation**: waves are resolved on the server then replayed on screen; seasonal rules are shared by solo play and the real-time engine. **100+ unit tests** and a **multi-seed balancing harness**.\n' +
+            '- **Real-time multiplayer (WebSocket/STOMP)**: **Versus 1v1** (send enemies to your opponent, live view of their grid) and **Co-op**; in-match chat and contextual tutorial.\n' +
+            '- **Next.js / TypeScript + Phaser frontend**: 5 towers with upgrades and targeting modes, boss abilities, bonus milestones, per-map leaderboard; animated weather (rain, hail, floods, fog) and depth-sorted seasonal scenery.\n' +
+            '- **Art direction**: animated Canvas homepage (marching enemies, tower shots, catapults, weather for each season), login on a banner that unrolls, a crest and one visual system across the whole game.\n' +
+            '- **DevOps**: multi-stage Docker, Caddy reverse-proxy, auto-renewed Let\'s Encrypt HTTPS, **GitHub Actions CI/CD** (auto-deploy to my OVH VPS on every push) and a **performance bench** for the game scene.\n\n' +
             'Live at **kcd-formes.fr**.\n\n' +
             '**In progress**: a **mobile version**.',
-        tech: ['Next.js', 'TypeScript', 'Phaser', 'Spring Boot', 'Java', 'WebSocket', 'PostgreSQL', 'Docker', 'CI/CD', 'Architecture hexagonale'],
-        image: '/images/kcd-v2-home.jpg',
+        tech: ['Next.js', 'TypeScript', 'Phaser', 'Spring Boot', 'Java', 'WebSocket', 'PostgreSQL', 'Docker', 'CI/CD', 'Architecture hexagonale', 'Canvas'],
+        image: '/images/war-seasons-accueil.jpg',
         links: {
             demo: 'https://kcd-formes.fr',
             github: 'https://github.com/hachwilliam89-spec/kcd-formes-v2',
         },
         screenshots: [
-            { url: '/images/kcd-v2-home.jpg', title: 'Page d\'accueil', description: 'Page d\'accueil avec formulaire d\'inscription et de connexion.', titleEn: 'Homepage', descriptionEn: 'Homepage with sign-up and login form.' },
-            { url: '/images/kcd-v2-combat.jpg', title: 'Partie solo', description: 'Partie solo : pose de tours (Archer, Mage, Catapulte, Baliste, Mur) sur la grille, panneau latéral avec les statistiques de la partie et l\'évolution des tours (dégâts, portée, PV, cadence).', titleEn: 'Solo game', descriptionEn: 'Solo game: place towers (Archer, Mage, Catapult, Ballista, Wall) on the grid, side panel with run stats and tower evolution (damage, range, HP, fire rate).' },
-            { url: '/images/kcd-v2-lobby.jpg', title: 'Lobby multijoueur', description: 'Lobby du mode duel 1 contre 1, vu des deux joueurs : créer un salon (code à partager) ou rejoindre par code, avec le statut « prêt » de chacun.', titleEn: 'Multiplayer lobby', descriptionEn: '1v1 duel lobby, shown from both players: create a room (shareable code) or join by code, with each player\'s "ready" status.' },
-            { url: '/images/kcd-v2-duel.jpg', title: 'Duel en temps réel', description: 'Partie versus 1 contre 1 vue des deux joueurs (deux écrans), sur la seconde carte « La Fourche » (biome enneigé) où la route se divise en plusieurs voies rejoignant le château par des angles différents : chacun défend son château et dépense son or pour envoyer des ennemis chez l\'adversaire, ce qui augmente son revenu.', titleEn: 'Real-time duel', descriptionEn: '1v1 versus game shown from both players (two screens), on the second map "La Fourche" (snow biome) where the road splits into several lanes reaching the castle from different angles: each defends their castle and spends gold to send enemies to the opponent, which increases their income.' },
-            { url: '/images/kcd-v2-versus.jpg', title: 'Versus : aperçu adverse et chat', description: 'Vue versus avec l\'aperçu de la grille adverse (mini-carte), le chat de partie et le tutoriel.', titleEn: 'Versus: opponent preview and chat', descriptionEn: 'Versus view with the opponent grid preview (mini-map), in-game chat and tutorial.' },
+            { url: '/images/war-seasons-accueil.jpg', title: 'Accueil', description: 'Carte de guerre animée en Canvas : ennemis en marche sur les routes, tirs des tours, catapultes et météo de chaque saison. La connexion se déroule sur un étendard.', titleEn: 'Homepage', descriptionEn: 'Animated Canvas war map: enemies marching on the roads, tower shots, catapults and weather for each season. Login unrolls on a banner.' },
+            { url: '/images/war-seasons-cartes.jpg', title: 'Choix du royaume', description: 'Quatre cartes saisonnières, chacune avec un aperçu réel du champ de bataille, une phrase et un niveau de difficulté.', titleEn: 'Choose your kingdom', descriptionEn: 'Four seasonal maps, each with a real preview of the battlefield, one sentence and a difficulty level.' },
+            { url: '/images/war-seasons-printemps.jpg', title: 'Printemps : Les Jardins éveillés', description: 'Château au milieu du lac, attaqué par quatre voies qui convergent sur deux ponts, ici sous la grêle qui rend les ennemis plus vulnérables. Toutes les trois vagues, une crue noie une berge et neutralise ses tours.', titleEn: 'Spring: The Awakened Gardens', descriptionEn: 'A castle in the middle of a lake, attacked by four lanes converging on two bridges, here under hail that makes enemies more vulnerable. Every three waves, a flood submerges one bank and disables its towers.' },
+            { url: '/images/war-seasons-automne.jpg', title: 'Automne : Le Val des feuilles', description: 'Serpentin coupé par un raccourci. La boue ralentit les ennemis (sauf les géants) et la brume réduit la portée des tours ; elles changent de place à chaque vague.', titleEn: 'Autumn: The Valley of Leaves', descriptionEn: 'A serpentine path cut by a shortcut. Mud slows enemies (except giants) and fog cuts tower range; both move every wave.' },
+            { url: '/images/war-seasons-hiver.jpg', title: 'Hiver : La Fourche', description: 'La route se divise en trois branches qui rejoignent le château par des angles différents : la défense doit couvrir chaque voie.', titleEn: 'Winter: The Fork', descriptionEn: 'The road splits into three branches reaching the castle from different angles: the defense has to cover every lane.' },
+            { url: '/images/war-seasons-coop.jpg', title: 'Salon coop', description: 'Créer une partie à deux et partager son code, ou rejoindre un ami, sur la carte de son choix.', titleEn: 'Co-op lobby', descriptionEn: 'Create a two-player game and share its code, or join a friend, on the map of your choice.' },
         ],
     },
     {
