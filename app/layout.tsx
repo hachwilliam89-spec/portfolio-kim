@@ -1,5 +1,6 @@
 import { Inter, Playfair_Display, Ma_Shan_Zheng } from 'next/font/google'
 import type { Metadata } from 'next'
+import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, SOCIAL_IMAGE } from '@/lib/seo';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -26,22 +27,21 @@ const maShanZheng = Ma_Shan_Zheng({
 })
 
 export const metadata: Metadata = {
-    title: 'William Kim HACH — Développeur web & mobile',
-    description: 'Portfolio de William Kim HACH : applications web et mobiles, Équilibre, XIP Telecom et KCD Formes. Stage de 6 mois dès janvier 2027, en France ou à l’étranger.',
-    keywords: ['développeur', 'full stack', 'mobile', 'react native', 'expo', 'équilibre', 'react', 'next.js', 'nestjs', 'spring boot', 'node.js', 'typescript', 'docker', 'postgresql', 'agents ia', 'openai', 'portfolio', 'kim hach', 'stage', 'alternance', 'uha 4.0', 'mulhouse', 'drizzle orm', 'vitest'],
+    title: { default: SITE_TITLE, template: '%s | William Kim HACH' },
+    description: SITE_DESCRIPTION,
     authors: [{ name: 'William Kim HACH' }],
     creator: 'William Kim HACH',
-    metadataBase: new URL('https://wkhach.dev'),
+    metadataBase: new URL(SITE_URL),
     openGraph: {
         type: 'website',
         locale: 'fr_FR',
-        url: 'https://wkhach.dev',
+        url: SITE_URL,
         siteName: 'William Kim HACH — Portfolio',
-        title: 'William Kim HACH — Développeur web & mobile',
-        description: 'Portfolio de William Kim HACH : applications web et mobiles, Équilibre, XIP Telecom et KCD Formes. Stage de 6 mois dès janvier 2027, en France ou à l’étranger.',
+        title: SITE_TITLE,
+        description: SITE_DESCRIPTION,
         images: [
             {
-                url: '/og-image-encre.png',
+                url: SOCIAL_IMAGE,
                 width: 1200,
                 height: 630,
                 alt: 'William Kim HACH — Développeur full-stack web et mobile, stage de 6 mois dès janvier 2027',
@@ -50,9 +50,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'William Kim HACH — Développeur web & mobile',
-        description: 'Portfolio de William Kim HACH : applications web et mobiles, Équilibre, XIP Telecom et KCD Formes. Stage de 6 mois dès janvier 2027, en France ou à l’étranger.',
-        images: ['/og-image-encre.png'],
+        title: SITE_TITLE,
+        description: SITE_DESCRIPTION,
+        images: [SOCIAL_IMAGE],
     },
     icons: {
         icon: [

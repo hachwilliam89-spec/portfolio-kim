@@ -1,12 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiMenu, HiX, HiDownload } from 'react-icons/hi';
 import { HiSun, HiMoon } from 'react-icons/hi2';
 import { useLanguage, fr, en } from '@/lib/i18n';
 import { useTheme } from './ThemeProvider';
 import CvFlag from './CvFlag';
+import Link from 'next/link';
+
+const MotionLink = motion.create(Link);
 
 export default function Navbar() {
     const { lang, toggle } = useLanguage();
@@ -38,8 +41,10 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const scrollToSection = (id: string) => {
+    const scrollToSection = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
         setMobileMenuOpen(false);
+        if (window.location.pathname !== '/' || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
         const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
         if (id === 'home') {
             window.scrollTo({ top: 0, behavior });
@@ -70,8 +75,9 @@ export default function Navbar() {
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex justify-between items-center h-20">
                         {/* Logo */}
-                        <button
-                            onClick={() => scrollToSection('home')}
+                        <Link
+                            href="/#home"
+                            onClick={event => scrollToSection(event, 'home')}
                             className="relative group"
                             aria-label={t.nav.home}
                         >
@@ -79,14 +85,15 @@ export default function Navbar() {
                                 WKH
                             </span>
                             <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" aria-hidden="true" />
-                        </button>
+                        </Link>
 
                         {/* Navigation Desktop */}
                         <div className="hidden md:flex items-center gap-2">
                             {navItems.map(({ id, label }) => (
-                                <button
+                                <Link
                                     key={id}
-                                    onClick={() => scrollToSection(id)}
+                                    href={`/#${id}`}
+                                    onClick={event => scrollToSection(event, id)}
                                     className={`relative px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
                                         activeSection === id
                                             ? 'text-washi bg-gradient-to-r from-vermillon to-gold shadow-md'
@@ -94,7 +101,7 @@ export default function Navbar() {
                                     }`}
                                 >
                                     {label}
-                                </button>
+                                </Link>
                             ))}
 
                             {/* Bouton CV avec dropdown */}
@@ -160,12 +167,13 @@ export default function Navbar() {
                             </div>
 
                             {/* CTA Button */}
-                            <button
-                                onClick={() => scrollToSection('contact')}
+                            <Link
+                                href="/#contact"
+                                onClick={event => scrollToSection(event, 'contact')}
                                 className="ml-2 px-6 py-2.5 bg-gradient-to-r from-vermillon to-gold text-washi text-sm font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
                             >
                                 {t.nav.contact}
-                            </button>
+                            </Link>
 
                             {/* Séparateur */}
                             <div className="w-px h-6 bg-gold/30 mx-1" aria-hidden="true" />
@@ -268,20 +276,21 @@ export default function Navbar() {
                                 {/* Navigation Items */}
                                 <div className="flex-1 px-6 py-8 space-y-2">
                                     {navItems.map(({ id, label }, index) => (
-                                        <motion.button
+                                        <MotionLink
                                             key={id}
-                                            onClick={() => scrollToSection(id)}
+                                            href={`/#${id}`}
+                                            onClick={event => scrollToSection(event, id)}
                                             initial={{ opacity: 0, x: 20 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: index * 0.08, duration: 0.3 }}
-                                            className={`w-full text-left px-5 py-4 rounded-lg font-medium transition-all duration-200 ${
+                                            className={`block w-full text-left px-5 py-4 rounded-lg font-medium transition-all duration-200 ${
                                                 activeSection === id
                                                     ? 'bg-gradient-to-r from-vermillon to-gold text-washi shadow-lg'
                                                     : 'text-ink hover:bg-gold/10 border border-gold/20'
                                             }`}
                                         >
                                             {label}
-                                        </motion.button>
+                                        </MotionLink>
                                     ))}
 
                                     {/* Boutons CV Mobile */}
@@ -315,15 +324,16 @@ export default function Navbar() {
 
                                 {/* Footer CTA */}
                                 <div className="p-6 border-t border-gold/20">
-                                    <motion.button
-                                        onClick={() => scrollToSection('contact')}
+                                    <MotionLink
+                                        href="/#contact"
+                                        onClick={event => scrollToSection(event, 'contact')}
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.3, duration: 0.3 }}
                                         className="block w-full px-6 py-4 bg-gradient-to-r from-vermillon to-gold text-washi text-center font-semibold rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200"
                                     >
                                         {t.nav.contact}
-                                    </motion.button>
+                                    </MotionLink>
                                 </div>
                             </div>
                         </motion.div>

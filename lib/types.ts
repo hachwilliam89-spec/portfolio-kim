@@ -28,6 +28,7 @@ export interface CaseStudy {
 
 export interface Project {
     id: number;
+    slug: string;
     previousVersionId?: number;
     title: string;
     shortDescription: string;
