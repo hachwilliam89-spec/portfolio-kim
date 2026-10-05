@@ -24,8 +24,8 @@ export const fr = {
         pitch: 'Je transforme des idées en applications web et mobiles, pensées pour être fiables et évoluer dans le temps.',
         subtitle: "Étudiant en <highlight>Licence Pro Métiers de l'informatique</highlight> à l'UHA 4.0",
         subtitleDetail: 'Conception, développement et test de logiciels',
-        cta: 'Stage de fin d\'études · 6 mois dès janvier 2027',
-        mobility: 'France ou étranger · Présentiel privilégié · Convention possible à l’étranger',
+        cta: 'Stage de fin d\'études\u00a0· 6 mois dès janvier 2027',
+        mobility: 'France ou étranger\u00a0· Présentiel privilégié\u00a0· Convention possible à l’étranger',
         discover: 'Découvrir',
     },
     projects: {
@@ -91,7 +91,7 @@ export const fr = {
         copyError: "Impossible de copier l'adresse",
     },
     footer: {
-        copyright: "© 2026 William Kim HACH · Étudiant en Licence Pro Métiers de l'informatique · UHA 4.0",
+        copyright: "© 2026 William Kim HACH\u00a0· Étudiant en Licence Pro Métiers de l'informatique\u00a0· UHA 4.0",
     },
 };
 

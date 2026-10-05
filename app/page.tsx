@@ -12,7 +12,7 @@ export const metadata: Metadata = { alternates: { canonical: '/' } };
 
 export default function Home() {
     return (
-        <div className="min-h-screen">
+        <div className="min-h-svh">
             <StructuredData data={{
                 '@context': 'https://schema.org',
                 '@graph': [person, {

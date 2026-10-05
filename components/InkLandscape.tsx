@@ -1,5 +1,18 @@
 import type { CSSProperties } from 'react';
 
+/**
+ * Le paysage est découpé en trois calques ancrés aux coins de la section :
+ * - en bas à gauche, le bambou (et ses feuilles qui tombent) ;
+ * - en bas à droite, les montagnes ;
+ * - en haut à droite, le ciel : soleil / lune, oiseaux, étoiles.
+ * Chaque calque est mis à l'échelle par la hauteur du hero (plafonnée en largeur d'écran),
+ * si bien que la composition reste identique quel que soit le ratio de l'écran.
+ * Les coordonnées restent celles du dessin d'origine (1440 × 900).
+ */
+const LEFT_WIDTH = 500;
+const RIGHT_X = 560;
+const RIGHT_WIDTH = 1440 - RIGHT_X;
+
 /** Étoiles du mode sombre : positions dans le viewBox, hors de la zone de texte centrale. */
 const STARS: { x: number; y: number; r: number; delay: number; dur: number; cross?: boolean }[] = [
     // Haut, sur toute la largeur
@@ -52,6 +65,15 @@ const FALLING_LEAVES = LEAF_SPOTS.map(l => {
     return { ...l, fall, drift: Math.round(fall * 0.12), dur: +(fall / 50 / 0.75).toFixed(1) };
 });
 
+/** Nuages au lavis (traînées de pinceau) : à droite parmi les sommets, à gauche au-dessus des bambous. */
+const CLOUDS: { x: number; y: number; scale: number; dur: number; delay: number; flip?: boolean }[] = [
+    { x: 1050, y: 470, scale: 1, dur: 26, delay: 0 },
+    { x: 1130, y: 615, scale: 0.85, dur: 32, delay: -9, flip: true },
+    { x: 1270, y: 395, scale: 0.6, dur: 22, delay: -4 },
+    { x: 20, y: 180, scale: 0.9, dur: 28, delay: -14 },
+    { x: 170, y: 255, scale: 0.6, dur: 24, delay: -6, flip: true },
+];
+
 /** Éclat « kira » façon anime : traits de vitesse rayonnants + étoile à quatre branches. */
 function Kira({ className, color }: { className: string; color: string }) {
     return (
@@ -66,24 +88,61 @@ function Kira({ className, color }: { className: string; color: string }) {
     );
 }
 
-/** Nuages au lavis (traînées de pinceau) : à droite parmi les sommets, à gauche au-dessus des bambous. */
-const CLOUDS: { x: number; y: number; scale: number; dur: number; delay: number; flip?: boolean }[] = [
-    { x: 1050, y: 470, scale: 1, dur: 26, delay: 0 },
-    { x: 1130, y: 615, scale: 0.85, dur: 32, delay: -9, flip: true },
-    { x: 1270, y: 395, scale: 0.6, dur: 22, delay: -4 },
-    { x: 20, y: 180, scale: 0.9, dur: 28, delay: -14 },
-    { x: 170, y: 255, scale: 0.6, dur: 24, delay: -6, flip: true },
-];
-
-/** Static ink drawing; only whole layers (and the stars) are animated in CSS. */
-export default function InkLandscape() {
+/** Définition du nuage, dupliquée dans chaque calque : aucune référence entre deux <svg> distincts. */
+function CloudDefs({ id }: { id: string }) {
     return (
-        <svg className="ink-landscape" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice" fill="none" aria-hidden="true">
+        <>
+            <linearGradient id={`${id}-wash`} x2="1" y2="0">
+                <stop stopColor="currentColor" stopOpacity="0" />
+                <stop offset=".3" stopColor="currentColor" stopOpacity=".2" />
+                <stop offset=".65" stopColor="currentColor" stopOpacity=".14" />
+                <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+            </linearGradient>
+            <filter id={`${id}-soft`} x="-10%" y="-50%" width="120%" height="200%">
+                <feGaussianBlur stdDeviation="1.6" />
+            </filter>
+            <g id={id} fill={`url(#${id}-wash)`} filter={`url(#${id}-soft)`}>
+                <path d="M0 30Q60 8 150 20Q215 13 262 27Q205 33 125 32Q55 40 0 30Z" />
+                <path d="M45 47Q125 35 228 45Q150 52 45 47Z" />
+                <path d="M92 13Q142 1 205 9Q152 16 92 13Z" opacity=".8" />
+            </g>
+        </>
+    );
+}
+
+function Clouds({ side, href }: { side: 'left' | 'right'; href: string }) {
+    return (
+        <g className="ink-clouds">
+            {CLOUDS.filter(c => (c.x < LEFT_WIDTH) === (side === 'left')).map(c => (
+                <g key={`${c.x}-${c.y}`} transform={`translate(${c.x} ${c.y}) scale(${c.flip ? -c.scale : c.scale} ${c.scale})${c.flip ? ' translate(-262 0)' : ''}`}>
+                    <g className="ink-cloud" style={{ '--d': `${c.dur}s`, '--delay': `${c.delay}s` } as CSSProperties}>
+                        <use href={href} />
+                    </g>
+                </g>
+            ))}
+        </g>
+    );
+}
+
+function Stars({ side }: { side: 'left' | 'right' }) {
+    return (
+        <g className="ink-stars" fill="currentColor">
+            {STARS.filter(s => (s.x < LEFT_WIDTH) === (side === 'left')).map(s => (
+                <g key={`${s.x}-${s.y}`} className="ink-star" style={{ '--d': `${s.dur}s`, '--delay': `${s.delay}s` } as CSSProperties}>
+                    {s.cross
+                        ? <path transform={`translate(${s.x} ${s.y}) scale(${s.r * 0.75})`} d="M0 -6L1 -1L6 0L1 1L0 6L-1 1L-6 0L-1 -1Z" />
+                        : <circle cx={s.x} cy={s.y} r={s.r} />}
+                </g>
+            ))}
+        </g>
+    );
+}
+
+/** Calque gauche : bambou, feuilles qui tombent, nuages et étoiles de gauche. */
+function BambooLayer() {
+    return (
+        <svg className="ink-layer ink-layer-left" viewBox={`0 0 ${LEFT_WIDTH} 900`} preserveAspectRatio="xMinYMax meet" fill="none" focusable="false">
             <defs>
-                <linearGradient id="ink-mountain" x2="0" y2="1">
-                    <stop stopColor="currentColor" stopOpacity=".3" />
-                    <stop offset="1" stopColor="currentColor" stopOpacity="0" />
-                </linearGradient>
                 <linearGradient id="ink-bamboo" x2="1" y2="0">
                     <stop stopColor="currentColor" stopOpacity=".95" />
                     <stop offset=".5" stopColor="currentColor" stopOpacity=".55" />
@@ -92,25 +151,6 @@ export default function InkLandscape() {
                 <g id="ink-leaves" fill="currentColor">
                     <path d="M0 0 Q34 -30 83 -32 Q52 -6 0 0ZM15 -3Q29 -40 57 -58Q51 -24 15 -3ZM30 -7Q66 -8 94 10Q61 13 30 -7ZM-2 1Q-14 -29 -41 -48Q-33 -14 -2 1ZM-14 -3Q-48 -20 -77 -13Q-43 1 -14 -3ZM-27 -5Q-44 19 -75 30Q-60 2 -27 -5ZM-3 0Q13 21 12 58Q-4 36 -3 0Z" />
                     <path d="M-72 18Q-31 -9 71 -24" stroke="currentColor" strokeWidth="1.3" />
-                </g>
-                <mask id="ink-crescent">
-                    <circle cx="1180" cy="230" r="72" fill="white" />
-                    <circle cx="1212" cy="204" r="62" fill="black" />
-                </mask>
-                {/* Nuage au lavis : traînées de pinceau effilées, sans contour, comme la brume et les montagnes */}
-                <linearGradient id="ink-cloud-wash" x2="1" y2="0">
-                    <stop stopColor="currentColor" stopOpacity="0" />
-                    <stop offset=".3" stopColor="currentColor" stopOpacity=".2" />
-                    <stop offset=".65" stopColor="currentColor" stopOpacity=".14" />
-                    <stop offset="1" stopColor="currentColor" stopOpacity="0" />
-                </linearGradient>
-                <filter id="ink-cloud-soft" x="-10%" y="-50%" width="120%" height="200%">
-                    <feGaussianBlur stdDeviation="1.6" />
-                </filter>
-                <g id="ink-cloud" fill="url(#ink-cloud-wash)" filter="url(#ink-cloud-soft)">
-                    <path d="M0 30Q60 8 150 20Q215 13 262 27Q205 33 125 32Q55 40 0 30Z" />
-                    <path d="M45 47Q125 35 228 45Q150 52 45 47Z" />
-                    <path d="M92 13Q142 1 205 9Q152 16 92 13Z" opacity=".8" />
                 </g>
                 <g id="ink-stalk">
                     {[0, 1, 2, 3, 4, 5].map(i => (
@@ -126,50 +166,13 @@ export default function InkLandscape() {
                     <use href="#ink-leaves" transform="translate(93 -268) rotate(-12) scale(1.2)" />
                     <use href="#ink-leaves" transform="translate(12 -595) rotate(-56) scale(.8)" />
                 </g>
+                <CloudDefs id="ink-cloud-l" />
             </defs>
-            <g className="ink-sun"><circle cx="1180" cy="230" r="77" fill="#c73e1d" opacity=".85" /><circle cx="1180" cy="230" r="88" stroke="#b8956a" strokeOpacity=".45" /></g>
-            <g className="ink-moon" mask="url(#ink-crescent)">
-                <circle cx="1180" cy="230" r="72" fill="#d8bf89" />
-                <circle cx="1180" cy="230" r="71" stroke="#b8956a" strokeOpacity=".55" strokeWidth="2" />
-            </g>
-            <Kira className="ink-kira-sun" color="#c73e1d" />
-            <Kira className="ink-kira-moon" color="#e8cd97" />
-            <g className="ink-stars" fill="currentColor">
-                {STARS.map((s, i) => (
-                    <g key={i} className="ink-star" style={{ '--d': `${s.dur}s`, '--delay': `${s.delay}s` } as CSSProperties}>
-                        {s.cross
-                            ? <path transform={`translate(${s.x} ${s.y}) scale(${s.r * 0.75})`} d="M0 -6L1 -1L6 0L1 1L0 6L-1 1L-6 0L-1 -1Z" />
-                            : <circle cx={s.x} cy={s.y} r={s.r} />}
-                    </g>
-                ))}
-            </g>
-            <g fill="url(#ink-mountain)">
-                <path opacity=".6" d="M570 860L716 699 757 726 854 574 894 615 928 556 999 678 1068 617 1115 671 1220 464 1265 523 1292 503 1440 665V900H570Z" />
-                <path d="M790 900L930 768 990 784 1110 619 1140 642 1209 559 1260 650 1310 617 1440 758V900Z" />
-                <path d="M1000 900L1137 809 1200 831 1306 710 1345 736 1440 655V900Z" />
-            </g>
-            <g stroke="currentColor" strokeOpacity=".13" strokeLinecap="round">
-                <path d="M1110 620L1087 715 1060 757M1210 560L1191 675 1166 713M1220 465L1200 559M1305 711L1287 802" />
-                <path d="M713 841Q1000 805 1280 865M880 877Q1120 851 1435 885" />
-            </g>
-            <g className="ink-clouds">
-                {CLOUDS.map((c, i) => (
-                    <g key={i} transform={`translate(${c.x} ${c.y}) scale(${c.flip ? -c.scale : c.scale} ${c.scale})${c.flip ? ' translate(-262 0)' : ''}`}>
-                        <g className="ink-cloud" style={{ '--d': `${c.dur}s`, '--delay': `${c.delay}s` } as CSSProperties}>
-                            <use href="#ink-cloud" />
-                        </g>
-                    </g>
-                ))}
-            </g>
-            <g className="ink-mist" fill="var(--color-washi)" opacity=".3"><path d="M680 784Q890 735 1220 772Q1050 757 680 784ZM900 839Q1160 786 1490 817Q1230 800 900 839Z" /></g>
-            <g className="ink-birds" fill="currentColor" opacity=".65">
-                <path d="M984 297Q960 273 941 283Q967 282 984 303Q1005 288 1026 293Q1007 282 984 297Z" />
-                <path d="M1067 340Q1050 322 1036 325Q1054 327 1067 344Q1080 333 1097 335Q1085 328 1067 340Z" />
-                <path d="M1111 288Q1100 276 1086 279Q1100 280 1111 292Q1124 282 1138 285Q1126 278 1111 288Z" />
-            </g>
+            <Stars side="left" />
+            <Clouds side="left" href="#ink-cloud-l" />
             <g className="ink-falling" fill="currentColor">
-                {FALLING_LEAVES.map((l, i) => (
-                    <g key={i} transform={`translate(${l.x} ${l.y})`}>
+                {FALLING_LEAVES.map(l => (
+                    <g key={`${l.x}-${l.y}`} transform={`translate(${l.x} ${l.y})`}>
                         <g className="ink-leaf-fall" style={{ '--d': `${l.dur}s`, '--delay': `${l.delay}s`, '--fall': `${l.fall}px`, '--drift': `${l.drift}px` } as CSSProperties}>
                             <g className="ink-leaf-spin" style={{ '--d': `${(l.dur / 4).toFixed(2)}s`, '--delay': `${l.delay}s`, '--r0': `${l.r0}deg` } as CSSProperties}>
                                 <path transform={`scale(${l.scale})`} d="M0 -13Q5 -3 1 12L0 14L-1 12Q-5 -3 0 -13Z" />
@@ -184,5 +187,69 @@ export default function InkLandscape() {
                 <use href="#ink-stalk" transform="translate(-5 929) rotate(-20) scale(.7)" opacity=".4" />
             </g>
         </svg>
+    );
+}
+
+/** Calque du ciel (ancré en haut à droite) : soleil / lune, éclats, oiseaux et étoiles de droite. */
+function SkyLayer() {
+    return (
+        <svg className="ink-layer ink-layer-sky" viewBox={`${RIGHT_X} 0 ${RIGHT_WIDTH} 900`} preserveAspectRatio="xMaxYMin meet" fill="none" focusable="false">
+            <defs>
+                <mask id="ink-crescent">
+                    <circle cx="1180" cy="230" r="72" fill="white" />
+                    <circle cx="1212" cy="204" r="62" fill="black" />
+                </mask>
+            </defs>
+            <Stars side="right" />
+            <g className="ink-sun"><circle cx="1180" cy="230" r="77" fill="#c73e1d" opacity=".85" /><circle cx="1180" cy="230" r="88" stroke="#b8956a" strokeOpacity=".45" /></g>
+            <g className="ink-moon" mask="url(#ink-crescent)">
+                <circle cx="1180" cy="230" r="72" fill="#d8bf89" />
+                <circle cx="1180" cy="230" r="71" stroke="#b8956a" strokeOpacity=".55" strokeWidth="2" />
+            </g>
+            <Kira className="ink-kira-sun" color="#c73e1d" />
+            <Kira className="ink-kira-moon" color="#e8cd97" />
+            <g className="ink-birds" fill="currentColor" opacity=".65">
+                <path d="M984 297Q960 273 941 283Q967 282 984 303Q1005 288 1026 293Q1007 282 984 297Z" />
+                <path d="M1067 340Q1050 322 1036 325Q1054 327 1067 344Q1080 333 1097 335Q1085 328 1067 340Z" />
+                <path d="M1111 288Q1100 276 1086 279Q1100 280 1111 292Q1124 282 1138 285Q1126 278 1111 288Z" />
+            </g>
+        </svg>
+    );
+}
+
+/** Calque droit (ancré en bas à droite) : montagnes, brume et nuages de droite. Il passe devant le soleil couchant. */
+function MountainLayer() {
+    return (
+        <svg className="ink-layer ink-layer-right" viewBox={`${RIGHT_X} 0 ${RIGHT_WIDTH} 900`} preserveAspectRatio="xMaxYMax meet" fill="none" focusable="false">
+            <defs>
+                <linearGradient id="ink-mountain" x2="0" y2="1">
+                    <stop stopColor="currentColor" stopOpacity=".3" />
+                    <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+                </linearGradient>
+                <CloudDefs id="ink-cloud-r" />
+            </defs>
+            <g fill="url(#ink-mountain)">
+                <path opacity=".6" d="M570 860L716 699 757 726 854 574 894 615 928 556 999 678 1068 617 1115 671 1220 464 1265 523 1292 503 1440 665V900H570Z" />
+                <path d="M790 900L930 768 990 784 1110 619 1140 642 1209 559 1260 650 1310 617 1440 758V900Z" />
+                <path d="M1000 900L1137 809 1200 831 1306 710 1345 736 1440 655V900Z" />
+            </g>
+            <g stroke="currentColor" strokeOpacity=".13" strokeLinecap="round">
+                <path d="M1110 620L1087 715 1060 757M1210 560L1191 675 1166 713M1220 465L1200 559M1305 711L1287 802" />
+                <path d="M713 841Q1000 805 1280 865M880 877Q1120 851 1435 885" />
+            </g>
+            <Clouds side="right" href="#ink-cloud-r" />
+            <g className="ink-mist" fill="var(--color-washi)" opacity=".3"><path d="M680 784Q890 735 1220 772Q1050 757 680 784ZM900 839Q1160 786 1490 817Q1230 800 900 839Z" /></g>
+        </svg>
+    );
+}
+
+/** Static ink drawing; only whole layers (and the stars) are animated in CSS. */
+export default function InkLandscape() {
+    return (
+        <div className="ink-landscape" aria-hidden="true">
+            <SkyLayer />
+            <MountainLayer />
+            <BambooLayer />
+        </div>
     );
 }

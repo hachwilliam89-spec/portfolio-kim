@@ -1,6 +1,17 @@
 /* Ink landscape: SVG geometry is static, only whole layers move. */
 .ink-hero { min-height: min(960px, 100svh); padding: 140px 0 40px; }
-.ink-landscape { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--color-ink); pointer-events: none; }
+.ink-landscape { position: absolute; inset: 0; overflow: hidden; color: var(--color-ink); pointer-events: none; }
+/* Deux calques ancrés en bas : mis à l'échelle par la hauteur du hero, plafonnée par la largeur d'écran
+   (62.5vw = ratio 1440/900 du dessin). La composition est donc la même sur tous les écrans. */
+.ink-layer { position: absolute; bottom: 0; display: block; width: auto; height: min(100%, 62.5vw); overflow: hidden; }
+.ink-layer-left { left: 0; aspect-ratio: 500 / 900; }
+.ink-layer-right { right: 0; aspect-ratio: 880 / 900; }
+/* Le ciel est ancré en haut : le soleil reste sous la navigation même quand le hero est plus haut que le dessin. */
+.ink-layer-sky { top: 0; bottom: auto; right: 0; aspect-ratio: 880 / 900; }
+@media (max-width: 1023px) {
+  /* Tablette : pas de marge latérale libre, le soleil se loge plus petit dans le coin haut droit. */
+  .ink-layer-sky { top: 4.5rem; height: 42vw; }
+}
 .hero-content { text-shadow: 0 1px 16px var(--color-washi); }
 .ink-moon { opacity: 0; }
 /* Panda de nuit passé en tons d'encre pour s'accorder au paysage */
@@ -93,7 +104,10 @@
 @keyframes ink-drift { from { transform: translateX(-20px); } to { transform: translateX(30px); } }
 @media (max-width: 767px) {
   .ink-hero { min-height: auto; padding: 122px 0 28px; }
-  .ink-landscape { width: 160%; left: -30%; opacity: .3; }
+  /* Mobile : paysage en filigrane au pied du hero, sans soleil (aucune place libre à côté du texte). */
+  .ink-landscape { opacity: .35; }
+  .ink-layer { height: min(100%, 95vw); }
+  .ink-layer-sky { display: none; }
   .hero-content { background: radial-gradient(ellipse, var(--color-washi) 25%, transparent 74%); }
 }
 @media (prefers-reduced-motion: reduce) {

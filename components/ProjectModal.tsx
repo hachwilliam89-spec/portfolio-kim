@@ -142,7 +142,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
             aria-labelledby={titleId}
             aria-modal="true"
             onCancel={(event) => { event.preventDefault(); onClose(); }}
-            className="fixed inset-0 m-0 h-dvh w-screen max-h-none max-w-none border-0 bg-transparent p-0 text-ink backdrop:bg-transparent"
+            className="fixed inset-0 m-0 h-dvh w-full max-h-none max-w-none border-0 bg-transparent p-0 text-ink backdrop:bg-transparent"
         >
         <AnimatePresence>
             <motion.div
@@ -157,7 +157,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.95, opacity: 0 }}
                     transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                    className="relative w-full max-w-6xl max-h-[90vh] bg-washi rounded-xl shadow-2xl overflow-hidden flex flex-col"
+                    className="relative w-full max-w-6xl max-h-[90dvh] bg-washi rounded-xl shadow-2xl overflow-hidden flex flex-col"
                     onClick={(e) => e.stopPropagation()}
                 >
                     {/* HEADER */}

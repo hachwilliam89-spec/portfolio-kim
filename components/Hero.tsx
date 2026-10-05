@@ -70,7 +70,7 @@ export default function Hero() {
         <section id="home" ref={sectionRef} className="ink-hero relative isolate overflow-hidden" data-running="false">
             <InkLandscape />
             <div className="hero-content relative z-10 mx-auto max-w-3xl px-6 text-center">
-                <p className="mb-7 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-vermillon/30 bg-vermillon/10 text-[11px] sm:text-xs font-medium tracking-[.25em] uppercase text-vermillon dark:text-[#e98c70]">
+                <p className="mb-7 inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full border border-vermillon/30 bg-vermillon/10 text-[10px] sm:text-xs font-medium tracking-[.08em] sm:tracking-[.25em] uppercase text-balance text-vermillon dark:text-[#e98c70]">
                     <span className="relative flex h-2 w-2" aria-hidden="true">
                         <span className="absolute inline-flex h-full w-full rounded-full bg-vermillon opacity-75 motion-safe:animate-ping" />
                         <span className="relative inline-flex h-2 w-2 rounded-full bg-vermillon" />
@@ -86,12 +86,12 @@ export default function Hero() {
                     </span></span>
                 </h1>
                 <div className="mx-auto my-7 h-px w-20 bg-vermillon/65" />
-                <p className="mx-auto max-w-xl text-lg sm:text-xl leading-relaxed font-medium">{t.hero.pitch}</p>
-                <p className="mx-auto mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-ink/65" dangerouslySetInnerHTML={{ __html: t.hero.subtitle.replace(/<highlight>(.*?)<\/highlight>/g, '<span class="text-ink font-medium">$1</span>') }} />
+                <p className="mx-auto max-w-xl text-lg sm:text-xl leading-relaxed font-medium text-balance">{t.hero.pitch}</p>
+                <p className="mx-auto mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-ink/65 text-balance" dangerouslySetInnerHTML={{ __html: t.hero.subtitle.replace(/<highlight>(.*?)<\/highlight>/g, '<span class="text-ink font-medium">$1</span>') }} />
                 <p className="mx-auto mt-1 max-w-xl text-xs sm:text-sm text-ink/50">{t.hero.subtitleDetail}</p>
                 <div className="mt-7 inline-flex flex-col gap-2 border-y border-gold/35 px-2 py-4">
-                    <span className="text-sm font-semibold text-vermillon dark:text-[#e98c70]">{t.hero.cta}</span>
-                    <span className="text-xs sm:text-sm text-ink/65">{t.hero.mobility}</span>
+                    <span className="text-sm font-semibold text-vermillon dark:text-[#e98c70] text-balance">{t.hero.cta}</span>
+                    <span className="text-xs sm:text-sm text-ink/65 text-balance">{t.hero.mobility}</span>
                 </div>
                 <div className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-3">
                     {technologies.map(({ name, icon: Icon }) => <span key={name} className="flex items-center gap-2 text-xs text-ink/65"><Icon className="text-gold" aria-hidden="true" />{name}</span>)}

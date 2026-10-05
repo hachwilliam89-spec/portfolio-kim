@@ -81,7 +81,7 @@ export default function Navbar() {
                             className="relative group"
                             aria-label={t.nav.home}
                         >
-                            <span className="font-serif text-3xl font-bold text-ink transition-colors duration-200 group-hover:text-vermillon dark:group-hover:text-[#e98c70]">
+                            <span className="font-display text-3xl font-bold text-ink transition-colors duration-200 group-hover:text-vermillon dark:group-hover:text-[#e98c70]">
                                 WKH
                             </span>
                             <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" aria-hidden="true" />
@@ -261,7 +261,7 @@ export default function Navbar() {
                             <div className="flex flex-col h-full">
                                 {/* Header */}
                                 <div className="flex justify-between items-center p-6 border-b border-gold/20">
-                                    <span className="font-serif text-2xl font-bold text-ink">
+                                    <span className="font-display text-2xl font-bold text-ink">
                                         Menu
                                     </span>
                                     <button

@@ -25,10 +25,10 @@
   --color-indigo-light: #7088a8;
   --color-indigo-dark: #4a5f7f;
 
-  /* Fonts */
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-display: 'Playfair Display', serif;
-  --font-chinese: 'Ma Shan Zheng', cursive;
+  /* Fonts : variables posées par next/font (police auto-hébergée + fallback aux métriques ajustées),
+     pour un rendu et une mise en page identiques quel que soit le navigateur ou le système. */
+  --font-sans: var(--font-inter), 'Inter', system-ui, sans-serif;
+  --font-display: var(--font-playfair), 'Playfair Display', Georgia, serif;
 }
 
 /* ── Palette dark mode ── */
@@ -41,6 +41,14 @@
 @layer base {
   html {
     @apply scroll-smooth;
+    /* Réserve la place de la barre de défilement (Windows, Linux, Firefox) :
+       la page ne se décale plus quand la modale bloque le défilement. */
+    scrollbar-gutter: stable;
+  }
+
+  /* Safari affiche encore le triangle natif de <summary> malgré list-none. */
+  summary::-webkit-details-marker {
+    display: none;
   }
 
   body {
@@ -62,11 +70,6 @@
 }
 
 @layer utilities {
-  /* Font chinoise calligraphique */
-  .font-chinese {
-    font-family: var(--font-chinese);
-  }
-
   .text-gradient-gold {
     background: linear-gradient(135deg, #b8956a 0%, #c9a66b 100%);
     -webkit-background-clip: text;

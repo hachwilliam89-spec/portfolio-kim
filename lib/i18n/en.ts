@@ -26,8 +26,8 @@ export const en: Translations = {
         pitch: 'I turn ideas into web and mobile applications, built to be reliable and evolve over time.',
         subtitle: 'Studying for a <highlight>Professional Bachelor\'s in Computer Science</highlight> at UHA 4.0, Mulhouse',
         subtitleDetail: 'Software design, development and testing',
-        cta: 'Six-month final-year internship · Starting January 2027',
-        mobility: 'France or abroad · On-site preferred · University agreement available for internships abroad',
+        cta: 'Six-month final-year internship\u00a0· Starting January 2027',
+        mobility: 'France or abroad\u00a0· On-site preferred\u00a0· University agreement available for internships abroad',
         discover: 'Discover',
     },
     projects: {
@@ -93,6 +93,6 @@ export const en: Translations = {
         copyError: 'Could not copy the address',
     },
     footer: {
-        copyright: '© 2026 William Kim HACH · Professional Bachelor\'s student in Computer Science · UHA 4.0',
+        copyright: '© 2026 William Kim HACH\u00a0· Professional Bachelor\'s student in Computer Science\u00a0· UHA 4.0',
     },
 };

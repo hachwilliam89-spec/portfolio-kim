@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function NotFound() {
     return (
-        <main className="min-h-screen flex items-center justify-center px-4 pt-20">
+        <main className="min-h-svh flex items-center justify-center px-4 pt-20">
             <div className="text-center">
                 {/* 404 avec style asiatique */}
                 <motion.div

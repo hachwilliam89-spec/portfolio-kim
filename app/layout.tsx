@@ -1,4 +1,4 @@
-import { Inter, Playfair_Display, Ma_Shan_Zheng } from 'next/font/google'
+import { Inter, Playfair_Display } from 'next/font/google'
 import type { Metadata } from 'next'
 import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, SOCIAL_IMAGE } from '@/lib/seo';
 import './globals.css';
@@ -16,13 +16,6 @@ const playfair = Playfair_Display({
     subsets: ['latin'],
     variable: '--font-playfair',
     weight: ['400', '700'],
-    display: 'swap',
-})
-
-const maShanZheng = Ma_Shan_Zheng({
-    subsets: ['latin'],
-    weight: '400',
-    variable: '--font-chinese',
     display: 'swap',
 })
 
@@ -74,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         // Le script anti-flash ajuste uniquement la classe du thème avant l'hydratation.
         // Cette différence attendue reste limitée à la balise racine.
-        <html lang="fr" suppressHydrationWarning className={`scroll-smooth ${inter.variable} ${playfair.variable} ${maShanZheng.variable}`}>
+        <html lang="fr" suppressHydrationWarning className={`scroll-smooth ${inter.variable} ${playfair.variable}`}>
         <head>
             {/* Anti-flash : applique .dark avant le premier rendu */}
             <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t===null&&d))document.documentElement.classList.add('dark')}catch(e){}` }} />
