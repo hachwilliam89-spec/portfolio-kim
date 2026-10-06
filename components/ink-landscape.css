@@ -23,8 +23,10 @@
 .dark .ink-sun { transform: translate(60px, 430px); opacity: 0; transition: transform .9s cubic-bezier(.55, 0, .8, .2), opacity .7s ease-in .15s; }
 .dark .ink-moon { transform: translate(0, 0); opacity: .85; transition: transform 1.3s cubic-bezier(.34, 1.4, .64, 1) .4s, opacity .5s ease-out .4s; }
 /* Éclat « kira » à l'arrivée de l'astre (déclenché seulement par un clic sur le thème) */
-.ink-kira { opacity: 0; transform-box: fill-box; transform-origin: center; pointer-events: none; }
-.ink-kira-star { transform-box: fill-box; transform-origin: center; }
+/* Origines en coordonnées du dessin (view-box) : fill-box sur un groupe SVG est mal calculé par Firefox,
+   ce qui décalait l'éclat vers la droite. Centre des rayons = centre de l'astre (1180, 230). */
+.ink-kira { opacity: 0; transform-box: view-box; transform-origin: 1180px 230px; pointer-events: none; }
+.ink-kira-star { transform-box: view-box; transform-origin: 1262px 170px; }
 .ink-hero[data-switch="light"] .ink-kira-sun,
 .ink-hero[data-switch="dark"] .ink-kira-moon { animation: ink-kira .9s ease-out 1.35s both; }
 .ink-hero[data-switch="light"] .ink-kira-sun .ink-kira-star,
