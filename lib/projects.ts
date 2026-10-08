@@ -7,37 +7,44 @@ export const projects: Project[] = [
         title: 'Équilibre',
         caseStudy: {
             need: 'Permettre à un coach et à son client de suivre ensemble un plan alimentaire personnalisé et l’évolution du poids, depuis le téléphone.',
-            role: 'Seul, de l’application mobile React Native à l’API NestJS, dans le cadre de mon projet de fin d’études.',
-            result: 'Espaces coach et utilisateur, plans personnalisés et suivi des pesées fonctionnels. Journal alimentaire et version Android de démonstration en cours.',
-            challenge: 'Concevoir un **modèle documentaire MongoDB** adapté à la consultation et à la mise à jour des plans et des pesées. Le cahier des charges et les tests en **TDD** cadrent les règles métier ; un contrôle de version protège les données lors de mises à jour simultanées.',
+            role: 'Seul, de l’application mobile React Native à l’API NestJS et au déploiement, dans le cadre de mon projet de fin d’études.',
+            result: 'Application Android installable (APK) branchée sur l’API en production sur mon VPS : espaces coach et utilisateur, plans personnalisés, suivi du poids et journal alimentaire utilisable hors ligne.',
+            challenge: 'Concevoir un **modèle documentaire MongoDB** adapté aux plans, aux pesées et au journal, puis une **synchronisation hors ligne** entre la base SQLite du téléphone et l’API. Le cahier des charges et les tests en **TDD** cadrent les règles métier ; un contrôle de version protège les données lors de mises à jour simultanées.',
         },
         caseStudyEn: {
             need: 'Help a coach and their client follow a personalised nutrition plan and weight progress together, from their phone.',
-            role: 'Solo, from the React Native mobile app to the NestJS API, as my final-year project.',
-            result: 'Coach and user spaces, personalised plans and weight tracking are working. Food diary and Android demo build in progress.',
-            challenge: 'Design a **MongoDB document model** suited to reading and updating plans and weight measurements. Specifications and **TDD** tests define the business rules; version checks protect data during concurrent updates.',
+            role: 'Solo, from the React Native mobile app to the NestJS API and deployment, as my final-year project.',
+            result: 'An installable Android app (APK) connected to the production API on my VPS: coach and user spaces, personalised plans, weight tracking and a food diary that works offline.',
+            challenge: 'Design a **MongoDB document model** for plans, measurements and the food diary, then an **offline sync** between the phone’s SQLite database and the API. Specifications and **TDD** tests define the business rules; version checks protect data during concurrent updates.',
         },
         status: 'development',
         imageKind: 'logo',
-        shortDescription: 'Mon projet de fin d’études : une application mobile pour relier coach et utilisateur autour d’un plan personnalisé et du suivi du poids.',
-        shortDescriptionEn: 'My final-year project: a mobile app connecting coaches and users through personalised plans and weight tracking.',
-        description: '**Projet de fin d’études en cours de développement** à l’UHA 4.0. Je développe une application mobile de suivi alimentaire avec accompagnement coach, de l’interface React Native à l’API NestJS.\n\n' +
-            '**Parcours déjà développés :**\n' +
-            '- **Espaces coach et utilisateur** : authentification, gestion de session et accès selon le rôle.\n' +
-            '- **Plans personnalisés** : le coach définit les objectifs et le budget calorique ; l’utilisateur consulte son suivi.\n' +
-            '- **Suivi du poids** : historique des pesées, statut par rapport au plan et correction manuelle. Les pesées automatiques proviennent d’un **simulateur de balance connectée**.\n\n' +
-            '**Conception et fiabilité :** API NestJS structurée en architecture hexagonale, MongoDB, tests unitaires et d’intégration, documentation Swagger et environnements Docker séparés.\n\n' +
-            '**En cours :** journal alimentaire côté API et préparation d’une version Android de démonstration. Les captures, la vidéo et les accès de test seront ajoutés après validation des parcours.',
-        descriptionEn: '**Final-year project in active development** at UHA 4.0. I am developing a mobile nutrition tracking app with coach support, from the React Native interface to the NestJS API.\n\n' +
-            '**Implemented flows:**\n' +
-            '- **Coach and user spaces**: authentication, session management and role-based access.\n' +
-            '- **Personalised plans**: coaches set goals and calorie budgets; users view their progress.\n' +
-            '- **Weight tracking**: measurement history, progress status and manual corrections. Automatic readings come from a **connected-scale simulator**.\n\n' +
-            '**Design and reliability:** a NestJS API using hexagonal architecture, MongoDB, unit and integration tests, Swagger documentation and separate Docker environments.\n\n' +
-            '**In progress:** food diary API and preparation of an Android demo build. Screenshots, video and test access will be added after the flows have been validated.',
-        tech: ['React Native', 'TypeScript', 'NestJS', 'MongoDB', 'Expo', 'Docker', 'Swagger', 'Jest'],
+        shortDescription: 'Mon projet de fin d’études : une application mobile qui relie coach et utilisateur autour d’un plan personnalisé, du suivi du poids et d’un journal alimentaire hors ligne.',
+        shortDescriptionEn: 'My final-year project: a mobile app connecting coaches and users through personalised plans, weight tracking and an offline food diary.',
+        description: '**Projet de fin d’études** à l’UHA 4.0. Je développe seul une application mobile de rééquilibrage alimentaire avec accompagnement coach, de l’interface React Native à l’API NestJS, jusqu’au déploiement.\n\n' +
+            '**Fonctionnalités :**\n' +
+            '- **Espaces coach et utilisateur** : authentification, accès selon le rôle ; l’utilisateur s’inscrit avec le **code de son coach**.\n' +
+            '- **Plans personnalisés** : le coach fixe le poids cible et la période ; l’application calcule l’IMC cible et le **budget calorique** à partir du profil.\n' +
+            '- **Suivi du poids** : graphique poids réel / trajectoire cible sur 7, 30 ou 90 jours, historique et correction manuelle. Les pesées automatiques proviennent d’un **simulateur de balance connectée** qui tourne chaque jour sur le serveur.\n' +
+            '- **Journal alimentaire** : catalogue d’aliments par famille, favoris et récents, budget du jour et répartition protéines / glucides / lipides. Il fonctionne **hors ligne** (SQLite) et se **synchronise** avec MongoDB au retour du réseau.\n\n' +
+            '**Conception et fiabilité :** API NestJS en architecture hexagonale, MongoDB, tests unitaires et d’intégration (dont des cas de modifications simultanées), documentation Swagger.\n\n' +
+            '**Déploiement :** images Docker, **CI/CD** GitLab et GitHub Actions publiant sur GHCR puis déployant sur mon **VPS OVH** derrière Caddy (HTTPS) ; APK Android générée avec **EAS Build** et mises à jour à distance avec **EAS Update**.',
+        descriptionEn: '**Final-year project** at UHA 4.0. I am building, solo, a mobile nutrition rebalancing app with coach support, from the React Native interface to the NestJS API, all the way to deployment.\n\n' +
+            '**Features:**\n' +
+            '- **Coach and user spaces**: authentication and role-based access; users sign up with their **coach’s code**.\n' +
+            '- **Personalised plans**: the coach sets the target weight and period; the app computes the target BMI and the **calorie budget** from the profile.\n' +
+            '- **Weight tracking**: actual weight vs. target trajectory over 7, 30 or 90 days, history and manual corrections. Automatic readings come from a **connected-scale simulator** running daily on the server.\n' +
+            '- **Food diary**: food catalogue by family, favourites and recents, daily budget and protein / carbs / fat split. It works **offline** (SQLite) and **syncs** with MongoDB when the network is back.\n\n' +
+            '**Design and reliability:** a NestJS API using hexagonal architecture, MongoDB, unit and integration tests (including concurrent-update cases), Swagger documentation.\n\n' +
+            '**Deployment:** Docker images, GitLab and GitHub Actions **CI/CD** publishing to GHCR then deploying to my **OVH VPS** behind Caddy (HTTPS); Android APK built with **EAS Build** and over-the-air updates with **EAS Update**.',
+        tech: ['React Native', 'TypeScript', 'Expo', 'NestJS', 'MongoDB', 'SQLite', 'Docker', 'GitHub Actions', 'Jest'],
         image: '/images/equilibre-logo.png',
-        screenshots: [],
+        screenshots: [
+            { url: '/images/equilibre-connexion.jpg', title: 'Connexion et profil', description: 'Connexion ou inscription avec le code du coach. Le profil (taille, âge, sexe) sert au calcul du plan et du budget calorique.', titleEn: 'Login and profile', descriptionEn: 'Log in or sign up with the coach’s code. The profile (height, age, sex) is used to compute the plan and calorie budget.' },
+            { url: '/images/equilibre-suivi-poids.jpg', title: 'Suivi du poids', description: 'Poids réel face à la trajectoire cible du plan, budget du jour et historique des pesées envoyées par la balance connectée simulée.', titleEn: 'Weight tracking', descriptionEn: 'Actual weight against the plan’s target trajectory, daily budget and history of readings sent by the simulated connected scale.' },
+            { url: '/images/equilibre-journal.jpg', title: 'Journal alimentaire', description: 'Calories restantes, cibles protéines / glucides / lipides et catalogue d’aliments par famille. Le journal fonctionne hors ligne et se synchronise avec l’API.', titleEn: 'Food diary', descriptionEn: 'Remaining calories, protein / carbs / fat targets and a food catalogue by family. The diary works offline and syncs with the API.' },
+            { url: '/images/equilibre-coach.jpg', title: 'Espace coach', description: 'Code coach à transmettre, liste des utilisateurs suivis et plan actif de chacun : poids cible, période, IMC cible et budget calorique.', titleEn: 'Coach space', descriptionEn: 'Coach code to share, list of followed users and each one’s active plan: target weight, period, target BMI and calorie budget.' },
+        ],
     },
     {
         id: 8,
