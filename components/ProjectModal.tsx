@@ -283,7 +283,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                         </div>
 
                         {/* COLONNE DROITE - Carrousel ou placeholder */}
-                        <div className="order-1 md:order-2 shrink-0 md:flex-1 flex flex-col h-[36rem] md:h-auto min-h-0 overflow-hidden">
+                        <div className="order-1 md:order-2 shrink-0 md:flex-1 flex flex-col h-[26rem] md:h-auto min-h-0 overflow-hidden">
                             {hasScreenshots && currentScreenshot ? (
                                 <>
                                     {/* Image */}
@@ -302,20 +302,17 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                                         type="button"
                                                         onClick={() => setZoomed(true)}
                                                         aria-label={`${lang === 'fr' ? 'Agrandir' : 'Enlarge'} : ${lang === 'en' && currentScreenshot.titleEn ? currentScreenshot.titleEn : currentScreenshot.title}`}
-                                                        className="absolute inset-0 flex w-full cursor-zoom-in items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-vermillon"
+                                                        className="absolute inset-0 w-full cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-vermillon"
                                                     >
-                                                        <span className={currentScreenshot.portraitFocus === undefined ? "relative block h-full w-full" : "relative block h-full max-w-full aspect-[46/100] overflow-hidden rounded-[1.25rem] shadow-xl"}>
-                                                            <Image
-                                                                src={currentScreenshot.url}
-                                                                alt=""
-                                                                fill
-                                                                sizes={currentScreenshot.portraitFocus === undefined ? "(max-width: 767px) 100vw, 60vw" : "(max-width: 767px) 50vw, 360px"}
-                                                                className={currentScreenshot.portraitFocus === undefined ? "object-contain" : "object-cover scale-[1.1]"}
-                                                                style={currentScreenshot.portraitFocus === undefined ? undefined : { objectPosition: `${currentScreenshot.portraitFocus}% center` }}
-                                                                unoptimized={currentScreenshot.portraitFocus !== undefined}
-                                                                priority
-                                                            />
-                                                        </span>
+                                                        <Image
+                                                            src={currentScreenshot.url}
+                                                            alt=""
+                                                            fill
+                                                            sizes="(max-width: 767px) 100vw, 60vw"
+                                                            className="object-contain"
+                                                            unoptimized={project.slug === 'equilibre'}
+                                                            priority
+                                                        />
                                                         <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-washi/95 px-3 py-2 text-xs font-semibold text-ink shadow-md">
                                                             <ZoomIn className="h-4 w-4" aria-hidden="true" />
                                                             {lang === 'fr' ? 'Agrandir' : 'Enlarge'}
@@ -361,22 +358,27 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                             {lang === 'en' && currentScreenshot.descriptionEn ? currentScreenshot.descriptionEn : currentScreenshot.description}
                                         </p>
 
-                                        {/* Navigation courte, identique au cadrage de l'image principale. */}
+                                        {/* Miniatures des montages affichés. */}
                                         {project.screenshots.length > 1 && (
                                             <div className="flex gap-2 overflow-x-auto pb-1">
                                                 {project.screenshots.map((screenshot, idx) => (
                                                     <button
                                                         key={idx}
                                                         onClick={() => setCurrentIndex(idx)}
-                                                        className={`shrink-0 rounded-full border px-3 py-2 text-xs font-semibold transition-colors ${
+                                                        className={`shrink-0 w-24 rounded-md p-1 text-left transition-all duration-300 ${
                                                             idx === currentIndex
-                                                                ? "border-vermillon bg-vermillon text-white"
-                                                                : "border-gold/30 text-ink hover:border-vermillon"
+                                                                ? "bg-vermillon/10 ring-2 ring-vermillon"
+                                                                : "ring-1 ring-gold/20 hover:ring-gold/50"
                                                         }`}
                                                         aria-label={`${t.projects.viewImage} ${idx + 1} : ${lang === 'en' && screenshot.titleEn ? screenshot.titleEn : screenshot.title}`}
                                                         aria-current={idx === currentIndex ? 'true' : undefined}
                                                     >
-                                                        {lang === 'en' ? (screenshot.shortTitleEn ?? screenshot.titleEn ?? screenshot.title) : (screenshot.shortTitle ?? screenshot.title)}
+                                                        <span className="relative block h-12 w-full overflow-hidden rounded-sm">
+                                                            <Image src={screenshot.url} alt="" fill sizes="96px" className="object-contain" />
+                                                        </span>
+                                                        <span className="mt-1 block truncate text-[11px] font-semibold text-ink">
+                                                            {lang === 'en' ? (screenshot.shortTitleEn ?? screenshot.titleEn ?? screenshot.title) : (screenshot.shortTitle ?? screenshot.title)}
+                                                        </span>
                                                     </button>
                                                 ))}
                                             </div>
@@ -427,7 +429,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                         fill
                         sizes="100vw"
                         className="object-contain"
-                        unoptimized={currentScreenshot.portraitFocus !== undefined}
+                        unoptimized={project.slug === 'equilibre'}
                     />
                 </div>
                 <a href={currentScreenshot.url} target="_blank" rel="noopener noreferrer" className="shrink-0 self-start text-sm underline underline-offset-4">
