@@ -41,7 +41,10 @@ export const projects: Project[] = [
             '**Deployment:** Docker images, GitLab and GitHub Actions **CI/CD** publishing to GHCR then deploying to my **OVH VPS** behind Caddy (HTTPS); Android APK built with **EAS Build** and over-the-air updates with **EAS Update**.',
         tech: ['React Native', 'TypeScript', 'Expo', 'NestJS', 'MongoDB', 'SQLite', 'Docker', 'GitHub Actions', 'Jest'],
         image: '/images/equilibre-logo.png',
-        links: { apk: 'https://equilibre.164-132-246-49.sslip.io/telechargements/equilibre.apk' },
+        links: {
+            demo: 'https://equilibre.164-132-246-49.sslip.io',
+            apk: 'https://equilibre.164-132-246-49.sslip.io/telechargements/equilibre.apk',
+        },
         screenshots: [
             { url: '/images/equilibre-connexion.jpg', title: 'Connexion et profil', description: 'Connexion ou inscription avec le code du coach. Le profil (taille, âge, sexe) sert au calcul du plan et du budget calorique ; déconnexion accessible depuis le bandeau.', titleEn: 'Login and profile', descriptionEn: 'Log in or sign up with the coach’s code. The profile (height, age, sex) feeds the plan and calorie budget; logout is one tap away in the header.' },
             { url: '/images/equilibre-suivi-poids.jpg', title: 'Suivi du poids', description: 'Dernière pesée, avancement vers la cible et écart à la trajectoire en une phrase ; courbe poids réel / trajectoire, budget du jour et historique des pesées de la balance connectée simulée.', titleEn: 'Weight tracking', descriptionEn: 'Latest weigh-in, progress towards the target and the gap to the trajectory in one sentence; actual weight vs. trajectory chart, daily budget and history of readings from the simulated connected scale.' },
