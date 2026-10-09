@@ -31,7 +31,7 @@ export default function ScreenshotGallery({ screenshots, english, enlarged = fal
                     className="block w-full cursor-zoom-in overflow-hidden rounded-lg border border-gold/30 bg-washi-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vermillon"
                 >
                     <span className="relative block aspect-video">
-                        <Image src={screenshot.url} alt={title(screenshot)} fill sizes={enlarged ? '(max-width: 1024px) 100vw, 1024px' : '(max-width: 639px) 100vw, 50vw'} className="object-contain" />
+                        <Image src={screenshot.url} alt={title(screenshot)} fill sizes={enlarged ? '(max-width: 1024px) 100vw, 1024px' : '(max-width: 639px) 100vw, 50vw'} className="object-contain" unoptimized={enlarged} />
                     </span>
                 </button>
                 <figcaption className="mt-3 text-sm leading-relaxed text-ink/80">
@@ -54,7 +54,7 @@ export default function ScreenshotGallery({ screenshots, english, enlarged = fal
                     </button>
                 </div>
                 <div className="relative aspect-video w-full">
-                    <Image src={active.url} alt={title(active)} fill sizes="96vw" className="object-contain" />
+                    <Image src={active.url} alt={title(active)} fill sizes="96vw" className="object-contain" unoptimized={enlarged} />
                 </div>
                 <a href={active.url} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block text-sm underline underline-offset-4">
                     {english ? 'Open full-size image' : 'Ouvrir l’image en taille réelle'}

@@ -312,6 +312,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                                                 sizes={currentScreenshot.portraitFocus === undefined ? "(max-width: 767px) 100vw, 60vw" : "(max-width: 767px) 50vw, 360px"}
                                                                 className={currentScreenshot.portraitFocus === undefined ? "object-contain" : "object-cover scale-[1.1]"}
                                                                 style={currentScreenshot.portraitFocus === undefined ? undefined : { objectPosition: `${currentScreenshot.portraitFocus}% center` }}
+                                                                unoptimized={currentScreenshot.portraitFocus !== undefined}
                                                                 priority
                                                             />
                                                         </span>
@@ -360,27 +361,22 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                             {lang === 'en' && currentScreenshot.descriptionEn ? currentScreenshot.descriptionEn : currentScreenshot.description}
                                         </p>
 
-                                        {/* Thumbnails */}
+                                        {/* Navigation courte, identique au cadrage de l'image principale. */}
                                         {project.screenshots.length > 1 && (
                                             <div className="flex gap-2 overflow-x-auto pb-1">
                                                 {project.screenshots.map((screenshot, idx) => (
                                                     <button
                                                         key={idx}
                                                         onClick={() => setCurrentIndex(idx)}
-                                                        className={`shrink-0 w-24 rounded-md p-1 text-left transition-all duration-300 ${
+                                                        className={`shrink-0 rounded-full border px-3 py-2 text-xs font-semibold transition-colors ${
                                                             idx === currentIndex
-                                                                ? "bg-vermillon/10 ring-2 ring-vermillon"
-                                                                : "ring-1 ring-gold/20 hover:ring-gold/50"
+                                                                ? "border-vermillon bg-vermillon text-white"
+                                                                : "border-gold/30 text-ink hover:border-vermillon"
                                                         }`}
                                                         aria-label={`${t.projects.viewImage} ${idx + 1} : ${lang === 'en' && screenshot.titleEn ? screenshot.titleEn : screenshot.title}`}
                                                         aria-current={idx === currentIndex ? 'true' : undefined}
                                                     >
-                                                        <span className="relative block h-12 w-full overflow-hidden rounded-sm">
-                                                            <Image src={screenshot.url} alt="" fill sizes="96px" className="object-cover" />
-                                                        </span>
-                                                        <span className="mt-1 block truncate text-[11px] font-semibold text-ink">
-                                                            {lang === 'en' ? (screenshot.shortTitleEn ?? screenshot.titleEn ?? screenshot.title) : (screenshot.shortTitle ?? screenshot.title)}
-                                                        </span>
+                                                        {lang === 'en' ? (screenshot.shortTitleEn ?? screenshot.titleEn ?? screenshot.title) : (screenshot.shortTitle ?? screenshot.title)}
                                                     </button>
                                                 ))}
                                             </div>
@@ -431,6 +427,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                         fill
                         sizes="100vw"
                         className="object-contain"
+                        unoptimized={currentScreenshot.portraitFocus !== undefined}
                     />
                 </div>
                 <a href={currentScreenshot.url} target="_blank" rel="noopener noreferrer" className="shrink-0 self-start text-sm underline underline-offset-4">
