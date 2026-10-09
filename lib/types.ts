@@ -6,6 +6,10 @@ export interface Screenshot {
     description: string;
     titleEn?: string;
     descriptionEn?: string;
+    shortTitle?: string;
+    shortTitleEn?: string;
+    /** Horizontal focus (0–100) when a landscape montage is shown as one portrait screen. */
+    portraitFocus?: number;
 }
 
 export interface RawProjectLinks {

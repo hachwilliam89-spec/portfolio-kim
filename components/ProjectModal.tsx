@@ -191,7 +191,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
 
                         {/* COLONNE GAUCHE - Description + Techs */}
                         <div key={project.id}
-                            className="order-2 md:order-1 md:w-2/5 shrink-0 flex flex-col md:overflow-y-auto p-6 md:border-r border-gold/20">
+                            className="order-2 md:order-1 md:w-[36%] shrink-0 flex flex-col md:overflow-y-auto p-6 md:border-r border-gold/20">
                             {project.status === 'development' && (
                                 <span className="self-start mb-4 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-semibold text-ink">
                                     {t.projects.inDevelopment}
@@ -283,7 +283,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                         </div>
 
                         {/* COLONNE DROITE - Carrousel ou placeholder */}
-                        <div className="order-1 md:order-2 shrink-0 md:flex-1 flex flex-col h-[26rem] md:h-auto min-h-0 overflow-hidden">
+                        <div className="order-1 md:order-2 shrink-0 md:flex-1 flex flex-col h-[36rem] md:h-auto min-h-0 overflow-hidden">
                             {hasScreenshots && currentScreenshot ? (
                                 <>
                                     {/* Image */}
@@ -302,16 +302,19 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                                         type="button"
                                                         onClick={() => setZoomed(true)}
                                                         aria-label={`${lang === 'fr' ? 'Agrandir' : 'Enlarge'} : ${lang === 'en' && currentScreenshot.titleEn ? currentScreenshot.titleEn : currentScreenshot.title}`}
-                                                        className="absolute inset-0 w-full cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-vermillon"
+                                                        className="absolute inset-0 flex w-full cursor-zoom-in items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-vermillon"
                                                     >
-                                                        <Image
-                                                            src={currentScreenshot.url}
-                                                            alt=""
-                                                            fill
-                                                            sizes="(max-width: 767px) 100vw, 60vw"
-                                                            className="object-contain"
-                                                            priority
-                                                        />
+                                                        <span className={currentScreenshot.portraitFocus === undefined ? "relative block h-full w-full" : "relative block h-full max-w-full aspect-[46/100] overflow-hidden rounded-[1.25rem] shadow-xl"}>
+                                                            <Image
+                                                                src={currentScreenshot.url}
+                                                                alt=""
+                                                                fill
+                                                                sizes={currentScreenshot.portraitFocus === undefined ? "(max-width: 767px) 100vw, 60vw" : "(max-width: 767px) 50vw, 360px"}
+                                                                className={currentScreenshot.portraitFocus === undefined ? "object-contain" : "object-cover scale-[1.1]"}
+                                                                style={currentScreenshot.portraitFocus === undefined ? undefined : { objectPosition: `${currentScreenshot.portraitFocus}% center` }}
+                                                                priority
+                                                            />
+                                                        </span>
                                                         <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-washi/95 px-3 py-2 text-xs font-semibold text-ink shadow-md">
                                                             <ZoomIn className="h-4 w-4" aria-hidden="true" />
                                                             {lang === 'fr' ? 'Agrandir' : 'Enlarge'}
@@ -349,11 +352,11 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                             <span className="text-xs font-bold text-ink mr-2">
                                                 {lang === 'en' && currentScreenshot.titleEn ? currentScreenshot.titleEn : currentScreenshot.title}
                                             </span>
-                                            <span className="text-xs text-ink/50">
+                                            <span className="text-xs text-ink/70">
                                                 {currentIndex + 1}/{project.screenshots.length}
                                             </span>
                                         </div>
-                                        <p className="text-xs text-ink/60 mb-3 leading-relaxed">
+                                        <p className="text-xs text-ink/80 mb-3 leading-relaxed">
                                             {lang === 'en' && currentScreenshot.descriptionEn ? currentScreenshot.descriptionEn : currentScreenshot.description}
                                         </p>
 
@@ -364,21 +367,20 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                                     <button
                                                         key={idx}
                                                         onClick={() => setCurrentIndex(idx)}
-                                                        className={`relative shrink-0 w-16 h-11 rounded-md overflow-hidden transition-all duration-300 ${
+                                                        className={`shrink-0 w-24 rounded-md p-1 text-left transition-all duration-300 ${
                                                             idx === currentIndex
-                                                                ? "ring-2 ring-vermillon scale-105"
-                                                                : "ring-1 ring-gold/20 hover:ring-gold/50 hover:scale-105"
+                                                                ? "bg-vermillon/10 ring-2 ring-vermillon"
+                                                                : "ring-1 ring-gold/20 hover:ring-gold/50"
                                                         }`}
-                                                        aria-label={`${t.projects.viewImage} ${idx + 1}`}
+                                                        aria-label={`${t.projects.viewImage} ${idx + 1} : ${lang === 'en' && screenshot.titleEn ? screenshot.titleEn : screenshot.title}`}
                                                         aria-current={idx === currentIndex ? 'true' : undefined}
                                                     >
-                                                        <Image
-                                                            src={screenshot.url}
-                                                            alt=""
-                                                            fill
-                                                            sizes="64px"
-                                                            className="object-cover"
-                                                        />
+                                                        <span className="relative block h-12 w-full overflow-hidden rounded-sm">
+                                                            <Image src={screenshot.url} alt="" fill sizes="96px" className="object-cover" />
+                                                        </span>
+                                                        <span className="mt-1 block truncate text-[11px] font-semibold text-ink">
+                                                            {lang === 'en' ? (screenshot.shortTitleEn ?? screenshot.titleEn ?? screenshot.title) : (screenshot.shortTitle ?? screenshot.title)}
+                                                        </span>
                                                     </button>
                                                 ))}
                                             </div>
