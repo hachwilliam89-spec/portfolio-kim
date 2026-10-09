@@ -35,6 +35,8 @@ export default function ProjectDetail({ project, others }: {
                     {project.tech.map(tech => <li key={tech} className="rounded-full border border-gold/30 bg-gold/15 px-3 py-1.5 text-xs">{tech}</li>)}
                 </ul>
                 {project.links?.demo && <a href={project.links.demo} target="_blank" rel="noopener noreferrer" className="mt-6 inline-block rounded-full bg-vermillon px-5 py-3 text-sm font-semibold text-white">{t.projects.visitSite}</a>}
+                {project.links?.apk && <a href={project.links.apk} download className="mt-6 ml-3 inline-block rounded-full border border-vermillon px-5 py-3 text-sm font-semibold text-vermillon dark:border-[#e98c70] dark:text-[#e98c70]">{t.projects.downloadApk}</a>}
+                {project.links?.apk && <p className="mt-3 max-w-xl text-xs opacity-80">{t.projects.apkHint}</p>}
             </header>
             <div className="relative mb-12 h-52 overflow-hidden rounded-lg border border-gold/30 sm:h-80"><ProjectCover project={project} /></div>
             {fields.length > 0 && <div className="mb-10 grid gap-x-10 gap-y-5 md:grid-cols-2">

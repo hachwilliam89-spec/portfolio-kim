@@ -42,6 +42,8 @@ export const en: Translations = {
         filterAll: 'All',
         viewMore: 'View more',
         visitSite: '🌐 View live site ↗',
+        downloadApk: '📱 Download the Android APK',
+        apkHint: 'Android only: allow installs from your browser. Demo accounts on request.',
         inDevelopment: 'In development',
         previewComing: 'Screenshots and demo coming soon',
         close: 'Close',

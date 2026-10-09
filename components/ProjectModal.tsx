@@ -196,6 +196,18 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                     {t.projects.visitSite}
                                 </a>
                             )}
+                            {project.links?.apk && (
+                                <div className="self-start mb-5">
+                                    <a
+                                        href={project.links.apk}
+                                        download
+                                        className="inline-flex items-center gap-2 px-4 py-2 border border-vermillon text-vermillon text-sm font-semibold rounded-full hover:bg-vermillon hover:text-white transition-colors"
+                                    >
+                                        {t.projects.downloadApk}
+                                    </a>
+                                    <p className="mt-2 text-xs text-ink/70">{t.projects.apkHint}</p>
+                                </div>
+                            )}
                             {caseStudy ? (
                                 <>
                                     <dl className="space-y-4 mb-6">

@@ -40,6 +40,8 @@ export const fr = {
         filterAll: 'Tous',
         viewMore: 'Voir plus',
         visitSite: '🌐 Voir le site en ligne ↗',
+        downloadApk: '📱 Télécharger l’APK Android',
+        apkHint: 'Android uniquement : autorisez l’installation depuis votre navigateur. Comptes de démonstration sur demande.',
         inDevelopment: 'En développement',
         previewComing: 'Captures et démonstration à venir',
         close: 'Fermer',

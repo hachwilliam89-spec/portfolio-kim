@@ -11,6 +11,8 @@ export interface Screenshot {
 export interface RawProjectLinks {
     gitlab?: string;
     demo?: string;
+    /** Lien de téléchargement direct d'une application Android (.apk). */
+    apk?: string;
     [key: string]: string | undefined;
 }
 
