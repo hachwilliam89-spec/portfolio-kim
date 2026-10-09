@@ -4,7 +4,7 @@ import { Project } from "@/lib/types";
 import ProjectCover from "./ProjectCover";
 import RichText, { renderInline } from "./RichText";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState, useCallback, useRef, useId } from "react";
 import type { IconType } from "react-icons";
@@ -56,8 +56,10 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
     const { lang } = useLanguage();
     const t = lang === 'fr' ? fr : en;
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [zoomed, setZoomed] = useState(false);
     const [lastProjectId, setLastProjectId] = useState<number | null>(null);
     const dialogRef = useRef<HTMLDialogElement>(null);
+    const zoomDialogRef = useRef<HTMLDialogElement>(null);
     const closeRef = useRef<HTMLButtonElement>(null);
     const titleId = useId();
     const isOpen = project !== null;
@@ -81,10 +83,18 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
         if (project?.id !== undefined) closeRef.current?.focus({ preventScroll: true });
     }, [project?.id]);
 
+    useEffect(() => {
+        const dialog = zoomDialogRef.current;
+        if (!dialog) return;
+        if (zoomed && !dialog.open) dialog.showModal();
+        if (!zoomed && dialog.open) dialog.close();
+    }, [zoomed]);
+
     const projectId = project?.id ?? null;
     if (projectId !== lastProjectId) {
         setLastProjectId(projectId);
         if (currentIndex !== 0) setCurrentIndex(0);
+        if (zoomed) setZoomed(false);
     }
 
     const hasScreenshots = project && project.screenshots.length > 0;
@@ -107,6 +117,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
         const handleKeyDown = (e: KeyboardEvent) => {
             if (!project) return;
             if (e.key === 'Tab') {
+                if (zoomed) return;
                 const controls = Array.from(dialogRef.current?.querySelectorAll<HTMLElement>(
                     'a[href], button:not([disabled]), summary, input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
                 ) ?? []).filter(element => element.getClientRects().length > 0);
@@ -127,7 +138,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
         const dialog = dialogRef.current;
         dialog?.addEventListener("keydown", handleKeyDown);
         return () => dialog?.removeEventListener("keydown", handleKeyDown);
-    }, [project, handleNext, handlePrevious]);
+    }, [project, handleNext, handlePrevious, zoomed]);
 
     if (!project) return null;
 
@@ -141,7 +152,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
             ref={dialogRef}
             aria-labelledby={titleId}
             aria-modal="true"
-            onCancel={(event) => { event.preventDefault(); onClose(); }}
+            onCancel={(event) => { event.preventDefault(); if (zoomed) setZoomed(false); else onClose(); }}
             className="fixed inset-0 m-0 h-dvh w-full max-h-none max-w-none border-0 bg-transparent p-0 text-ink backdrop:bg-transparent"
         >
         <AnimatePresence>
@@ -287,14 +298,25 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                                     transition={{ duration: 0.25, ease: "easeOut" }}
                                                     className="relative w-full h-full"
                                                 >
-                                                    <Image
-                                                        src={currentScreenshot.url}
-                                                        alt={lang === 'en' && currentScreenshot.titleEn ? currentScreenshot.titleEn : currentScreenshot.title}
-                                                        fill
-                                                        sizes="(max-width: 767px) 100vw, 60vw"
-                                                        className="object-contain"
-                                                        priority
-                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setZoomed(true)}
+                                                        aria-label={`${lang === 'fr' ? 'Agrandir' : 'Enlarge'} : ${lang === 'en' && currentScreenshot.titleEn ? currentScreenshot.titleEn : currentScreenshot.title}`}
+                                                        className="absolute inset-0 w-full cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-vermillon"
+                                                    >
+                                                        <Image
+                                                            src={currentScreenshot.url}
+                                                            alt=""
+                                                            fill
+                                                            sizes="(max-width: 767px) 100vw, 60vw"
+                                                            className="object-contain"
+                                                            priority
+                                                        />
+                                                        <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-washi/95 px-3 py-2 text-xs font-semibold text-ink shadow-md">
+                                                            <ZoomIn className="h-4 w-4" aria-hidden="true" />
+                                                            {lang === 'fr' ? 'Agrandir' : 'Enlarge'}
+                                                        </span>
+                                                    </button>
                                                 </motion.div>
                                             </AnimatePresence>
 
@@ -378,6 +400,42 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                 </motion.div>
             </motion.div>
         </AnimatePresence>
+        <dialog
+            ref={zoomDialogRef}
+            aria-label={currentScreenshot ? (lang === 'en' && currentScreenshot.titleEn ? currentScreenshot.titleEn : currentScreenshot.title) : undefined}
+            onCancel={(event) => { event.preventDefault(); setZoomed(false); }}
+            onClose={() => setZoomed(false)}
+            className="fixed inset-0 m-0 h-dvh w-full max-h-none max-w-none border-0 bg-ink/95 p-4 text-white backdrop:bg-ink/95 sm:p-6"
+        >
+            {currentScreenshot && <div className="flex h-full min-h-0 flex-col gap-4">
+                <div className="flex shrink-0 items-center justify-between gap-4">
+                    <strong className="min-w-0 truncate text-sm sm:text-base">
+                        {lang === 'en' && currentScreenshot.titleEn ? currentScreenshot.titleEn : currentScreenshot.title}
+                        <span className="ml-2 font-normal opacity-70">{currentIndex + 1}/{project.screenshots.length}</span>
+                    </strong>
+                    <button
+                        type="button"
+                        onClick={() => setZoomed(false)}
+                        aria-label={lang === 'fr' ? 'Fermer l’image agrandie' : 'Close enlarged image'}
+                        className="shrink-0 rounded-full bg-washi p-2 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vermillon"
+                    >
+                        <X className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                </div>
+                <div className="relative min-h-0 flex-1">
+                    <Image
+                        src={currentScreenshot.url}
+                        alt={lang === 'en' && currentScreenshot.titleEn ? currentScreenshot.titleEn : currentScreenshot.title}
+                        fill
+                        sizes="100vw"
+                        className="object-contain"
+                    />
+                </div>
+                <a href={currentScreenshot.url} target="_blank" rel="noopener noreferrer" className="shrink-0 self-start text-sm underline underline-offset-4">
+                    {lang === 'fr' ? 'Ouvrir l’image en taille réelle' : 'Open full-size image'}
+                </a>
+            </div>}
+        </dialog>
         </dialog>
     );
 }
