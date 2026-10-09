@@ -178,6 +178,8 @@ export default function Projects() {
                                 </div>
                                 {/* Pied de carte : « Découvrir » toujours en bas, le lien site éventuel juste au-dessus */}
                                 <div className="mt-auto flex flex-col items-start gap-4">
+                                    {(project.links?.demo || project.links?.apk) && (
+                                    <div className="flex flex-wrap gap-2">
                                     {project.links?.demo && (
                                         <a
                                             href={project.links.demo}
@@ -188,6 +190,18 @@ export default function Projects() {
                                         >
                                             {t.projects.visitSite}
                                         </a>
+                                    )}
+                                    {project.links?.apk && (
+                                        <a
+                                            href={project.links.apk}
+                                            download
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark hover:shadow-lg hover:shadow-vermillon/30 hover:-translate-y-0.5 transition-all duration-300"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {t.projects.downloadApk}
+                                        </a>
+                                    )}
+                                    </div>
                                     )}
                                     <a
                                         href={projectPath(project)}
