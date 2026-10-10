@@ -374,7 +374,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                                         aria-current={idx === currentIndex ? 'true' : undefined}
                                                     >
                                                         <span className="relative block h-12 w-full overflow-hidden rounded-sm">
-                                                            <Image src={screenshot.url} alt="" fill sizes="96px" className="object-contain" />
+                                                            <Image src={screenshot.url} alt="" fill sizes="96px" className="object-contain" unoptimized={project.slug === "equilibre"} />
                                                         </span>
                                                         <span className="mt-1 block truncate text-[11px] font-semibold text-ink">
                                                             {lang === 'en' ? (screenshot.shortTitleEn ?? screenshot.titleEn ?? screenshot.title) : (screenshot.shortTitle ?? screenshot.title)}
