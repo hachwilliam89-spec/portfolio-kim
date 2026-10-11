@@ -877,8 +877,10 @@ export default function PipCompanion() {
                 setTemporaryAction('dizzy', dizzyDuration);
                 return;
             }
-            const greeting: Pose = reducedMotion ? 'wave' : (['wave', 'look', 'stretch', 'groom'] as const)[clickCount.current++ % 4];
-            setTemporaryAction(greeting, greeting === 'wave' ? 1200 : greeting === 'stretch' ? stretchDuration : 3080);
+            const greetings = ['wave', 'look', 'stretch', 'groom', 'work'] as const;
+            const greeting: Pose = reducedMotion ? 'wave' : greetings[clickCount.current++ % greetings.length];
+            setTemporaryAction(greeting, greeting === 'wave' ? 1200 : greeting === 'stretch' ? stretchDuration
+                : greeting === 'work' ? 4000 : 3080);
             return;
         }
         // A forward roll away from the corner and one back, then a dizzy wobble and a wave.
