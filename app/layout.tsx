@@ -4,6 +4,7 @@ import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, SOCIAL_IMAGE } from '@/lib/seo'
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import PipCompanion from '@/components/PipCompanion';
 import { Providers } from '@/components/Providers';
 
 const inter = Inter({
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main>
                 {children}
             </main>
+            <PipCompanion />
             <Footer />
         </Providers>
         </body>

@@ -82,6 +82,7 @@ export default function Contact() {
         try {
             await navigator.clipboard.writeText(EMAIL);
             setCopied(true);
+            window.dispatchEvent(new Event('pip:celebrate'));
             setTimeout(() => setCopied(false), 2000);
         } catch {
             showToast(t.contact.copyError, 'error');
@@ -105,6 +106,7 @@ export default function Contact() {
 
             if (response.ok) {
                 showToast(t.contact.successMsg, 'success');
+                window.dispatchEvent(new Event('pip:celebrate'));
                 setFormData({ name: '', email: '', message: '' });
             } else {
                 showToast(data.error || t.contact.errorMsg, 'error');

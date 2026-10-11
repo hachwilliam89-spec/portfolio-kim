@@ -186,6 +186,8 @@ function BambooLayer() {
                 <use href="#ink-stalk" transform="translate(150 942) rotate(8) scale(.78)" opacity=".65" />
                 <use href="#ink-stalk" transform="translate(-5 929) rotate(-20) scale(.7)" opacity=".4" />
             </g>
+            <circle data-pip-leaf-start cx="190" cy="650" r="1" fill="transparent" />
+            <circle data-pip-bamboo-rest cx="205" cy="842" r="1" fill="transparent" />
         </svg>
     );
 }
@@ -203,7 +205,7 @@ function SkyLayer() {
             <Stars side="right" />
             <g className="ink-sun"><circle cx="1180" cy="230" r="77" fill="#c73e1d" opacity=".85" /><circle cx="1180" cy="230" r="88" stroke="#b8956a" strokeOpacity=".45" /></g>
             <g className="ink-moon" mask="url(#ink-crescent)">
-                <circle cx="1180" cy="230" r="72" fill="#d8bf89" />
+                <circle data-pip-moon cx="1180" cy="230" r="72" fill="#d8bf89" />
                 <circle cx="1180" cy="230" r="71" stroke="#b8956a" strokeOpacity=".55" strokeWidth="2" />
             </g>
             <Kira className="ink-kira-sun" color="#c73e1d" />

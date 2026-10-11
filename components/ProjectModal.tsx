@@ -179,7 +179,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                         <button
                             ref={closeRef}
                             onClick={onClose}
-                            className="p-2 hover:bg-gold/10 rounded-full transition-all duration-300"
+                            className="ml-auto p-2 hover:bg-gold/10 rounded-full transition-all duration-300"
                             aria-label={t.projects.close}
                         >
                             <X className="w-5 h-5 text-ink" />
