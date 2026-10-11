@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
 import Mailjet from 'node-mailjet';
 
-const mailjet = new Mailjet({
-    apiKey: process.env.MAILJET_API_KEY,
-    apiSecret: process.env.MAILJET_SECRET_KEY,
-});
+// Created on demand so the build (and a local run without keys) doesn't crash.
+function getMailjet() {
+    const apiKey = process.env.MAILJET_API_KEY;
+    const apiSecret = process.env.MAILJET_SECRET_KEY;
+    if (!apiKey || !apiSecret) return null;
+    return new Mailjet({ apiKey, apiSecret });
+}
 
 export async function POST(request: Request) {
     try {
@@ -15,6 +18,15 @@ export async function POST(request: Request) {
             return NextResponse.json(
                 { error: 'Tous les champs sont requis' },
                 { status: 400 }
+            );
+        }
+
+        const mailjet = getMailjet();
+        if (!mailjet) {
+            console.error('Mailjet error: MAILJET_API_KEY / MAILJET_SECRET_KEY manquantes');
+            return NextResponse.json(
+                { error: 'Service d\'envoi indisponible' },
+                { status: 503 }
             );
         }
 
