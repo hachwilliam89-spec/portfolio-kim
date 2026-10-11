@@ -6,7 +6,7 @@ import { useTheme } from './ThemeProvider';
 import { useLanguage } from '@/lib/i18n';
 
 type Pose = 'idle' | 'sleep' | 'eat' | 'roll' | 'wave' | 'edge' | 'run-left' | 'run-right' | 'look' | 'groom' | 'work'
-    | 'stretch' | 'moon-look' | 'wake' | 'yawn' | 'doze' | 'dizzy' | 'roll-dizzy' | 'digest' | 'think' | 'work-tired';
+    | 'stretch' | 'moon-look' | 'wake' | 'yawn' | 'doze' | 'dizzy' | 'roll-dizzy' | 'digest' | 'think' | 'work-tired' | 'rise';
 type Spot = { x: number; y: number; size: number };
 type Phase = 'unplaced' | 'home' | 'leaving' | 'corner' | 'returning' | 'scene';
 type SceneDecoration = { kind: 'leaf' | 'star'; x: number; y: number; endX: number; endY: number };
@@ -57,6 +57,8 @@ const frames: Record<Pose, number[]> = {
         5, 6, 6, 11, 12, 13, 13, 13, 13, 14, 6, 6, 5, 5, 6, 6, 6, 7, 8, 9, 9, 9, 9, 9, 9, 15, 15, 15, 15, 15,
         15, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18,
     ],
+    // Day mode while asleep: he sits back up at his laptop (falling asleep, backwards).
+    rise: [18, 18, 18, 17, 17, 17, 16, 16, 16, 16, 15, 15, 15],
     // Woken up: paws leave the laptop and stretch overhead during a big yawn,
     // come back down, then the eyes open with one sleepy blink.
     yawn: [
@@ -72,7 +74,7 @@ const frames: Record<Pose, number[]> = {
 const frameDelays: Partial<Record<Pose, number>> = {
     'run-left': 90, 'run-right': 90, edge: 120, idle: 340, sleep: 520, look: 280, 'moon-look': 280,
     work: 180, 'work-tired': 200, groom: 220, wake: 90, yawn: 90, stretch: 100, doze: 90, roll: 80,
-    dizzy: 90, 'roll-dizzy': 90, digest: 140, think: 200,
+    dizzy: 90, 'roll-dizzy': 90, digest: 140, think: 200, rise: 110,
 };
 const delayFor = (pose: Pose) => frameDelays[pose] ?? 180;
 // One-shot animations end just before their sequence would loop to its first frame.
@@ -85,6 +87,7 @@ const rollDuration = playTime('roll');
 const rollCrouch = 2 * delayFor('roll');
 const digestDuration = playTime('digest');
 const thinkDuration = playTime('think');
+const riseDuration = playTime('rise');
 const dizzyDuration = 1500;
 // The tummy rounds out a little more every few seconds while Pip eats.
 const bellyStep = 2500;
@@ -97,7 +100,7 @@ const webpDirectories = new Set(['yawn', 'stretch', 'doze', 'wake2', 'typetired'
     'nap', 'digest', 'moonlook', 'gaze', ...bellyLevels.map(level => `eat-${level}`)]);
 const spriteDirectories: Partial<Record<Pose, string>> = {
     'moon-look': 'moonlook', wake: 'wake2', work: 'type', 'work-tired': 'typetired', roll: 'roll2',
-    'roll-dizzy': 'rolldizzy', sleep: 'nap',
+    'roll-dizzy': 'rolldizzy', sleep: 'nap', rise: 'doze',
 };
 // Nose of each sleeping image (the last 11 are mirrored), where the bubble grows.
 const napNoses = [[88.6, 151],  [88.6, 151],  [88.6, 151],  [90.3, 152],  [90.3, 152],  [90.3, 152],  [89.5, 151],  [89.5, 151],  [89.5, 151],  [88.6, 151],  [90.3, 152],  [103.4, 151],  [103.4, 151],  [103.4, 151],  [101.7, 152],  [101.7, 152],  [101.7, 152],  [102.5, 151],  [102.5, 151],  [102.5, 151],  [103.4, 151],  [101.7, 152]];
@@ -186,6 +189,8 @@ export default function PipCompanion() {
     const pressedWhileSleeping = useRef(false);
     const recentClicks = useRef<number[]>([]);
     const workSessions = useRef(0);
+    const poseRef = useRef<Pose>('idle');
+    const riseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const setTemporaryAction = useCallback((pose: Pose, duration: number) => {
         if (actionTimer.current) clearTimeout(actionTimer.current);
@@ -656,6 +661,30 @@ export default function PipCompanion() {
         const timer = setTimeout(() => setDigesting(false), digestDuration);
         return () => clearTimeout(timer);
     }, [digesting]);
+
+    useEffect(() => {
+        poseRef.current = pose;
+    });
+
+    useEffect(() => {
+        // Day mode button while Pip sleeps: he sits up, rubs his eyes and wakes up.
+        // Own timer: switching theme resets the night routine queue.
+        const onThemeSwitch = (event: Event) => {
+            if ((event as CustomEvent<'light' | 'dark'>).detail !== 'light' || reducedMotion) return;
+            if (poseRef.current !== 'sleep') return;
+            if (riseTimer.current) clearTimeout(riseTimer.current);
+            setTemporaryAction('rise', riseDuration + 200);
+            riseTimer.current = setTimeout(() => {
+                // Scrolling away in the meantime cancels the rest.
+                if (actionRef.current === 'rise') setTemporaryAction('wake', wakeDuration);
+            }, riseDuration);
+        };
+        window.addEventListener('theme-switch', onThemeSwitch);
+        return () => {
+            window.removeEventListener('theme-switch', onThemeSwitch);
+            if (riseTimer.current) clearTimeout(riseTimer.current);
+        };
+    }, [reducedMotion, setTemporaryAction]);
 
     useEffect(() => {
         // During a daytime work session Pip sometimes stops to think, or after a
