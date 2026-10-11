@@ -11,7 +11,7 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType>({ lang: 'fr', toggle: () => {} });
 
-const languageEvent = 'portfolio-language-change';
+export const languageEvent = 'portfolio-language-change';
 let fallbackLanguage: Lang = 'fr';
 
 function readLanguage(): Lang {

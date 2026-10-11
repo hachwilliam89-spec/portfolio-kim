@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useTheme } from './ThemeProvider';
-import { useLanguage } from '@/lib/i18n';
+import { languageEvent, useLanguage } from '@/lib/i18n';
 
 type Pose = 'idle' | 'sleep' | 'eat' | 'roll' | 'wave' | 'edge' | 'run-left' | 'run-right' | 'look' | 'groom' | 'work'
     | 'stretch' | 'moon-look' | 'wake' | 'yawn' | 'doze' | 'dizzy' | 'roll-dizzy' | 'digest' | 'think' | 'work-tired' | 'rise';
@@ -161,6 +161,7 @@ export default function PipCompanion() {
     const [gaze, setGaze] = useState<number | null>(null);
     const [crouching, setCrouching] = useState(false);
     const [dust, setDust] = useState(0);
+    const [bubble, setBubble] = useState(0);
     const [frame, setFrame] = useState({ pose: 'idle' as Pose, index: 0 });
     const [offset, setOffset] = useState(0);
     const [placement, setPlacement] = useState<Spot | null>(null);
@@ -667,6 +668,25 @@ export default function PipCompanion() {
     });
 
     useEffect(() => {
+        // Language button: Pip says hello in the language just chosen, waving if he's up.
+        const onLanguage = () => {
+            setBubble(count => count + 1);
+            const current = poseRef.current;
+            if (!reducedMotion && actionRef.current === null && (current === 'idle' || current === 'work')) {
+                setTemporaryAction('wave', 1200);
+            }
+        };
+        window.addEventListener(languageEvent, onLanguage);
+        return () => window.removeEventListener(languageEvent, onLanguage);
+    }, [reducedMotion, setTemporaryAction]);
+
+    useEffect(() => {
+        if (!bubble) return;
+        const timer = setTimeout(() => setBubble(0), 2400);
+        return () => clearTimeout(timer);
+    }, [bubble]);
+
+    useEffect(() => {
         // Day mode button while Pip sleeps: he sits up, rubs his eyes and wakes up.
         // Own timer: switching theme resets the night routine queue.
         const onThemeSwitch = (event: Event) => {
@@ -949,6 +969,21 @@ export default function PipCompanion() {
             initial={false}
             animate={controls}
         >
+            {bubble > 0 && (
+                // Comic speech bubble above his head, kept on screen when he peeks from an edge.
+                <motion.span key={bubble} aria-hidden="true"
+                    className={`pointer-events-none absolute bottom-[88%] z-40 whitespace-nowrap rounded-[1.2em] border-2 border-ink bg-washi px-3 py-1 font-sans text-sm font-extrabold tracking-wide text-ink shadow-[2px_2px_0_var(--color-ink)] ${
+                        atCorner ? (facingLeftEdge ? 'left-[52%]' : 'right-[52%]') : 'left-1/2 -translate-x-1/2'}`}
+                    style={{ transformOrigin: atCorner ? (facingLeftEdge ? '15% 100%' : '85% 100%') : '50% 100%' }}
+                    initial={{ opacity: 0, scale: still ? 1 : .4, rotate: -6 }}
+                    animate={still ? { opacity: [1, 1, 0], scale: 1, rotate: -3 }
+                        : { opacity: [0, 1, 1, 0], scale: [.4, 1.12, 1, .96], rotate: [-10, -2, -3, -3], y: [6, 0, 0, -4] }}
+                    transition={{ duration: 2.3, times: still ? [0, .9, 1] : [0, .14, .85, 1], ease: 'easeOut' }}>
+                    {lang === 'fr' ? 'Bonjour !' : 'Hello!'}
+                    <span className={`absolute -bottom-[7px] h-3 w-3 rotate-45 border-b-2 border-r-2 border-ink bg-washi ${
+                        atCorner ? (facingLeftEdge ? 'left-3' : 'right-3') : 'left-1/2 -ml-1.5'}`} />
+                </motion.span>
+            )}
             {dust > 0 && !still && (
                 <svg key={dust} aria-hidden="true" viewBox="0 0 192 208" className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-visible">
                     {[-1, 1].map(side => (
