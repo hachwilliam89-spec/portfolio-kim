@@ -5,7 +5,8 @@ import { motion, useAnimationControls } from 'framer-motion';
 import { useTheme } from './ThemeProvider';
 import { useLanguage } from '@/lib/i18n';
 
-type Pose = 'idle' | 'sleep' | 'eat' | 'roll' | 'wave' | 'edge' | 'run-left' | 'run-right' | 'look' | 'groom' | 'work' | 'stretch' | 'moon-look' | 'wake' | 'yawn';
+type Pose = 'idle' | 'sleep' | 'eat' | 'roll' | 'wave' | 'edge' | 'run-left' | 'run-right' | 'look' | 'groom' | 'work'
+    | 'stretch' | 'moon-look' | 'wake' | 'yawn' | 'doze' | 'dizzy' | 'roll-dizzy' | 'digest' | 'think' | 'work-tired';
 type Spot = { x: number; y: number; size: number };
 type Phase = 'unplaced' | 'home' | 'leaving' | 'corner' | 'returning' | 'scene';
 type SceneDecoration = { kind: 'leaf' | 'star'; x: number; y: number; endX: number; endY: number };
@@ -22,9 +23,16 @@ function petSize(viewportWidth: number) {
 
 const frames: Record<Pose, number[]> = {
     idle: [0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 0, 0, 0],
-    sleep: [3, 4, 5, 4],
+    // Breathing back, an ear twitch now and then, and a turn onto the other side.
+    sleep: [
+        0, 4, 8, 5, 1, 3, 6, 4, 2, 5, 7, 3, 0, 4, 8, 5, 1, 9, 10, 9, 2, 5, 7, 3, 0, 4, 8, 5, 1, 3, 6, 4, 2,
+        5, 7, 3, 0, 4, 8, 5, 1, 3, 6, 4, 2, 5, 7, 3, 8, 19, 11, 15, 19, 16, 12, 14, 17, 15, 13, 16, 18, 14,
+        11, 15, 19, 16, 12, 20, 21, 20, 13, 16, 18, 14, 11, 15, 19, 16, 12, 14, 17, 15, 13, 16, 18, 14, 11,
+        15, 19, 16, 12, 14, 17, 15, 13, 16, 18, 14, 19, 8,
+    ],
     eat: [1, 2, 3, 4, 5],
-    roll: [0, 1, 2, 3, 4, 5],
+    // Crouch, a forward roll with a little hop, then a landing in a puff of dust.
+    roll: [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 13],
     wave: [0, 1, 2, 3],
     edge: [0, 1, 2, 3, 4, 5],
     'run-left': [0, 1, 2, 3, 4, 5, 6, 7],
@@ -32,11 +40,67 @@ const frames: Record<Pose, number[]> = {
     look: [0, 1, 2, 2, 1, 0, 15, 14, 14, 15, 0],
     groom: [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0],
     work: [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0],
-    stretch: [0],
-    'moon-look': [0, 1, 2, 2, 1, 0],
-    wake: [3, 2, 1, 0],
-    yawn: [3],
+    // Same typing, with heavy eyelids.
+    'work-tired': [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0],
+    // Eyes up, thinking dots appear one by one.
+    think: [0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2],
+    // Paws leave the laptop and stretch overhead, a contented "ahh", then eyes open.
+    stretch: [0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 4, 5, 5, 5, 5, 4, 3, 3, 2, 2, 1, 1, 0, 0, 7, 6, 6, 6, 6],
+    // Moonlight twinkles in his eyes.
+    'moon-look': [0, 2, 4, 5, 4, 5, 3, 1],
+    // Rubs his eyes with both paws, then they open with a sleepy blink.
+    wake: [0, 0, 1, 2, 3, 4, 5, 4, 3, 4, 5, 4, 3, 2, 1, 6, 6, 6, 7, 8, 8, 6, 8, 8, 8],
+    // Falling asleep: eyelids grow heavy, a head nod, a start, a small yawn,
+    // then Pip closes the laptop and lies down on it before the sleep loop.
+    doze: [
+        0, 0, 0, 0, 0, 1, 2, 3, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 6, 7, 8, 9, 9, 9, 9, 10, 0, 0, 0, 3, 3, 3, 4,
+        5, 6, 6, 11, 12, 13, 13, 13, 13, 14, 6, 6, 5, 5, 6, 6, 6, 7, 8, 9, 9, 9, 9, 9, 9, 15, 15, 15, 15, 15,
+        15, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18,
+    ],
+    // Woken up: paws leave the laptop and stretch overhead during a big yawn,
+    // come back down, then the eyes open with one sleepy blink.
+    yawn: [
+        15, 0, 1, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8, 8, 8, 9, 8, 8, 9, 9, 10, 11, 11, 12, 13, 13, 14, 13, 14,
+        15, 15, 15, 17, 16, 16, 16, 17, 15, 17, 16, 16, 16, 16,
+    ],
+    // Spiral eyes, stars around the head, a little wobble.
+    dizzy: [0, 1, 2, 3, 4, 5, 6, 7],
+    'roll-dizzy': [0, 1, 2, 3, 4, 5, 6, 7],
+    // After a meal: pats his round tummy, hiccups, smiles.
+    digest: [0, 1, 0, 1, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 1, 0, 3, 3, 3, 3, 3, 3],
 };
+const frameDelays: Partial<Record<Pose, number>> = {
+    'run-left': 90, 'run-right': 90, edge: 120, idle: 340, sleep: 520, look: 280, 'moon-look': 280,
+    work: 180, 'work-tired': 200, groom: 220, wake: 90, yawn: 90, stretch: 100, doze: 90, roll: 80,
+    dizzy: 90, 'roll-dizzy': 90, digest: 140, think: 200,
+};
+const delayFor = (pose: Pose) => frameDelays[pose] ?? 180;
+// One-shot animations end just before their sequence would loop to its first frame.
+const playTime = (pose: Pose) => frames[pose].length * delayFor(pose) - 40;
+const wakeDuration = playTime('wake');
+const yawnDuration = playTime('yawn');
+const stretchDuration = playTime('stretch');
+const dozeDuration = playTime('doze');
+const rollDuration = playTime('roll');
+const rollCrouch = 2 * delayFor('roll');
+const digestDuration = playTime('digest');
+const thinkDuration = playTime('think');
+const dizzyDuration = 1500;
+// The tummy rounds out a little more every few seconds while Pip eats.
+const bellyStep = 2500;
+const bellyLevels = [1, 2, 3, 4, 5, 6];
+// The wave sprites are drawn slightly shorter and wider than the idle ones:
+// match the head and the ground line so greeting doesn't make Pip hop.
+const waveRegistration = { transformOrigin: '49.2% 7.7%', transform: 'translateX(.26%) scale(.978, 1.027)' };
+// Generated sets are WebP; the original drawings stay PNG.
+const webpDirectories = new Set(['yawn', 'stretch', 'doze', 'wake2', 'typetired', 'think', 'roll2', 'rolldizzy', 'dizzy',
+    'nap', 'digest', 'moonlook', 'gaze', ...bellyLevels.map(level => `eat-${level}`)]);
+const spriteDirectories: Partial<Record<Pose, string>> = {
+    'moon-look': 'moonlook', wake: 'wake2', work: 'type', 'work-tired': 'typetired', roll: 'roll2',
+    'roll-dizzy': 'rolldizzy', sleep: 'nap',
+};
+// Nose of each sleeping image (the last 11 are mirrored), where the bubble grows.
+const napNoses = [[88.6, 151],  [88.6, 151],  [88.6, 151],  [90.3, 152],  [90.3, 152],  [90.3, 152],  [89.5, 151],  [89.5, 151],  [89.5, 151],  [88.6, 151],  [90.3, 152],  [103.4, 151],  [103.4, 151],  [103.4, 151],  [101.7, 152],  [101.7, 152],  [101.7, 152],  [102.5, 151],  [102.5, 151],  [102.5, 151],  [103.4, 151],  [101.7, 152]];
 
 // Eye anchors in each 192 × 208 typing sprite. Apply the same discrete frame
 // change to the glasses: tweening here would make them slide across the face.
@@ -57,10 +121,12 @@ function glassesTransform(frame: number) {
     return `matrix(${a} ${b} ${-b} ${a} ${leftX - a * 65.5 + b * 87.5} ${leftY - b * 65.5 - a * 87.5})`;
 }
 
-function spriteSource(pose: Pose, frame: number) {
-    const directory = pose === 'stretch' ? 'idle' : pose === 'moon-look' ? 'look'
-        : pose === 'wake' || pose === 'yawn' ? 'work' : pose === 'work' ? 'type' : pose;
-    return `/pip/${directory}/${String(frame).padStart(2, '0')}.png`;
+function spriteFile(directory: string, frame: number) {
+    return `/pip/${directory}/${String(frame).padStart(2, '0')}.${webpDirectories.has(directory) ? 'webp' : 'png'}`;
+}
+
+function spriteSource(pose: Pose, frame: number, belly = 0) {
+    return spriteFile(pose === 'eat' && belly > 0 ? `eat-${belly}` : spriteDirectories[pose] ?? pose, frame);
 }
 
 // Minutes from midnight, using the visitor's local clock.
@@ -86,6 +152,12 @@ export default function PipCompanion() {
     const [idleSince, setIdleSince] = useState(0);
     const [width, setWidth] = useState(0);
     const [action, setAction] = useState<Pose | null>(null);
+    const [workPhase, setWorkPhase] = useState(false);
+    const [belly, setBelly] = useState(0);
+    const [rollMirror, setRollMirror] = useState(false);
+    const [gaze, setGaze] = useState<number | null>(null);
+    const [crouching, setCrouching] = useState(false);
+    const [dust, setDust] = useState(0);
     const [frame, setFrame] = useState({ pose: 'idle' as Pose, index: 0 });
     const [offset, setOffset] = useState(0);
     const [placement, setPlacement] = useState<Spot | null>(null);
@@ -111,6 +183,9 @@ export default function PipCompanion() {
     const nightTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
     const nightRunning = useRef(false);
     const sceneCooldown = useRef(0);
+    const pressedWhileSleeping = useRef(false);
+    const recentClicks = useRef<number[]>([]);
+    const workSessions = useRef(0);
 
     const setTemporaryAction = useCallback((pose: Pose, duration: number) => {
         if (actionTimer.current) clearTimeout(actionTimer.current);
@@ -146,15 +221,36 @@ export default function PipCompanion() {
     }, []);
 
     useEffect(() => {
-        // Decode before a first visit to an animation, avoiding blank or late frames.
-        const images = Object.entries(frames).flatMap(([pose, sequence]) =>
-            [...new Set(sequence)].map(index => {
+        // Decode every frame ahead of its first use, a few at a time while the browser is idle.
+        const sources = [
+            ...Object.entries(frames).flatMap(([pose, sequence]) =>
+                [...new Set(sequence)].map(index => spriteSource(pose as Pose, index))),
+            ...bellyLevels.flatMap(level => [...new Set(frames.eat)].map(index => spriteSource('eat', index, level))),
+            ...Array.from({ length: 8 }, (_, index) => spriteFile('gaze', index)),
+        ];
+        const images: HTMLImageElement[] = [];
+        const canIdle = typeof window.requestIdleCallback === 'function';
+        let next = 0;
+        let handle = 0;
+        const later = (run: () => void) => canIdle
+            ? window.requestIdleCallback(run, { timeout: 1200 }) : window.setTimeout(run, 120);
+        const load = () => {
+            sources.slice(next, next + 10).forEach(source => {
                 const image = new window.Image();
-                image.src = spriteSource(pose as Pose, index);
+                image.decoding = 'async';
+                image.src = source;
                 void image.decode().catch(() => {});
-                return image;
-            }));
-        return () => images.forEach(image => { image.src = ''; });
+                images.push(image);
+            });
+            next += 10;
+            if (next < sources.length) handle = later(load);
+        };
+        handle = later(load);
+        return () => {
+            if (canIdle) window.cancelIdleCallback(handle);
+            else window.clearTimeout(handle);
+            images.forEach(image => { image.src = ''; });
+        };
     }, []);
 
     useEffect(() => {
@@ -226,6 +322,20 @@ export default function PipCompanion() {
             if (!buttonRef.current) setPlacement(spot);
         };
         const durationFor = (distance: number, speed: number) => clamp(distance / speed, 0.5, 4);
+        const wait = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
+        // A short crouch before running off, and a little skid with a puff of dust when braking.
+        const crouch = async () => {
+            if (reducedMotion) return;
+            setCrouching(true);
+            await wait(150);
+            setCrouching(false);
+        };
+        const skidPast = reducedMotion ? 0 : 7;
+        const brake = async (x: number) => {
+            if (reducedMotion) return;
+            setDust(count => count + 1);
+            await controls.start({ x, transition: { duration: .24, ease: 'easeOut' } });
+        };
 
         const leaveHome = async () => {
             cancelNight();
@@ -245,6 +355,8 @@ export default function PipCompanion() {
             const edge = edgeSpot();
             const edgeY = clamp(start.y, 96, edge.y);
             setMovingPose(sideRef.current === 'left' ? 'run-left' : 'run-right');
+            await crouch();
+            if (route !== routeRef.current) return;
             await controls.start({
                 x: edge.x, y: edgeY, width: edge.size, height: edge.size * spriteRatio,
                 transition: { duration: reducedMotion ? 0 : durationFor(Math.hypot(start.x - edge.x, start.y - edgeY), 175), ease: travelEase },
@@ -288,10 +400,13 @@ export default function PipCompanion() {
             if (route !== routeRef.current) return;
             setMovingPose(sideRef.current === 'left' ? 'run-right' : 'run-left');
             const latestHome = homeSpot() ?? home;
+            const homeward = sideRef.current === 'left' ? 1 : -1;
             await controls.start({
-                x: latestHome.x, y: latestHome.y, width: latestHome.size, height: latestHome.size * spriteRatio,
+                x: latestHome.x + homeward * skidPast, y: latestHome.y, width: latestHome.size, height: latestHome.size * spriteRatio,
                 transition: { duration: reducedMotion ? 0 : durationFor(Math.hypot(edge.x - latestHome.x, edgeY - latestHome.y), 175), ease: travelEase },
             });
+            if (route !== routeRef.current) return;
+            await brake(latestHome.x);
             if (route !== routeRef.current) return;
             phaseRef.current = 'home';
             setMovingPose(null);
@@ -377,7 +492,7 @@ export default function PipCompanion() {
                 await pause(2600);
                 if (!active()) return;
                 setMovingPose('stretch');
-                await pause(2600);
+                await pause(stretchDuration);
                 if (!active()) return;
                 clearScene();
                 setMovingPose(null);
@@ -389,18 +504,20 @@ export default function PipCompanion() {
             await pause(1000);
             if (!active()) return;
             const laneX = 6;
-            const move = async (x: number, y: number, pose: Pose) => {
+            const move = async (x: number, y: number, pose: Pose, skid = false) => {
                 const start = currentSpot();
                 setMovingPose(pose);
-                await controls.start({ x, y, transition: {
+                const past = skid ? Math.sign(x - start.x) * skidPast : 0;
+                await controls.start({ x: x + past, y, transition: {
                     duration: durationFor(Math.hypot(start.x - x, start.y - y), 200), ease: travelEase,
                 } });
+                if (skid) await brake(x);
             };
             await move(laneX, home.y, 'run-left');
             if (!active()) return;
             await move(laneX, target.y, 'edge');
             if (!active()) return;
-            await move(target.x, target.y, 'run-right');
+            await move(target.x, target.y, 'run-right', true);
             if (!active()) return;
             setDecoration(null);
             setMovingPose('eat');
@@ -494,16 +611,123 @@ export default function PipCompanion() {
     const mealtime = now !== null && inMealWindow(now);
     const awake = now !== null && now - idleSince < 60_000;
     const takingBite = mealtime && Math.floor(now / 1000) % 55 < 18;
+    const dayWorkAllowed = now !== null && theme === 'light' && awake && !mealtime
+        && visible && !reducedMotion && movingPose === null;
+    const daytimeWorking = dayWorkAllowed && workPhase;
     const restingPose: Pose = theme === 'dark' ? 'sleep'
         : takingBite || (mealtime && !awake) ? 'eat'
-            : !awake ? 'sleep' : 'idle';
-    const pose = movingPose ?? action ?? restingPose;
+            : !awake ? 'sleep' : daytimeWorking ? 'work' : 'idle';
+    const basePose = movingPose ?? action ?? restingPose;
+    // Whatever Pip was doing (resting, working, a night routine, the moon), he
+    // nods off before the sleep loop instead of popping into it. Being carried
+    // along the page is ignored, so a Pip who was already asleep stays asleep.
+    // A visitor coming back during the doze sees his eyelids lift again.
+    const travelling = basePose === 'run-left' || basePose === 'run-right' || basePose === 'edge';
+    const [settledPose, setSettledPose] = useState<Pose>(basePose);
+    const [napping, setNapping] = useState(false);
+    const [rousing, setRousing] = useState(false);
+    // After a meal he pats his round tummy before getting back to his laptop.
+    const [digesting, setDigesting] = useState(false);
+    const resting = basePose === 'idle' || basePose === 'work';
+    if (travelling && napping) setNapping(false);
+    if (!travelling && basePose !== settledPose) {
+        setSettledPose(basePose);
+        setNapping(basePose === 'sleep' && settledPose !== 'sleep' && !reducedMotion && visible);
+        setRousing(napping && settledPose === 'sleep' && resting);
+        setDigesting(settledPose === 'eat' && resting && !reducedMotion && visible);
+    }
+    const pose: Pose = napping && basePose === 'sleep' ? 'doze'
+        : rousing && resting ? 'wake' : digesting && resting ? 'digest' : basePose;
+
+    useEffect(() => {
+        if (!napping) return;
+        const timer = setTimeout(() => setNapping(false), dozeDuration);
+        return () => clearTimeout(timer);
+    }, [napping]);
+
+    useEffect(() => {
+        if (!rousing) return;
+        const timer = setTimeout(() => setRousing(false), wakeDuration);
+        return () => clearTimeout(timer);
+    }, [rousing]);
+
+    useEffect(() => {
+        if (!digesting) return;
+        const timer = setTimeout(() => setDigesting(false), digestDuration);
+        return () => clearTimeout(timer);
+    }, [digesting]);
+
+    useEffect(() => {
+        // During a daytime work session Pip sometimes stops to think, or after a
+        // while his eyelids get heavy and he has to yawn before carrying on.
+        if (!daytimeWorking) return;
+        const session = workSessions.current++;
+        const timers: ReturnType<typeof setTimeout>[] = [];
+        const later = (ms: number, next: Pose, duration: number) => timers.push(setTimeout(() => {
+            if (actionRef.current === null || actionRef.current === 'work-tired') setTemporaryAction(next, duration);
+        }, ms));
+        if (session % 2 === 0) later(4000 + Math.random() * 4000, 'think', thinkDuration);
+        else {
+            later(9000, 'work-tired', 4200);
+            later(13_200, 'yawn', yawnDuration);
+        }
+        return () => timers.forEach(clearTimeout);
+    }, [daytimeWorking, setTemporaryAction]);
+
+    useEffect(() => {
+        // His eyes follow a cursor moving nearby while he rests.
+        if (reducedMotion) return;
+        let frameId = 0;
+        let current: number | null = null;
+        let calm: ReturnType<typeof setTimeout> | undefined;
+        const look = (next: number | null) => {
+            if (next === current) return;
+            current = next;
+            setGaze(next);
+        };
+        const onMove = (event: PointerEvent) => {
+            if (event.pointerType === 'touch') return;
+            cancelAnimationFrame(frameId);
+            frameId = requestAnimationFrame(() => {
+                const rect = buttonRef.current?.getBoundingClientRect();
+                if (!rect) return;
+                const dx = event.clientX - (rect.left + rect.width / 2);
+                const dy = event.clientY - (rect.top + rect.height * .38);
+                const distance = Math.hypot(dx, dy);
+                look(distance > 380 || distance < rect.width * .25 ? null : (Math.round(Math.atan2(dy, dx) / (Math.PI / 4)) + 8) % 8);
+                clearTimeout(calm);
+                calm = setTimeout(() => look(null), 2500);
+            });
+        };
+        window.addEventListener('pointermove', onMove, { passive: true });
+        return () => {
+            cancelAnimationFrame(frameId);
+            clearTimeout(calm);
+            window.removeEventListener('pointermove', onMove);
+        };
+    }, [reducedMotion]);
+
+    useEffect(() => {
+        // Resume with a quiet pause after travel, meals or a hidden tab.
+        const reset = requestAnimationFrame(() => setWorkPhase(false));
+        if (!dayWorkAllowed) return () => cancelAnimationFrame(reset);
+        let timer: ReturnType<typeof setTimeout>;
+        const alternate = (working: boolean) => {
+            timer = setTimeout(() => {
+                setWorkPhase(working);
+                alternate(!working);
+            }, working ? 20_000 : 15_000);
+        };
+        alternate(true);
+        return () => {
+            cancelAnimationFrame(reset);
+            clearTimeout(timer);
+        };
+    }, [dayWorkAllowed]);
 
     useEffect(() => {
         if (reducedMotion || !visible) return;
-        const delay = pose.startsWith('run-') ? 90 : pose === 'edge' ? 120
-            : pose === 'idle' ? 340 : pose === 'sleep' ? 520
-                : pose === 'look' || pose === 'moon-look' ? 280 : pose === 'work' ? 180 : pose === 'groom' || pose === 'wake' ? 220 : 180;
+        const delay = delayFor(pose);
         const interval = window.setInterval(() => setFrame(previous => ({
             pose, index: previous.pose === pose ? (previous.index + 1) % frames[pose].length : 0,
         })), delay);
@@ -511,7 +735,17 @@ export default function PipCompanion() {
     }, [pose, reducedMotion, visible]);
 
     useEffect(() => {
-        if (reducedMotion || !visible || theme === 'dark' || mealtime || !awake) return;
+        // The tummy grows during a meal and is back to normal next time.
+        if (pose !== 'eat' || reducedMotion || !visible) return;
+        const grow = window.setInterval(() => setBelly(level => Math.min(bellyLevels.length, level + 1)), bellyStep);
+        return () => {
+            clearInterval(grow);
+            setBelly(0);
+        };
+    }, [pose, reducedMotion, visible]);
+
+    useEffect(() => {
+        if (reducedMotion || !visible || theme === 'dark' || mealtime || !awake || daytimeWorking) return;
         let timer: ReturnType<typeof setTimeout>;
         let previousHabit = -1;
         const schedule = (first = false) => {
@@ -535,8 +769,8 @@ export default function PipCompanion() {
                             }, 3000));
                         }, 850));
                     } else {
-                        const habitPose: Pose = ['look', 'groom', 'stretch', 'work', 'look'][habit] as Pose;
-                        setTemporaryAction(habitPose, habitPose === 'stretch' ? 2600 : habitPose === 'groom' ? 2420 : 3080);
+                        const habitPose: Pose = ['look', 'groom', 'stretch', 'look', 'look'][habit] as Pose;
+                        setTemporaryAction(habitPose, habitPose === 'stretch' ? stretchDuration : habitPose === 'groom' ? 2420 : 3080);
                     }
                 }
                 schedule();
@@ -547,7 +781,7 @@ export default function PipCompanion() {
             clearTimeout(timer);
             cancelHabit();
         };
-    }, [awake, cancelHabit, mealtime, reducedMotion, setTemporaryAction, theme, visible, width]);
+    }, [awake, cancelHabit, daytimeWorking, mealtime, reducedMotion, setTemporaryAction, theme, visible, width]);
 
     useEffect(() => () => {
         if (actionTimer.current) clearTimeout(actionTimer.current);
@@ -557,11 +791,28 @@ export default function PipCompanion() {
     }, []);
 
     const onClick = () => {
+        const wasSleeping = pressedWhileSleeping.current || pose === 'sleep' || pose === 'doze';
+        pressedWhileSleeping.current = false;
         if (movingPose && scene !== 'moon') return;
         cancelHabit();
         cancelNight();
         if (returnTimer.current) clearTimeout(returnTimer.current);
         if (finishTimer.current) clearTimeout(finishTimer.current);
+        if (theme === 'light' && wasSleeping) {
+            sceneCooldown.current = Date.now() + 35_000;
+            if (reducedMotion) {
+                setTemporaryAction('idle', 3000);
+                return;
+            }
+            // Use the cancellable wake queue so scrolling cannot leave delayed
+            // yawns or stretches playing while Pip is climbing the window.
+            nightRunning.current = true;
+            setTemporaryAction('wake', wakeDuration);
+            nightTimers.current.push(setTimeout(() => setTemporaryAction('yawn', yawnDuration), wakeDuration));
+            nightTimers.current.push(setTimeout(() => setTemporaryAction('stretch', stretchDuration), wakeDuration + yawnDuration));
+            nightTimers.current.push(setTimeout(() => { nightRunning.current = false; }, wakeDuration + yawnDuration + stretchDuration));
+            return;
+        }
         if (theme === 'dark') {
             sceneCooldown.current = Date.now() + 90_000;
             if (reducedMotion) {
@@ -571,10 +822,10 @@ export default function PipCompanion() {
             const moonRect = document.querySelector('[data-pip-moon]')?.getBoundingClientRect();
             const bedtimePose: Pose = !atCorner && moonRect && moonRect.width > 0
                 && moonRect.top >= 80 && moonRect.bottom <= window.innerHeight ? 'moon-look' : 'groom';
+            // Two night routines, one click after the other. Pip nods off again at the end of each.
             const variants: [Pose, number][][] = [
-                [['wake', 880], ['yawn', 1800], ['work', 14_000], [bedtimePose, 2800]],
-                [['wake', 880], ['groom', 2420], ['work', 10_000], ['yawn', 1800], [bedtimePose, 2800]],
-                [['wake', 880], ['stretch', 2600], ['work', 18_000], [bedtimePose, 2800], ['yawn', 1800]],
+                [['wake', wakeDuration], ['yawn', yawnDuration], ['work', 14_000], [bedtimePose, 2800]],
+                [['wake', wakeDuration], ['work', 14_000]],
             ];
             const sequence = variants[nightCount.current++ % variants.length];
             nightRunning.current = true;
@@ -589,16 +840,34 @@ export default function PipCompanion() {
             return;
         }
         if (reducedMotion || !atCorner) {
+            // Clicking him again and again makes him dizzy.
+            const time = Date.now();
+            recentClicks.current = [...recentClicks.current.filter(click => time - click < 2500), time];
+            if (!reducedMotion && recentClicks.current.length >= 4) {
+                recentClicks.current = [];
+                setTemporaryAction('dizzy', dizzyDuration);
+                return;
+            }
             const greeting: Pose = reducedMotion ? 'wave' : (['wave', 'look', 'stretch', 'groom'] as const)[clickCount.current++ % 4];
-            setTemporaryAction(greeting, greeting === 'wave' ? 1200 : greeting === 'stretch' ? 2600 : 3080);
+            setTemporaryAction(greeting, greeting === 'wave' ? 1200 : greeting === 'stretch' ? stretchDuration : 3080);
             return;
         }
+        // A forward roll away from the corner and one back, then a dizzy wobble and a wave.
         const distance = clamp(window.innerWidth * 0.18, 72, 140);
         const direction = sideRef.current === 'right' ? -1 : 1;
-        setTemporaryAction('roll', 2300);
-        setOffset(direction * distance);
-        returnTimer.current = setTimeout(() => setOffset(0), 1080);
-        finishTimer.current = setTimeout(() => setTemporaryAction('wave', 720), 2250);
+        const later = (ms: number, run: () => void) => nightTimers.current.push(setTimeout(run, ms));
+        nightRunning.current = true;
+        setRollMirror(direction === -1);
+        setTemporaryAction('roll', rollDuration);
+        later(rollCrouch, () => setOffset(direction * distance));
+        later(rollDuration, () => {
+            setRollMirror(direction === 1);
+            setTemporaryAction('roll', rollDuration);
+        });
+        later(rollDuration + rollCrouch, () => setOffset(0));
+        later(rollDuration * 2, () => setTemporaryAction('roll-dizzy', dizzyDuration));
+        later(rollDuration * 2 + dizzyDuration, () => setTemporaryAction('wave', 720));
+        later(rollDuration * 2 + dizzyDuration + 720, () => { nightRunning.current = false; });
     };
 
     if (now === null || placement === null) return null;
@@ -606,9 +875,14 @@ export default function PipCompanion() {
     const still = reducedMotion || !visible;
     const walking = pose.startsWith('run-');
     const bodyMotion = still ? { y: 0, rotate: 0, scaleX: 1, scaleY: 1 }
-        : pose === 'stretch' ? { y: [0, -1, -2, 0], rotate: [0, -2, 2, 0], scaleX: [1, .97, .98, 1], scaleY: [1, 1.05, 1.04, 1] }
+        : crouching ? { y: 3, rotate: 0, scaleX: 1, scaleY: 1 }
             : walking ? { y: [0, -1.2, 0], rotate: [0, .7, 0], scaleX: 1, scaleY: 1 }
-                : { y: 0, rotate: 0, scaleX: 1, scaleY: pose === 'idle' || pose === 'sleep' ? [1, 1.014, 1] : 1 };
+                : { y: 0, rotate: 0, scaleX: 1, scaleY: pose === 'idle' ? [1, 1.014, 1] : 1 };
+    const rolling = pose === 'roll' || pose === 'roll-dizzy';
+    const gazing = !still && pose === 'idle' && currentFrame === 0 && gaze !== null;
+    const nose = pose === 'sleep' && !still ? napNoses[currentFrame] : null;
+    const noseSide = currentFrame >= 11 ? 1 : -1;
+    const typing = pose === 'work' || pose === 'work-tired' || pose === 'think';
 
     return (
         <>
@@ -634,13 +908,28 @@ export default function PipCompanion() {
             title="Pip"
             data-pip-pose={pose}
             data-pip-scene={scene ?? undefined}
+            onPointerDown={() => { pressedWhileSleeping.current = pose === 'sleep' || pose === 'doze'; }}
+            onKeyDown={event => {
+                if (event.key === 'Enter' || event.key === ' ') pressedWhileSleeping.current = pose === 'sleep' || pose === 'doze';
+            }}
             onClick={onClick}
             className="fixed z-30 border-0 bg-transparent p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-vermillon focus-visible:outline-offset-2"
             style={{ left: 0, top: 0, x: placement.x, y: placement.y, width: placement.size, height: placement.size * spriteRatio, touchAction: 'manipulation' }}
             initial={false}
             animate={controls}
         >
-            {pose === 'roll' && (
+            {dust > 0 && !still && (
+                <svg key={dust} aria-hidden="true" viewBox="0 0 192 208" className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-visible">
+                    {[-1, 1].map(side => (
+                        <motion.ellipse key={side} cx={96 + side * 34} cy={198} rx={12} ry={7} fill="#efe8dc" stroke="#c9bca9" strokeWidth={1.6}
+                            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
+                            initial={{ opacity: .95, scale: .35, x: 0, y: 0 }}
+                            animate={{ opacity: 0, scale: 1.5, x: side * 20, y: -6 }}
+                            transition={{ duration: .65, ease: 'easeOut' }} />
+                    ))}
+                </svg>
+            )}
+            {rolling && (
                 <svg aria-hidden="true" viewBox="0 0 56 40" className="pointer-events-none absolute bottom-[8%] left-1/2 z-0 h-[36%] w-[52%] -translate-x-1/2" style={{ filter: 'saturate(.88) sepia(.05)' }}>
                     <path d="M10 4h36c2 0 3 2 2.5 4l-4 23H8L6 8c-.3-2 1-4 4-4Z" fill="#66A5D8" stroke="#182746" strokeWidth="3" />
                     <path d="M7 31h42l5 5H2l5-5Z" fill="#3D79B3" stroke="#182746" strokeWidth="2" />
@@ -650,21 +939,34 @@ export default function PipCompanion() {
             {/* Transparent sprite frames; the button carries the accessible name. */}
             <motion.div
                 className="relative z-10 h-full w-full"
-                style={{ scaleX: pose === 'edge' && facingLeftEdge ? -1 : 1 }}
+                style={{ scaleX: (pose === 'edge' && facingLeftEdge) || (rolling && rollMirror) ? -1 : 1 }}
                 animate={{ x: offset }}
-                transition={{ duration: still ? 0 : pose === 'roll' ? 1.08 : .85, ease: travelEase }}
+                transition={{ duration: still ? 0 : pose === 'roll' ? .88 : .85, ease: travelEase }}
             >
             <motion.div
                 className="relative z-10 h-full w-full"
                 style={{ transformOrigin: '50% 92%', filter: 'saturate(.88) sepia(.05) drop-shadow(0 3px 4px rgba(52, 37, 31, .16))' }}
                 animate={bodyMotion}
-                transition={{ duration: still ? 0 : pose === 'stretch' ? 2.6 : walking ? .36 : pose === 'sleep' ? 5.6 : 4.8,
-                    repeat: still || pose === 'stretch' ? 0 : Infinity, ease: 'easeInOut' }}
+                transition={{ duration: still ? 0 : crouching ? .12 : walking ? .36 : 4.8,
+                    repeat: still || crouching ? 0 : Infinity, ease: 'easeInOut' }}
             >
                 {/* Frames are already decoded; keep their URLs stable for sprite playback. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={spriteSource(pose, currentFrame)} alt="" draggable={false} className="block h-full w-full object-contain" />
-                {pose === 'work' && (
+                <img src={gazing ? spriteFile('gaze', gaze) : spriteSource(pose, currentFrame, pose === 'eat' ? belly : 0)} alt=""
+                    draggable={false} className="block h-full w-full object-contain" style={pose === 'wave' ? waveRegistration : undefined} />
+                {nose && (
+                    <svg aria-hidden="true" viewBox="0 0 192 208" className="pointer-events-none absolute inset-0 h-full w-full">
+                        {/* A sleepy bubble swells with his breathing, then pops. */}
+                        <motion.g style={{ transformOrigin: `${nose[0] + noseSide}px ${nose[1] + 3}px`, transformBox: 'view-box' }}
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: [0, .45, .2, .65, .3, .85, .4, 1.1, 1.3, 0], opacity: [0, .9, .9, .9, .9, .9, .9, .9, .9, 0] }}
+                            transition={{ duration: 9, times: [0, .12, .24, .36, .48, .6, .72, .86, .96, 1], repeat: Infinity, repeatDelay: 7, ease: 'easeInOut' }}>
+                            <circle cx={nose[0] + noseSide * 8} cy={nose[1] + 6} r={7.5} fill="#cde9ff" fillOpacity={.55} stroke="#7aaed8" strokeWidth={1} />
+                            <ellipse cx={nose[0] + noseSide * 8 - 2.5} cy={nose[1] + 3.5} rx={2} ry={1.4} fill="#fff" fillOpacity={.9} />
+                        </motion.g>
+                    </svg>
+                )}
+                {typing && (
                     <svg data-pip-glasses aria-hidden="true" viewBox="0 0 192 208" className="pointer-events-none absolute inset-0 h-full w-full">
                         <defs>
                             <radialGradient id={screenGlowId} cx="50%" cy="100%" r="85%">
@@ -672,7 +974,7 @@ export default function PipCompanion() {
                                 <stop offset="1" stopColor="#86d8ff" stopOpacity="0" />
                             </radialGradient>
                         </defs>
-                        <g transform={glassesTransform(currentFrame)}>
+                        <g transform={glassesTransform(pose === 'think' ? 0 : currentFrame)}>
                         <ellipse cx="95.5" cy="102" rx="52" ry="28" fill={`url(#${screenGlowId})`} />
                         <g fill="#dae9ed" fillOpacity=".12" stroke="#756354" strokeWidth="3.2" strokeLinejoin="round">
                             <rect x="46" y="75" width="39" height="25" rx="4" />
@@ -690,16 +992,6 @@ export default function PipCompanion() {
                         </motion.g>
                         <path d="M51 79H65M111 79H124" stroke="#fff" strokeOpacity=".5" strokeWidth="1.5" />
                         </g>
-                    </svg>
-                )}
-                {pose === 'yawn' && (
-                    <svg aria-hidden="true" viewBox="0 0 192 208" className="pointer-events-none absolute inset-0 h-full w-full">
-                        <ellipse cx="94" cy="113" rx="13" ry="11" fill="#fff" />
-                        <motion.g style={{ transformOrigin: '94px 112px', transformBox: 'view-box' }} initial={{ scaleY: .25 }}
-                            animate={{ scaleY: [.25, 1, 1.12, .25] }} transition={{ duration: 1.8, times: [0, .3, .7, 1] }}>
-                            <ellipse cx="94" cy="113" rx="7" ry="9" fill="#19213f" />
-                            <ellipse cx="94" cy="118" rx="4" ry="2.5" fill="#e794a6" />
-                        </motion.g>
                     </svg>
                 )}
             </motion.div>
