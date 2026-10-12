@@ -87,6 +87,7 @@ const stretchDuration = playTime('stretch');
 const dozeDuration = playTime('doze');
 const rollDuration = playTime('roll');
 const rollCrouch = 2 * delayFor('roll');
+const laptopStowDuration = 460;
 const digestDuration = playTime('digest');
 const thinkDuration = playTime('think');
 const riseDuration = playTime('rise');
@@ -161,7 +162,7 @@ export default function PipCompanion() {
     const [belly, setBelly] = useState(0);
     const [rollMirror, setRollMirror] = useState(false);
     const [gaze, setGaze] = useState<number | null>(null);
-    const [parkedLaptop, setParkedLaptop] = useState<Spot | null>(null);
+    const [stowingLaptop, setStowingLaptop] = useState(false);
     const [dust, setDust] = useState(0);
     const [bubble, setBubble] = useState(0);
     const [frame, setFrame] = useState({ pose: 'idle' as Pose, index: 0 });
@@ -223,6 +224,7 @@ export default function PipCompanion() {
         nightTimers.current = [];
         if (!nightRunning.current) return;
         nightRunning.current = false;
+        setStowingLaptop(false);
         if (actionTimer.current) clearTimeout(actionTimer.current);
         actionRef.current = null;
         setAction(null);
@@ -231,6 +233,7 @@ export default function PipCompanion() {
     useEffect(() => {
         // Decode every frame ahead of its first use, a few at a time while the browser is idle.
         const sources = [
+            '/pip/laptop.svg',
             ...Object.entries(frames).flatMap(([pose, sequence]) =>
                 [...new Set(sequence)].map(index => spriteSource(pose as Pose, index))),
             ...bellyLevels.flatMap(level => [...new Set(frames.eat)].map(index => spriteSource('eat', index, level))),
@@ -333,7 +336,7 @@ export default function PipCompanion() {
         let cancelRouteAnimation: (() => void) | undefined;
         // A single clock drives both the sprite and its position. Each turn
         // covers roughly two body widths, with time to crouch and settle.
-        const rollTo = (target: Spot, route: number, laptop: Spot, followHome = false): Promise<boolean> => {
+        const rollTo = (target: Spot, route: number, followHome = false, stashLaptop = false): Promise<boolean> => {
             cancelRouteAnimation?.();
             const start = currentSpot();
             const distance = Math.abs(target.x - start.x);
@@ -341,7 +344,7 @@ export default function PipCompanion() {
                 place(target);
                 return Promise.resolve(route === routeRef.current);
             }
-            setParkedLaptop(laptop);
+            setStowingLaptop(stashLaptop);
             setRollMirror(target.x < start.x);
             setMovingPose('travel-roll');
             setFrame({ pose: 'travel-roll', index: 0 });
@@ -351,23 +354,26 @@ export default function PipCompanion() {
                 let animationFrame = 0;
                 let started: number | undefined;
                 let previousIndex = -1;
-                let laptopSpot = laptop;
+                const preparation = stashLaptop ? laptopStowDuration : 0;
+                let stashed = !stashLaptop;
                 const finish = (completed: boolean) => {
                     cancelAnimationFrame(animationFrame);
                     cancelRouteAnimation = undefined;
-                    setParkedLaptop(null);
+                    setStowingLaptop(false);
                     resolve(completed);
                 };
                 cancelRouteAnimation = () => finish(false);
                 const tick = (time: number) => {
                     if (route !== routeRef.current) { finish(false); return; }
                     const destination = followHome ? homeSpot() ?? target : target;
-                    if (followHome && Math.hypot(destination.x - laptopSpot.x, destination.y - laptopSpot.y) > .5) {
-                        laptopSpot = destination;
-                        setParkedLaptop(destination);
-                    }
                     started ??= time;
-                    const progress = Math.min((time - started) / duration, 1);
+                    const elapsed = time - started;
+                    if (elapsed < preparation) {
+                        animationFrame = requestAnimationFrame(tick);
+                        return;
+                    }
+                    if (!stashed) { stashed = true; setStowingLaptop(false); }
+                    const progress = Math.min((elapsed - preparation) / duration, 1);
                     const turn = Math.min(Math.floor(progress * turns), turns - 1);
                     const local = progress === 1 ? 1 : progress * turns - turn;
                     // Travel during the tumble; hold position for the takeoff and landing.
@@ -437,6 +443,7 @@ export default function PipCompanion() {
         };
 
         const leaveHome = async () => {
+            const stashLaptop = phaseRef.current === 'home';
             cancelNight();
             clearScene();
             cancelHabit();
@@ -454,7 +461,7 @@ export default function PipCompanion() {
             const start = currentSpot();
             const edge = edgeSpot();
             const edgeY = clamp(start.y, 96, edge.y);
-            if (!await rollTo({ ...edge, y: edgeY }, route, start)) return;
+            if (!await rollTo({ ...edge, y: edgeY }, route, false, stashLaptop)) return;
             if (route !== routeRef.current) return;
             setMovingPose('edge');
             await controls.start({
@@ -487,7 +494,7 @@ export default function PipCompanion() {
             setMovingPose('edge');
             const latestHome = await climbHome(route);
             if (!latestHome || route !== routeRef.current) return;
-            if (!await rollTo(latestHome, route, latestHome, true)) return;
+            if (!await rollTo(latestHome, route, true)) return;
             if (route !== routeRef.current) return;
             phaseRef.current = 'home';
             setMovingPose(null);
@@ -983,10 +990,15 @@ export default function PipCompanion() {
         // A forward roll away from the corner and one back, then a dizzy wobble and a wave.
         const distance = clamp(window.innerWidth * 0.18, 72, 140);
         const direction = sideRef.current === 'right' ? -1 : 1;
-        const later = (ms: number, run: () => void) => nightTimers.current.push(setTimeout(run, ms));
+        const later = (ms: number, run: () => void) => nightTimers.current.push(setTimeout(run, laptopStowDuration + ms));
         nightRunning.current = true;
         setRollMirror(direction === -1);
-        setTemporaryAction('roll', rollDuration);
+        setStowingLaptop(true);
+        setTemporaryAction('travel-roll', laptopStowDuration + 40);
+        later(0, () => {
+            setStowingLaptop(false);
+            setTemporaryAction('roll', rollDuration);
+        });
         later(rollCrouch, () => setOffset(direction * distance));
         later(rollDuration, () => {
             setRollMirror(direction === 1);
@@ -1032,15 +1044,6 @@ export default function PipCompanion() {
                     ? 'M4 20Q1 4 21 3Q20 18 4 20ZM5 19L17 7'
                     : 'M12 1L15 9L23 12L15 15L12 23L9 15L1 12L9 9Z'} />
             </motion.svg>
-        )}
-        {parkedLaptop && (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img src="/pip/laptop.svg" alt="" aria-hidden="true" draggable={false} data-pip-parked-laptop
-                className="pointer-events-none fixed z-20"
-                style={{ left: parkedLaptop.x + parkedLaptop.size * .24,
-                    top: parkedLaptop.y + parkedLaptop.size * spriteRatio * .56,
-                    width: parkedLaptop.size * .52, height: parkedLaptop.size * spriteRatio * .36,
-                    filter: 'saturate(.88) sepia(.05)' }} />
         )}
         <motion.button
             ref={buttonRef}
@@ -1097,12 +1100,14 @@ export default function PipCompanion() {
                     ))}
                 </svg>
             )}
-            {rolling && (
-                /* Keep the laptop at home while the existing roll sprites move. */
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img src="/pip/laptop.svg" alt="" draggable={false}
-                    className="pointer-events-none absolute bottom-[8%] left-1/2 z-0 h-[36%] w-[52%] -translate-x-1/2"
-                    style={{ filter: 'saturate(.88) sepia(.05)' }} />
+            {stowingLaptop && !still && (
+                <motion.img src="/pip/laptop.svg" alt="" aria-hidden="true" draggable={false} data-pip-stowing-laptop
+                    className="pointer-events-none absolute bottom-[8%] left-[24%] z-20 h-[36%] w-[52%]"
+                    style={{ transformOrigin: '50% 85%', filter: 'saturate(.88) sepia(.05)' }}
+                    initial={{ y: 0, scaleX: 1, scaleY: 1, opacity: 1 }}
+                    animate={{ y: [0, 0, -placement.size * .14, -placement.size * .17],
+                        scaleX: [1, 1, .55, .3], scaleY: [1, .22, .16, .1], opacity: [1, 1, 1, 0] }}
+                    transition={{ duration: laptopStowDuration / 1000, times: [0, .35, .75, 1], ease: 'easeInOut' }} />
             )}
             {/* Transparent sprite frames; the button carries the accessible name. */}
             <motion.div
