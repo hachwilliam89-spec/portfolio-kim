@@ -6,7 +6,7 @@ import { useTheme } from './ThemeProvider';
 import { languageEvent, useLanguage } from '@/lib/i18n';
 
 type Pose = 'idle' | 'sleep' | 'eat' | 'roll' | 'wave' | 'edge' | 'run-left' | 'run-right' | 'look' | 'groom' | 'work'
-    | 'stretch' | 'moon-look' | 'wake' | 'yawn' | 'doze' | 'dizzy' | 'roll-dizzy' | 'digest' | 'think' | 'work-tired' | 'rise';
+    | 'travel-roll' | 'stretch' | 'moon-look' | 'wake' | 'yawn' | 'doze' | 'dizzy' | 'roll-dizzy' | 'digest' | 'think' | 'work-tired' | 'rise';
 type Spot = { x: number; y: number; size: number };
 type Phase = 'unplaced' | 'home' | 'leaving' | 'corner' | 'returning' | 'scene';
 type SceneDecoration = { kind: 'leaf' | 'star'; x: number; y: number; endX: number; endY: number };
@@ -21,6 +21,7 @@ function petSize(viewportWidth: number) {
     return clamp(viewportWidth * 0.055, 52, 76);
 }
 
+const rollFrames = [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 13];
 const frames: Record<Pose, number[]> = {
     idle: [0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 0, 0, 0],
     // Breathing back, an ear twitch now and then, and a turn onto the other side.
@@ -32,7 +33,8 @@ const frames: Record<Pose, number[]> = {
     ],
     eat: [1, 2, 3, 4, 5],
     // Crouch, a forward roll with a little hop, then a landing in a puff of dust.
-    roll: [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 13],
+    roll: rollFrames,
+    'travel-roll': rollFrames,
     wave: [0, 1, 2, 3],
     edge: [0, 1, 2, 3, 4, 5],
     'run-left': [0, 1, 2, 3, 4, 5, 6, 7],
@@ -100,7 +102,7 @@ const webpDirectories = new Set(['yawn', 'stretch', 'doze', 'wake2', 'typetired'
     'nap', 'digest', 'moonlook', 'gaze', ...bellyLevels.map(level => `eat-${level}`)]);
 const spriteDirectories: Partial<Record<Pose, string>> = {
     'moon-look': 'moonlook', wake: 'wake2', work: 'type', 'work-tired': 'typetired', roll: 'roll2',
-    'roll-dizzy': 'rolldizzy', sleep: 'nap', rise: 'doze',
+    'travel-roll': 'roll2', 'roll-dizzy': 'rolldizzy', sleep: 'nap', rise: 'doze',
 };
 // Nose of each sleeping image (the last 11 are mirrored), where the bubble grows.
 const napNoses = [[88.6, 151],  [88.6, 151],  [88.6, 151],  [90.3, 152],  [90.3, 152],  [90.3, 152],  [89.5, 151],  [89.5, 151],  [89.5, 151],  [88.6, 151],  [90.3, 152],  [103.4, 151],  [103.4, 151],  [103.4, 151],  [101.7, 152],  [101.7, 152],  [101.7, 152],  [102.5, 151],  [102.5, 151],  [102.5, 151],  [103.4, 151],  [101.7, 152]];
@@ -159,7 +161,7 @@ export default function PipCompanion() {
     const [belly, setBelly] = useState(0);
     const [rollMirror, setRollMirror] = useState(false);
     const [gaze, setGaze] = useState<number | null>(null);
-    const [crouching, setCrouching] = useState(false);
+    const [parkedLaptop, setParkedLaptop] = useState<Spot | null>(null);
     const [dust, setDust] = useState(0);
     const [bubble, setBubble] = useState(0);
     const [frame, setFrame] = useState({ pose: 'idle' as Pose, index: 0 });
@@ -328,13 +330,104 @@ export default function PipCompanion() {
             if (!buttonRef.current) setPlacement(spot);
         };
         const durationFor = (distance: number, speed: number) => clamp(distance / speed, 0.5, 4);
-        const wait = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
-        // A short crouch before running off, and a little skid with a puff of dust when braking.
-        const crouch = async () => {
-            if (reducedMotion) return;
-            setCrouching(true);
-            await wait(150);
-            setCrouching(false);
+        let cancelRouteAnimation: (() => void) | undefined;
+        // A single clock drives both the sprite and its position. Each turn
+        // covers roughly two body widths, with time to crouch and settle.
+        const rollTo = (target: Spot, route: number, laptop: Spot, followHome = false): Promise<boolean> => {
+            cancelRouteAnimation?.();
+            const start = currentSpot();
+            const distance = Math.abs(target.x - start.x);
+            if (reducedMotion || distance < 6) {
+                place(target);
+                return Promise.resolve(route === routeRef.current);
+            }
+            setParkedLaptop(laptop);
+            setRollMirror(target.x < start.x);
+            setMovingPose('travel-roll');
+            setFrame({ pose: 'travel-roll', index: 0 });
+            const turns = Math.max(1, Math.round(distance / (target.size * 2)));
+            const duration = turns * clamp(distance / turns / 170 + .3, .7, 1.25) * 1000;
+            return new Promise(resolve => {
+                let animationFrame = 0;
+                let started: number | undefined;
+                let previousIndex = -1;
+                let laptopSpot = laptop;
+                const finish = (completed: boolean) => {
+                    cancelAnimationFrame(animationFrame);
+                    cancelRouteAnimation = undefined;
+                    setParkedLaptop(null);
+                    resolve(completed);
+                };
+                cancelRouteAnimation = () => finish(false);
+                const tick = (time: number) => {
+                    if (route !== routeRef.current) { finish(false); return; }
+                    const destination = followHome ? homeSpot() ?? target : target;
+                    if (followHome && Math.hypot(destination.x - laptopSpot.x, destination.y - laptopSpot.y) > .5) {
+                        laptopSpot = destination;
+                        setParkedLaptop(destination);
+                    }
+                    started ??= time;
+                    const progress = Math.min((time - started) / duration, 1);
+                    const turn = Math.min(Math.floor(progress * turns), turns - 1);
+                    const local = progress === 1 ? 1 : progress * turns - turn;
+                    // Travel during the tumble; hold position for the takeoff and landing.
+                    const tumble = clamp((local - .12) / .66, 0, 1);
+                    const eased = tumble * tumble * (3 - 2 * tumble);
+                    const travel = (turn + eased) / turns;
+                    controls.set({
+                        x: start.x + (destination.x - start.x) * travel,
+                        y: start.y + (destination.y - start.y) * travel,
+                        width: target.size, height: target.size * spriteRatio,
+                    });
+                    const index = Math.min(Math.floor(local * rollFrames.length), rollFrames.length - 1);
+                    if (index !== previousIndex) {
+                        previousIndex = index;
+                        setFrame({ pose: 'travel-roll', index });
+                    }
+                    if (progress === 1) finish(true);
+                    else animationFrame = requestAnimationFrame(tick);
+                };
+                animationFrame = requestAnimationFrame(tick);
+            });
+        };
+        // The title is still moving during smooth scroll: follow its measured
+        // height while climbing, then begin the horizontal roll on that line.
+        const climbHome = (route: number): Promise<Spot | null> => {
+            const edge = edgeSpot();
+            const start = currentSpot();
+            return new Promise(resolve => {
+                let animationFrame = 0;
+                let previousTime: number | undefined;
+                let x = start.x;
+                let y = start.y;
+                let speed = 0;
+                const finish = (home: Spot | null) => {
+                    cancelAnimationFrame(animationFrame);
+                    cancelRouteAnimation = undefined;
+                    resolve(home);
+                };
+                cancelRouteAnimation = () => finish(null);
+                const tick = (time: number) => {
+                    const home = homeSpot();
+                    if (route !== routeRef.current || !home) { finish(null); return; }
+                    const targetY = clamp(home.y, 96, edge.y);
+                    const distance = Math.hypot(edge.x - x, targetY - y);
+                    if (reducedMotion || distance < 1) {
+                        controls.set({ x: edge.x, y: targetY });
+                        finish(home);
+                        return;
+                    }
+                    const dt = Math.min((time - (previousTime ?? time)) / 1000, .05);
+                    previousTime = time;
+                    speed = Math.min(190, speed + 650 * dt, Math.sqrt(1300 * distance));
+                    const fraction = Math.min(speed * dt / distance, 1);
+                    x += (edge.x - x) * fraction;
+                    y += (targetY - y) * fraction;
+                    controls.set({ x, y, width: edge.size, height: edge.size * spriteRatio });
+                    animationFrame = requestAnimationFrame(tick);
+                };
+                animationFrame = requestAnimationFrame(tick);
+            });
         };
         const skidPast = reducedMotion ? 0 : 7;
         const brake = async (x: number) => {
@@ -348,6 +441,7 @@ export default function PipCompanion() {
             clearScene();
             cancelHabit();
             const route = ++routeRef.current;
+            cancelRouteAnimation?.();
             controls.stop();
             if (returnTimer.current) clearTimeout(returnTimer.current);
             if (finishTimer.current) clearTimeout(finishTimer.current);
@@ -360,13 +454,7 @@ export default function PipCompanion() {
             const start = currentSpot();
             const edge = edgeSpot();
             const edgeY = clamp(start.y, 96, edge.y);
-            setMovingPose(sideRef.current === 'left' ? 'run-left' : 'run-right');
-            await crouch();
-            if (route !== routeRef.current) return;
-            await controls.start({
-                x: edge.x, y: edgeY, width: edge.size, height: edge.size * spriteRatio,
-                transition: { duration: reducedMotion ? 0 : durationFor(Math.hypot(start.x - edge.x, start.y - edgeY), 175), ease: travelEase },
-            });
+            if (!await rollTo({ ...edge, y: edgeY }, route, start)) return;
             if (route !== routeRef.current) return;
             setMovingPose('edge');
             await controls.start({
@@ -384,6 +472,7 @@ export default function PipCompanion() {
             clearScene();
             cancelHabit();
             const route = ++routeRef.current;
+            cancelRouteAnimation?.();
             controls.stop();
             if (returnTimer.current) clearTimeout(returnTimer.current);
             if (finishTimer.current) clearTimeout(finishTimer.current);
@@ -395,24 +484,10 @@ export default function PipCompanion() {
             setAtCorner(false);
             const home = homeSpot();
             if (!home) return;
-            const edge = edgeSpot();
-            const start = currentSpot();
-            const edgeY = clamp(home.y, 96, edge.y);
             setMovingPose('edge');
-            await controls.start({
-                x: edge.x, y: edgeY, width: edge.size, height: edge.size * spriteRatio,
-                transition: { duration: reducedMotion ? 0 : durationFor(Math.hypot(start.x - edge.x, start.y - edgeY), 190), ease: travelEase },
-            });
-            if (route !== routeRef.current) return;
-            setMovingPose(sideRef.current === 'left' ? 'run-right' : 'run-left');
-            const latestHome = homeSpot() ?? home;
-            const homeward = sideRef.current === 'left' ? 1 : -1;
-            await controls.start({
-                x: latestHome.x + homeward * skidPast, y: latestHome.y, width: latestHome.size, height: latestHome.size * spriteRatio,
-                transition: { duration: reducedMotion ? 0 : durationFor(Math.hypot(edge.x - latestHome.x, edgeY - latestHome.y), 175), ease: travelEase },
-            });
-            if (route !== routeRef.current) return;
-            await brake(latestHome.x);
+            const latestHome = await climbHome(route);
+            if (!latestHome || route !== routeRef.current) return;
+            if (!await rollTo(latestHome, route, latestHome, true)) return;
             if (route !== routeRef.current) return;
             phaseRef.current = 'home';
             setMovingPose(null);
@@ -542,6 +617,7 @@ export default function PipCompanion() {
         const onVisibility = () => {
             if (document.hidden) {
                 ++routeRef.current;
+                cancelRouteAnimation?.();
                 controls.stop();
                 clearScene();
                 cancelHabit();
@@ -563,6 +639,7 @@ export default function PipCompanion() {
         document.addEventListener('visibilitychange', onVisibility);
         return () => {
             ++routeToken.current;
+            cancelRouteAnimation?.();
             controls.stop();
             cancelAnimationFrame(scrollFrame);
             clearInterval(sceneClock);
@@ -628,7 +705,7 @@ export default function PipCompanion() {
     // nods off before the sleep loop instead of popping into it. Being carried
     // along the page is ignored, so a Pip who was already asleep stays asleep.
     // A visitor coming back during the doze sees his eyelids lift again.
-    const travelling = basePose === 'run-left' || basePose === 'run-right' || basePose === 'edge';
+    const travelling = basePose === 'travel-roll' || basePose === 'run-left' || basePose === 'run-right' || basePose === 'edge';
     const [settledPose, setSettledPose] = useState<Pose>(basePose);
     const [napping, setNapping] = useState(false);
     const [rousing, setRousing] = useState(false);
@@ -775,7 +852,7 @@ export default function PipCompanion() {
     }, [dayWorkAllowed]);
 
     useEffect(() => {
-        if (reducedMotion || !visible) return;
+        if (reducedMotion || !visible || pose === 'travel-roll') return;
         const delay = delayFor(pose);
         const interval = window.setInterval(() => setFrame(previous => ({
             pose, index: previous.pose === pose ? (previous.index + 1) % frames[pose].length : 0,
@@ -926,8 +1003,7 @@ export default function PipCompanion() {
     const still = reducedMotion || !visible;
     const walking = pose.startsWith('run-');
     const bodyMotion = still ? { y: 0, rotate: 0, scaleX: 1, scaleY: 1 }
-        : crouching ? { y: 3, rotate: 0, scaleX: 1, scaleY: 1 }
-            : walking ? { y: [0, -1.2, 0], rotate: [0, .7, 0], scaleX: 1, scaleY: 1 }
+        : walking ? { y: [0, -1.2, 0], rotate: [0, .7, 0], scaleX: 1, scaleY: 1 }
                 : { y: 0, rotate: 0, scaleX: 1, scaleY: pose === 'idle' ? [1, 1.014, 1] : 1 };
     const rolling = pose === 'roll' || pose === 'roll-dizzy';
     const gazing = !still && pose === 'idle' && currentFrame === 0 && gaze !== null;
@@ -956,6 +1032,15 @@ export default function PipCompanion() {
                     ? 'M4 20Q1 4 21 3Q20 18 4 20ZM5 19L17 7'
                     : 'M12 1L15 9L23 12L15 15L12 23L9 15L1 12L9 9Z'} />
             </motion.svg>
+        )}
+        {parkedLaptop && (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img src="/pip/laptop.svg" alt="" aria-hidden="true" draggable={false} data-pip-parked-laptop
+                className="pointer-events-none fixed z-20"
+                style={{ left: parkedLaptop.x + parkedLaptop.size * .24,
+                    top: parkedLaptop.y + parkedLaptop.size * spriteRatio * .56,
+                    width: parkedLaptop.size * .52, height: parkedLaptop.size * spriteRatio * .36,
+                    filter: 'saturate(.88) sepia(.05)' }} />
         )}
         <motion.button
             ref={buttonRef}
@@ -1022,7 +1107,7 @@ export default function PipCompanion() {
             {/* Transparent sprite frames; the button carries the accessible name. */}
             <motion.div
                 className="relative z-10 h-full w-full"
-                style={{ scaleX: (pose === 'edge' && facingLeftEdge) || (rolling && rollMirror) ? -1 : 1 }}
+                style={{ scaleX: (pose === 'edge' && facingLeftEdge) || ((rolling || pose === 'travel-roll') && rollMirror) ? -1 : 1 }}
                 animate={{ x: offset }}
                 transition={{ duration: still ? 0 : pose === 'roll' ? .88 : .85, ease: travelEase }}
             >
@@ -1030,8 +1115,8 @@ export default function PipCompanion() {
                 className="relative z-10 h-full w-full"
                 style={{ transformOrigin: '50% 92%', filter: 'saturate(.88) sepia(.05) drop-shadow(0 3px 4px rgba(52, 37, 31, .16))' }}
                 animate={bodyMotion}
-                transition={{ duration: still ? 0 : crouching ? .12 : walking ? .36 : 4.8,
-                    repeat: still || crouching ? 0 : Infinity, ease: 'easeInOut' }}
+                transition={{ duration: still ? 0 : walking ? .36 : 4.8,
+                    repeat: still ? 0 : Infinity, ease: 'easeInOut' }}
             >
                 {/* Frames are already decoded; keep their URLs stable for sprite playback. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
