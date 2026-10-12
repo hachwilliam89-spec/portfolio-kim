@@ -6,7 +6,7 @@ import { useTheme } from './ThemeProvider';
 import { languageEvent, useLanguage } from '@/lib/i18n';
 
 type Pose = 'idle' | 'sleep' | 'eat' | 'roll' | 'wave' | 'edge' | 'run-left' | 'run-right' | 'look' | 'groom' | 'work'
-    | 'travel-roll' | 'stretch' | 'moon-look' | 'wake' | 'yawn' | 'doze' | 'dizzy' | 'roll-dizzy' | 'digest' | 'think' | 'work-tired' | 'rise';
+    | 'travel-roll' | 'hurry' | 'stretch' | 'moon-look' | 'wake' | 'yawn' | 'doze' | 'dizzy' | 'roll-dizzy' | 'digest' | 'think' | 'work-tired' | 'rise';
 type Spot = { x: number; y: number; size: number };
 type Phase = 'unplaced' | 'home' | 'leaving' | 'corner' | 'returning' | 'scene';
 type SceneDecoration = { kind: 'leaf' | 'star'; x: number; y: number; endX: number; endY: number };
@@ -21,7 +21,10 @@ function petSize(viewportWidth: number) {
     return clamp(viewportWidth * 0.055, 52, 76);
 }
 
-const rollFrames = [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 13];
+// 14–16 are new drawings between the head-down and back-down poses.
+const rollFrames = [0, 0, 1, 2, 3, 4, 14, 15, 16, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 13];
+// Keep consecutive tumbles moving, without repeating the resting/dust frames.
+const travelRollFrames = [0, 1, 2, 3, 4, 14, 15, 16, 5, 6, 7, 8, 9, 10, 11];
 const frames: Record<Pose, number[]> = {
     idle: [0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 0, 0, 0],
     // Breathing back, an ear twitch now and then, and a turn onto the other side.
@@ -34,7 +37,8 @@ const frames: Record<Pose, number[]> = {
     eat: [1, 2, 3, 4, 5],
     // Crouch, a forward roll with a little hop, then a landing in a puff of dust.
     roll: rollFrames,
-    'travel-roll': rollFrames,
+    'travel-roll': travelRollFrames,
+    hurry: [0],
     wave: [0, 1, 2, 3],
     edge: [0, 1, 2, 3, 4, 5],
     'run-left': [0, 1, 2, 3, 4, 5, 6, 7],
@@ -75,7 +79,7 @@ const frames: Record<Pose, number[]> = {
 };
 const frameDelays: Partial<Record<Pose, number>> = {
     'run-left': 90, 'run-right': 90, edge: 120, idle: 340, sleep: 520, look: 280, 'moon-look': 280,
-    work: 180, 'work-tired': 200, groom: 220, wake: 90, yawn: 90, stretch: 100, doze: 90, roll: 80,
+    work: 180, 'work-tired': 200, groom: 220, wake: 90, yawn: 90, stretch: 100, doze: 90, roll: 54,
     dizzy: 90, 'roll-dizzy': 90, digest: 140, think: 200, rise: 110,
 };
 const delayFor = (pose: Pose) => frameDelays[pose] ?? 180;
@@ -87,7 +91,8 @@ const stretchDuration = playTime('stretch');
 const dozeDuration = playTime('doze');
 const rollDuration = playTime('roll');
 const rollCrouch = 2 * delayFor('roll');
-const laptopStowDuration = 460;
+const laptopStowDuration = 400;
+const hurryDuration = 240;
 const digestDuration = playTime('digest');
 const thinkDuration = playTime('think');
 const riseDuration = playTime('rise');
@@ -100,10 +105,10 @@ const bellyLevels = [1, 2, 3, 4, 5, 6];
 const waveRegistration = { transformOrigin: '49.2% 7.7%', transform: 'translateX(.26%) scale(.978, 1.027)' };
 // Generated sets are WebP; the original drawings stay PNG.
 const webpDirectories = new Set(['yawn', 'stretch', 'doze', 'wake2', 'typetired', 'think', 'roll2', 'rolldizzy', 'dizzy',
-    'nap', 'digest', 'moonlook', 'gaze', ...bellyLevels.map(level => `eat-${level}`)]);
+    'nap', 'digest', 'moonlook', 'gaze', 'roll-inbetweens', ...bellyLevels.map(level => `eat-${level}`)]);
 const spriteDirectories: Partial<Record<Pose, string>> = {
     'moon-look': 'moonlook', wake: 'wake2', work: 'type', 'work-tired': 'typetired', roll: 'roll2',
-    'travel-roll': 'roll2', 'roll-dizzy': 'rolldizzy', sleep: 'nap', rise: 'doze',
+    'travel-roll': 'roll2', 'roll-dizzy': 'rolldizzy', sleep: 'nap', rise: 'doze', hurry: 'gaze',
 };
 // Nose of each sleeping image (the last 11 are mirrored), where the bubble grows.
 const napNoses = [[88.6, 151],  [88.6, 151],  [88.6, 151],  [90.3, 152],  [90.3, 152],  [90.3, 152],  [89.5, 151],  [89.5, 151],  [89.5, 151],  [88.6, 151],  [90.3, 152],  [103.4, 151],  [103.4, 151],  [103.4, 151],  [101.7, 152],  [101.7, 152],  [101.7, 152],  [102.5, 151],  [102.5, 151],  [102.5, 151],  [103.4, 151],  [101.7, 152]];
@@ -132,6 +137,9 @@ function spriteFile(directory: string, frame: number) {
 }
 
 function spriteSource(pose: Pose, frame: number, belly = 0) {
+    if ((pose === 'roll' || pose === 'travel-roll') && frame >= 14) {
+        return spriteFile('roll-inbetweens', frame - 14);
+    }
     return spriteFile(pose === 'eat' && belly > 0 ? `eat-${belly}` : spriteDirectories[pose] ?? pose, frame);
 }
 
@@ -333,28 +341,61 @@ export default function PipCompanion() {
             if (!buttonRef.current) setPlacement(spot);
         };
         const durationFor = (distance: number, speed: number) => clamp(distance / speed, 0.5, 4);
+        let lastScrollY = window.scrollY;
+        let lastScrollTime = performance.now();
+        let scrollSpeed = 0;
+        let lastDownScroll = 0;
         let cancelRouteAnimation: (() => void) | undefined;
         // A single clock drives both the sprite and its position. Each turn
         // covers roughly two body widths, with time to crouch and settle.
-        const rollTo = (target: Spot, route: number, followHome = false, stashLaptop = false): Promise<boolean> => {
+        // Scrolling changes the tempo, but never leaves him frozen mid-route.
+        const rollTo = (target: Spot, route: number,
+            { destinationFor, stashLaptop = false, scrollPaced = false }:
+                { destinationFor?: () => Spot; stashLaptop?: boolean; scrollPaced?: boolean } = {}): Promise<boolean> => {
             cancelRouteAnimation?.();
             const start = currentSpot();
             const distance = Math.abs(target.x - start.x);
-            if (reducedMotion || distance < 6) {
+            const length = Math.hypot(target.x - start.x, target.y - start.y);
+            if (reducedMotion || length < 6) {
                 place(target);
                 return Promise.resolve(route === routeRef.current);
             }
-            setStowingLaptop(stashLaptop);
+            const anticipation = stashLaptop ? hurryDuration : 0;
+            setStowingLaptop(false);
             setRollMirror(target.x < start.x);
-            setMovingPose('travel-roll');
-            setFrame({ pose: 'travel-roll', index: 0 });
-            const turns = Math.max(1, Math.round(distance / (target.size * 2)));
-            const duration = turns * clamp(distance / turns / 170 + .3, .7, 1.25) * 1000;
+            setMovingPose(anticipation ? 'hurry' : 'travel-roll');
+            setFrame({ pose: anticipation ? 'hurry' : 'travel-roll', index: 0 });
+            const turns = Math.max(1, Math.round((scrollPaced ? length : distance) / (target.size * 2)));
+            const duration = turns * clamp(distance / turns / 230 + .24, .56, .96) * 1000;
+            // Scrolling about 1.3 times the path keeps him rolling all the way.
+            const scrollStart = window.scrollY;
+            const scrollRange = Math.max(length * 1.3, window.innerHeight * .6);
             return new Promise(resolve => {
                 let animationFrame = 0;
                 let started: number | undefined;
                 let previousIndex = -1;
-                const preparation = stashLaptop ? laptopStowDuration : 0;
+                let previousTime: number | undefined;
+                // Tumbles done so far, and their tempo in tumbles per second.
+                let rolled = 0;
+                let tempo = 1.15;
+                let scrolledTurns = 0;
+                // Momentum decays smoothly after a scroll burst. Brake during the
+                // last tumble, while retaining enough speed to complete the pose.
+                const followScroll = (time: number) => {
+                    const dt = Math.min((time - (previousTime ?? time)) / 1000, .05);
+                    previousTime = time;
+                    scrolledTurns = Math.max(scrolledTurns, clamp((window.scrollY - scrollStart) / scrollRange, 0, 1) * turns);
+                    const ahead = Math.max(0, scrolledTurns - rolled);
+                    const momentum = scrollSpeed * Math.exp(-Math.max(0, time - lastDownScroll) / 420);
+                    const urgency = clamp(momentum / 1800 + ahead * .2, 0, 1);
+                    const arrival = clamp((turns - rolled) / .7, 0, 1);
+                    const wanted = 1.05 + (.2 + urgency * .9) * arrival;
+                    tempo += (wanted - tempo) * (1 - Math.exp(-dt * 7));
+                    rolled = Math.min(rolled + tempo * dt, turns);
+                    return rolled / turns;
+                };
+                const preparation = anticipation + (stashLaptop ? laptopStowDuration : 0);
+                let stowStarted = !stashLaptop;
                 let stashed = !stashLaptop;
                 const finish = (completed: boolean) => {
                     cancelAnimationFrame(animationFrame);
@@ -365,19 +406,29 @@ export default function PipCompanion() {
                 cancelRouteAnimation = () => finish(false);
                 const tick = (time: number) => {
                     if (route !== routeRef.current) { finish(false); return; }
-                    const destination = followHome ? homeSpot() ?? target : target;
+                    const destination = destinationFor?.() ?? target;
                     started ??= time;
                     const elapsed = time - started;
+                    if (elapsed < anticipation) {
+                        animationFrame = requestAnimationFrame(tick);
+                        return;
+                    }
+                    if (!stowStarted) {
+                        stowStarted = true;
+                        setStowingLaptop(true);
+                        setMovingPose('travel-roll');
+                        setFrame({ pose: 'travel-roll', index: 0 });
+                    }
                     if (elapsed < preparation) {
                         animationFrame = requestAnimationFrame(tick);
                         return;
                     }
                     if (!stashed) { stashed = true; setStowingLaptop(false); }
-                    const progress = Math.min((elapsed - preparation) / duration, 1);
+                    const progress = scrollPaced ? followScroll(time) : Math.min((elapsed - preparation) / duration, 1);
                     const turn = Math.min(Math.floor(progress * turns), turns - 1);
                     const local = progress === 1 ? 1 : progress * turns - turn;
                     // Travel during the tumble; hold position for the takeoff and landing.
-                    const tumble = clamp((local - .12) / .66, 0, 1);
+                    const tumble = clamp((local - 1 / travelRollFrames.length) / (1 - 2 / travelRollFrames.length), 0, 1);
                     const eased = tumble * tumble * (3 - 2 * tumble);
                     const travel = (turn + eased) / turns;
                     controls.set({
@@ -385,7 +436,7 @@ export default function PipCompanion() {
                         y: start.y + (destination.y - start.y) * travel,
                         width: target.size, height: target.size * spriteRatio,
                     });
-                    const index = Math.min(Math.floor(local * rollFrames.length), rollFrames.length - 1);
+                    const index = Math.min(Math.floor(local * travelRollFrames.length), travelRollFrames.length - 1);
                     if (index !== previousIndex) {
                         previousIndex = index;
                         setFrame({ pose: 'travel-roll', index });
@@ -458,15 +509,18 @@ export default function PipCompanion() {
             setOffset(0);
             phaseRef.current = 'leaving';
             setAtCorner(false);
+            // At the visitor's scrolling pace he tumbles down a gentle slope to
+            // the side of the page, then lets himself down along the edge.
             const start = currentSpot();
             const edge = edgeSpot();
             const edgeY = clamp(start.y, 96, edge.y);
-            if (!await rollTo({ ...edge, y: edgeY }, route, false, stashLaptop)) return;
+            const slopeEnd = { ...edge, y: edgeY + (edge.y - edgeY) * .25 };
+            if (!await rollTo(slopeEnd, route, { stashLaptop, scrollPaced: true })) return;
             if (route !== routeRef.current) return;
             setMovingPose('edge');
             await controls.start({
                 y: edge.y,
-                transition: { duration: reducedMotion ? 0 : durationFor(Math.abs(edge.y - edgeY), 190), ease: travelEase },
+                transition: { duration: reducedMotion ? 0 : durationFor(Math.abs(edge.y - slopeEnd.y), 190), ease: travelEase },
             });
             if (route !== routeRef.current) return;
             phaseRef.current = 'corner';
@@ -494,7 +548,7 @@ export default function PipCompanion() {
             setMovingPose('edge');
             const latestHome = await climbHome(route);
             if (!latestHome || route !== routeRef.current) return;
-            if (!await rollTo(latestHome, route, true)) return;
+            if (!await rollTo(latestHome, route, { destinationFor: () => homeSpot() ?? latestHome })) return;
             if (route !== routeRef.current) return;
             phaseRef.current = 'home';
             setMovingPose(null);
@@ -534,6 +588,16 @@ export default function PipCompanion() {
             }
         };
         const onScroll = () => {
+            const time = performance.now();
+            const delta = window.scrollY - lastScrollY;
+            const dt = Math.max((time - lastScrollTime) / 1000, 1 / 120);
+            if (delta > 0) {
+                const previousSpeed = scrollSpeed * Math.exp(-(time - lastDownScroll) / 420);
+                scrollSpeed = previousSpeed * .4 + Math.min(delta / dt, 4000) * .6;
+                lastDownScroll = time;
+            }
+            lastScrollTime = time;
+            lastScrollY = window.scrollY;
             cancelNight();
             sceneDue = Date.now() + 22_000 + Math.random() * 8000;
             cancelAnimationFrame(scrollFrame);
@@ -712,7 +776,7 @@ export default function PipCompanion() {
     // nods off before the sleep loop instead of popping into it. Being carried
     // along the page is ignored, so a Pip who was already asleep stays asleep.
     // A visitor coming back during the doze sees his eyelids lift again.
-    const travelling = basePose === 'travel-roll' || basePose === 'run-left' || basePose === 'run-right' || basePose === 'edge';
+    const travelling = basePose === 'hurry' || basePose === 'travel-roll' || basePose === 'run-left' || basePose === 'run-right' || basePose === 'edge';
     const [settledPose, setSettledPose] = useState<Pose>(basePose);
     const [napping, setNapping] = useState(false);
     const [rousing, setRousing] = useState(false);
@@ -1015,6 +1079,8 @@ export default function PipCompanion() {
     const still = reducedMotion || !visible;
     const walking = pose.startsWith('run-');
     const bodyMotion = still ? { y: 0, rotate: 0, scaleX: 1, scaleY: 1 }
+        : pose === 'hurry' ? { y: [0, -placement.size * .055, 0],
+            rotate: [0, facingLeftEdge ? 2 : -2, 0], scaleX: [1, .96, 1], scaleY: [1, 1.045, 1] }
         : walking ? { y: [0, -1.2, 0], rotate: [0, .7, 0], scaleX: 1, scaleY: 1 }
                 : { y: 0, rotate: 0, scaleX: 1, scaleY: pose === 'idle' ? [1, 1.014, 1] : 1 };
     const rolling = pose === 'roll' || pose === 'roll-dizzy';
@@ -1114,18 +1180,19 @@ export default function PipCompanion() {
                 className="relative z-10 h-full w-full"
                 style={{ scaleX: (pose === 'edge' && facingLeftEdge) || ((rolling || pose === 'travel-roll') && rollMirror) ? -1 : 1 }}
                 animate={{ x: offset }}
-                transition={{ duration: still ? 0 : pose === 'roll' ? .88 : .85, ease: travelEase }}
+                transition={{ duration: still ? 0 : pose === 'roll' ? .7 : .85, ease: travelEase }}
             >
             <motion.div
                 className="relative z-10 h-full w-full"
                 style={{ transformOrigin: '50% 92%', filter: 'saturate(.88) sepia(.05) drop-shadow(0 3px 4px rgba(52, 37, 31, .16))' }}
                 animate={bodyMotion}
-                transition={{ duration: still ? 0 : walking ? .36 : 4.8,
-                    repeat: still ? 0 : Infinity, ease: 'easeInOut' }}
+                transition={{ duration: still ? 0 : pose === 'hurry' ? hurryDuration / 1000 : walking ? .36 : 4.8,
+                    repeat: still || pose === 'hurry' ? 0 : Infinity, ease: 'easeInOut' }}
             >
                 {/* Frames are already decoded; keep their URLs stable for sprite playback. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={gazing ? spriteFile('gaze', gaze) : spriteSource(pose, currentFrame, pose === 'eat' ? belly : 0)} alt=""
+                <img src={pose === 'hurry' ? spriteFile('gaze', facingLeftEdge ? 4 : 0)
+                    : gazing ? spriteFile('gaze', gaze) : spriteSource(pose, currentFrame, pose === 'eat' ? belly : 0)} alt=""
                     draggable={false} className="block h-full w-full object-contain" style={pose === 'wave' ? waveRegistration : undefined} />
                 {nose && (
                     <svg aria-hidden="true" viewBox="0 0 192 208" className="pointer-events-none absolute inset-0 h-full w-full">
