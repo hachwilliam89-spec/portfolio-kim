@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" fill="none">
+  <defs>
+    <linearGradient id="lid" x1="45" y1="9" x2="92" y2="67" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#79dcff"/>
+      <stop offset=".43" stop-color="#37b7f4"/>
+      <stop offset="1" stop-color="#168bdc"/>
+    </linearGradient>
+    <linearGradient id="base" x1="11" y1="54" x2="68" y2="76" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8be8ff"/>
+      <stop offset="1" stop-color="#237cbc"/>
+    </linearGradient>
+  </defs>
+  <!-- Same three-quarter view, dark blue outline and glossy lid as Pip's sprites. -->
+  <path d="M6 55L28 43L102 60L85 73Q82 75 76 74L27 70Z" fill="url(#base)" stroke="#182746" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M11 55L29 46L49 52L28 65Z" fill="#286ea6"/>
+  <path d="M15 55L32 60M19 52L36 57M23 49L40 54M20 53L27 62M27 49L34 58" stroke="#a0edff" stroke-width="1.4"/>
+  <path d="M34 9Q35 6 40 6H110Q116 6 113 12L92 65Q91 68 86 68H22Q17 68 19 63Z" fill="url(#lid)" stroke="#182746" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M36 10H109L105 15H38L23 61" stroke="#d4f5ff" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M48 10H62L27 59L31 46ZM86 10H107L23 64H20Z" fill="#e9fbff" fill-opacity=".3"/>
+  <path d="M25 64H85Q89 64 90 61L107 18" stroke="#1680c6" stroke-width="2.3" stroke-linecap="round"/>
+  <!-- Portfolio crescent: small, white, with its rounded opening to the right. -->
+  <g transform="translate(66 38) skewX(-19) scale(.056)">
+    <path fill="#fff" d="M83.816 44.873C87.013 44.873 90.164 44.549 93.175 43.854C77.051 76.194 43.738 98.341 5.189 98.341C-49.113 98.341-93.174 54.325-93.174-.023C-93.174-54.325-49.113-98.341 5.189-98.341C43.738-98.341 77.098-76.148 93.175-43.854C90.164-44.549 87.013-44.873 83.816-44.873C59.028-44.873 38.966-24.765 38.966-.023C38.966 24.764 59.028 44.873 83.816 44.873Z"/>
+  </g>
+  <path d="M29 71L78 74Q83 75 86 72" stroke="#162844" stroke-width="2" stroke-linecap="round"/>
+</svg>

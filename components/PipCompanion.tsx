@@ -934,6 +934,11 @@ export default function PipCompanion() {
     const nose = pose === 'sleep' && !still ? napNoses[currentFrame] : null;
     const noseSide = currentFrame >= 11 ? 1 : -1;
     const typing = pose === 'work' || pose === 'work-tired' || pose === 'think';
+    const bubbleWidth = clamp(width * .09, 108, 128);
+    const bubbleTail = atCorner ? (facingLeftEdge ? 30 : 110) : 72;
+    const bubbleOutline = `M19 17C36 7 103 7 121 18C134 27 132 44 118 51
+        Q112 55 ${bubbleTail + 8} 57Q${bubbleTail + 3} 65 ${bubbleTail - 5} 72
+        Q${bubbleTail - 2} 64 ${bubbleTail - 5} 58C45 61 23 57 15 49C5 39 6 25 19 17Z`;
 
     return (
         <>
@@ -970,19 +975,31 @@ export default function PipCompanion() {
             animate={controls}
         >
             {bubble > 0 && (
-                // Comic speech bubble above his head, kept on screen when he peeks from an edge.
-                <motion.span key={bubble} aria-hidden="true"
-                    className={`pointer-events-none absolute bottom-[88%] z-40 whitespace-nowrap rounded-[1.2em] border-2 border-ink bg-washi px-3 py-1 font-sans text-sm font-extrabold tracking-wide text-ink shadow-[2px_2px_0_var(--color-ink)] ${
-                        atCorner ? (facingLeftEdge ? 'left-[52%]' : 'right-[52%]') : 'left-1/2 -translate-x-1/2'}`}
-                    style={{ transformOrigin: atCorner ? (facingLeftEdge ? '15% 100%' : '85% 100%') : '50% 100%' }}
-                    initial={{ opacity: 0, scale: still ? 1 : .4, rotate: -6 }}
-                    animate={still ? { opacity: [1, 1, 0], scale: 1, rotate: -3 }
-                        : { opacity: [0, 1, 1, 0], scale: [.4, 1.12, 1, .96], rotate: [-10, -2, -3, -3], y: [6, 0, 0, -4] }}
-                    transition={{ duration: 2.3, times: still ? [0, .9, 1] : [0, .14, .85, 1], ease: 'easeOut' }}>
-                    {lang === 'fr' ? 'Bonjour !' : 'Hello!'}
-                    <span className={`absolute -bottom-[7px] h-3 w-3 rotate-45 border-b-2 border-r-2 border-ink bg-washi ${
-                        atCorner ? (facingLeftEdge ? 'left-3' : 'right-3') : 'left-1/2 -ml-1.5'}`} />
-                </motion.span>
+                // An ink-drawn manga balloon; only the tail moves toward the viewport edge.
+                <span aria-hidden="true" data-pip-speech
+                    className={`pointer-events-none absolute bottom-[86%] z-40 ${
+                        atCorner ? (facingLeftEdge ? 'left-[40%]' : 'right-[40%]') : 'left-1/2 -translate-x-1/2'}`}
+                    style={{ width: bubbleWidth, height: bubbleWidth * 82 / 144 }}>
+                    <motion.span key={bubble} className="relative block h-full w-full"
+                        style={{ transformOrigin: `${bubbleTail / 144 * 100}% 88%` }}
+                        initial={{ opacity: 0, scale: still ? 1 : .7, rotate: 0 }}
+                        animate={still ? { opacity: [1, 1, 0], scale: 1, rotate: 0 }
+                            : { opacity: [0, 1, 1, 0], scale: [.7, 1.06, 1, .98], rotate: [-4, 1, -1, -1], y: [4, 0, 0, -3] }}
+                        transition={{ duration: 2.3, times: still ? [0, .9, 1] : [0, .14, .85, 1], ease: 'easeOut' }}>
+                        <svg viewBox="0 0 144 82" className="absolute inset-0 h-full w-full overflow-visible" fill="none">
+                            <path d={bubbleOutline} transform="translate(1 3)" fill="#192746" fillOpacity=".17" />
+                            <path d={bubbleOutline} fill="#fffaf1" stroke="#26304b" strokeWidth="2.4" strokeLinejoin="round" />
+                            <path d="M21 27Q27 20 39 19" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+                            <path d="M20 45L24 48M26 47L30 50M112 43L116 40" stroke="#7099b1" strokeOpacity=".4" strokeWidth="1.4" strokeLinecap="round" />
+                            <path d="M126 7L129 2M133 13L140 10" stroke="#b65b40" strokeWidth="2.2" strokeLinecap="round" />
+                            <path d="M7 15L4 11" stroke="#26304b" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+                        <span className="absolute inset-x-[10%] top-[19%] flex h-[43%] items-center justify-center whitespace-nowrap font-sans font-extrabold italic tracking-[.015em] text-[#26304b]"
+                            style={{ fontSize: bubbleWidth * .12 }}>
+                            {lang === 'fr' ? 'Bonjour !' : 'Hello!'}
+                        </span>
+                    </motion.span>
+                </span>
             )}
             {dust > 0 && !still && (
                 <svg key={dust} aria-hidden="true" viewBox="0 0 192 208" className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-visible">
@@ -996,11 +1013,11 @@ export default function PipCompanion() {
                 </svg>
             )}
             {rolling && (
-                <svg aria-hidden="true" viewBox="0 0 56 40" className="pointer-events-none absolute bottom-[8%] left-1/2 z-0 h-[36%] w-[52%] -translate-x-1/2" style={{ filter: 'saturate(.88) sepia(.05)' }}>
-                    <path d="M10 4h36c2 0 3 2 2.5 4l-4 23H8L6 8c-.3-2 1-4 4-4Z" fill="#66A5D8" stroke="#182746" strokeWidth="3" />
-                    <path d="M7 31h42l5 5H2l5-5Z" fill="#3D79B3" stroke="#182746" strokeWidth="2" />
-                    <path d="M30 13a6 6 0 1 0 0 12l-4-6Z" fill="#fff" />
-                </svg>
+                /* Keep the laptop at home while the existing roll sprites move. */
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img src="/pip/laptop.svg" alt="" draggable={false}
+                    className="pointer-events-none absolute bottom-[8%] left-1/2 z-0 h-[36%] w-[52%] -translate-x-1/2"
+                    style={{ filter: 'saturate(.88) sepia(.05)' }} />
             )}
             {/* Transparent sprite frames; the button carries the accessible name. */}
             <motion.div
