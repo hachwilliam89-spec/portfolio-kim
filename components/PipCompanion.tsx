@@ -91,8 +91,8 @@ const stretchDuration = playTime('stretch');
 const dozeDuration = playTime('doze');
 const rollDuration = playTime('roll');
 const rollCrouch = 2 * delayFor('roll');
-const laptopStowDuration = 400;
-const hurryDuration = 240;
+const laptopStowDuration = 320;
+const hurryDuration = 190;
 const digestDuration = playTime('digest');
 const thinkDuration = playTime('think');
 const riseDuration = playTime('rise');
@@ -151,6 +151,34 @@ const meals = [
     [19 * 60, 20 * 60],
 ];
 
+type BubbleMessage = 'hello' | 'sent' | 'welcome-back';
+const bubbleTexts: Record<BubbleMessage, { fr: string; en: string }> = {
+    hello: { fr: 'Bonjour !', en: 'Hello!' },
+    sent: { fr: 'Message envoyé\nà Kim !', en: 'Message sent\nto Kim!' },
+    'welcome-back': { fr: 'Re-bonjour !', en: 'Welcome back!' },
+};
+const bubbleDurations: Record<BubbleMessage, number> = { hello: 2300, sent: 3200, 'welcome-back': 2600 };
+// The same browser is greeted again after half a day. Only this timestamp is
+// kept, in the visitor's own browser; nothing is sent anywhere.
+const lastVisitKey = 'pip-last-visit';
+const welcomeBackAfter = 12 * 60 * 60 * 1000;
+// Resting poses Pip leaves to type along while a visitor writes to Kim.
+const typingAlong: Pose[] = ['idle', 'work', 'work-tired', 'think', 'look', 'groom'];
+// Manga sweat (ase): drops fly off behind him, round end first, with a short
+// motion trail pointing back at his head. Coordinates are in sprite pixels.
+type Heading = 'left' | 'right' | 'up' | 'down';
+const sweatFlights: Record<Heading, { x: number; y: number; dx: number; dy: number }[]> = {
+    left: [{ x: 148, y: 40, dx: 34, dy: -18 }, { x: 160, y: 74, dx: 40, dy: -4 }],
+    right: [{ x: 44, y: 40, dx: -34, dy: -18 }, { x: 32, y: 74, dx: -40, dy: -4 }],
+    down: [{ x: 58, y: 14, dx: -18, dy: -32 }, { x: 134, y: 14, dx: 18, dy: -32 }],
+    up: [{ x: 36, y: 66, dx: -28, dy: 18 }, { x: 156, y: 66, dx: 28, dy: 18 }],
+};
+const sweatTilt = (dx: number, dy: number) => Math.atan2(-dx, dy) * 180 / Math.PI;
+// Surprise lines around the head when he realizes the page is moving.
+const startleLines = ['M34 30L16 14', 'M22 60L0 56', 'M158 30L176 14', 'M170 60L192 56'];
+// Horizontal side of each gaze direction (0 = right, clockwise).
+const gazeSide = [1, 1, 0, -1, -1, -1, 0, 1];
+
 function inMealWindow(now: number) {
     const date = new Date(now);
     const minutes = date.getHours() * 60 + date.getMinutes();
@@ -172,7 +200,12 @@ export default function PipCompanion() {
     const [gaze, setGaze] = useState<number | null>(null);
     const [stowingLaptop, setStowingLaptop] = useState(false);
     const [dust, setDust] = useState(0);
-    const [bubble, setBubble] = useState(0);
+    const [bubble, setBubble] = useState<{ id: number; message: BubbleMessage } | null>(null);
+    const [hurrying, setHurrying] = useState(false);
+    const [hurryLook, setHurryLook] = useState<number | null>(null);
+    const [heading, setHeading] = useState<Heading>('down');
+    const [startle, setStartle] = useState(0);
+    const [cardGaze, setCardGaze] = useState(false);
     const [frame, setFrame] = useState({ pose: 'idle' as Pose, index: 0 });
     const [offset, setOffset] = useState(0);
     const [placement, setPlacement] = useState<Spot | null>(null);
@@ -203,6 +236,11 @@ export default function PipCompanion() {
     const workSessions = useRef(0);
     const poseRef = useRef<Pose>('idle');
     const riseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const previousVisit = useRef<number | null | undefined>(undefined);
+
+    const say = useCallback((message: BubbleMessage) => {
+        setBubble(previous => ({ id: (previous?.id ?? 0) + 1, message }));
+    }, []);
 
     const setTemporaryAction = useCallback((pose: Pose, duration: number) => {
         if (actionTimer.current) clearTimeout(actionTimer.current);
@@ -361,6 +399,9 @@ export default function PipCompanion() {
                 return Promise.resolve(route === routeRef.current);
             }
             const anticipation = stashLaptop ? hurryDuration : 0;
+            setHurryLook(null);
+            setHeading(target.x < start.x ? 'left' : 'right');
+            if (anticipation) setStartle(count => count + 1);
             setStowingLaptop(false);
             setRollMirror(target.x < start.x);
             setMovingPose(anticipation ? 'hurry' : 'travel-roll');
@@ -389,7 +430,7 @@ export default function PipCompanion() {
                     const momentum = scrollSpeed * Math.exp(-Math.max(0, time - lastDownScroll) / 420);
                     const urgency = clamp(momentum / 1800 + ahead * .2, 0, 1);
                     const arrival = clamp((turns - rolled) / .7, 0, 1);
-                    const wanted = 1.05 + (.2 + urgency * .9) * arrival;
+                    const wanted = 1.15 + (.3 + urgency * 1.05) * arrival;
                     tempo += (wanted - tempo) * (1 - Math.exp(-dt * 7));
                     rolled = Math.min(rolled + tempo * dt, turns);
                     return rolled / turns;
@@ -487,6 +528,38 @@ export default function PipCompanion() {
             });
         };
         const skidPast = reducedMotion ? 0 : 7;
+        // Keep the descent lively too: a fixed ease-in used to make him pause
+        // at the edge just when the page was getting away from him.
+        const descendToCorner = (target: Spot, route: number): Promise<boolean> => {
+            const start = currentSpot();
+            if (reducedMotion) { place(target); return Promise.resolve(route === routeRef.current); }
+            return new Promise(resolve => {
+                let animationFrame = 0;
+                let previousTime: number | undefined;
+                let y = start.y;
+                let speed = 150;
+                const finish = (completed: boolean) => {
+                    cancelAnimationFrame(animationFrame);
+                    cancelRouteAnimation = undefined;
+                    resolve(completed);
+                };
+                cancelRouteAnimation = () => finish(false);
+                const tick = (time: number) => {
+                    if (route !== routeRef.current) { finish(false); return; }
+                    const remaining = target.y - y;
+                    if (Math.abs(remaining) < 1) { place(target); finish(true); return; }
+                    const dt = Math.min((time - (previousTime ?? time)) / 1000, .05);
+                    previousTime = time;
+                    const momentum = scrollSpeed * Math.exp(-Math.max(0, time - lastDownScroll) / 500);
+                    const wanted = 290 + clamp(momentum / 1600, 0, 1) * 130;
+                    speed = Math.min(wanted, speed + 1100 * dt, Math.sqrt(1800 * Math.abs(remaining)));
+                    y += Math.sign(remaining) * Math.min(Math.abs(remaining), speed * dt);
+                    controls.set({ x: target.x, y });
+                    animationFrame = requestAnimationFrame(tick);
+                };
+                animationFrame = requestAnimationFrame(tick);
+            });
+        };
         const brake = async (x: number) => {
             if (reducedMotion) return;
             setDust(count => count + 1);
@@ -509,6 +582,7 @@ export default function PipCompanion() {
             setOffset(0);
             phaseRef.current = 'leaving';
             setAtCorner(false);
+            setHurrying(true);
             // At the visitor's scrolling pace he tumbles down a gentle slope to
             // the side of the page, then lets himself down along the edge.
             const start = currentSpot();
@@ -517,13 +591,12 @@ export default function PipCompanion() {
             const slopeEnd = { ...edge, y: edgeY + (edge.y - edgeY) * .25 };
             if (!await rollTo(slopeEnd, route, { stashLaptop, scrollPaced: true })) return;
             if (route !== routeRef.current) return;
+            setHeading('down');
             setMovingPose('edge');
-            await controls.start({
-                y: edge.y,
-                transition: { duration: reducedMotion ? 0 : durationFor(Math.abs(edge.y - slopeEnd.y), 190), ease: travelEase },
-            });
+            if (!await descendToCorner(edge, route)) return;
             if (route !== routeRef.current) return;
             phaseRef.current = 'corner';
+            setHurrying(false);
             setMovingPose(null);
             setAtCorner(true);
         };
@@ -544,13 +617,29 @@ export default function PipCompanion() {
             phaseRef.current = 'returning';
             setAtCorner(false);
             const home = homeSpot();
-            if (!home) return;
+            if (!home) {
+                setHurrying(false);
+                return;
+            }
+            setHurrying(true);
+            if (!reducedMotion) {
+                // "Oh, the page is going back up!": a quick look toward the hero first.
+                setHurryLook(sideRef.current === 'left' ? 7 : 5);
+                setHeading('up');
+                setStartle(count => count + 1);
+                setMovingPose('hurry');
+                await new Promise(resolve => setTimeout(resolve, hurryDuration));
+                if (route !== routeRef.current) return;
+                setHurryLook(null);
+            }
+            setHeading('up');
             setMovingPose('edge');
             const latestHome = await climbHome(route);
             if (!latestHome || route !== routeRef.current) return;
             if (!await rollTo(latestHome, route, { destinationFor: () => homeSpot() ?? latestHome })) return;
             if (route !== routeRef.current) return;
             phaseRef.current = 'home';
+            setHurrying(false);
             setMovingPose(null);
             updatePosition();
         };
@@ -693,6 +782,7 @@ export default function PipCompanion() {
                 clearScene();
                 cancelHabit();
                 cancelNight();
+                setHurrying(false);
                 setMovingPose(null);
                 phaseRef.current = 'unplaced';
             } else {
@@ -716,6 +806,7 @@ export default function PipCompanion() {
             clearInterval(sceneClock);
             clearScene();
             cancelNight();
+            setHurrying(false);
             setMovingPose(null);
             window.removeEventListener('scroll', onScroll);
             window.removeEventListener('resize', onScroll);
@@ -742,9 +833,10 @@ export default function PipCompanion() {
             setNow(time);
         };
         const onVisibility = () => setVisible(!document.hidden);
-        const onCelebrate = () => {
+        const onCelebrate = (event: Event) => {
             cancelHabit();
             setTemporaryAction('wave', 1400);
+            if ((event as CustomEvent<string>).detail === 'message-sent') say('sent');
         };
         window.addEventListener('pointerdown', onActivity);
         window.addEventListener('keydown', onActivity);
@@ -760,7 +852,7 @@ export default function PipCompanion() {
             window.removeEventListener('pip:celebrate', onCelebrate);
             document.removeEventListener('visibilitychange', onVisibility);
         };
-    }, [cancelHabit, setTemporaryAction]);
+    }, [cancelHabit, say, setTemporaryAction]);
 
     const mealtime = now !== null && inMealWindow(now);
     const awake = now !== null && now - idleSince < 60_000;
@@ -818,7 +910,7 @@ export default function PipCompanion() {
     useEffect(() => {
         // Language button: Pip says hello in the language just chosen, waving if he's up.
         const onLanguage = () => {
-            setBubble(count => count + 1);
+            say('hello');
             const current = poseRef.current;
             if (!reducedMotion && actionRef.current === null && (current === 'idle' || current === 'work')) {
                 setTemporaryAction('wave', 1200);
@@ -826,13 +918,69 @@ export default function PipCompanion() {
         };
         window.addEventListener(languageEvent, onLanguage);
         return () => window.removeEventListener(languageEvent, onLanguage);
-    }, [reducedMotion, setTemporaryAction]);
+    }, [reducedMotion, say, setTemporaryAction]);
+
+    useEffect(() => {
+        if (!startle) return;
+        const timer = setTimeout(() => setStartle(0), 420);
+        return () => clearTimeout(timer);
+    }, [startle]);
 
     useEffect(() => {
         if (!bubble) return;
-        const timer = setTimeout(() => setBubble(0), 2400);
+        const timer = setTimeout(() => setBubble(null), bubbleDurations[bubble.message] + 100);
         return () => clearTimeout(timer);
     }, [bubble]);
+
+    useEffect(() => {
+        // A browser that already came by at least half a day ago gets one
+        // "welcome back". Read once: development remounts must not reset it.
+        if (previousVisit.current === undefined) {
+            previousVisit.current = null;
+            try {
+                const stored = Number(window.localStorage.getItem(lastVisitKey));
+                if (stored > 0) previousVisit.current = stored;
+                window.localStorage.setItem(lastVisitKey, String(Date.now()));
+            } catch {
+                // Storage can be blocked: Pip simply treats everyone as new.
+            }
+        }
+        const previous = previousVisit.current;
+        if (previous === null || Date.now() - previous < welcomeBackAfter) return;
+        const timer = setTimeout(() => {
+            previousVisit.current = null;
+            say('welcome-back');
+            const current = poseRef.current;
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                && actionRef.current === null && (current === 'idle' || current === 'work')) {
+                setTemporaryAction('wave', 1200);
+            }
+        }, 1600);
+        return () => clearTimeout(timer);
+    }, [say, setTemporaryAction]);
+
+    useEffect(() => {
+        // While a visitor writes to Kim, Pip types along on his laptop.
+        if (reducedMotion) return;
+        const onTyping = () => {
+            const current = actionRef.current;
+            if (current === 'work') {
+                // Keep the typing loop running instead of restarting it on every key.
+                if (actionTimer.current) clearTimeout(actionTimer.current);
+                actionTimer.current = setTimeout(() => {
+                    actionRef.current = null;
+                    setAction(null);
+                    actionTimer.current = null;
+                }, 1600);
+                return;
+            }
+            if ((current !== null && !typingAlong.includes(current)) || !typingAlong.includes(poseRef.current)) return;
+            cancelHabit();
+            setTemporaryAction('work', 1600);
+        };
+        window.addEventListener('pip:typing', onTyping);
+        return () => window.removeEventListener('pip:typing', onTyping);
+    }, [cancelHabit, reducedMotion, setTemporaryAction]);
 
     useEffect(() => {
         // Day mode button while Pip sleeps: he sits up, rubs his eyes and wakes up.
@@ -877,10 +1025,58 @@ export default function PipCompanion() {
         let frameId = 0;
         let current: number | null = null;
         let calm: ReturnType<typeof setTimeout> | undefined;
+        let attention: ReturnType<typeof setTimeout> | undefined;
+        let release: ReturnType<typeof setTimeout> | undefined;
+        let watchedCard: Element | null = null;
+        let watchingCard = false;
         const look = (next: number | null) => {
             if (next === current) return;
             current = next;
             setGaze(next);
+        };
+        const watchCard = (watching: boolean) => {
+            if (watching === watchingCard) return;
+            watchingCard = watching;
+            setCardGaze(watching);
+        };
+        const direction = (dx: number, dy: number) => (Math.round(Math.atan2(dy, dx) / (Math.PI / 4)) + 8) % 8;
+        const reset = () => {
+            cancelAnimationFrame(frameId);
+            clearTimeout(attention);
+            clearTimeout(release);
+            clearTimeout(calm);
+            watchedCard = null;
+            release = undefined;
+            look(null);
+            watchCard(false);
+        };
+        const attendTo = (card: Element) => {
+            clearTimeout(release);
+            release = undefined;
+            if (card === watchedCard) return;
+            clearTimeout(attention);
+            watchedCard = card;
+            // A brief dwell prevents his head flicking when the pointer merely
+            // crosses a card; measure the target when the glance starts.
+            attention = setTimeout(() => {
+                const rect = buttonRef.current?.getBoundingClientRect();
+                if (!rect || !card.isConnected) return;
+                const box = card.getBoundingClientRect();
+                look(direction(box.left + box.width / 2 - rect.left - rect.width / 2,
+                    box.top + box.height / 2 - rect.top - rect.height * .38));
+                watchCard(true);
+                clearTimeout(calm);
+                calm = setTimeout(reset, 4500);
+            }, 140);
+        };
+        const releaseCard = () => {
+            clearTimeout(attention);
+            watchedCard = null;
+            if (!release && watchingCard) release = setTimeout(() => {
+                release = undefined;
+                look(null);
+                watchCard(false);
+            }, 220);
         };
         const onMove = (event: PointerEvent) => {
             if (event.pointerType === 'touch') return;
@@ -888,19 +1084,41 @@ export default function PipCompanion() {
             frameId = requestAnimationFrame(() => {
                 const rect = buttonRef.current?.getBoundingClientRect();
                 if (!rect) return;
-                const dx = event.clientX - (rect.left + rect.width / 2);
-                const dy = event.clientY - (rect.top + rect.height * .38);
+                const eyes = { x: rect.left + rect.width / 2, y: rect.top + rect.height * .38 };
+                // A hovered project card catches his eye from anywhere on the page.
+                const card = event.target instanceof Element ? event.target.closest('[data-pip-project]') : null;
+                if (card) {
+                    attendTo(card);
+                    return;
+                }
+                releaseCard();
+                if (watchingCard) return;
+                const dx = event.clientX - eyes.x;
+                const dy = event.clientY - eyes.y;
                 const distance = Math.hypot(dx, dy);
-                look(distance > 380 || distance < rect.width * .25 ? null : (Math.round(Math.atan2(dy, dx) / (Math.PI / 4)) + 8) % 8);
+                look(distance > 380 || distance < rect.width * .25 ? null : direction(dx, dy));
                 clearTimeout(calm);
                 calm = setTimeout(() => look(null), 2500);
             });
         };
+        const onFocus = (event: FocusEvent) => {
+            const card = event.target instanceof Element ? event.target.closest('[data-pip-project]') : null;
+            if (card) attendTo(card);
+            else releaseCard();
+        };
+        const onPointerOut = (event: PointerEvent) => { if (event.relatedTarget === null) reset(); };
         window.addEventListener('pointermove', onMove, { passive: true });
+        window.addEventListener('focusin', onFocus);
+        window.addEventListener('pointerout', onPointerOut);
+        window.addEventListener('scroll', reset, { passive: true });
+        window.addEventListener('blur', reset);
         return () => {
-            cancelAnimationFrame(frameId);
-            clearTimeout(calm);
+            reset();
             window.removeEventListener('pointermove', onMove);
+            window.removeEventListener('focusin', onFocus);
+            window.removeEventListener('pointerout', onPointerOut);
+            window.removeEventListener('scroll', reset);
+            window.removeEventListener('blur', reset);
         };
     }, [reducedMotion]);
 
@@ -1084,11 +1302,24 @@ export default function PipCompanion() {
         : walking ? { y: [0, -1.2, 0], rotate: [0, .7, 0], scaleX: 1, scaleY: 1 }
                 : { y: 0, rotate: 0, scaleX: 1, scaleY: pose === 'idle' ? [1, 1.014, 1] : 1 };
     const rolling = pose === 'roll' || pose === 'roll-dizzy';
-    const gazing = !still && pose === 'idle' && currentFrame === 0 && gaze !== null;
+    // He glances up from his laptop at a hovered project, otherwise only between idle moves.
+    const gazing = !still && gaze !== null
+        && ((pose === 'idle' && (currentFrame === 0 || cardGaze)) || (pose === 'work' && cardGaze));
+    // A hovered project also makes him lean toward it, even with his mouth full.
+    const leaning = !still && cardGaze && (pose === 'idle' || pose === 'work' || pose === 'eat');
+    const lean = leaning && gaze !== null ? gazeSide[gaze] * 4 : 0;
+    const leanLift = leaning && gaze !== null && gaze >= 5 ? -placement.size * .03 : 0;
     const nose = pose === 'sleep' && !still ? napNoses[currentFrame] : null;
     const noseSide = currentFrame >= 11 ? 1 : -1;
     const typing = pose === 'work' || pose === 'work-tired' || pose === 'think';
-    const bubbleWidth = clamp(width * .09, 108, 128);
+    const bubbleLines = bubble ? bubbleTexts[bubble.message][lang === 'fr' ? 'fr' : 'en'].split('\n') : [];
+    const longestLine = Math.max(1, ...bubbleLines.map(line => line.length));
+    const baseBubbleWidth = clamp(width * .09, 108, 128);
+    // Longer lines get a wider balloon; the type never grows past the greeting size.
+    const bubbleWidth = baseBubbleWidth * (bubbleLines.length > 1 || longestLine > 11 ? 1.4 : 1);
+    const bubbleFont = Math.min(baseBubbleWidth * .12, bubbleWidth * .8 / (longestLine * .7),
+        bubbleWidth * 82 / 144 * .43 / (bubbleLines.length * 1.12));
+    const bubbleSeconds = bubble ? bubbleDurations[bubble.message] / 1000 : 0;
     const bubbleTail = atCorner ? (facingLeftEdge ? 30 : 110) : 72;
     const bubbleOutline = `M19 17C36 7 103 7 121 18C134 27 132 44 118 51
         Q112 55 ${bubbleTail + 8} 57Q${bubbleTail + 3} 65 ${bubbleTail - 5} 72
@@ -1128,18 +1359,18 @@ export default function PipCompanion() {
             initial={false}
             animate={controls}
         >
-            {bubble > 0 && (
+            {bubble && (
                 // An ink-drawn manga balloon; only the tail moves toward the viewport edge.
                 <span aria-hidden="true" data-pip-speech
                     className={`pointer-events-none absolute bottom-[86%] z-40 ${
                         atCorner ? (facingLeftEdge ? 'left-[40%]' : 'right-[40%]') : 'left-1/2 -translate-x-1/2'}`}
                     style={{ width: bubbleWidth, height: bubbleWidth * 82 / 144 }}>
-                    <motion.span key={bubble} className="relative block h-full w-full"
+                    <motion.span key={bubble.id} className="relative block h-full w-full"
                         style={{ transformOrigin: `${bubbleTail / 144 * 100}% 88%` }}
                         initial={{ opacity: 0, scale: still ? 1 : .7, rotate: 0 }}
                         animate={still ? { opacity: [1, 1, 0], scale: 1, rotate: 0 }
                             : { opacity: [0, 1, 1, 0], scale: [.7, 1.06, 1, .98], rotate: [-4, 1, -1, -1], y: [4, 0, 0, -3] }}
-                        transition={{ duration: 2.3, times: still ? [0, .9, 1] : [0, .14, .85, 1], ease: 'easeOut' }}>
+                        transition={{ duration: bubbleSeconds, times: still ? [0, .9, 1] : [0, .14, .85, 1], ease: 'easeOut' }}>
                         <svg viewBox="0 0 144 82" className="absolute inset-0 h-full w-full overflow-visible" fill="none">
                             <path d={bubbleOutline} transform="translate(1 3)" fill="#192746" fillOpacity=".17" />
                             <path d={bubbleOutline} fill="#fffaf1" stroke="#26304b" strokeWidth="2.4" strokeLinejoin="round" />
@@ -1148,9 +1379,9 @@ export default function PipCompanion() {
                             <path d="M126 7L129 2M133 13L140 10" stroke="#b65b40" strokeWidth="2.2" strokeLinecap="round" />
                             <path d="M7 15L4 11" stroke="#26304b" strokeWidth="1.8" strokeLinecap="round" />
                         </svg>
-                        <span className="absolute inset-x-[10%] top-[19%] flex h-[43%] items-center justify-center whitespace-nowrap font-sans font-extrabold italic tracking-[.015em] text-[#26304b]"
-                            style={{ fontSize: bubbleWidth * .12 }}>
-                            {lang === 'fr' ? 'Bonjour !' : 'Hello!'}
+                        <span className="absolute inset-x-[10%] top-[19%] flex h-[43%] flex-col items-center justify-center whitespace-nowrap font-sans font-extrabold italic leading-[1.08] tracking-[.015em] text-[#26304b]"
+                            style={{ fontSize: bubbleFont }}>
+                            {bubbleLines.map(line => <span key={line}>{line}</span>)}
                         </span>
                     </motion.span>
                 </span>
@@ -1163,6 +1394,60 @@ export default function PipCompanion() {
                             initial={{ opacity: .95, scale: .35, x: 0, y: 0 }}
                             animate={{ opacity: 0, scale: 1.5, x: side * 20, y: -6 }}
                             transition={{ duration: .65, ease: 'easeOut' }} />
+                    ))}
+                </svg>
+            )}
+            {hurrying && !still && (
+                <svg aria-hidden="true" data-pip-sweat viewBox="0 0 192 208" className="pointer-events-none absolute inset-0 z-30 h-full w-full overflow-visible">
+                    {pose === 'travel-roll' && !stowingLaptop && (heading === 'left' || heading === 'right') && (
+                        // Speed lines trailing behind the tumble.
+                        <g transform={heading === 'left' ? 'translate(192 0) scale(-1 1)' : undefined}>
+                            {[[116, 40], [146, 56], [174, 32]].map(([y, length], index) => (
+                                <g key={index} transform={`translate(30 ${y})`}>
+                                    <motion.path d={`M0 0H${-length * .8}`} stroke={theme === 'dark' ? '#a6bed1' : '#526078'} strokeWidth={2.5} strokeLinecap="round"
+                                        initial={{ opacity: 0, x: 8 }} animate={{ opacity: [0, .6, 0], x: [8, -8, -20] }}
+                                        transition={{ duration: .32, repeat: Infinity, delay: index * .1, ease: 'easeOut' }} />
+                                </g>
+                            ))}
+                        </g>
+                    )}
+                    {/* The head rotates during a tumble; fixed drops would float
+                        away from it. Reserve sweat for the upright poses. */}
+                    {(pose === 'hurry' || pose === 'edge') && sweatFlights[heading].map((drop, index) => (
+                        <g key={`${heading}-${index}`} transform={`translate(${drop.x} ${drop.y})`}>
+                            <motion.g initial={{ x: 0, y: 0, opacity: 0, scale: .3 }}
+                                animate={{ x: [0, drop.dx * .5, drop.dx], y: [0, drop.dy * .5 - 6, drop.dy + 4],
+                                    opacity: [0, .85, .7, 0], scale: [.3, 1, .9, .75] }}
+                                transition={{ duration: .48, repeat: Infinity, repeatDelay: .45, delay: index * .3, ease: 'easeOut' }}>
+                                <g transform={`rotate(${sweatTilt(drop.dx, drop.dy)}) scale(.95)`}>
+                                    <path d="M0 -15C3.5 -8 9 -2.5 9 3.5A9 9 0 0 1 -9 3.5C-9 -2.5 -3.5 -8 0 -15Z"
+                                        fill="#cfeeff" stroke="#26304b" strokeWidth={2.4} strokeLinejoin="round" />
+                                    <path d="M-5 4Q-5.5 -1 -2.5 -4.5" fill="none" stroke="#fff" strokeWidth={2.4} strokeLinecap="round" />
+                                    <path d="M-3.5 -19.5L-4.5 -25.5M3 -19L4 -24" stroke="#26304b" strokeOpacity={.75} strokeWidth={1.8} strokeLinecap="round" />
+                                </g>
+                            </motion.g>
+                        </g>
+                    ))}
+                </svg>
+            )}
+            {startle > 0 && !still && (
+                <svg key={startle} aria-hidden="true" data-pip-startle viewBox="0 0 192 208" className="pointer-events-none absolute inset-0 z-30 h-full w-full overflow-visible">
+                    {/* Beside the head, safely below the sticky navigation. */}
+                    <g transform={`translate(${facingLeftEdge ? 76 : -76} 36)`}>
+                    <motion.g style={{ transformOrigin: '96px 0px' }}
+                        initial={{ opacity: 0, scale: .5, y: 8 }}
+                        animate={{ opacity: [0, 1, 1, 0], scale: [.5, 1.15, 1, .95], y: [8, -3, -2, -6] }}
+                        transition={{ duration: .38, times: [0, .2, .68, 1], ease: 'easeOut' }}>
+                        <path d="M76 -40L88 -35L98 -44L108 -33L122 -35L117 -21L127 -12L112 -7L108 6L96 -1L83 5L81 -9L67 -17L79 -26Z"
+                            fill="#fff6df" stroke="#26304b" strokeWidth={2.6} strokeLinejoin="round" />
+                        <path d="M94 -32L100 -32L98 -13L94 -13Z" fill="#b65b40" stroke="#26304b" strokeWidth={1.4} strokeLinejoin="round" />
+                        <circle cx="96" cy="-6" r="3.2" fill="#b65b40" stroke="#26304b" strokeWidth={1.3} />
+                    </motion.g>
+                    </g>
+                    {startleLines.map((line, index) => (
+                        <motion.path key={index} d={line} fill="none" stroke="#26304b" strokeWidth={4.5} strokeLinecap="round"
+                            initial={{ pathLength: 0, opacity: 1 }} animate={{ pathLength: [0, 1, 1], opacity: [1, 1, 0] }}
+                            transition={{ duration: .34, times: [0, .3, 1], delay: (index % 2) * .03, ease: 'easeOut' }} />
                     ))}
                 </svg>
             )}
@@ -1182,6 +1467,9 @@ export default function PipCompanion() {
                 animate={{ x: offset }}
                 transition={{ duration: still ? 0 : pose === 'roll' ? .7 : .85, ease: travelEase }}
             >
+            <motion.div className="relative z-10 h-full w-full" style={{ transformOrigin: '50% 92%' }}
+                animate={{ rotate: lean, x: lean * placement.size * .004, y: leanLift }}
+                transition={{ type: 'spring', stiffness: 170, damping: 23 }}>
             <motion.div
                 className="relative z-10 h-full w-full"
                 style={{ transformOrigin: '50% 92%', filter: 'saturate(.88) sepia(.05) drop-shadow(0 3px 4px rgba(52, 37, 31, .16))' }}
@@ -1191,7 +1479,7 @@ export default function PipCompanion() {
             >
                 {/* Frames are already decoded; keep their URLs stable for sprite playback. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={pose === 'hurry' ? spriteFile('gaze', facingLeftEdge ? 4 : 0)
+                <img src={pose === 'hurry' ? spriteFile('gaze', hurryLook ?? (facingLeftEdge ? 4 : 0))
                     : gazing ? spriteFile('gaze', gaze) : spriteSource(pose, currentFrame, pose === 'eat' ? belly : 0)} alt=""
                     draggable={false} className="block h-full w-full object-contain" style={pose === 'wave' ? waveRegistration : undefined} />
                 {nose && (
@@ -1214,7 +1502,7 @@ export default function PipCompanion() {
                                 <stop offset="1" stopColor="#86d8ff" stopOpacity="0" />
                             </radialGradient>
                         </defs>
-                        <g transform={glassesTransform(pose === 'think' ? 0 : currentFrame)}>
+                        <g transform={gazing ? 'translate(-2 -11)' : glassesTransform(pose === 'think' ? 0 : currentFrame)}>
                         <ellipse cx="95.5" cy="102" rx="52" ry="28" fill={`url(#${screenGlowId})`} />
                         <g fill="#dae9ed" fillOpacity=".12" stroke="#756354" strokeWidth="3.2" strokeLinejoin="round">
                             <rect x="46" y="75" width="39" height="25" rx="4" />
@@ -1234,6 +1522,7 @@ export default function PipCompanion() {
                         </g>
                     </svg>
                 )}
+            </motion.div>
             </motion.div>
             </motion.div>
         </motion.button>

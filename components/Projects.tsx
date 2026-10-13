@@ -130,6 +130,7 @@ export default function Projects() {
                     {group.items.map((project, index) => (
                         <motion.article
                             key={project.id}
+                            data-pip-project
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}

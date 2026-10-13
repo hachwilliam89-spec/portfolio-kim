@@ -106,7 +106,7 @@ export default function Contact() {
 
             if (response.ok) {
                 showToast(t.contact.successMsg, 'success');
-                window.dispatchEvent(new Event('pip:celebrate'));
+                window.dispatchEvent(new CustomEvent('pip:celebrate', { detail: 'message-sent' }));
                 setFormData({ name: '', email: '', message: '' });
             } else {
                 showToast(data.error || t.contact.errorMsg, 'error');
@@ -119,6 +119,8 @@ export default function Contact() {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        // Pip types along on his laptop.
+        window.dispatchEvent(new Event('pip:typing'));
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
