@@ -1,0 +1,47 @@
+.batman-travel {
+  transition: transform 1.9s ease-in-out, opacity 1.9s ease-in-out;
+}
+
+.batman-sprite {
+  transform-origin: 50% 85%;
+}
+
+.batman-sprite[data-batman-pose='idle'] {
+  animation: batman-breathe 2.6s ease-in-out infinite;
+}
+
+.batman-sprite[data-batman-pose='walk'] {
+  animation: batman-steps 320ms ease-in-out infinite alternate;
+}
+
+.batman-sprite[data-batman-pose='box'] {
+  animation: batman-peek 2.1s ease-in-out infinite;
+}
+
+.batman-sprite[data-batman-pose='laptop'] {
+  animation: batman-type 650ms ease-in-out infinite alternate;
+}
+
+@keyframes batman-breathe {
+  50% { transform: scale(1.015, 0.99); }
+}
+
+@keyframes batman-steps {
+  from { transform: translateY(0) rotate(-2deg); }
+  to { transform: translateY(-3px) rotate(2deg); }
+}
+
+@keyframes batman-peek {
+  0%, 70%, 100% { transform: translateY(0); }
+  82% { transform: translateY(-4px) rotate(2deg); }
+}
+
+@keyframes batman-type {
+  from { transform: rotate(-0.7deg); }
+  to { transform: translateY(1px) rotate(0.7deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .batman-travel { transition: none; }
+  .batman-sprite { animation: none !important; }
+}
