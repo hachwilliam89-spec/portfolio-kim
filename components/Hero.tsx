@@ -13,7 +13,7 @@ import './batman-visitor.css';
 
 type BatmanPose = 'idle' | 'walk' | 'box' | 'laptop';
 type BatmanPhase = 'away' | 'entering' | 'visiting' | 'leaving';
-type BatmanLine = 'csharp' | 'java' | 'php' | 'javascript' | 'frontend' | 'laptop' | 'admit' | 'box' | 'boxSize' | 'boxOffice' | 'boxWrong';
+type BatmanLine = 'csharp' | 'java' | 'php' | 'javascript' | 'frontend' | 'laptop' | 'admit' | 'box' | 'boxSize' | 'boxOffice' | 'boxWrong' | 'beer' | 'cheese';
 type BatmanVisit = { phase: BatmanPhase; pose: BatmanPose; quote: BatmanLine | null };
 
 const batmanLines: Record<BatmanLine, { fr: string; en: string }> = {
@@ -28,10 +28,12 @@ const batmanLines: Record<BatmanLine, { fr: string; en: string }> = {
     boxSize: { fr: 'Trop petit ?\n... Tu as raison.', en: 'Too small?\n... You’re right.' },
     boxOffice: { fr: 'Le meilleur bureau ?\nUn carton, voyons.', en: 'The best office?\nA box, obviously.' },
     boxWrong: { fr: 'Je rentre dedans.\n... Bon, j’avoue.', en: 'I can fit in there.\n... Fine, I admit it.' },
+    beer: { fr: 'Une bière fraîche ?\nJe t’écoute.', en: 'A cold beer?\nNow I’m listening.' },
+    cheese: { fr: 'Du fromage aussi ?\nBon, je reste.', en: 'Cheese too?\nFine, I’m staying.' },
 };
 const batmanDialogues: Record<'box' | 'laptop', [BatmanLine, BatmanLine][]> = {
     laptop: [['csharp', 'java'], ['php', 'javascript'], ['frontend', 'javascript'], ['laptop', 'admit']],
-    box: [['box', 'boxSize'], ['boxOffice', 'boxWrong']],
+    box: [['box', 'boxSize'], ['boxOffice', 'boxWrong'], ['beer', 'cheese']],
 };
 const batmanFrames: Record<BatmanPose, number[]> = {
     idle: [0],
