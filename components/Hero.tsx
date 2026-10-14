@@ -11,41 +11,46 @@ import BatmanSpeechBubble from './BatmanSpeechBubble';
 import './ink-landscape.css';
 import './batman-visitor.css';
 
-type BatmanPose = 'idle' | 'walk' | 'box' | 'laptop';
+type BatmanPose = 'idle' | 'walk' | 'box' | 'laptop' | 'beer' | 'cheese';
 type BatmanPhase = 'away' | 'entering' | 'visiting' | 'leaving';
-type BatmanLine = 'csharp' | 'java' | 'php' | 'javascript' | 'frontend' | 'laptop' | 'admit' | 'box' | 'boxSize' | 'boxOffice' | 'boxWrong' | 'beer' | 'cheese';
+type BatmanLine = 'csharp' | 'java' | 'php' | 'javascript' | 'frontend' | 'laptop' | 'admit' | 'box' | 'boxSize' | 'boxOffice' | 'boxWrong';
 type BatmanVisit = { phase: BatmanPhase; pose: BatmanPose; quote: BatmanLine | null };
 
 const batmanLines: Record<BatmanLine, { fr: string; en: string }> = {
     csharp: { fr: 'Java ? C# gagne.\nSans surprise.', en: 'Java? C# wins.\nNo surprise.' },
     java: { fr: 'Bon... ton Java\nse défend. Un peu.', en: 'Fine... your Java\nis decent. A little.' },
-    php: { fr: 'PHP a du style.\nJavaScript essaie.', en: 'PHP has style.\nJavaScript tries.' },
-    javascript: { fr: 'Du front-end ?\nSans moi, merci.', en: 'Front-end?\nNo thanks.' },
-    frontend: { fr: 'Ton CSS est joli.\nNe t’habitue pas.', en: 'Nice CSS.\nDon’t get used to it.' },
-    laptop: { fr: 'Mon PC compile.\nJe te laisse le CSS.', en: 'My laptop compiles.\nYou can keep the CSS.' },
+    php: { fr: 'PHP fait le boulot.\nTon JS fait du bruit.', en: 'PHP gets it done.\nYour JS makes noise.' },
+    javascript: { fr: 'JavaScript ? Ça marche…\naprès trois refresh.', en: 'JavaScript? It works…\nafter three refreshes.' },
+    frontend: { fr: 'Ton interface brille.\nLe back, il tourne ?', en: 'Your UI looks shiny.\nDoes the back end run?' },
+    laptop: { fr: 'J’ai fini le back.\nTu choisis ta police ?', en: 'I finished the back end.\nStill picking a font?' },
     admit: { fr: 'OK, j’avais tort.\nSavoure l’instant.', en: 'Fine, I was wrong.\nEnjoy the moment.' },
-    box: { fr: 'Ce carton est mieux\nque ton framework.', en: 'This box beats\nyour framework.' },
-    boxSize: { fr: 'Trop petit ?\n... Tu as raison.', en: 'Too small?\n... You’re right.' },
-    boxOffice: { fr: 'Le meilleur bureau ?\nUn carton, voyons.', en: 'The best office?\nA box, obviously.' },
-    boxWrong: { fr: 'Je rentre dedans.\n... Bon, j’avoue.', en: 'I can fit in there.\n... Fine, I admit it.' },
-    beer: { fr: 'Une bière fraîche ?\nJe t’écoute.', en: 'A cold beer?\nNow I’m listening.' },
-    cheese: { fr: 'Du fromage aussi ?\nBon, je reste.', en: 'Cheese too?\nFine, I’m staying.' },
+    box: { fr: 'Ce carton plante moins\nque ton JavaScript.', en: 'This box crashes less\nthan your JavaScript.' },
+    boxSize: { fr: 'Zéro CSS,\net ça tient debout.', en: 'Zero CSS,\nand it still stands.' },
+    boxOffice: { fr: 'Ton front-end charge ?\nMoi, je suis déjà dedans.', en: 'Is your front end loading?\nI’m already inside.' },
+    boxWrong: { fr: 'Bon, joli CSS.\nUne fois, pas deux.', en: 'Fine, nice CSS.\nOnce, not twice.' },
 };
-const batmanDialogues: Record<'box' | 'laptop', [BatmanLine, BatmanLine][]> = {
+const batmanDialogues: Record<'box' | 'laptop' | 'beer' | 'cheese', [BatmanLine, BatmanLine][]> = {
     laptop: [['csharp', 'java'], ['php', 'javascript'], ['frontend', 'javascript'], ['laptop', 'admit']],
-    box: [['box', 'boxSize'], ['boxOffice', 'boxWrong'], ['beer', 'cheese']],
+    box: [['box', 'boxSize'], ['boxOffice', 'boxWrong']],
+    beer: [['php', 'javascript'], ['frontend', 'javascript']],
+    cheese: [['csharp', 'java'], ['frontend', 'admit']],
 };
+const batmanActivities = ['box', 'laptop', 'beer', 'cheese'] as const;
 const batmanFrames: Record<BatmanPose, number[]> = {
     idle: [0],
     walk: [0, 1],
     box: [0, 0, 0, 0, 1],
     laptop: [0, 1],
+    beer: [0, 0, 1, 1],
+    cheese: [0, 0, 1, 1],
 };
 const batmanFrameDelay: Record<BatmanPose, number> = {
     idle: 1000,
     walk: 320,
     box: 420,
     laptop: 650,
+    beer: 600,
+    cheese: 600,
 };
 const batmanSprite = (pose: BatmanPose, frame: number) =>
     `/pip/batman-v2/${pose}/${String(frame).padStart(2, '0')}.webp`;
@@ -83,7 +88,7 @@ export default function Hero() {
 
     useEffect(() => {
         // Decode the small sprite set before Batman's first visit.
-        (['idle', 'walk', 'box', 'laptop'] as BatmanPose[]).forEach(pose => {
+        (['idle', 'walk', ...batmanActivities] as BatmanPose[]).forEach(pose => {
             for (const frame of new Set(batmanFrames[pose])) {
                 const image = new window.Image();
                 image.src = batmanSprite(pose, frame);
@@ -135,7 +140,7 @@ export default function Hero() {
             if (!inView || document.hidden || visiting || !pipIsHome()) return false;
             manualInviteUntil = 0;
             visiting = true;
-            const activity: 'box' | 'laptop' = Math.random() < 0.5 ? 'box' : 'laptop';
+            const activity = batmanActivities[Math.floor(Math.random() * batmanActivities.length)];
             const dialogues = batmanDialogues[activity];
             const [firstLine, secondLine] = dialogues[Math.floor(Math.random() * dialogues.length)];
             setBatman({ phase: 'entering', pose: 'walk', quote: null });

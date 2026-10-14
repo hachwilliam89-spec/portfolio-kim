@@ -18,6 +18,11 @@
   animation: batman-type 650ms ease-in-out infinite alternate;
 }
 
+.batman-sprite[data-batman-pose='beer'],
+.batman-sprite[data-batman-pose='cheese'] {
+  animation: batman-snack 600ms ease-in-out infinite alternate;
+}
+
 .batman-bubble {
   transform-origin: 50% 90%;
   animation: batman-bubble-pop 3.4s ease-out both;
@@ -43,6 +48,11 @@
 @keyframes batman-type {
   from { transform: rotate(-0.7deg); }
   to { transform: translateY(1px) rotate(0.7deg); }
+}
+
+@keyframes batman-snack {
+  from { transform: rotate(-0.5deg); }
+  to { transform: translateY(1px) rotate(0.5deg); }
 }
 
 @keyframes batman-bubble-pop {
