@@ -1347,7 +1347,7 @@ export default function PipCompanion() {
             ref={buttonRef}
             type="button"
             aria-label={lang === 'fr' ? 'Faire bouger Pip le panda' : 'Make Pip the panda move'}
-            title={lang === 'fr' ? 'Pip · double-clic pour inviter Batman' : 'Pip · double-click to invite Batman'}
+            title="Pip"
             data-pip-pose={pose}
             data-pip-scene={scene ?? undefined}
             onPointerDown={() => { pressedWhileSleeping.current = pose === 'sleep' || pose === 'doze'; }}

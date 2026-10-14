@@ -13,23 +13,24 @@ import './batman-visitor.css';
 
 type BatmanPose = 'idle' | 'walk' | 'box' | 'laptop';
 type BatmanPhase = 'away' | 'entering' | 'visiting' | 'leaving';
-type BatmanLine = 'csharp' | 'java' | 'php' | 'javascript' | 'laptop' | 'admit' | 'box' | 'boxSize' | 'boxOffice' | 'boxWrong';
+type BatmanLine = 'csharp' | 'java' | 'php' | 'javascript' | 'frontend' | 'laptop' | 'admit' | 'box' | 'boxSize' | 'boxOffice' | 'boxWrong';
 type BatmanVisit = { phase: BatmanPhase; pose: BatmanPose; quote: BatmanLine | null };
 
 const batmanLines: Record<BatmanLine, { fr: string; en: string }> = {
-    csharp: { fr: 'C# est meilleur\nque Java. Voilà.', en: 'C# is better\nthan Java. Period.' },
-    java: { fr: 'Java a ses qualités.\nJ’imagine.', en: 'Java has its merits.\nI suppose.' },
-    php: { fr: 'PHP est meilleur\nque JavaScript. Oui.', en: 'PHP is better\nthan JavaScript. Yep.' },
-    javascript: { fr: 'JavaScript ?\nOn en reparle.', en: 'JavaScript?\nWe’ll talk later.' },
-    laptop: { fr: 'Mon PC portable\na toujours raison.', en: 'My laptop\nis always right.' },
-    admit: { fr: 'Bon... j’avais tort.\nÇa arrive. Rarement.', en: 'Fine... I was wrong.\nIt happens. Rarely.' },
-    box: { fr: 'Ce carton ?\nMon nouveau bureau.', en: 'This box?\nMy new office.' },
+    csharp: { fr: 'Java ? C# gagne.\nSans surprise.', en: 'Java? C# wins.\nNo surprise.' },
+    java: { fr: 'Bon... ton Java\nse défend. Un peu.', en: 'Fine... your Java\nis decent. A little.' },
+    php: { fr: 'PHP a du style.\nJavaScript essaie.', en: 'PHP has style.\nJavaScript tries.' },
+    javascript: { fr: 'Du front-end ?\nSans moi, merci.', en: 'Front-end?\nNo thanks.' },
+    frontend: { fr: 'Ton CSS est joli.\nNe t’habitue pas.', en: 'Nice CSS.\nDon’t get used to it.' },
+    laptop: { fr: 'Mon PC compile.\nJe te laisse le CSS.', en: 'My laptop compiles.\nYou can keep the CSS.' },
+    admit: { fr: 'OK, j’avais tort.\nSavoure l’instant.', en: 'Fine, I was wrong.\nEnjoy the moment.' },
+    box: { fr: 'Ce carton est mieux\nque ton framework.', en: 'This box beats\nyour framework.' },
     boxSize: { fr: 'Trop petit ?\n... Tu as raison.', en: 'Too small?\n... You’re right.' },
-    boxOffice: { fr: 'Le meilleur IDE ?\nUn carton.', en: 'The best IDE?\nA cardboard box.' },
-    boxWrong: { fr: 'Je rentre dedans.\n... Ah, non.', en: 'I can fit in there.\n... Oh, no.' },
+    boxOffice: { fr: 'Le meilleur bureau ?\nUn carton, voyons.', en: 'The best office?\nA box, obviously.' },
+    boxWrong: { fr: 'Je rentre dedans.\n... Bon, j’avoue.', en: 'I can fit in there.\n... Fine, I admit it.' },
 };
 const batmanDialogues: Record<'box' | 'laptop', [BatmanLine, BatmanLine][]> = {
-    laptop: [['csharp', 'java'], ['php', 'javascript'], ['laptop', 'admit']],
+    laptop: [['csharp', 'java'], ['php', 'javascript'], ['frontend', 'javascript'], ['laptop', 'admit']],
     box: [['box', 'boxSize'], ['boxOffice', 'boxWrong']],
 };
 const batmanFrames: Record<BatmanPose, number[]> = {
@@ -45,7 +46,7 @@ const batmanFrameDelay: Record<BatmanPose, number> = {
     laptop: 650,
 };
 const batmanSprite = (pose: BatmanPose, frame: number) =>
-    `/pip/batman/${pose}/${String(frame).padStart(2, '0')}.webp`;
+    `/pip/batman-v2/${pose}/${String(frame).padStart(2, '0')}.webp`;
 
 const technologies = [
     { name: 'React', icon: SiReact }, { name: 'Next.js', icon: SiNextdotjs },
@@ -117,9 +118,7 @@ export default function Hero() {
 
         let inView = false;
         let visiting = false;
-        let visitTimer: ReturnType<typeof setTimeout>;
         const sceneTimers: ReturnType<typeof setTimeout>[] = [];
-        let nextVisitAt = Date.now() + 15_000 + Math.random() * 15_000;
         let manualInviteUntil = 0;
 
         const pipIsHome = () => {
@@ -130,22 +129,8 @@ export default function Hero() {
                 && Math.abs(pip.top - home.top) < home.height;
         };
 
-        const scheduleVisit = () => {
-            clearTimeout(visitTimer);
-            if (!inView || document.hidden || visiting) return;
-            visitTimer = setTimeout(() => {
-                if (!pipIsHome()) {
-                    nextVisitAt = Date.now() + 15_000;
-                    scheduleVisit();
-                    return;
-                }
-                startVisit();
-            }, Math.max(0, nextVisitAt - Date.now()));
-        };
-
         const startVisit = () => {
             if (!inView || document.hidden || visiting || !pipIsHome()) return false;
-            clearTimeout(visitTimer);
             manualInviteUntil = 0;
             visiting = true;
             const activity: 'box' | 'laptop' = Math.random() < 0.5 ? 'box' : 'laptop';
@@ -165,39 +150,28 @@ export default function Hero() {
                 visiting = false;
                 setBatman({ phase: 'away', pose: 'idle', quote: null });
                 sceneTimers.length = 0;
-                nextVisitAt = Date.now() + 120_000 + Math.random() * 120_000;
-                scheduleVisit();
             }, 10_300));
             return true;
         };
 
         const hideBatman = () => {
-            clearTimeout(visitTimer);
             sceneTimers.forEach(clearTimeout);
             sceneTimers.length = 0;
-            if (visiting) nextVisitAt = Date.now() + 120_000 + Math.random() * 120_000;
             visiting = false;
             setBatman({ phase: 'away', pose: 'idle', quote: null });
         };
 
         const observer = new IntersectionObserver(([entry]) => {
             inView = entry.isIntersecting;
-            if (inView) {
-                if (Date.now() < manualInviteUntil) startVisit();
-                scheduleVisit();
-            }
-            else hideBatman();
+            if (!inView) hideBatman();
+            else if (Date.now() < manualInviteUntil) startVisit();
         }, { threshold: 0.15 });
         const onVisibilityChange = () => {
             if (document.hidden) hideBatman();
-            else scheduleVisit();
+            else if (Date.now() < manualInviteUntil) startVisit();
         };
         const onPipHome = () => {
-            if (Date.now() < manualInviteUntil) {
-                startVisit();
-                return;
-            }
-            if (Date.now() >= nextVisitAt && Math.random() < 0.3) startVisit();
+            if (Date.now() < manualInviteUntil) startVisit();
         };
         const onBatmanInvite = () => {
             if (visiting) return;
@@ -213,7 +187,6 @@ export default function Hero() {
             document.removeEventListener('visibilitychange', onVisibilityChange);
             window.removeEventListener('pip:home', onPipHome);
             window.removeEventListener('batman:visit', onBatmanInvite);
-            clearTimeout(visitTimer);
             sceneTimers.forEach(clearTimeout);
         };
     }, []);

@@ -27,6 +27,10 @@
   animation: batman-project-visit 6.5s ease-in-out both;
 }
 
+.batman-project-cameo .batman-bubble {
+  animation-duration: 6.5s;
+}
+
 @keyframes batman-breathe {
   50% { transform: scale(1.015, 0.99); }
 }

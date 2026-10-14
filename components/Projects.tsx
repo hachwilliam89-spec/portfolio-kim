@@ -106,14 +106,14 @@ export default function Projects() {
             setBatmanCameo({ projectId: project.id, line: Math.floor(Math.random() * 2) });
             batmanNextCameoAt.current = performance.now() + 120_000 + Math.random() * 120_000;
             batmanLeaveTimer.current = setTimeout(() => setBatmanCameo(null), 6_500);
-        }, 850);
+        }, 1_200);
     };
     const cancelBatmanHover = () => {
         if (batmanHoverTimer.current) clearTimeout(batmanHoverTimer.current);
     };
     const javaLines = lang === 'fr'
-        ? ['J’aime mieux C#.\nMais joli projet.', 'Je l’admets :\nce Java est propre.']
-        : ['I prefer C#.\nBut nice work.', 'I admit it:\nthis Java is clean.'];
+        ? ['Java et du front ?\nTu aimes souffrir.', 'Bon... ce Java-là\nse défend. Un peu.']
+        : ['Java and front-end?\nYou like pain.', 'Fine... this Java\nis decent. A little.'];
     const openProject = (event: MouseEvent<HTMLAnchorElement>, project: Project) => {
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
         event.preventDefault();
@@ -190,7 +190,7 @@ export default function Projects() {
                                     <span data-batman-project className="batman-project-cameo pointer-events-none absolute inset-0 z-10 block" aria-hidden="true">
                                         <BatmanSpeechBubble text={javaLines[batmanCameo.line]}
                                             className="absolute bottom-[66px] right-1 z-10" />
-                                        <Image src={`/pip/batman/laptop/0${batmanLaptopFrame}.webp`} unoptimized alt=""
+                                        <Image src={`/pip/batman-v2/laptop/0${batmanLaptopFrame}.webp`} unoptimized alt=""
                                             width={384} height={384}
                                             className="batman-sprite absolute bottom-[-4px] right-3 h-[96px] w-[96px] object-contain drop-shadow-md"
                                             data-batman-pose="laptop" data-batman-frame={batmanLaptopFrame} />
