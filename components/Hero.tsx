@@ -7,14 +7,31 @@ import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiSpring, SiDocker, Si
 import { HiArrowDown } from 'react-icons/hi';
 import { useLanguage, fr, en } from '@/lib/i18n';
 import InkLandscape from './InkLandscape';
+import BatmanSpeechBubble from './BatmanSpeechBubble';
 import './ink-landscape.css';
 import './batman-visitor.css';
 
 type BatmanPose = 'idle' | 'walk' | 'box' | 'laptop';
 type BatmanPhase = 'away' | 'entering' | 'visiting' | 'leaving';
-type BatmanVisit = { phase: BatmanPhase; pose: BatmanPose; quote: string | null };
+type BatmanLine = 'csharp' | 'java' | 'php' | 'javascript' | 'laptop' | 'admit' | 'box' | 'boxSize' | 'boxOffice' | 'boxWrong';
+type BatmanVisit = { phase: BatmanPhase; pose: BatmanPose; quote: BatmanLine | null };
 
-const batmanOpinions = ['C# > Java', 'PHP > JavaScript'];
+const batmanLines: Record<BatmanLine, { fr: string; en: string }> = {
+    csharp: { fr: 'C# > Java.\nJe maintiens.', en: 'C# > Java.\nI stand by it.' },
+    java: { fr: 'Java a ses qualités.\nJ’imagine.', en: 'Java has its merits.\nI suppose.' },
+    php: { fr: 'PHP > JavaScript.\nOui, j’assume.', en: 'PHP > JavaScript.\nYes, I said it.' },
+    javascript: { fr: 'JavaScript ?\nOn en reparle.', en: 'JavaScript?\nWe’ll talk later.' },
+    laptop: { fr: 'Mon PC portable\na toujours raison.', en: 'My laptop\nis always right.' },
+    admit: { fr: 'Bon... j’avais tort.\nÇa arrive. Rarement.', en: 'Fine... I was wrong.\nIt happens. Rarely.' },
+    box: { fr: 'Ce carton ?\nMon nouveau bureau.', en: 'This box?\nMy new office.' },
+    boxSize: { fr: 'Trop petit ?\n... Tu as raison.', en: 'Too small?\n... You’re right.' },
+    boxOffice: { fr: 'Le meilleur IDE ?\nUn carton.', en: 'The best IDE?\nA cardboard box.' },
+    boxWrong: { fr: 'Je rentre dedans.\n... Ah, non.', en: 'I can fit in there.\n... Oh, no.' },
+};
+const batmanDialogues: Record<'box' | 'laptop', [BatmanLine, BatmanLine][]> = {
+    laptop: [['csharp', 'java'], ['php', 'javascript'], ['laptop', 'admit']],
+    box: [['box', 'boxSize'], ['boxOffice', 'boxWrong']],
+};
 const batmanFrames: Record<BatmanPose, number[]> = {
     idle: [0],
     walk: [0, 1],
@@ -103,6 +120,7 @@ export default function Hero() {
         let visitTimer: ReturnType<typeof setTimeout>;
         const sceneTimers: ReturnType<typeof setTimeout>[] = [];
         let nextVisitAt = Date.now() + 15_000 + Math.random() * 15_000;
+        let manualInviteUntil = 0;
 
         const pipIsHome = () => {
             const home = section.querySelector('[data-pip-home]')?.getBoundingClientRect();
@@ -121,25 +139,36 @@ export default function Hero() {
                     scheduleVisit();
                     return;
                 }
-                visiting = true;
-                const activity: BatmanPose = Math.random() < 0.5 ? 'box' : 'laptop';
-                const quote = activity === 'laptop'
-                    ? batmanOpinions[Math.floor(Math.random() * batmanOpinions.length)] : null;
-                setBatman({ phase: 'entering', pose: 'walk', quote: null });
-                sceneTimers.push(setTimeout(() => {
-                    setBatman({ phase: 'visiting', pose: activity, quote });
-                }, 1_900));
-                sceneTimers.push(setTimeout(() => {
-                    setBatman({ phase: 'leaving', pose: 'walk', quote: null });
-                }, 8_400));
-                sceneTimers.push(setTimeout(() => {
-                    visiting = false;
-                    setBatman({ phase: 'away', pose: 'idle', quote: null });
-                    sceneTimers.length = 0;
-                    nextVisitAt = Date.now() + 120_000 + Math.random() * 120_000;
-                    scheduleVisit();
-                }, 10_300));
+                startVisit();
             }, Math.max(0, nextVisitAt - Date.now()));
+        };
+
+        const startVisit = () => {
+            if (!inView || document.hidden || visiting || !pipIsHome()) return false;
+            clearTimeout(visitTimer);
+            manualInviteUntil = 0;
+            visiting = true;
+            const activity: 'box' | 'laptop' = Math.random() < 0.5 ? 'box' : 'laptop';
+            const dialogues = batmanDialogues[activity];
+            const [firstLine, secondLine] = dialogues[Math.floor(Math.random() * dialogues.length)];
+            setBatman({ phase: 'entering', pose: 'walk', quote: null });
+            sceneTimers.push(setTimeout(() => {
+                setBatman({ phase: 'visiting', pose: activity, quote: firstLine });
+            }, 1_900));
+            sceneTimers.push(setTimeout(() => {
+                setBatman({ phase: 'visiting', pose: activity, quote: secondLine });
+            }, 5_000));
+            sceneTimers.push(setTimeout(() => {
+                setBatman({ phase: 'leaving', pose: 'walk', quote: null });
+            }, 8_400));
+            sceneTimers.push(setTimeout(() => {
+                visiting = false;
+                setBatman({ phase: 'away', pose: 'idle', quote: null });
+                sceneTimers.length = 0;
+                nextVisitAt = Date.now() + 120_000 + Math.random() * 120_000;
+                scheduleVisit();
+            }, 10_300));
+            return true;
         };
 
         const hideBatman = () => {
@@ -153,19 +182,37 @@ export default function Hero() {
 
         const observer = new IntersectionObserver(([entry]) => {
             inView = entry.isIntersecting;
-            if (inView) scheduleVisit();
+            if (inView) {
+                if (Date.now() < manualInviteUntil) startVisit();
+                scheduleVisit();
+            }
             else hideBatman();
         }, { threshold: 0.15 });
         const onVisibilityChange = () => {
             if (document.hidden) hideBatman();
             else scheduleVisit();
         };
+        const onPipHome = () => {
+            if (Date.now() < manualInviteUntil) {
+                startVisit();
+                return;
+            }
+            if (Date.now() >= nextVisitAt && Math.random() < 0.3) startVisit();
+        };
+        const onBatmanInvite = () => {
+            if (visiting) return;
+            if (!startVisit()) manualInviteUntil = Date.now() + 15_000;
+        };
 
         observer.observe(section);
         document.addEventListener('visibilitychange', onVisibilityChange);
+        window.addEventListener('pip:home', onPipHome);
+        window.addEventListener('batman:visit', onBatmanInvite);
         return () => {
             observer.disconnect();
             document.removeEventListener('visibilitychange', onVisibilityChange);
+            window.removeEventListener('pip:home', onPipHome);
+            window.removeEventListener('batman:visit', onBatmanInvite);
             clearTimeout(visitTimer);
             sceneTimers.forEach(clearTimeout);
         };
@@ -209,9 +256,8 @@ export default function Hero() {
                             style={{ width: 'clamp(48px, 5.3vw, 72px)' }}
                             className={`pointer-events-none absolute top-1/2 -translate-y-1/2 ${theme === 'dark' ? 'right-full mr-1 sm:mr-4' : 'left-full ml-1 sm:ml-4'}`}>
                             {batman.quote && (
-                                <span className={`absolute bottom-full mb-1 w-max max-w-[140px] rounded-full border border-ink/20 bg-washi px-2 py-1 font-sans text-[10px] font-semibold leading-tight text-ink shadow-sm ${theme === 'dark' ? 'left-0' : 'right-0'}`}>
-                                    {batman.quote}
-                                </span>
+                                <BatmanSpeechBubble key={batman.quote} text={batmanLines[batman.quote][lang]}
+                                    className="absolute bottom-[90%] left-1/2 z-10 -translate-x-1/2" />
                             )}
                             <span className={`batman-travel block ${batman.phase === 'away' || batman.phase === 'leaving' ? 'opacity-0' : 'opacity-100'}`}
                                 style={{ transform: `translateX(${batman.phase === 'entering' || batman.phase === 'visiting' ? 0 : theme === 'dark' ? -80 : 80}px)` }}>

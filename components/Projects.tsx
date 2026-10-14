@@ -1,6 +1,7 @@
 'use client';
 
-import { Fragment, useState, type MouseEvent } from 'react';
+import { Fragment, useEffect, useRef, useState, type MouseEvent } from 'react';
+import Image from 'next/image';
 import { projects, currentProjects, projectPath } from '@/lib/projects';
 import { motion } from 'framer-motion';
 import type { IconType } from 'react-icons';
@@ -17,6 +18,8 @@ import SectionTitle from './SectionTitle';
 import LanternHeading from './LanternHeading';
 import type { Project } from '@/lib/types';
 import { useLanguage, fr, en } from '@/lib/i18n';
+import BatmanSpeechBubble from './BatmanSpeechBubble';
+import './batman-visitor.css';
 
 type TechIconMap = Record<string, IconType | null>;
 
@@ -80,9 +83,42 @@ export default function Projects() {
     const t = lang === 'fr' ? fr : en;
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [activeFilter, setActiveFilter] = useState('all');
+    const [batmanCameo, setBatmanCameo] = useState<{ projectId: number; line: number } | null>(null);
+    const [batmanLaptopFrame, setBatmanLaptopFrame] = useState(0);
+    const batmanNextCameoAt = useRef(0);
+    const batmanHoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const batmanLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    useEffect(() => () => {
+        if (batmanHoverTimer.current) clearTimeout(batmanHoverTimer.current);
+        if (batmanLeaveTimer.current) clearTimeout(batmanLeaveTimer.current);
+    }, []);
+    useEffect(() => {
+        if (!batmanCameo || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const interval = setInterval(() => setBatmanLaptopFrame(frame => 1 - frame), 650);
+        return () => clearInterval(interval);
+    }, [batmanCameo]);
+    const showBatmanOnJava = (project: Project, eventTime: number) => {
+        if (!project.tech.includes('Java') || selectedProject || batmanCameo || document.hidden || eventTime < batmanNextCameoAt.current) return;
+        if (batmanHoverTimer.current) clearTimeout(batmanHoverTimer.current);
+        batmanHoverTimer.current = setTimeout(() => {
+            if (document.hidden) return;
+            setBatmanLaptopFrame(0);
+            setBatmanCameo({ projectId: project.id, line: Math.floor(Math.random() * 2) });
+            batmanNextCameoAt.current = performance.now() + 120_000 + Math.random() * 120_000;
+            batmanLeaveTimer.current = setTimeout(() => setBatmanCameo(null), 6_500);
+        }, 850);
+    };
+    const cancelBatmanHover = () => {
+        if (batmanHoverTimer.current) clearTimeout(batmanHoverTimer.current);
+    };
+    const javaLines = lang === 'fr'
+        ? ['C# > Java.\nMais beau projet.', 'Je l’admets :\nce Java est propre.']
+        : ['C# > Java.\nBut nice project.', 'I admit it:\nthis Java is clean.'];
     const openProject = (event: MouseEvent<HTMLAnchorElement>, project: Project) => {
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
         event.preventDefault();
+        cancelBatmanHover();
+        setBatmanCameo(null);
         setSelectedProject(project);
     };
 
@@ -131,6 +167,12 @@ export default function Projects() {
                         <motion.article
                             key={project.id}
                             data-pip-project
+                            onMouseEnter={event => showBatmanOnJava(project, event.timeStamp)}
+                            onMouseLeave={cancelBatmanHover}
+                            onFocusCapture={event => showBatmanOnJava(project, event.timeStamp)}
+                            onBlurCapture={event => {
+                                if (!event.currentTarget.contains(event.relatedTarget)) cancelBatmanHover();
+                            }}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -144,6 +186,16 @@ export default function Projects() {
                                 className="relative block h-48 w-full overflow-hidden shrink-0 focus-visible:outline-2 focus-visible:outline-vermillon focus-visible:outline-offset-[-4px]"
                             >
                                 <ProjectCover project={project} />
+                                {batmanCameo?.projectId === project.id && !selectedProject && (
+                                    <span data-batman-project className="batman-project-cameo pointer-events-none absolute inset-0 z-10 block" aria-hidden="true">
+                                        <BatmanSpeechBubble text={javaLines[batmanCameo.line]}
+                                            className="absolute bottom-[66px] right-1 z-10" />
+                                        <Image src={`/pip/batman/laptop/0${batmanLaptopFrame}.webp`} unoptimized alt=""
+                                            width={384} height={384}
+                                            className="batman-sprite absolute bottom-[-4px] right-3 h-[96px] w-[96px] object-contain drop-shadow-md"
+                                            data-batman-pose="laptop" data-batman-frame={batmanLaptopFrame} />
+                                    </span>
+                                )}
                             </a>
 
                             <div className="p-6 flex flex-col flex-1">

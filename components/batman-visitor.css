@@ -18,6 +18,15 @@
   animation: batman-type 650ms ease-in-out infinite alternate;
 }
 
+.batman-bubble {
+  transform-origin: 50% 90%;
+  animation: batman-bubble-pop 3.4s ease-out both;
+}
+
+.batman-project-cameo {
+  animation: batman-project-visit 6.5s ease-in-out both;
+}
+
 @keyframes batman-breathe {
   50% { transform: scale(1.015, 0.99); }
 }
@@ -32,7 +41,21 @@
   to { transform: translateY(1px) rotate(0.7deg); }
 }
 
+@keyframes batman-bubble-pop {
+  0% { opacity: 0; scale: .7; }
+  12% { opacity: 1; scale: 1.06; }
+  20%, 88% { opacity: 1; scale: 1; }
+  100% { opacity: 0; scale: .98; }
+}
+
+@keyframes batman-project-visit {
+  0% { opacity: 0; transform: translateX(70px); }
+  15%, 85% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(70px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .batman-travel { transition: none; }
   .batman-sprite { animation: none !important; }
+  .batman-bubble, .batman-project-cameo { animation: none; }
 }

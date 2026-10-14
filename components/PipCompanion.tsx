@@ -642,6 +642,7 @@ export default function PipCompanion() {
             setHurrying(false);
             setMovingPose(null);
             updatePosition();
+            window.dispatchEvent(new Event('pip:home'));
         };
 
         const updatePosition = () => {
@@ -1346,14 +1347,20 @@ export default function PipCompanion() {
             ref={buttonRef}
             type="button"
             aria-label={lang === 'fr' ? 'Faire bouger Pip le panda' : 'Make Pip the panda move'}
-            title="Pip"
+            title={lang === 'fr' ? 'Pip · double-clic pour inviter Batman' : 'Pip · double-click to invite Batman'}
             data-pip-pose={pose}
             data-pip-scene={scene ?? undefined}
             onPointerDown={() => { pressedWhileSleeping.current = pose === 'sleep' || pose === 'doze'; }}
             onKeyDown={event => {
                 if (event.key === 'Enter' || event.key === ' ') pressedWhileSleeping.current = pose === 'sleep' || pose === 'doze';
             }}
-            onClick={onClick}
+            onClick={event => {
+                if (event.detail < 2) onClick();
+            }}
+            onDoubleClick={() => {
+                window.dispatchEvent(new Event('batman:visit'));
+                if (atCorner) document.querySelector('#home')?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+            }}
             className="fixed z-30 border-0 bg-transparent p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-vermillon focus-visible:outline-offset-2"
             style={{ left: 0, top: 0, x: placement.x, y: placement.y, width: placement.size, height: placement.size * spriteRatio, touchAction: 'manipulation' }}
             initial={false}
