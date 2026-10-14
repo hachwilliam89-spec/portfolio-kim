@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { useTheme } from './ThemeProvider';
 import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiSpring, SiDocker, SiNestjs, SiOpenjdk } from 'react-icons/si';
 import { HiArrowDown } from 'react-icons/hi';
@@ -68,6 +69,10 @@ export default function Hero() {
                     <span className="block text-[clamp(1.6rem,3vw,2.6rem)] font-normal tracking-[.12em] text-ink/60">William Kim</span>
                     <span className="mt-1 block text-[clamp(4rem,7.5vw,6.5rem)] font-bold"><span className="relative inline-block">HACH
                         <span data-pip-home aria-hidden="true" style={{ width: 'clamp(52px, 5.5vw, 76px)', aspectRatio: '192 / 208' }} className={`absolute top-1/2 -translate-y-1/2 ${theme === 'dark' ? 'left-full ml-1 sm:ml-4' : 'right-full mr-1 sm:mr-4'}`} />
+                        <Image src="/pip/batman.webp" alt="Batman, le chat ami de Pip" title="Batman"
+                            width={384} height={384} priority
+                            style={{ width: 'clamp(48px, 5.3vw, 72px)', height: 'auto' }}
+                            className={`pointer-events-none absolute top-1/2 -translate-y-1/2 drop-shadow-sm ${theme === 'dark' ? 'right-full mr-1 sm:mr-4' : 'left-full ml-1 sm:ml-4'}`} />
                     </span></span>
                 </h1>
                 <div className="mx-auto my-7 h-px w-20 bg-vermillon/65" />
