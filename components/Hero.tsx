@@ -17,9 +17,9 @@ type BatmanLine = 'csharp' | 'java' | 'php' | 'javascript' | 'laptop' | 'admit' 
 type BatmanVisit = { phase: BatmanPhase; pose: BatmanPose; quote: BatmanLine | null };
 
 const batmanLines: Record<BatmanLine, { fr: string; en: string }> = {
-    csharp: { fr: 'C# > Java.\nJe maintiens.', en: 'C# > Java.\nI stand by it.' },
+    csharp: { fr: 'C# est meilleur\nque Java. Voilà.', en: 'C# is better\nthan Java. Period.' },
     java: { fr: 'Java a ses qualités.\nJ’imagine.', en: 'Java has its merits.\nI suppose.' },
-    php: { fr: 'PHP > JavaScript.\nOui, j’assume.', en: 'PHP > JavaScript.\nYes, I said it.' },
+    php: { fr: 'PHP est meilleur\nque JavaScript. Oui.', en: 'PHP is better\nthan JavaScript. Yep.' },
     javascript: { fr: 'JavaScript ?\nOn en reparle.', en: 'JavaScript?\nWe’ll talk later.' },
     laptop: { fr: 'Mon PC portable\na toujours raison.', en: 'My laptop\nis always right.' },
     admit: { fr: 'Bon... j’avais tort.\nÇa arrive. Rarement.', en: 'Fine... I was wrong.\nIt happens. Rarely.' },

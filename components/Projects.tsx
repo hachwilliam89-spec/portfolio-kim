@@ -112,8 +112,8 @@ export default function Projects() {
         if (batmanHoverTimer.current) clearTimeout(batmanHoverTimer.current);
     };
     const javaLines = lang === 'fr'
-        ? ['C# > Java.\nMais beau projet.', 'Je l’admets :\nce Java est propre.']
-        : ['C# > Java.\nBut nice project.', 'I admit it:\nthis Java is clean.'];
+        ? ['J’aime mieux C#.\nMais joli projet.', 'Je l’admets :\nce Java est propre.']
+        : ['I prefer C#.\nBut nice work.', 'I admit it:\nthis Java is clean.'];
     const openProject = (event: MouseEvent<HTMLAnchorElement>, project: Project) => {
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
         event.preventDefault();
