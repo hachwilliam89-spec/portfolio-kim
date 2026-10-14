@@ -14,10 +14,6 @@
   animation: batman-steps 320ms ease-in-out infinite alternate;
 }
 
-.batman-sprite[data-batman-pose='box'] {
-  animation: batman-peek 2.1s ease-in-out infinite;
-}
-
 .batman-sprite[data-batman-pose='laptop'] {
   animation: batman-type 650ms ease-in-out infinite alternate;
 }
@@ -29,11 +25,6 @@
 @keyframes batman-steps {
   from { transform: translateY(0) rotate(-2deg); }
   to { transform: translateY(-3px) rotate(2deg); }
-}
-
-@keyframes batman-peek {
-  0%, 70%, 100% { transform: translateY(0); }
-  82% { transform: translateY(-4px) rotate(2deg); }
 }
 
 @keyframes batman-type {

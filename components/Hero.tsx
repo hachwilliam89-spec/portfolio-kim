@@ -15,6 +15,20 @@ type BatmanPhase = 'away' | 'entering' | 'visiting' | 'leaving';
 type BatmanVisit = { phase: BatmanPhase; pose: BatmanPose; quote: string | null };
 
 const batmanOpinions = ['C# > Java', 'PHP > JavaScript'];
+const batmanFrames: Record<BatmanPose, number[]> = {
+    idle: [0],
+    walk: [0, 1],
+    box: [0, 0, 0, 0, 1],
+    laptop: [0, 1],
+};
+const batmanFrameDelay: Record<BatmanPose, number> = {
+    idle: 1000,
+    walk: 320,
+    box: 420,
+    laptop: 650,
+};
+const batmanSprite = (pose: BatmanPose, frame: number) =>
+    `/pip/batman/${pose}/${String(frame).padStart(2, '0')}.webp`;
 
 const technologies = [
     { name: 'React', icon: SiReact }, { name: 'Next.js', icon: SiNextdotjs },
@@ -29,6 +43,7 @@ export default function Hero() {
     const t = lang === 'fr' ? fr : en;
     const sectionRef = useRef<HTMLElement>(null);
     const [batman, setBatman] = useState<BatmanVisit>({ phase: 'away', pose: 'idle', quote: null });
+    const [batmanFrame, setBatmanFrame] = useState({ pose: 'idle' as BatmanPose, index: 0 });
 
     useEffect(() => {
         const section = sectionRef.current;
@@ -45,6 +60,39 @@ export default function Hero() {
         document.addEventListener('visibilitychange', update);
         return () => { observer.disconnect(); document.removeEventListener('visibilitychange', update); reduced.removeEventListener('change', update); };
     }, []);
+
+    useEffect(() => {
+        // Decode the small sprite set before Batman's first visit.
+        (['idle', 'walk', 'box', 'laptop'] as BatmanPose[]).forEach(pose => {
+            for (const frame of new Set(batmanFrames[pose])) {
+                const image = new window.Image();
+                image.src = batmanSprite(pose, frame);
+            }
+        });
+    }, []);
+
+    useEffect(() => {
+        const sequence = batmanFrames[batman.pose];
+        if (batman.phase === 'away' || sequence.length === 1) return;
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let interval: ReturnType<typeof setInterval> | undefined;
+        const sync = () => {
+            clearInterval(interval);
+            if (reduced.matches || document.hidden) return;
+            interval = setInterval(() => setBatmanFrame(previous => ({
+                pose: batman.pose,
+                index: previous.pose === batman.pose ? (previous.index + 1) % sequence.length : 1 % sequence.length,
+            })), batmanFrameDelay[batman.pose]);
+        };
+        sync();
+        reduced.addEventListener('change', sync);
+        document.addEventListener('visibilitychange', sync);
+        return () => {
+            clearInterval(interval);
+            reduced.removeEventListener('change', sync);
+            document.removeEventListener('visibilitychange', sync);
+        };
+    }, [batman.phase, batman.pose]);
 
     useEffect(() => {
         const section = sectionRef.current;
@@ -139,6 +187,9 @@ export default function Hero() {
         return () => { window.removeEventListener('theme-switch', onSwitch); clearTimeout(timer); };
     }, []);
 
+    const currentBatmanFrame = batmanFrame.pose === batman.pose
+        ? batmanFrames[batman.pose][batmanFrame.index % batmanFrames[batman.pose].length] : 0;
+
     return (
         <section id="home" ref={sectionRef} className="ink-hero relative isolate overflow-hidden" data-running="false">
             <InkLandscape />
@@ -165,10 +216,11 @@ export default function Hero() {
                             <span className={`batman-travel block ${batman.phase === 'away' || batman.phase === 'leaving' ? 'opacity-0' : 'opacity-100'}`}
                                 style={{ transform: `translateX(${batman.phase === 'entering' || batman.phase === 'visiting' ? 0 : theme === 'dark' ? -80 : 80}px)` }}>
                                 <span className={`block ${theme === 'dark' && batman.pose === 'walk' ? '-scale-x-100' : ''}`}>
-                                    <Image src={batman.pose === 'idle' ? '/pip/batman.webp' : `/pip/batman-${batman.pose}.webp`}
+                                    <Image src={batmanSprite(batman.pose, currentBatmanFrame)} unoptimized
                                         alt="" title="Batman"
                                         width={384} height={384} priority
                                         data-batman-pose={batman.pose}
+                                        data-batman-frame={currentBatmanFrame}
                                         className="batman-sprite h-auto w-full drop-shadow-sm" />
                                 </span>
                             </span>
