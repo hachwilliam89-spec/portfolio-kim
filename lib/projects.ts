@@ -179,35 +179,56 @@ export const projects: Project[] = [
         title: 'RecycleDashboard',
         caseStudy: {
             need: "Organiser les collectes de biodéchets et réaffecter les clients lorsqu’une tournée est annulée.",
-            role: "Scrum Master et développeur au sein de l’équipe : coordination des sprints, redistribution des tournées, optimisation et API.",
-            result: "Une interface de redistribution par glisser-déposer, l’intégration de VROOM et **15 routes API documentées**. Migration vers PostgreSQL sous Docker avec un guide pour l’équipe.",
-            challenge: "Évaluer les risques de retard et permettre la redistribution d’un client, d’une tournée ou d’une journée. J’ai développé une procédure distinguant les situations à l’heure, en retard ou incertaines.",
+            role: "Scrum Master et développeur au sein de l’équipe : coordination des sprints, procédure d’évaluation (PE), intégration de VROOM et interface de redistribution.",
+            result: "Un parcours de réaffectation avec Kanban, carte et contrôles métier. La démonstration présentée utilise PostgreSQL, VROOM et OSRM en local, avec des clients fictifs.",
+            challenge: "Respecter les horaires d’ouverture, le temps de collecte et la capacité des véhicules, puis réévaluer la faisabilité après chaque modification manuelle du planning.",
         },
         caseStudyEn: {
             need: "Organise bio-waste collections and reassign customers when a route is cancelled.",
-            role: "Team Scrum Master and developer: sprint coordination, route redistribution, optimisation and APIs.",
-            result: "A drag-and-drop redistribution interface, VROOM integration and **15 documented API routes**. Migration to Docker-based PostgreSQL with a guide for the team.",
-            challenge: "Assess lateness risks and support redistributing a customer, a route or a whole day. I developed an evaluation procedure that distinguishes on-time, late and uncertain cases.",
+            role: "Team Scrum Master and developer: sprint coordination, evaluation procedure (PE), VROOM integration and the redistribution interface.",
+            result: "A reassignment workflow with a Kanban board, map and business-rule checks. The demonstration shown runs PostgreSQL, VROOM and OSRM locally with fictional customers.",
+            challenge: "Respect opening hours, collection time and vehicle capacity, then reassess feasibility after each manual change to the schedule.",
         },
         shortDescription: 'Projet en équipe : Scrum Master et développeur du planning de redistribution, de l’optimisation des tournées et des API.',
-        shortDescriptionEn: 'Bio-waste collection management app built in a team, Scrum Master role, VRPTW algorithm and drag-and-drop Kanban redistribution interface.',
+        shortDescriptionEn: 'Team project: Scrum Master and developer working on route redistribution, optimisation integration and APIs.',
         descriptionEn: 'As **Scrum Master** I ran the ceremonies, managed the Jira backlog and coordinated sprints. Bio-waste collection management app; my dev contributions:\n\n' +
-            '- **Evaluation Procedure (PE)** for the **VRPTW** algorithm: 3-case decision tree (on time / definitively late / uncertain).\n' +
-            '- Proposed and integrated **VROOM** as the tour optimization engine.\n' +
+            '- **Evaluation Procedure (PE)** for routing with time windows (**VRPTW**): on time, definitively late or uncertain.\n' +
+            '- Contributed to integrating **VROOM**, the route optimisation engine, and **OSRM** for road travel times.\n' +
             '- **Cancelled-tour redistribution** UI: **drag-and-drop** Kanban, 3 modes (client, full tour, full day).\n' +
             '- Full **database migration** Supabase → local Docker PostgreSQL (+ team guide).\n' +
-            '- Built and documented **15 REST API routes** (Swagger).',
+            '- Developed **REST APIs** and their Swagger documentation.\n\n' +
+            '**Personal local follow-up — November 2026.** I revisited an earlier draft with **Codex assistance** to strengthen schedule checks and preserve visits during reassignment. Verified with 111 automated tests and 7 integration scenarios using PostgreSQL, VROOM and OSRM.\n\n' +
+            'The screenshots show this follow-up with **fictional data**. The final client delivery is a separate version whose source code is confidential.',
         description: '**Scrum Master** de l\'équipe : animation des cérémonies, gestion du backlog Jira, coordination des sprints. Application de **gestion de collecte de biodéchets** ; mes contributions côté développement :\n\n' +
-            '- **Procédure d\'Évaluation (PE)** pour l\'algorithme **VRPTW** : arbre de décision à 3 cas (à l\'heure / définitivement en retard / incertain).\n' +
-            '- Proposition et intégration de **VROOM** comme moteur d\'optimisation des tournées.\n' +
+            '- **Procédure d’évaluation (PE)** pour les tournées à fenêtres horaires (**VRPTW**) : à l’heure, définitivement en retard ou incertain.\n' +
+            '- Contribution à l’intégration de **VROOM**, moteur d’optimisation, et d’**OSRM** pour les temps de trajet routiers.\n' +
             '- **Interface de redistribution** des tournées annulées : Kanban **drag-and-drop**, 3 modes (client, tournée, journée).\n' +
             '- **Migration** complète Supabase → PostgreSQL Docker local (+ guide pour l\'équipe).\n' +
-            '- Développement et documentation de **15 routes API** (Swagger).',
-        tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Leaflet', 'OSRM'],
-        image: '/images/recycle-dashboard.jpg',
+            '- Développement d’**API REST** et de leur documentation Swagger.\n\n' +
+            '**Reprise personnelle locale — novembre 2026.** J’ai repris une ancienne ébauche avec **l’assistance de Codex** pour renforcer les contrôles du planning et préserver les visites lors des réaffectations. Vérification par 111 tests automatisés et 7 scénarios d’intégration avec PostgreSQL, VROOM et OSRM.\n\n' +
+            'Les captures présentent cette reprise sur **données fictives**. La version finale livrée au client est distincte et son code reste confidentiel.',
+        tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'VROOM', 'OSRM', 'Leaflet', 'Jest'],
+        image: '/images/recycle-proposition.png',
+        imageKind: 'screenshot',
         screenshots: [
-            {url: '/images/planning-redistribution.png',title: 'Planning redistribution', description: 'Vue planning hebdomadaire permettant au gestionnaire de superviser l\'ensemble de la semaine en un coup d\'œil. Chaque jour affiche le nombre de tournées actives, annulées et redistribuées. Un panneau latéral signale les clients sans tournée à réassigner par glisser-déposer vers un véhicule disponible (Jumpy 1, Jumpy 2, Petit véhicule). Les jours fériés sont automatiquement détectés et bloqués.'},
-            {url: '/images/page-redistribution.png', title: 'Page de redistribution', description: 'Interface Kanban de redistribution des tournées de collecte. Chaque colonne représente une tournée véhicule avec sa capacité en seaux (ex: 39/90, 90/90), la durée et la distance calculées via OSRM. Les clients redistribués apparaissent en bleu avec le badge "NEW". La Tournée 3 affiche un indicateur PE en rouge signalant un risque de retard détecté par l\'algorithme. Le gestionnaire peut glisser-déposer les clients entre les colonnes pour équilibrer la charge entre les véhicules disponibles.'}
+            {
+                url: '/images/recycle-proposition.png',
+                title: '1. Proposer une redistribution', titleEn: '1. Propose a reassignment',
+                description: 'Démonstration locale, données fictives. VROOM réaffecte les deux clients de la tournée annulée en tenant compte des quatre visites existantes. Le Kanban affiche les charges et la carte les itinéraires OSRM.',
+                descriptionEn: 'Local demonstration with fictional data. VROOM reassigns the cancelled route’s two customers while accounting for four existing visits. The Kanban shows vehicle loads and the map displays OSRM routes.',
+            },
+            {
+                url: '/images/recycle-alerte-pe.png',
+                title: '2. Détecter un horaire incompatible', titleEn: '2. Detect a time-window conflict',
+                description: 'Après un déplacement au clavier, l’Atelier du Canal passe en deuxième position. Le recalcul détecte que la collecte ne peut plus finir avant sa fermeture : alerte PE et validation bloquée. Données fictives.',
+                descriptionEn: 'After a keyboard move, Atelier du Canal becomes the second stop. Recalculation detects that collection can no longer finish before closing: a PE warning appears and validation is blocked. Fictional data.',
+            },
+            {
+                url: '/images/recycle-validation.png',
+                title: '3. Confirmer le planning corrigé', titleEn: '3. Confirm the corrected schedule',
+                description: 'Le client est remis en premier et le planning est réévalué. La confirmation devient disponible ; le serveur contrôle à nouveau les contraintes avant d’enregistrer les visites dans PostgreSQL. Démonstration locale.',
+                descriptionEn: 'The customer is moved back to the first stop and the schedule is reassessed. Confirmation becomes available; the server checks the constraints again before saving visits in PostgreSQL. Local demonstration.',
+            },
         ],
     },
     {

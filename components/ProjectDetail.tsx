@@ -38,7 +38,7 @@ export default function ProjectDetail({ project, others }: {
                 {project.links?.apk && <a href={project.links.apk} download className="mt-6 ml-3 inline-block rounded-full border border-vermillon px-5 py-3 text-sm font-semibold text-vermillon dark:border-[#e98c70] dark:text-[#e98c70]">{t.projects.downloadApk}</a>}
                 {project.links?.apk && <p className="mt-3 max-w-xl text-xs opacity-80">{t.projects.apkHint}</p>}
             </header>
-            <div className="relative mb-12 h-52 overflow-hidden rounded-lg border border-gold/30 sm:h-80"><ProjectCover project={project} /></div>
+            <div className={`relative mb-12 overflow-hidden rounded-lg border border-gold/30 ${project.imageKind === 'screenshot' ? 'aspect-[1440/1000]' : 'h-52 sm:h-80'}`}><ProjectCover project={project} /></div>
             {fields.length > 0 && <div className="mb-10 grid gap-x-10 gap-y-5 md:grid-cols-2">
                 {fields.map(([label, text]) => <section key={label}>
                     <h2 className="mb-3 font-display text-2xl text-vermillon dark:text-[#e98c70]">{label}</h2>

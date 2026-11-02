@@ -24,7 +24,7 @@ export default function ProjectCover({ project }: { project: Project }) {
             alt={project.title}
             fill
             sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className={`object-cover ${project.imageKind === 'screenshot' ? 'object-top' : ''} group-hover:scale-105 transition-transform duration-500`}
         />
     ) : (
         <div className="flex h-full items-center justify-center bg-gold/10 font-display text-4xl text-ink/50">

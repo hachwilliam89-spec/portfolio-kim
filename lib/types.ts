@@ -43,7 +43,7 @@ export interface Project {
     caseStudyEn?: CaseStudy;
     tech: string[];
     image: string;
-    imageKind?: 'logo';
+    imageKind?: 'logo' | 'screenshot';
     status?: 'development';
     screenshots: Screenshot[];
     links?: RawProjectLinks;
