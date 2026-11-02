@@ -179,19 +179,21 @@ export const projects: Project[] = [
         title: 'RecycleDashboard',
         caseStudy: {
             need: "Organiser les collectes de biodéchets et réaffecter les clients lorsqu’une tournée est annulée.",
-            role: "Scrum Master et développeur au sein de l’équipe : coordination des sprints, procédure d’évaluation (PE), intégration de VROOM et interface de redistribution.",
-            result: "Un parcours de réaffectation avec Kanban, carte et contrôles métier. La démonstration présentée utilise PostgreSQL, VROOM et OSRM en local, avec des clients fictifs.",
+            role: "Scrum Master et développeur au sein de l’équipe : création du nouveau planning de redistribution, interface Kanban, procédure d’évaluation (PE) et intégration de VROOM.",
+            result: "Un planning de redistribution avec vues jour/semaine, suivi des tournées et gestion des clients sans tournée, relié à un parcours de réaffectation avec Kanban, carte et contrôles métier. Les captures présentent ce dernier parcours sur des clients fictifs.",
             challenge: "Respecter les horaires d’ouverture, le temps de collecte et la capacité des véhicules, puis réévaluer la faisabilité après chaque modification manuelle du planning.",
         },
         caseStudyEn: {
             need: "Organise bio-waste collections and reassign customers when a route is cancelled.",
-            role: "Team Scrum Master and developer: sprint coordination, evaluation procedure (PE), VROOM integration and the redistribution interface.",
-            result: "A reassignment workflow with a Kanban board, map and business-rule checks. The demonstration shown runs PostgreSQL, VROOM and OSRM locally with fictional customers.",
+            role: "Team Scrum Master and developer: created the new redistribution planning page, built the Kanban interface and evaluation procedure (PE), and contributed to VROOM integration.",
+            result: "A redistribution planner with day/week views, route tracking and management of customers without a route, connected to a reassignment workflow with a Kanban board, map and business-rule checks. The screenshots show the latter workflow with fictional customers.",
             challenge: "Respect opening hours, collection time and vehicle capacity, then reassess feasibility after each manual change to the schedule.",
         },
         shortDescription: 'Projet en équipe : Scrum Master et développeur du planning de redistribution, de l’optimisation des tournées et des API.',
-        shortDescriptionEn: 'Team project: Scrum Master and developer working on route redistribution, optimisation integration and APIs.',
+        shortDescriptionEn: 'Team project: Scrum Master and developer of the redistribution planner, route optimisation integration and APIs.',
         descriptionEn: 'As **Scrum Master** I ran the ceremonies, managed the Jira backlog and coordinated sprints. Bio-waste collection management app; my dev contributions:\n\n' +
+            '- **New redistribution planning page**: day/week views, expandable routes, week navigation and indicators for cancelled routes, completed redistributions and public holidays.\n' +
+            '- **Planning interactions**: drag-and-drop between routes, vehicle assignment and a holding area for customers without a route. Kept the planning view consistent after redistribution was validated.\n' +
             '- **Evaluation Procedure (PE)** for routing with time windows (**VRPTW**): on time, definitively late or uncertain.\n' +
             '- Contributed to integrating **VROOM**, the route optimisation engine, and **OSRM** for road travel times.\n' +
             '- **Cancelled-tour redistribution** UI: **drag-and-drop** Kanban, 3 modes (client, full tour, full day).\n' +
@@ -200,6 +202,8 @@ export const projects: Project[] = [
             '**Personal local follow-up — November 2026.** I revisited an earlier draft with **Codex assistance** to strengthen schedule checks and preserve visits during reassignment. Verified with 111 automated tests and 7 integration scenarios using PostgreSQL, VROOM and OSRM.\n\n' +
             'The screenshots show this follow-up with **fictional data**. The final client delivery is a separate version whose source code is confidential.',
         description: '**Scrum Master** de l\'équipe : animation des cérémonies, gestion du backlog Jira, coordination des sprints. Application de **gestion de collecte de biodéchets** ; mes contributions côté développement :\n\n' +
+            '- **Création du nouveau planning de redistribution** : vues jour/semaine, tournées dépliables, navigation entre les semaines et indicateurs de tournées annulées, redistribuées et de jours fériés.\n' +
+            '- **Interactions du planning** : glisser-déposer entre tournées, affectation des véhicules et zone d’attente pour les clients sans tournée. Mise en cohérence du planning après validation d’une redistribution.\n' +
             '- **Procédure d’évaluation (PE)** pour les tournées à fenêtres horaires (**VRPTW**) : à l’heure, définitivement en retard ou incertain.\n' +
             '- Contribution à l’intégration de **VROOM**, moteur d’optimisation, et d’**OSRM** pour les temps de trajet routiers.\n' +
             '- **Interface de redistribution** des tournées annulées : Kanban **drag-and-drop**, 3 modes (client, tournée, journée).\n' +
