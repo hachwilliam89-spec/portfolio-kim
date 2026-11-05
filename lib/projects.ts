@@ -216,7 +216,7 @@ export const projects: Project[] = [
         imageKind: 'screenshot',
         screenshots: [
             {
-                url: '/images/recycle-planning-semaine.png',
+                url: '/images/recycle-planning-semaine-v2.jpg',
                 title: 'Planning de redistribution — vue semaine', titleEn: 'Redistribution planner — week view',
                 description: 'Le nouveau planning que j’ai développé : navigation entre les semaines, véhicules disponibles et suivi des tournées par jour. La tournée annulée du lundi donne accès à la redistribution. Reprise locale sur données fictives.',
                 descriptionEn: 'The new planner I developed: week navigation, available vehicles and daily route tracking. Monday’s cancelled route provides access to redistribution. Local follow-up with fictional data.',

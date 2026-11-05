@@ -54,7 +54,7 @@ export default function ScreenshotGallery({ screenshots, english, enlarged = fal
                     </button>
                 </div>
                 <div className="relative min-h-0 w-full flex-1">
-                    <Image src={active.url} alt={title(active)} fill sizes="96vw" className="object-contain" unoptimized={enlarged} />
+                    <Image src={active.url} alt={title(active)} fill sizes="96vw" className="object-scale-down" unoptimized />
                 </div>
                 <a href={active.url} target="_blank" rel="noopener noreferrer" className="mt-4 shrink-0 self-start text-sm underline underline-offset-4">
                     {english ? 'Open full-size image' : 'Ouvrir l’image en taille réelle'}

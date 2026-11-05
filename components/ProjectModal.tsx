@@ -428,8 +428,8 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                         alt={lang === 'en' && currentScreenshot.titleEn ? currentScreenshot.titleEn : currentScreenshot.title}
                         fill
                         sizes="100vw"
-                        className="object-contain"
-                        unoptimized={project.slug === 'equilibre'}
+                        className="object-scale-down"
+                        unoptimized
                     />
                 </div>
                 <a href={currentScreenshot.url} target="_blank" rel="noopener noreferrer" className="shrink-0 self-start text-sm underline underline-offset-4">
