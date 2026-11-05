@@ -180,13 +180,13 @@ export const projects: Project[] = [
         caseStudy: {
             need: "Organiser les collectes de biodéchets et réaffecter les clients lorsqu’une tournée est annulée.",
             role: "Scrum Master et développeur au sein de l’équipe : création du nouveau planning de redistribution, interface Kanban, procédure d’évaluation (PE) et intégration de VROOM.",
-            result: "Un planning de redistribution avec vues jour/semaine, suivi des tournées et gestion des clients sans tournée, relié à un parcours de réaffectation avec Kanban, carte et contrôles métier. Les captures présentent ce dernier parcours sur des clients fictifs.",
+            result: "Un planning de redistribution avec vues jour/semaine, suivi des tournées et gestion des clients sans tournée, relié à un parcours de réaffectation avec Kanban, carte et contrôles métier. Les captures présentent ces deux interfaces sur des clients fictifs.",
             challenge: "Respecter les horaires d’ouverture, le temps de collecte et la capacité des véhicules, puis réévaluer la faisabilité après chaque modification manuelle du planning.",
         },
         caseStudyEn: {
             need: "Organise bio-waste collections and reassign customers when a route is cancelled.",
             role: "Team Scrum Master and developer: created the new redistribution planning page, built the Kanban interface and evaluation procedure (PE), and contributed to VROOM integration.",
-            result: "A redistribution planner with day/week views, route tracking and management of customers without a route, connected to a reassignment workflow with a Kanban board, map and business-rule checks. The screenshots show the latter workflow with fictional customers.",
+            result: "A redistribution planner with day/week views, route tracking and management of customers without a route, connected to a reassignment workflow with a Kanban board, map and business-rule checks. The screenshots show both interfaces with fictional customers.",
             challenge: "Respect opening hours, collection time and vehicle capacity, then reassess feasibility after each manual change to the schedule.",
         },
         shortDescription: 'Projet en équipe : Scrum Master et développeur du planning de redistribution, de l’optimisation des tournées et des API.',
@@ -215,6 +215,18 @@ export const projects: Project[] = [
         image: '/images/recycle-proposition.png',
         imageKind: 'screenshot',
         screenshots: [
+            {
+                url: '/images/recycle-planning-semaine.png',
+                title: 'Planning de redistribution — vue semaine', titleEn: 'Redistribution planner — week view',
+                description: 'Le nouveau planning que j’ai développé : navigation entre les semaines, véhicules disponibles et suivi des tournées par jour. La tournée annulée du lundi donne accès à la redistribution. Reprise locale sur données fictives.',
+                descriptionEn: 'The new planner I developed: week navigation, available vehicles and daily route tracking. Monday’s cancelled route provides access to redistribution. Local follow-up with fictional data.',
+            },
+            {
+                url: '/images/recycle-planning-jour.png',
+                title: 'Planning de redistribution — vue jour', titleEn: 'Redistribution planner — day view',
+                description: 'Le détail du mardi affiche les trois véhicules, les clients affectés et les distances et temps routiers calculés par OSRM. Ces temps de trajet excluent la durée des collectes. Démonstration locale sur données fictives.',
+                descriptionEn: 'Tuesday’s detail shows the three vehicles, assigned customers and road distances and travel times calculated by OSRM. Travel times exclude collection service time. Local demonstration with fictional data.',
+            },
             {
                 url: '/images/recycle-proposition.png',
                 title: '1. Proposer une redistribution', titleEn: '1. Propose a reassignment',
