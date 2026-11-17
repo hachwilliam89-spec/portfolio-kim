@@ -29,7 +29,7 @@ export const en: Translations = {
         cta: 'Six-month final-year internship\u00a0· Starting January 2027',
         mobility: 'France or abroad\u00a0· On-site preferred\u00a0· University agreement available for internships abroad',
         discover: 'Discover',
-        flagship: 'My flagship project: Trame',
+        flagship: 'My most ambitious personal project: Trame',
     },
     projects: {
         previousImage: 'Previous image',
@@ -74,7 +74,7 @@ export const en: Translations = {
         },
         p1: "After four years as a <strong>logistics manager</strong>, I chose to move into software development to <strong>bring ideas to life</strong> — both my own and other people’s. I enjoy starting with a need, building a solution and refining the details that make it useful in everyday life.",
         p2: "My management experience taught me to organise work, set priorities and coordinate a team. My <strong>Bachelor’s degree in Economics from Paris 1 Panthéon-Sorbonne</strong> also shapes how I approach a company’s needs and constraints.",
-        p3: "I am now studying for a professional Bachelor’s degree in Computer Science at <strong>UHA 4.0</strong>, building web and mobile applications independently and in teams. With <strong>Trame</strong>, my flagship project, I apply my logistics experience to team scheduling and take architecture, testing and deployment on my VPS further. <strong>Équilibre</strong> remains my final-year project, focused on mobile nutrition tracking. I am looking for an internship where I can contribute to a real product, learn from a team and develop my skills through new challenges.",
+        p3: "I am now studying for a professional Bachelor’s degree in Computer Science at <strong>UHA 4.0</strong>, building web and mobile applications independently and in teams. With <strong>Trame</strong>, my most ambitious personal project, I bring together my logistics experience, what my team projects taught me and new technologies such as Angular and Keycloak. <strong>Équilibre</strong> remains my final-year project, focused on mobile nutrition tracking. I am looking for an internship where I can contribute to a real product, learn from a team and develop my skills through new challenges.",
         findMe: 'Find me',
     },
     contact: {

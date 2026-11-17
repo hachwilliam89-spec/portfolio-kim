@@ -27,7 +27,7 @@ export const fr = {
         cta: 'Stage de fin d\'études\u00a0· 6 mois dès janvier 2027',
         mobility: 'France ou étranger\u00a0· Présentiel privilégié\u00a0· Convention possible à l’étranger',
         discover: 'Découvrir',
-        flagship: 'Mon projet phare : Trame',
+        flagship: 'Mon projet personnel le plus ambitieux : Trame',
     },
     projects: {
         previousImage: 'Image précédente',
@@ -72,7 +72,7 @@ export const fr = {
         },
         p1: "Après quatre ans comme <strong>responsable logistique</strong>, j’ai choisi de me reconvertir dans le développement pour <strong>concrétiser des idées</strong> : les miennes, mais aussi celles des autres. Ce qui me plaît, c’est de partir d’un besoin, construire une solution et soigner les détails qui la rendent utile au quotidien.",
         p2: "Mon expérience du management m’a appris à organiser le travail, gérer les priorités et coordonner une équipe. Ma <strong>licence en économie à Paris 1 Panthéon-Sorbonne</strong> nourrit aussi mon attention aux besoins et aux contraintes de l’entreprise.",
-        p3: "Aujourd’hui en licence professionnelle Métiers de l’informatique à <strong>l’UHA 4.0</strong>, je développe des applications web et mobiles, seul et en équipe. Avec <strong>Trame</strong>, mon projet phare, je mets mon expérience de la logistique au service de la planification d’équipes et je pousse plus loin l’architecture, les tests et le déploiement sur mon VPS. <strong>Équilibre</strong> reste mon projet de fin d’études, consacré au suivi nutritionnel sur mobile. Je recherche un stage où contribuer à un produit concret, apprendre auprès d’une équipe et progresser face à de nouveaux défis.",
+        p3: "Aujourd’hui en licence professionnelle Métiers de l’informatique à <strong>l’UHA 4.0</strong>, je développe des applications web et mobiles, seul et en équipe. Avec <strong>Trame</strong>, mon projet personnel le plus ambitieux, je réunis mon expérience de la logistique, ce que mes projets d’équipe m’ont appris et de nouvelles technologies comme Angular et Keycloak. <strong>Équilibre</strong> reste mon projet de fin d’études, consacré au suivi nutritionnel sur mobile. Je recherche un stage où contribuer à un produit concret, apprendre auprès d’une équipe et progresser face à de nouveaux défis.",
         findMe: 'Retrouvez-moi',
     },
     contact: {
