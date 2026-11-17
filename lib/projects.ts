@@ -2,6 +2,66 @@ import type { Project } from './types';
 
 export const projects: Project[] = [
     {
+        id: 10,
+        slug: 'trame',
+        title: 'Trame',
+        caseStudy: {
+            need: 'Pendant **quatre ans comme responsable logistique**, j’ai construit les plannings d’entrepôt à la main : couvrir chaque poste avec des personnes habilitées, tenir les contrats et le Code du travail, repérer les trous avant qu’ils ne coûtent une journée. Trame calcule la semaine et montre ce qui manque.',
+            role: 'Projet personnel mené seul : conception, développement et exploitation sur mon VPS. Le code est produit avec **assistance IA** ; je cadre chaque évolution (user story, scénarios BDD, décisions d’architecture), relis les changements et vérifie les tests avant chaque fusion.',
+            result: 'Une démonstration en ligne, sur compte. Le manager choisit un site et une semaine, lance la génération et suit sa progression, puis consulte le planning de **12 salariés** en vue Semaine, Jour ou Employé, avec la couverture de chaque créneau et les règles vérifiées. Sur la semaine fictive du 23 novembre 2026, **50 places sur 51** sont pourvues et le manque du samedi matin est signalé : 2 caristes pour 3 requis.',
+            challenge: 'Rendre un résultat d’optimisation **fiable et vérifiable** : un moteur **CP-SAT** sans état qui reçoit par RabbitMQ un instantané complet de la semaine, des règles écrites une seule fois pour contraindre le calcul et contrôler un planning, et des contrats d’échange partagés entre TypeScript et Python.',
+        },
+        caseStudyEn: {
+            need: 'During **four years as a logistics manager**, I built warehouse schedules by hand: staffing every position with qualified people, respecting contracts and labour law, and spotting gaps before they cost a day. Trame computes the week and shows what is missing.',
+            role: 'Solo personal project: design, development and operation on my VPS. The code is produced with **AI assistance**; I frame every change (user story, BDD scenarios, architecture decisions), review the changes and check the tests before each merge.',
+            result: 'A live demo, account required. A manager picks a site and a week, starts the generation and follows its progress, then reviews the schedule of **12 employees** in Week, Day or Employee view, with the coverage of each shift and the rules that were checked. On the fictional week of 23 November 2026, **50 of 51 slots** are filled and the Saturday-morning gap is flagged: 2 forklift drivers for 3 required.',
+            challenge: 'Making an optimization result **reliable and verifiable**: a stateless **CP-SAT** engine that receives a complete snapshot of the week through RabbitMQ, rules written once both to constrain the solver and to check a schedule, and message contracts shared between TypeScript and Python.',
+        },
+        status: 'development',
+        imageKind: 'brand',
+        shortDescription: 'Mon projet phare : générer le planning hebdomadaire d’un entrepôt en respectant habilitations, contrats et temps de repos, puis montrer clairement où il manque du monde.',
+        shortDescriptionEn: 'My flagship project: generating a warehouse’s weekly schedule that respects qualifications, contracts and rest periods, then showing clearly where people are missing.',
+        description: '**Ce que montre la démonstration.** Un entrepôt fictif de 12 salariés (caristes, préparateurs de commandes, réceptionnaires), avec deux créneaux par jour du lundi au samedi. Les chiffres cités décrivent ce jeu de démonstration, pas une limite de capacité ni un banc de performance. La démonstration demande un compte et les inscriptions sont fermées : les captures ci-dessous montrent le parcours réel.\n\n' +
+            '**Disponible aujourd’hui :**\n' +
+            '- Connexion **Keycloak (OIDC)** avec double authentification TOTP ; accès limité par rôle et par organisation.\n' +
+            '- Choix du site et de la semaine depuis la navigation, puis génération **asynchrone** avec suivi de la progression.\n' +
+            '- Vues **Semaine, Jour et Employé**. La couverture par créneau et par poste est présentée à part des affectations.\n' +
+            '- Pour chaque salarié : ses créneaux, les postes tenus et ses heures de la semaine face aux bornes de son contrat.\n' +
+            '- Les six règles vérifiées par le moteur, avec leur référence : habilitations valides le jour du créneau, aucun chevauchement, repos quotidien de 11 h, durées maximales par jour et par semaine, volume du contrat. Les manques sont chiffrés.\n\n' +
+            '**Architecture :** monolithe modulaire dans un monorepo **Nx**. Front **Angular** dont l’état repose sur les **signals**, avec un modèle d’affichage en fonctions pures testé à part ; API **NestJS** découpée par contexte métier (organisation, personnel, besoins, planification) ; données **PostgreSQL**. Les frontières entre modules sont contrôlées automatiquement, côté TypeScript comme côté Python.\n\n' +
+            '**Moteur d’optimisation :** worker **Python** avec **OR-Tools CP-SAT**. Il ne lit jamais la base : l’API lui transmet par **RabbitMQ** un instantané complet de la semaine. Chaque règle est un seul objet qui pose sa contrainte dans le solveur et sait juger un planning existant ; un test vérifie que les deux concordent. L’objectif maximise la couverture.\n\n' +
+            '**Contrats partagés :** les messages sont décrits une seule fois avec Zod, exportés en JSON Schema puis convertis en modèles Pydantic. Les mêmes exemples valides et invalides sont testés des deux côtés.\n\n' +
+            '**Qualité et livraison :** comportements cadrés en BDD, correctifs couverts en TDD, tests d’intégration avec Keycloak, PostgreSQL, RabbitMQ et le vrai worker, parcours navigateur **Playwright** sur Chromium, Firefox et WebKit avec contrôles d’accessibilité axe. CI **GitHub Actions**, CodeQL et scans Trivy ; images publiées sur GHCR avec SBOM, **signées avec cosign**, puis déployées sur mon VPS OVH après une répétition et une approbation, avec un retour arrière prêt.\n\n' +
+            '**La suite :** expliquer chaque manque (règle et article en cause), modifier le planning avec évaluation instantanée, puis ouvrir un accès visiteur. Un assistant IA reste une piste pour plus tard.',
+        descriptionEn: '**What the demo shows.** A fictional warehouse with 12 employees (forklift drivers, order pickers, receivers) and two shifts a day from Monday to Saturday. The figures quoted describe this demo dataset, not a capacity limit or a benchmark. The demo requires an account and registration is closed: the screenshots below show the real workflow.\n\n' +
+            '**Available today:**\n' +
+            '- **Keycloak (OIDC)** sign-in with TOTP two-factor authentication; access scoped by role and organization.\n' +
+            '- Site and week selection from the navigation, then **asynchronous** generation with progress tracking.\n' +
+            '- **Week, Day and Employee** views. Coverage by shift and position is shown separately from the assignments.\n' +
+            '- For each employee: their shifts, the positions they hold and their weekly hours against their contract bounds.\n' +
+            '- The six rules checked by the engine, with their legal reference: qualifications valid on the day of the shift, no overlap, 11-hour daily rest, daily and weekly maximum hours, contract volume. Gaps are quantified.\n\n' +
+            '**Architecture:** a modular monolith in an **Nx** monorepo. **Angular** front end with state built on **signals** and a view model made of pure functions, tested separately; **NestJS** API split by business context (organization, staff, demand, scheduling); **PostgreSQL** data. Module boundaries are enforced automatically, in TypeScript and in Python.\n\n' +
+            '**Optimization engine:** a **Python** worker using **OR-Tools CP-SAT**. It never reads the database: the API sends it a complete snapshot of the week through **RabbitMQ**. Each rule is a single object that adds its constraint to the solver and can judge an existing schedule; a test checks that both agree. The objective maximizes coverage.\n\n' +
+            '**Shared contracts:** messages are described once with Zod, exported as JSON Schema, then converted into Pydantic models. The same valid and invalid examples are tested on both sides.\n\n' +
+            '**Quality and delivery:** behaviours defined with BDD, fixes covered with TDD, integration tests with Keycloak, PostgreSQL, RabbitMQ and the real worker, **Playwright** browser journeys on Chromium, Firefox and WebKit with axe accessibility checks. **GitHub Actions** CI, CodeQL and Trivy scans; images published to GHCR with an SBOM, **signed with cosign**, then deployed to my OVH VPS after a rehearsal and an approval, with a rollback ready.\n\n' +
+            '**Next:** explaining each gap (the rule and article involved), editing the schedule with instant evaluation, then opening visitor access. An AI assistant remains an idea for later.',
+        tech: ['Angular', 'NestJS', 'Python', 'OR-Tools CP-SAT', 'PostgreSQL', 'RabbitMQ', 'TypeScript', 'Nx', 'Keycloak', 'Docker', 'Playwright', 'GitHub Actions'],
+        image: '/images/trame-logo.svg',
+        links: {
+            demo: 'https://staging.trame.wkhach.dev',
+            github: 'https://github.com/hachwilliam89-spec/trame',
+        },
+        demoRequiresAccount: true,
+        accessNote: 'Inscriptions fermées : les captures montrent le parcours complet.',
+        accessNoteEn: 'Registration is closed: the screenshots show the full workflow.',
+        screenshots: [
+            { url: '/images/trame-couverture-regles.webp', title: 'Couverture et règles vérifiées', shortTitle: 'Couverture', description: 'Semaine 48 de l’entrepôt de démonstration : 50 places pourvues sur 51, le manque du samedi matin détaillé, puis la couverture du jour par poste. En tête, les six règles que le moteur a vérifiées. Capture du staging, données fictives.', titleEn: 'Coverage and checked rules', shortTitleEn: 'Coverage', descriptionEn: 'Week 48 at the demo warehouse: 50 of 51 slots filled, the Saturday-morning gap in detail, then the day’s coverage by position. At the top, the six rules the engine checked. Captured on staging, fictional data.' },
+            { url: '/images/trame-planning-semaine.webp', title: 'Planning de la semaine', shortTitle: 'Semaine', description: 'Les 12 salariés, leurs créneaux du lundi au samedi et leurs heures face aux bornes du contrat. Quand un salarié change de poste dans la semaine, le poste du jour apparaît dans sa case.', titleEn: 'Weekly schedule', shortTitleEn: 'Week', descriptionEn: 'The 12 employees, their shifts from Monday to Saturday and their hours against their contract bounds. When someone switches positions during the week, the position for the day appears in the cell.' },
+            { url: '/images/trame-vue-employe.webp', title: 'Vue Employé', shortTitle: 'Employé', description: 'La semaine d’Inès Fabre, cariste : 21 h planifiées pour un contrat de 14 à 21 h. Dans le jeu fictif, son CACES 3 expire le mercredi : elle ne peut plus tenir le poste de cariste le samedi.', titleEn: 'Employee view', shortTitleEn: 'Employee', descriptionEn: 'Inès Fabre’s week as a forklift driver: 21 hours planned for a 14–21 hour contract. In the fictional dataset, her CACES 3 licence expires on Wednesday, so she can no longer drive on Saturday.' },
+            { url: '/images/trame-mobile.webp', title: 'Sur mobile', shortTitle: 'Mobile', description: 'Deux écrans du staging à 390 px de large, réunis dans un montage : l’en-tête avec la couverture, puis la vue Jour, affichée par défaut sur petit écran.', titleEn: 'On mobile', shortTitleEn: 'Mobile', descriptionEn: 'Two staging screens at 390 px wide, combined in one image: the header with coverage, then the Day view, shown by default on small screens.' },
+        ],
+    },
+    {
         id: 9,
         slug: 'equilibre',
         title: 'Équilibre',

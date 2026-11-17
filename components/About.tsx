@@ -2,11 +2,12 @@
 
 import { motion } from 'framer-motion';
 import type { IconType } from 'react-icons';
-import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb, SiMongodb, SiOpenjdk, SiPython, SiExpo, SiSwagger, SiJsonwebtokens, SiGithubactions, SiJest, SiVitest, SiJira, SiOdoo, SiOpenai, SiDrizzle, SiZod } from 'react-icons/si';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiNodedotjs, SiNestjs, SiPrisma, SiPostgresql, SiMysql, SiDocker, SiGit, SiGitlab, SiSpring, SiMariadb, SiMongodb, SiOpenjdk, SiPython, SiExpo, SiSwagger, SiJsonwebtokens, SiGithubactions, SiJest, SiVitest, SiJira, SiOdoo, SiOpenai, SiDrizzle, SiZod, SiAngular, SiRabbitmq, SiNx, SiKeycloak, SiTraefikproxy } from 'react-icons/si';
 import SectionTitle from './SectionTitle';
 import { useLanguage, fr, en } from '@/lib/i18n';
 
 const techIcons: Record<string, IconType | null> = {
+    'Angular': SiAngular,
     'React': SiReact,
     'React Native': SiReact,
     'Expo': SiExpo,
@@ -24,6 +25,9 @@ const techIcons: Record<string, IconType | null> = {
     'Architecture hexagonale': null,
     'API REST': null,
     'WebSocket': null,
+    'RabbitMQ': SiRabbitmq,
+    'Keycloak / OIDC': SiKeycloak,
+    'OR-Tools CP-SAT': null,
     'JWT': SiJsonwebtokens,
     'Swagger': SiSwagger,
     'Prisma': SiPrisma,
@@ -36,7 +40,11 @@ const techIcons: Record<string, IconType | null> = {
     'OpenAI / Anthropic': SiOpenai,
     'n8n': null,
     'Odoo': SiOdoo,
+    'Nx': SiNx,
     'Docker': SiDocker,
+    'Traefik': SiTraefikproxy,
+    'BDD': null,
+    'Playwright': null,
     'CI/CD GitHub Actions': SiGithubactions,
     'Git': SiGit,
     'GitLab': SiGitlab,
@@ -49,11 +57,11 @@ const techIcons: Record<string, IconType | null> = {
 };
 
 const skillKeys = [
-    { key: 'frontend' as const, items: ['React', 'React Native', 'Expo', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Phaser'] },
-    { key: 'backend' as const, items: ['NestJS', 'Node.js', 'Java', 'Spring Boot', 'Python', 'POO', 'Architecture hexagonale', 'API REST', 'WebSocket', 'JWT', 'Swagger', 'Prisma', 'Drizzle ORM', 'Zod'] },
+    { key: 'frontend' as const, items: ['Angular', 'React', 'React Native', 'Expo', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Phaser'] },
+    { key: 'backend' as const, items: ['NestJS', 'Node.js', 'Java', 'Spring Boot', 'Python', 'OR-Tools CP-SAT', 'POO', 'Architecture hexagonale', 'API REST', 'WebSocket', 'RabbitMQ', 'Keycloak / OIDC', 'JWT', 'Swagger', 'Prisma', 'Drizzle ORM', 'Zod'] },
     { key: 'database' as const, items: ['PostgreSQL', 'MongoDB', 'MariaDB', 'MySQL'] },
     { key: 'ai' as const, items: ['OpenAI / Anthropic', 'n8n', 'Odoo'] },
-    { key: 'devops' as const, items: ['Docker', 'CI/CD GitHub Actions', 'Git', 'GitLab', 'Husky', 'TDD', 'Jest', 'Vitest', 'Scrum', 'Jira'] },
+    { key: 'devops' as const, items: ['Nx', 'Docker', 'Traefik', 'BDD', 'CI/CD GitHub Actions', 'Git', 'GitLab', 'Husky', 'TDD', 'Jest', 'Vitest', 'Playwright', 'Scrum', 'Jira'] },
 ];
 
 function ChineseSeal() {

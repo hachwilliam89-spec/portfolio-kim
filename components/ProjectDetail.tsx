@@ -15,6 +15,7 @@ export default function ProjectDetail({ project, others }: {
     const english = lang === 'en';
     const t = english ? en : fr;
     const study = english ? project.caseStudyEn ?? project.caseStudy : project.caseStudy;
+    const accessNote = english ? project.accessNoteEn ?? project.accessNote : project.accessNote;
     const fields = study ? [
         [t.projects.caseNeed, study.need], [t.projects.caseRole, study.role],
         [t.projects.caseResult, study.result], [t.projects.caseChallenge, study.challenge],
@@ -34,8 +35,12 @@ export default function ProjectDetail({ project, others }: {
                 <ul aria-label={t.projects.technologies} className="mt-6 flex flex-wrap gap-2">
                     {project.tech.map(tech => <li key={tech} className="rounded-full border border-gold/30 bg-gold/15 px-3 py-1.5 text-xs">{tech}</li>)}
                 </ul>
-                {project.links?.demo && <a href={project.links.demo} target="_blank" rel="noopener noreferrer" className="mt-6 inline-block rounded-full bg-vermillon px-5 py-3 text-sm font-semibold text-white">{t.projects.visitSite}</a>}
-                {project.links?.apk && <a href={project.links.apk} download className="mt-6 ml-3 inline-block rounded-full border border-vermillon px-5 py-3 text-sm font-semibold text-vermillon dark:border-[#e98c70] dark:text-[#e98c70]">{t.projects.downloadApk}</a>}
+                {(project.links?.demo || project.links?.github || project.links?.apk) && <div className="mt-6 flex flex-wrap items-center gap-3">
+                    {project.links?.demo && <a href={project.links.demo} target="_blank" rel="noopener noreferrer" className="inline-block rounded-full bg-vermillon px-5 py-3 text-sm font-semibold text-white">{project.demoRequiresAccount ? t.projects.demoOnAccount : t.projects.visitSite}</a>}
+                    {project.links?.github && <a href={project.links.github} target="_blank" rel="noopener noreferrer" className="inline-block rounded-full border border-vermillon px-5 py-3 text-sm font-semibold text-vermillon dark:border-[#e98c70] dark:text-[#e98c70]">{t.projects.viewCode}</a>}
+                    {project.links?.apk && <a href={project.links.apk} download className="inline-block rounded-full border border-vermillon px-5 py-3 text-sm font-semibold text-vermillon dark:border-[#e98c70] dark:text-[#e98c70]">{t.projects.downloadApk}</a>}
+                </div>}
+                {accessNote && <p className="mt-3 max-w-xl text-xs text-ink/75">{accessNote}</p>}
                 {project.links?.apk && <p className="mt-3 max-w-xl text-xs opacity-80">{t.projects.apkHint}</p>}
             </header>
             <div className={`relative mb-12 overflow-hidden rounded-lg border border-gold/30 ${project.imageKind === 'screenshot' ? 'aspect-[1440/1000]' : 'h-52 sm:h-80'}`}><ProjectCover project={project} /></div>
@@ -51,7 +56,7 @@ export default function ProjectDetail({ project, others }: {
             </section>
             {project.screenshots.length > 0 && <section className="mt-10">
                 <h2 className="mb-6 font-display text-2xl">{english ? 'Screenshots' : 'Aperçu du projet'}</h2>
-                <ScreenshotGallery screenshots={project.screenshots} english={english} enlarged={project.slug === 'equilibre'} />
+                <ScreenshotGallery screenshots={project.screenshots} english={english} enlarged={project.slug === 'equilibre' || project.slug === 'trame'} />
             </section>}
             <nav aria-label={t.projects.moreProjects} className="mt-12 border-t border-gold/30 pt-8">
                 <h2 className="mb-4 font-display text-2xl">{t.projects.moreProjects}</h2>

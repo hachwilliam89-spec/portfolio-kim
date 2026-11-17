@@ -11,6 +11,7 @@ import {
     SiPostgresql, SiMysql, SiSwagger, SiSpring, SiMariadb,
     SiTypescript, SiLeaflet,
     SiOpenjdk, SiPython,
+    SiAngular, SiRabbitmq, SiNx, SiKeycloak, SiGithubactions,
 } from 'react-icons/si';
 import ProjectModal from './ProjectModal';
 import ProjectCover from './ProjectCover';
@@ -45,6 +46,13 @@ const techIcons: TechIconMap = {
     'Spring Boot': SiSpring,
     'Java': SiOpenjdk,
     'Python': SiPython,
+    'Angular': SiAngular,
+    'RabbitMQ': SiRabbitmq,
+    'Nx': SiNx,
+    'Keycloak': SiKeycloak,
+    'GitHub Actions': SiGithubactions,
+    'OR-Tools CP-SAT': null,
+    'Playwright': null,
     'WebSocket': null,
     'MariaDB': SiMariadb,
     'TypeScript': SiTypescript,
@@ -68,6 +76,7 @@ const techIcons: TechIconMap = {
 
 const FILTERS = [
     { label: 'Tous', value: 'all' },
+    { label: 'Angular', value: 'Angular' },
     { label: 'Mobile', value: 'React Native' },
     { label: 'Next.js', value: 'Next.js' },
     { label: 'TypeScript', value: 'TypeScript' },
@@ -122,7 +131,7 @@ export default function Projects() {
         setSelectedProject(project);
     };
 
-    const featuredIds = [9, 7, 8];
+    const featuredIds = [10, 9, 8];
     const matchesFilter = (project: Project) => activeFilter === 'all'
         || project.tech.some(tech => tech.includes(activeFilter));
     const featured = featuredIds.flatMap(id => currentProjects.filter(project => project.id === id && matchesFilter(project)));
@@ -163,7 +172,9 @@ export default function Projects() {
                     {groups.map(group => (
                         <Fragment key={group.title}>
                             <LanternHeading featured={group.title === t.projects.featured}>{group.title}</LanternHeading>
-                    {group.items.map((project, index) => (
+                    {group.items.map((project, index) => {
+                        const visibleTech = group.title === t.projects.featured ? 6 : 4;
+                        return (
                         <motion.article
                             key={project.id}
                             data-pip-project
@@ -211,7 +222,7 @@ export default function Projects() {
                                     {lang === 'en' && project.shortDescriptionEn ? project.shortDescriptionEn : project.shortDescription}
                                 </p>
                                 <div className="flex flex-wrap gap-2 mb-5">
-                                    {project.tech.slice(0, 4).map((tech) => {
+                                    {project.tech.slice(0, visibleTech).map((tech) => {
                                         const Icon = techIcons[tech];
                                         return (
                                             <span
@@ -223,15 +234,15 @@ export default function Projects() {
                                             </span>
                                         );
                                     })}
-                                    {project.tech.length > 4 && (
+                                    {project.tech.length > visibleTech && (
                                         <span className="text-xs bg-gold/30 text-ink px-3 py-1.5 rounded-full font-semibold">
-                                            +{project.tech.length - 4}
+                                            +{project.tech.length - visibleTech}
                                         </span>
                                     )}
                                 </div>
                                 {/* Pied de carte : « Découvrir » toujours en bas, le lien site éventuel juste au-dessus */}
                                 <div className="mt-auto flex flex-col items-start gap-4">
-                                    {(project.links?.demo || project.links?.apk) && (
+                                    {(project.links?.demo || project.links?.github || project.links?.apk) && (
                                     <div className="flex flex-wrap gap-2">
                                     {project.links?.demo && (
                                         <a
@@ -241,7 +252,18 @@ export default function Projects() {
                                             className="inline-flex items-center gap-2 px-4 py-2 bg-vermillon text-white text-xs font-semibold rounded-full hover:bg-vermillon-dark hover:shadow-lg hover:shadow-vermillon/30 hover:-translate-y-0.5 transition-all duration-300"
                                             onClick={(e) => e.stopPropagation()}
                                         >
-                                            {t.projects.visitSite}
+                                            {project.demoRequiresAccount ? t.projects.demoOnAccount : t.projects.visitSite}
+                                        </a>
+                                    )}
+                                    {project.links?.github && (
+                                        <a
+                                            href={project.links.github}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 px-4 py-2 border border-vermillon text-vermillon dark:border-[#e98c70] dark:text-[#e98c70] text-xs font-semibold rounded-full hover:bg-vermillon/10 transition-colors duration-300"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {t.projects.viewCode}
                                         </a>
                                     )}
                                     {project.links?.apk && (
@@ -254,6 +276,7 @@ export default function Projects() {
                                             {t.projects.downloadApk}
                                         </a>
                                     )}
+                                    {project.accessNote && <p className="basis-full text-xs text-ink/75">{lang === 'en' ? project.accessNoteEn ?? project.accessNote : project.accessNote}</p>}
                                     </div>
                                     )}
                                     <a
@@ -269,7 +292,8 @@ export default function Projects() {
 
                             <div className="h-1 bg-gradient-to-r from-vermillon to-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left shrink-0" aria-hidden="true" />
                         </motion.article>
-                        ))}
+                        );
+                    })}
                         </Fragment>
                     ))}
                 </div>

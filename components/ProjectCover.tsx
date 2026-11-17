@@ -2,6 +2,15 @@ import Image from 'next/image';
 import type { Project } from '@/lib/types';
 
 export default function ProjectCover({ project }: { project: Project }) {
+    if (project.imageKind === 'brand') {
+        // Fond « encre » de la charte du projet, sur lequel son logo clair a été dessiné.
+        return (
+            <div className="flex h-full w-full items-center justify-center bg-[#181d31] p-8">
+                <Image src={project.image} alt={project.title} width={423} height={120}
+                    className="h-auto w-full max-w-xs" />
+            </div>
+        );
+    }
     if (project.imageKind === 'logo') {
         return (
             <div className="flex h-full w-full items-center justify-center bg-[#ecfdf5] p-8">
