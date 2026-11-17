@@ -14,6 +14,7 @@ import {
     SiPostgresql, SiMysql, SiSwagger, SiSpring, SiMariadb,
     SiTypescript, SiLeaflet,
     SiOpenjdk, SiPython,
+    SiAngular, SiRabbitmq, SiNx, SiKeycloak, SiGithubactions,
 } from 'react-icons/si';
 import { useLanguage, fr, en } from '@/lib/i18n';
 
@@ -38,6 +39,13 @@ const techIcons: Record<string, IconType | null> = {
     'Spring Boot': SiSpring,
     'Java': SiOpenjdk,
     'Python': SiPython,
+    'Angular': SiAngular,
+    'RabbitMQ': SiRabbitmq,
+    'Nx': SiNx,
+    'Keycloak': SiKeycloak,
+    'GitHub Actions': SiGithubactions,
+    'OR-Tools CP-SAT': null,
+    'Playwright': null,
     'WebSocket': null,
     'MariaDB': SiMariadb,
     'TypeScript': SiTypescript,
@@ -144,8 +152,11 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
 
     const caseStudy = lang === 'en' ? (project.caseStudyEn ?? project.caseStudy) : project.caseStudy;
     const description = lang === 'en' && project.descriptionEn ? project.descriptionEn : project.description;
+    const accessNote = lang === 'en' ? project.accessNoteEn ?? project.accessNote : project.accessNote;
 
     const currentScreenshot = hasScreenshots ? project.screenshots[currentIndex] : null;
+    // Captures d’interface servies telles quelles : une recompression rendrait le texte flou.
+    const servesOriginalImages = project.slug === 'equilibre' || project.slug === 'trame';
 
     return (
         <dialog
@@ -197,15 +208,30 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                     {t.projects.inDevelopment}
                                 </span>
                             )}
-                            {project.links?.demo && (
-                                <a
-                                    href={project.links.demo}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex self-start items-center gap-2 mb-5 px-4 py-2 bg-vermillon text-white text-sm font-semibold rounded-full hover:bg-vermillon-dark transition-colors"
-                                >
-                                    {t.projects.visitSite}
-                                </a>
+                            {(project.links?.demo || project.links?.github) && (
+                                <div className="mb-5 flex flex-wrap items-center gap-2">
+                                    {project.links?.demo && (
+                                        <a
+                                            href={project.links.demo}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-vermillon text-white text-sm font-semibold rounded-full hover:bg-vermillon-dark transition-colors"
+                                        >
+                                            {project.demoRequiresAccount ? t.projects.demoOnAccount : t.projects.visitSite}
+                                        </a>
+                                    )}
+                                    {project.links?.github && (
+                                        <a
+                                            href={project.links.github}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 px-4 py-2 border border-vermillon text-vermillon dark:border-[#e98c70] dark:text-[#e98c70] text-sm font-semibold rounded-full hover:bg-vermillon/10 transition-colors"
+                                        >
+                                            {t.projects.viewCode}
+                                        </a>
+                                    )}
+                                    {accessNote && <p className="basis-full text-xs text-ink/75">{accessNote}</p>}
+                                </div>
                             )}
                             {project.links?.apk && (
                                 <div className="self-start mb-5">
@@ -261,7 +287,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
 
                             {/* Techs */}
                             <div className="mt-auto">
-                                <p className="text-xs uppercase tracking-wider text-ink/50 font-bold mb-3">
+                                <p className="text-xs uppercase tracking-wider text-ink/70 font-bold mb-3">
                                     {t.projects.technologies}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
@@ -310,7 +336,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                                             fill
                                                             sizes="(max-width: 767px) 100vw, 60vw"
                                                             className="object-contain"
-                                                            unoptimized={project.slug === 'equilibre'}
+                                                            unoptimized={servesOriginalImages}
                                                             priority
                                                         />
                                                         <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-washi/95 px-3 py-2 text-xs font-semibold text-ink shadow-md">
@@ -374,7 +400,7 @@ export default function ProjectModal({ project, onClose, relatedProject, onSelec
                                                         aria-current={idx === currentIndex ? 'true' : undefined}
                                                     >
                                                         <span className="relative block h-12 w-full overflow-hidden rounded-sm">
-                                                            <Image src={screenshot.url} alt="" fill sizes="96px" className="object-contain" unoptimized={project.slug === "equilibre"} />
+                                                            <Image src={screenshot.url} alt="" fill sizes="96px" className="object-contain" unoptimized={servesOriginalImages} />
                                                         </span>
                                                         <span className="mt-1 block truncate text-[11px] font-semibold text-ink">
                                                             {lang === 'en' ? (screenshot.shortTitleEn ?? screenshot.titleEn ?? screenshot.title) : (screenshot.shortTitle ?? screenshot.title)}

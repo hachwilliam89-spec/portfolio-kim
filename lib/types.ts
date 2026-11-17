@@ -43,7 +43,12 @@ export interface Project {
     caseStudyEn?: CaseStudy;
     tech: string[];
     image: string;
-    imageKind?: 'logo' | 'screenshot';
+    imageKind?: 'logo' | 'screenshot' | 'brand';
+    /** La démonstration en ligne demande un compte : le lien est libellé en conséquence. */
+    demoRequiresAccount?: boolean;
+    /** Précision affichée près des liens (accès, inscriptions). */
+    accessNote?: string;
+    accessNoteEn?: string;
     status?: 'development';
     screenshots: Screenshot[];
     links?: RawProjectLinks;

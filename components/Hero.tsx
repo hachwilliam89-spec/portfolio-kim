@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useTheme } from './ThemeProvider';
 import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiSpring, SiDocker, SiNestjs, SiOpenjdk } from 'react-icons/si';
 import { HiArrowDown } from 'react-icons/hi';
@@ -264,6 +265,7 @@ export default function Hero() {
                 <div className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-3">
                     {technologies.map(({ name, icon: Icon }) => <span key={name} className="flex items-center gap-2 text-xs text-ink/65"><Icon className="text-gold" aria-hidden="true" />{name}</span>)}
                 </div>
+                <Link href="/projets/trame" className="mt-7 inline-block rounded-full border border-vermillon/40 px-5 py-3 text-sm font-semibold text-vermillon dark:text-[#e98c70] hover:bg-vermillon/10 transition-colors">{t.hero.flagship}<span aria-hidden="true"> →</span></Link>
                 <a href="#projects" aria-label={t.hero.scrollProjects} className="mt-9 inline-flex items-center gap-3 py-3 text-xs uppercase tracking-[.18em] text-ink/70 hover:text-vermillon dark:hover:text-[#e98c70] transition-colors">{t.hero.discover}<HiArrowDown className="h-4 w-4" aria-hidden="true" /></a>
             </div>
         </section>
